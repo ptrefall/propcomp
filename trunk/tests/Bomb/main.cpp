@@ -34,7 +34,7 @@ requirements or restrictions.
 #include <time.h>
 
 void printStartup();
-void initFactory(ComponentFactory *&factory);
+void initFactory(ComponentFactory &factory);
 void buildBomb(Entity &bomb, ComponentFactory &factory);
 void buildCrate(Entity &crate, ComponentFactory &factory);
 void printReady();
@@ -46,14 +46,14 @@ void main()
 	printStartup();
 
 	//Create factory and register components
-	ComponentFactory *factory = 0;
+	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &bomb = EntityManager::Instance().create(*factory, "Bomb");
-	buildBomb(bomb, *factory);
+	Entity &bomb = EntityManager::Instance().create(factory, "Bomb");
+	buildBomb(bomb, factory);
 
-	Entity &crate = EntityManager::Instance().create(*factory, "Crate");
-	buildCrate(crate, *factory);
+	Entity &crate = EntityManager::Instance().create(factory, "Crate");
+	buildCrate(crate, factory);
 
 	printReady();
 
@@ -67,14 +67,7 @@ void main()
 	system("pause");
 
 	//Clean up
-	if(factory)
-	{
-		std::cout << "Destroy the component factory" << std::endl;
-		delete factory;
-	}
 	EntityManager::Shutdown();
-
-	system("pause");
 }
 
 void printStartup()
@@ -85,17 +78,16 @@ void printStartup()
 	system("pause");
 }
 
-void initFactory(ComponentFactory *&factory)
+void initFactory(ComponentFactory &factory)
 {
 	std::cout << "Initialize components..." << std::endl;
-	factory = new ComponentFactory();
 	
 	std::cout << "- register Health" << std::endl;
-	factory->registerComponent(Components::Health::getType(), &Components::Health::Create);
+	factory.registerComponent(Components::Health::getType(), &Components::Health::Create);
 	std::cout << "- register Timer" << std::endl;
-	factory->registerComponent(Components::Timer::getType(), &Components::Timer::Create);
+	factory.registerComponent(Components::Timer::getType(), &Components::Timer::Create);
 	std::cout << "- register Explosive" << std::endl;
-	factory->registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
+	factory.registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
 }
 
 void buildBomb(Entity &bomb, ComponentFactory &factory)

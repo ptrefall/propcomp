@@ -29,8 +29,8 @@ requirements or restrictions.
 
 #ifdef USE_MINIMAL_DEPENDS_TYPES
 #include "../depends/MinDepends/types.h"
-#else if USE_BOOST_TYPES
+#elif USE_BOOST_TYPES
 #include "../depends/Boost/types.h"
-#elseif USE_CLANLIB_TYPES
+#elif USE_CLANLIB_TYPES
 #include "../depends/ClanLib/types.h"
 #endif
