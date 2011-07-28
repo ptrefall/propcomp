@@ -30,6 +30,14 @@ requirements or restrictions.
 #include <memory>
 #include "sigslot.h"
 
+//Sigslot.h requires that PropertyData and Component inherit from
+//sigslot::has_slots<>, thus "overload" this preprocessed definition.
+//-------------------------------------------------------------------
+#ifdef HAS_SIGNALSLOTS_INHERITANCE_TYPE
+#undef HAS_SIGNALSLOTS_INHERITANCE_TYPE
+#endif
+#define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots<>
+
 //Base types
 typedef std::string T_String;
 typedef float F32;
