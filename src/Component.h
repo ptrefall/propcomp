@@ -28,11 +28,7 @@ requirements or restrictions.
 #include "Entity.h"
 #include "Property.h"
 
-#ifdef USE_MINIMAL_DEPENDS_TYPES
-	class Component : public sigslot::has_slots<>
-#else
-	class Component
-#endif
+class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	virtual ~Component() {}

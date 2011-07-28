@@ -28,11 +28,7 @@ requirements or restrictions.
 #include "IProperty.h"
 
 template<class T>
-#ifdef USE_MINIMAL_DEPENDS_TYPES
-	class PropertyData : public sigslot::has_slots<>
-#else
-	class PropertyData
-#endif
+class PropertyData HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	~PropertyData() {}

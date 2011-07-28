@@ -23,10 +23,22 @@ requirements or restrictions.
 
 #pragma once
 
+//These needs to be overloaded in each specific types implementation:
+//-------------------------------------------------------------------
+//	Some type implementations might require that the signal-slot system
+//	place an inheritance dependency on PropertyData and Component, so that
+//	they get the "ability" of owning slots for their signals.
+//	If the implementation don't, just leave this definition as empty.
+#define HAS_SIGNALSLOTS_INHERITANCE_TYPE
+
+//And here we define each type, only one should be defined
+//-------------------------------------------------------------------
 #define USE_MINIMAL_DEPENDS_TYPES
 //#define USE_BOOST_TYPES
 //#define USE_CLANLIB_TYPES
 
+//And include the defined types.h
+//-------------------------------------------------------------------
 #ifdef USE_MINIMAL_DEPENDS_TYPES
 #include "../depends/MinDepends/types.h"
 #elif USE_BOOST_TYPES
