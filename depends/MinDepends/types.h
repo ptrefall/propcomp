@@ -25,7 +25,7 @@ requirements or restrictions.
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <exception>
 #include <memory>
 #include "sigslot.h"
@@ -52,7 +52,7 @@ struct T_Vector {
 };
 template< typename K, typename V >
 struct T_Map {
-	typedef std::map<K,V> Type;
+	typedef std::tr1::unordered_map<K,V> Type;
 };
 template< typename K, typename V >
 struct T_Pair {
