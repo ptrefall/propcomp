@@ -29,11 +29,11 @@ requirements or restrictions.
 
 #include <iostream>
 
-namespace { EntityManager* _instance = 0; }
+namespace { EntityManager* _instance = NULL_PTR; }
 
 EntityManager& EntityManager::Instance()
 {
-	if(_instance == 0)
+	if(_instance == NULL_PTR)
 	{
 		std::cout << "Instanciate entity manager" << std::endl;
 		_instance = new EntityManager();

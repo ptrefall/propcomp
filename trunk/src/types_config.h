@@ -30,6 +30,7 @@ requirements or restrictions.
 //	they get the "ability" of owning slots for their signals.
 //	If the implementation don't, just leave this definition as empty.
 #define HAS_SIGNALSLOTS_INHERITANCE_TYPE
+#define NULL_PTR 0x0
 
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------

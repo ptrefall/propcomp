@@ -74,7 +74,7 @@ public:
 
 	virtual const T_String &getName() const { return data->name; }
 
-	virtual bool isNull() const { return data == 0x0; }
+	virtual bool isNull() const { return data == NULL_PTR; }
 
 	typename T_Signal_v2<const T&, const T&>::Type &valueChanged() { return data->valueChanged; }
 

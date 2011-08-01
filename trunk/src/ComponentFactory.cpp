@@ -42,7 +42,7 @@ ComponentFactory::~ComponentFactory()
 
 void ComponentFactory::registerComponent(const T_String& type, ComponentCreator functor)
 {
-	if(creators == 0)
+	if(creators == NULL_PTR)
 		creators = new T_Map<T_String, ComponentCreator>::Type();
 
 	if(creators->find(type) == creators->end())
@@ -54,7 +54,7 @@ void ComponentFactory::registerComponent(const T_String& type, ComponentCreator 
 
 Component* ComponentFactory::createComponent(Entity &entity, const T_String& compType, const T_String& compName)
 {
-	if(creators == 0)
+	if(creators == NULL_PTR)
 		throw T_Exception(("Unable to create component " + compType).c_str());
 
 	T_Map<T_String, ComponentCreator>::Type::iterator creatorIt = creators->find(compType);
