@@ -63,10 +63,5 @@ void Explosive::onTimeoutChanged(const bool &oldValue, const bool &newValue)
 			event.arg1.str = owner.getName().c_str();
 			entity->onEvent(event);
 		}
-		/*if(go->hasTarget())
-		{
-			std::cout << "The " << go->getTarget().getType().c_str() << " is engulfed by the flames of the powerful explotion!" << std::endl;
-			go->getTarget().executeEvent(EventEngine::Event<float, Object*>(EventEngine::EVENT_TAKE_DAMAGE, 200.0f, go), NULL);
-		}*/
 	}
 }

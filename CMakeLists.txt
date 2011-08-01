@@ -9,7 +9,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "")
 endif ()
  
 set(CMAKE_DEBUG_POSTFIX "_d")
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+if(MSVC)
+	set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif(MSVC)
 
 include_directories("${CMAKE_SOURCE_DIR}"
   "${CMAKE_SOURCE_DIR}/src"
