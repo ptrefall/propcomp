@@ -8,6 +8,9 @@ set(Component_HDRS
   ./Components/Health.h
   ./Components/Explosive.h
   ./Components/Timer.h
+  ./Components/MultiTargeter.h
+  ./Components/RadiusTargetSeeker.h
+  ./Components/Transformable.h
 )
 
 SOURCE_GROUP("Header Files\\Components" FILES ${Component_HDRS})
@@ -16,12 +19,16 @@ set(Component_SRCS
   ./Components/Health.cpp
   ./Components/Explosive.cpp
   ./Components/Timer.cpp
+  ./Components/MultiTargeter.cpp
+  ./Components/RadiusTargetSeeker.cpp
+  ./Components/Transformable.cpp
 )
 
 SOURCE_GROUP("Source Files\\Components" FILES ${Component_SRCS})
 
 set(HDRS
   ./EntityManager.h
+  ./Vector3.h
 )
 
 set(SRCS

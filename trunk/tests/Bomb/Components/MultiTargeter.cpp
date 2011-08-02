@@ -21,27 +21,26 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#pragma once
-
 #include "types_config.h"
+#include "MultiTargeter.h"
+#include "../EntityManager.h"
 
-class IProperty
+#include <iostream>
+
+using namespace Components;
+
+MultiTargeter::MultiTargeter(Entity &owner, const T_String &name)
+: Component(owner, name)
 {
-public: 
-	virtual ~IProperty() {}
+    target_property_list = owner.addPropertyList<Entity*>("Targets");
 
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-};
+    target_property_list.valueAdded().connect(this, &MultiTargeter::onTargetAdded);
+}
 
-class IPropertyList
+MultiTargeter::~MultiTargeter()
 {
-public:
-	virtual ~IPropertyList() {}
+}
 
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
-	virtual U32 size() const = 0;
-};
+void MultiTargeter::onTargetAdded(Entity * const &newValue)
+{
+}

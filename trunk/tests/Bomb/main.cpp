@@ -28,6 +28,9 @@ requirements or restrictions.
 #include "Components/Health.h"
 #include "Components/Timer.h"
 #include "Components/Explosive.h"
+#include "Components/MultiTargeter.h"
+#include "Components/RadiusTargetSeeker.h"
+#include "Components/Transformable.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -38,6 +41,7 @@ void initFactory(ComponentFactory &factory);
 void buildBomb(Entity &bomb, ComponentFactory &factory);
 void buildCrate(Entity &crate, ComponentFactory &factory);
 void printReady();
+void printResult(Entity &entity);
 void wait(int ms);
 
 void main()
@@ -52,17 +56,36 @@ void main()
 	Entity &bomb = EntityManager::Instance().create(factory, "Bomb");
 	buildBomb(bomb, factory);
 
-	Entity &crate = EntityManager::Instance().create(factory, "Crate");
-	buildCrate(crate, factory);
+	Entity &crateA = EntityManager::Instance().create(factory, "Crate", "CrateA");
+	buildCrate(crateA, factory);
+	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
+	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
+
+	Entity &crateB = EntityManager::Instance().create(factory, "Crate", "CrateB");
+	buildCrate(crateB, factory);
+	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
+	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
+
+	Entity &crateC = EntityManager::Instance().create(factory, "Crate", "CrateC");
+	buildCrate(crateC, factory);
+	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
+	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
 	printReady();
 
-	while(crate.getProperty<bool>("Alive").get())
+	while(bomb.getProperty<bool>("Timeout").get() == false)
 	{
 		F32 deltaTime = 0.016f;
 		EntityManager::Instance().update(deltaTime);
 		wait(16);
 	}
+
+	system("pause");
+
+	std::cout << "Result:" << std::endl;
+	printResult(crateA);
+	printResult(crateB);
+	printResult(crateC);
 
 	system("pause");
 
@@ -73,7 +96,8 @@ void main()
 void printStartup()
 {
 	std::cout << "Thank you for downloading and testing out the \nComponent-based entities using properties codebase!" << std::endl;
-	std::cout << "In this test we'll demonstrate a ticking time-bomb \nthat explodes and kills a crate." << std::endl;
+	std::cout << "In this test we'll demonstrate a ticking time-bomb \nthat explodes." << std::endl;
+	std::cout << "It's blast radius will impact three crates placed in the scene." << std::endl;
 	std::cout << "\n";
 	system("pause");
 }
@@ -88,6 +112,12 @@ void initFactory(ComponentFactory &factory)
 	factory.registerComponent(Components::Timer::getType(), &Components::Timer::Create);
 	std::cout << "- register Explosive" << std::endl;
 	factory.registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
+	std::cout << "- register MultiTargeter" << std::endl;
+	factory.registerComponent(Components::MultiTargeter::getType(), &Components::MultiTargeter::Create);
+	std::cout << "- register RadiusTargetSeeker" << std::endl;
+	factory.registerComponent(Components::RadiusTargetSeeker::getType(), &Components::RadiusTargetSeeker::Create);
+	std::cout << "- register Transformable" << std::endl;
+	factory.registerComponent(Components::Transformable::getType(), &Components::Transformable::Create);
 }
 
 void buildBomb(Entity &bomb, ComponentFactory &factory)
@@ -98,6 +128,12 @@ void buildBomb(Entity &bomb, ComponentFactory &factory)
 	bomb.addComponent("Timer");
 	std::cout << "- add Explosive component" << std::endl;
 	bomb.addComponent("Explosive");
+	std::cout << "- add MultiTargeter component" << std::endl;
+	bomb.addComponent("MultiTargeter");
+	std::cout << "- add RadiusTargetSeeker component" << std::endl;
+	bomb.addComponent("RadiusTargetSeeker");
+	std::cout << "- add Transformable component" << std::endl;
+	bomb.addComponent("Transformable");
 	std::cout << "- set TimeoutValue to 6" << std::endl;
 	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	std::cout << "- set TickInterval to 1.0" << std::endl;
@@ -110,6 +146,8 @@ void buildCrate(Entity &crate, ComponentFactory &factory)
 
 	std::cout << "- add Health component" << std::endl;
 	crate.addComponent("Health");
+	std::cout << "- add Transformable component" << std::endl;
+	crate.addComponent("Transformable");
 	std::cout << "- set Health to 100.0" << std::endl;
 	crate.getProperty<F32>("Health") = 100.0f;
 }
@@ -120,6 +158,17 @@ void printReady()
 	std::cout << "Press any key to start simulation." << std::endl;
 	std::cout << "\n";
 	system("pause");
+}
+
+void printResult(Entity &entity)
+{
+	if(entity.hasProperty("Alive") && entity.getProperty<bool>("Alive").get() && entity.hasProperty("Health"))
+	{
+		F32 hp = entity.getProperty<F32>("Health").get();
+		std::cout << entity.getName().c_str() << " HP:" << hp << "." << std::endl;
+	}
+	else
+		std::cout << entity.getName().c_str() << " is dead." << std::endl;
 }
 
 void wait(int ms)

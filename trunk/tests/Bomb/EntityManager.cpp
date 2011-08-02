@@ -62,7 +62,19 @@ EntityManager::~EntityManager()
 void EntityManager::update(F32 deltaTime)
 {
 	for(unsigned int i = 0; i < pendingDelete.size(); i++)
+	{
+		for(unsigned int j = 0; j < entities.size(); j++)
+		{
+			if(entities[j] == pendingDelete[i])
+			{
+				//This is a vector element removal trick that's O(1)
+				entities[j] = entities.back();
+				entities.pop_back();
+				break;
+			}
+		}
 		delete pendingDelete[i];
+	}
 	pendingDelete.clear();
 
 	for(unsigned int i = 0; i < entities.size(); i++)
@@ -73,21 +85,10 @@ Entity &EntityManager::create(ComponentFactory &factory, const T_String &type, c
 {
 	Entity *entity = new Entity(factory, type, name);
 	entities.push_back(entity);
-	return *entity;
+		return *entity;
 }
 
 void EntityManager::erase(Entity *entity)
 {
-	for(unsigned int i = 0; i < entities.size(); i++)
-	{
-		if(entities[i] == entity)
-		{
-			//This is a vector element removal trick that's O(1)
-			entities[i] = entities.back();
-			entities.pop_back();
-			break;
-		}
-	}
-
 	pendingDelete.push_back(entity);
 }

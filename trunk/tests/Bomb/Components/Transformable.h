@@ -23,25 +23,22 @@ requirements or restrictions.
 
 #pragma once
 
-#include "types_config.h"
+#include <types_config.h>
+#include <Component.h>
+#include "../Vector3.h"
 
-class IProperty
+namespace Components
 {
-public: 
-	virtual ~IProperty() {}
+	class Transformable : public Component
+	{
+	public:
+		Transformable(Entity &owner, const T_String &name);
+		virtual ~Transformable();
+		
+		static T_String getType() { return "Transformable"; }
+		static Component* Create(Entity &owner, const T_String &name) { return new Transformable(owner, name); }
 
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-};
-
-class IPropertyList
-{
-public:
-	virtual ~IPropertyList() {}
-
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
-	virtual U32 size() const = 0;
-};
+	protected:
+		Property<T_Vec3f> position_property;
+	};
+}

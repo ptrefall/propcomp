@@ -62,18 +62,39 @@ public:
 	T_Map<T_String, IProperty*>::Type &getProperties() { return properties; }
 	//-----------------------------------------------
 
+	//------------------------------------------------
+	//PropertyList Container specific logic
+	bool hasPropertyList(const T_String& propListName);
+	template<class T>PropertyList<T> addPropertyList(const T_String& propListName);
+	void addPropertyList(IPropertyList *propertyList);
+
+	template<class T>PropertyList<T> getPropertyList(const T_String& propListName);
+	IPropertyList *getIPropertyList(const T_String& propListName);
+
+	void removePropertyList(const T_String& propListName, bool postponeDelete = false);
+	void removeAllPropertyLists();
+	void clearDeletedPropertyLists();
+
+	T_Map<T_String, IPropertyList*>::Type &getPropertyLists() { return propertyLists; }
+	//-----------------------------------------------
+
 	void updateComponents(F32 deltaTime);
 	void updateProperties(F32 deltaTime);
+	void updatePropertyLists(F32 deltaTime);
 	void onEvent(const T_Event &event);
 
 protected:
 	T_Vector<Component*>::Type components;
 	T_Map<T_String, IProperty*>::Type properties;
 	T_Vector<IProperty*>::Type deletedProperties;
+	T_Map<T_String, IPropertyList*>::Type propertyLists;
+	T_Vector<IPropertyList*>::Type deletedPropertyLists;
 
 	ComponentFactory& componentFactory;
 	T_String type, name;
 };
+
+//------------------------------------------------------
 
 inline bool Entity::hasProperty(const T_String& propName)
 {
@@ -184,4 +205,116 @@ inline void Entity::clearDeletedProperties()
 	for(unsigned int i = 0; i < deletedProperties.size(); i++)
 		delete deletedProperties[i];
 	deletedProperties.clear();
+}
+
+//----------------------------------------------
+
+inline bool Entity::hasPropertyList(const T_String& propListName)
+{
+	if(propertyLists.empty())
+		return false;
+
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
+	if(it != propertyLists.end())
+		return true;
+	else
+		return false;
+}
+
+inline void Entity::addPropertyList(IPropertyList *propertyList)
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propertyList->getName());
+	if(it == propertyLists.end())
+		propertyLists[propertyList->getName()] = propertyList;
+}
+
+template<class T>
+inline PropertyList<T> Entity::addPropertyList(const T_String& propListName)
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
+	if(it != propertyLists.end())
+	{
+		PropertyList<T>* propertyList;
+#ifdef _DEBUG
+		propertyList = dynamic_cast< PropertyList<T>* >(it->second);
+		if(!propertyList)
+			throw T_Exception(("PropertyList " + propListName + " already exists, but with another type!").c_str());
+#else
+		propertyList = static_cast< PropertyList<T>* >(it->second);
+#endif
+		return *propertyList;
+	}
+
+	PropertyList<T> *propertyList = new PropertyList<T>(propListName);
+	propertyLists[propertyList->getName()] = propertyList;
+
+	//return *propertyList;
+	return getPropertyList<T>(propListName);
+}
+
+template<class T>
+inline PropertyList<T> Entity::getPropertyList(const T_String& propListName)
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
+	if(it != propertyLists.end())
+	{
+		PropertyList<T>* propertyList;
+#ifdef _DEBUG
+		propertyList = dynamic_cast< PropertyList<T>* >(it->second);
+		if(!propertyList)
+			throw T_Exception(("Tried to get property list " + propListName + ", but the type was wrong!").c_str());
+#else
+		propertyList = static_cast< PropertyList<T>* >(it->second);
+#endif
+		return *propertyList;
+	}
+	else
+		throw T_Exception(("Unable to get property list " + propListName).c_str());
+}
+
+inline IPropertyList *Entity::getIPropertyList(const T_String& propListName)
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
+	if(it != propertyLists.end())
+		return it->second;
+	else
+		throw T_Exception(("Unable to get property list " + propListName).c_str());
+}
+
+inline void Entity::removePropertyList(const T_String& propListName, bool postponeDelete)
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
+	if(it != propertyLists.end())
+	{
+		IPropertyList* propertyList = (*it).second;
+		if(postponeDelete)
+			deletedPropertyLists.push_back(propertyList);
+		else
+			delete propertyList;
+		propertyLists.erase(it);
+	}
+}
+
+inline void Entity::removeAllPropertyLists()
+{
+	T_Map<T_String, IPropertyList*>::Type::iterator it;
+	for(it = propertyLists.begin(); it != propertyLists.end(); ++it)
+	{
+		IPropertyList* propertyList = (*it).second;
+		delete propertyList;
+	}
+	propertyLists.clear();
+	clearDeletedPropertyLists();
+}
+
+inline void Entity::updatePropertyLists(F32 deltaTime)
+{
+	clearDeletedPropertyLists();
+}
+
+inline void Entity::clearDeletedPropertyLists()
+{
+	for(unsigned int i = 0; i < deletedPropertyLists.size(); i++)
+		delete deletedPropertyLists[i];
+	deletedPropertyLists.clear();
 }

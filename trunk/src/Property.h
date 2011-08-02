@@ -211,3 +211,92 @@ inline bool Property<T>::operator <(const T &rhs)
 {
 	return (data->value < rhs);
 }
+
+template<class T>
+class PropertyListData HAS_SIGNALSLOTS_INHERITANCE_TYPE
+{
+public:
+	~PropertyListData() {}
+	typename T_Vector<T>::Type value;
+	T_String name;
+	typename T_Signal_v1<const T&>::Type valueAdded;
+	typename T_Signal_v0<>::Type valueCleared;
+};
+
+template<class T>
+class PropertyList : public IPropertyList
+{
+public:
+	PropertyList()
+	{
+	}
+
+	PropertyList(const PropertyList& copy)
+	: data(copy.data)
+	{
+	}
+
+	PropertyList(const T_String &name)
+	: data(new PropertyListData<T>())
+	{	
+		data->name = name; 
+	}
+
+	virtual ~PropertyList() {}
+
+	void add(const T& value, bool duplicationGuard = false) 
+	{ 
+		if(duplicationGuard)
+		{
+			for(U32 i = 0; i < data->value.size(); i++)
+			{
+				if(value == data->value[i])
+					return;
+			}
+		}
+
+		data->value.push_back(value); 
+		data->valueAdded.emit(value);
+	}
+
+	virtual void erase(U32 index, bool deleteData = false)
+	{
+		if(index >= data->value.size())
+			return;
+
+		if(deleteData)
+			delete data->value[index];
+
+		data->value.erase(data->value.begin()+index);
+	}
+
+	virtual void clear(bool deleteData = false)
+	{
+		if(deleteData)
+		{
+			for(U32 i = 0; i < data->value.size(); i++)
+				delete data->value[i];
+		}
+		data->value.clear();
+		data->valueCleared.emit();
+	}
+
+	virtual U32 size() const { return data->value.size(); }
+
+	const typename T_Vector<T>::Type &get() const { return data->value; }
+
+	IPropertyList *getInterface() { return static_cast<IPropertyList*>(this); }
+
+	virtual const T_String &getName() const { return data->name; }
+
+	virtual bool isNull() const { return data == NULL_PTR; }
+
+	typename T_Signal_v1<const T&>::Type &valueAdded() { return data->valueAdded; }
+
+	typename T_Signal_v0<>::Type &valueCleared() { return data->valueCleared; }
+
+	operator typename T_Vector<T>::Type() const { return data->value; }
+
+private:
+	typename T_SharedPtr< PropertyListData<T> >::Type data;
+};

@@ -21,27 +21,17 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#pragma once
-
 #include "types_config.h"
+#include "Transformable.h"
 
-class IProperty
+using namespace Components;
+
+Transformable::Transformable(Entity &owner, const T_String &name)
+: Component(owner, name)
 {
-public: 
-	virtual ~IProperty() {}
+	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
+}
 
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-};
-
-class IPropertyList
+Transformable::~Transformable()
 {
-public:
-	virtual ~IPropertyList() {}
-
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
-	virtual U32 size() const = 0;
-};
+}
