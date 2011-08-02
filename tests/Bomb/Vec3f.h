@@ -23,25 +23,9 @@ requirements or restrictions.
 
 #pragma once
 
-#include "types_config.h"
+#include <types_config.h>
 
-class IProperty
-{
-public: 
-	virtual ~IProperty() {}
-
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-};
-
-class IPropertyList
+class Vec3f
 {
 public:
-	virtual ~IPropertyList() {}
-
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
-	virtual U32 size() const = 0;
 };

@@ -86,6 +86,13 @@ typedef sEvent T_Event;
 typedef std::exception T_Exception;
 
 //Signal handling
+class NoTemplate {};
+template<class T = NoTemplate>
+struct T_Signal_v0 {
+	typedef sigslot::signal0<> Type;
+	void invoke() { T_Signal_v0::Type::emit(); }
+};
+
 template< typename T >
 struct T_Signal_v1 {
 	typedef sigslot::signal1<T> Type;

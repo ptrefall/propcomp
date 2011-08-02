@@ -24,32 +24,51 @@ requirements or restrictions.
 #pragma once
 
 #include <types_config.h>
-#include <Component.h>
-#include "../Vector3.h"
+#include <cmath>
 
-namespace Components
+template<typename T>
+class Vector3
 {
-	class Explosive : public Component
-	{
-	public:
-		Explosive(Entity &owner, const T_String &name);
-		virtual ~Explosive();
-		
-		static T_String getType() { return "Explosive"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Explosive(owner, name); }
+public:
+	Vector3() : x((T)0.0), y((T)0.0), z((T)0.0) {}
+	Vector3(T x, T y, T z) : x(x),y(y),z(z) {}
+	Vector3(const Vector3<T> &copy) { x = copy.x; y = copy.y; z = copy.z; }
 
-	protected:
-		Property<bool> timeout_property;
-		Property<F32> base_damage_property;
-		Property<F32> blast_radius_property;
-		Property<T_Vec3f> position_property;
+	T distance(const Vector3<T> &rhs) const;
 
-		PropertyList<Entity*> target_property_list;
+	Vector3<T> operator= (const Vector3<T>& rhs);
+	bool operator!= (const Vector3<T>& rhs);
+	
+	T x,y,z;
+};
 
-		//Property Slots
-		void onTimeoutChanged(const bool &oldValue, const bool &newValue);
-
-		//PropertyList Slots
-		void onTargetAdded(Entity * const &newValue);
-	};
+template<typename T>
+inline T Vector3<T>::distance(const Vector3<T> &rhs) const
+{
+	F32 tmp_x = x - rhs.x;
+	F32 tmp_y = y - rhs.y;
+	F32 tmp_z = z - rhs.z;
+	//return (T)floor(sqrt(tmp_x*tmp_x + tmp_y*tmp_y+tmp_z*tmp_z)+0.5f);
+	return sqrt(tmp_x*tmp_x + tmp_y*tmp_y+tmp_z*tmp_z);
 }
+
+template<class T>
+inline Vector3<T> Vector3<T>::operator =(const Vector3<T> &rhs)
+{
+	x = rhs.x;
+	y = rhs.y;
+	z = rhs.z;
+	return *this;
+}
+
+template<typename T>
+inline bool Vector3<T>::operator !=(const Vector3<T> &rhs)
+{
+	return ((x != rhs.x) ||
+			(y != rhs.y) ||
+			(z != rhs.z));
+}
+
+typedef Vector3<S32> T_Vec3i;
+typedef Vector3<U32> T_Vec3u;
+typedef Vector3<F32> T_Vec3f;

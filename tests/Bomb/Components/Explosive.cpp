@@ -23,7 +23,6 @@ requirements or restrictions.
 
 #include "types_config.h"
 #include "Explosive.h"
-#include "../EntityManager.h"
 
 #include <iostream>
 
@@ -33,8 +32,14 @@ Explosive::Explosive(Entity &owner, const T_String &name)
 : Component(owner, name)
 {
     timeout_property = owner.addProperty<bool>("Timeout", false);
+	base_damage_property = owner.addProperty<F32>("BaseDamage", 100.0f);
+	blast_radius_property = owner.addProperty<F32>("BlastRadius", 10.0f);
+	position_property = owner.addProperty<Vector3<F32>>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
+
+	target_property_list = owner.addPropertyList<Entity*>("Targets");
 
 	timeout_property.valueChanged().connect(this, &Explosive::onTimeoutChanged);
+	target_property_list.valueAdded().connect(this, &Explosive::onTargetAdded);
 }
 
 Explosive::~Explosive()
@@ -48,20 +53,32 @@ void Explosive::onTimeoutChanged(const bool &oldValue, const bool &newValue)
 	{
 		std::cout << "The " << owner.getType().c_str() << " explodes in a hughe blast of flames!" << std::endl;
 
-		//Affect all other entities
-		EntityManager &mgr = EntityManager::Instance();
-		for(U32 i = 0; i < mgr.getEntities().size(); i++)
-		{
-			Entity *entity = mgr.getEntities()[i];
-			if(&owner == entity)
-				continue;
-
-			std::cout << "The " << entity->getType().c_str() << " is engulfed by the flames of the powerful explotion!" << std::endl;
-
-			T_Event event("DMG");
-			event.arg0.f = 200.0f;
-			event.arg1.str = owner.getName().c_str();
-			entity->onEvent(event);
-		}
+		//Affect all entities in blast radius
+		T_Event event("SEEK_IN_RADIUS");
+		event.arg0.f = blast_radius_property;
+		owner.onEvent(event);
 	}
+}
+
+void Explosive::onTargetAdded(Entity * const &newValue)
+{
+	//Must have a position in order to be affected
+	if(newValue->hasProperty("Position") == false)
+		return;
+
+	const T_Vec3f &targetPos = newValue->getProperty<T_Vec3f>("Position").get();
+	F32 distance = position_property.get().distance(targetPos);
+	const F32 &radius = blast_radius_property.get();
+	if(distance > radius)
+		return;
+
+	std::cout << newValue->getName().c_str() << " is engulfed by the flames of the powerful explotion " << distance << " units away!" << std::endl;
+
+	F32 half_radius = radius * 0.5f;
+	F32 dmg_weight = 1.0f - ((distance - half_radius) / half_radius);
+
+	T_Event event("DMG");
+	event.arg0.f = 200.0f * dmg_weight;
+	event.arg1.str = owner.getName().c_str();
+	newValue->onEvent(event);
 }

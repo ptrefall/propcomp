@@ -23,25 +23,23 @@ requirements or restrictions.
 
 #pragma once
 
-#include "types_config.h"
+#include <types_config.h>
+#include <Component.h>
 
-class IProperty
+namespace Components
 {
-public: 
-	virtual ~IProperty() {}
+	class MultiTargeter : public Component
+	{
+	public:
+		MultiTargeter(Entity &owner, const T_String &name);
+		virtual ~MultiTargeter();
+		
+		static T_String getType() { return "MultiTargeter"; }
+		static Component* Create(Entity &owner, const T_String &name) { return new MultiTargeter(owner, name); }
 
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-};
+	protected:
+		PropertyList<Entity*> target_property_list;
 
-class IPropertyList
-{
-public:
-	virtual ~IPropertyList() {}
-
-	virtual const T_String &getName() const = 0;
-	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
-	virtual U32 size() const = 0;
-};
+		void onTargetAdded(Entity * const &newValue);
+	};
+}
