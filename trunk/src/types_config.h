@@ -23,7 +23,7 @@ requirements or restrictions.
 
 #pragma once
 
-//These needs to be overloaded in each specific types implementation:
+//These can overloaded in each specific types implementation:
 //-------------------------------------------------------------------
 //	Some type implementations might require that the signal-slot system
 //	place an inheritance dependency on PropertyData and Component, so that
