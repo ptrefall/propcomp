@@ -156,38 +156,40 @@ void printStartup()
 void initFactory(ComponentFactory &factory)
 {
 	std::cout << "Initialize components..." << std::endl;
-	
 	std::cout << "- register Voice" << std::endl;
-	factory.registerComponent(Voice::getType(), &Voice::Create);
 	std::cout << "- register Targeter" << std::endl;
+
+	factory.registerComponent(Voice::getType(), &Voice::Create);
 	factory.registerComponent(Targeter::getType(), &Targeter::Create);
 }
 
 void defineDog(Entity &dog, ComponentFactory &factory)
 {
 	std::cout << "Define dog entity..." << std::endl;
-
 	std::cout << "- add Voice component" << std::endl;
-	dog.addComponent("Voice");
 	std::cout << "- add Targeter component" << std::endl;
-	dog.addComponent("Targeter");
 	std::cout << "- set HelloWords to Voff!" << std::endl;
-	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	std::cout << "- set ByeWords to VoffVoff!" << std::endl;
+
+	dog.addComponent("Voice");
+	dog.addComponent("Targeter");
+
+	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
 }
 
 void defineMan(Entity &man, ComponentFactory &factory)
 {
 	std::cout << "Build man entity..." << std::endl;
-
 	std::cout << "- add Voice component" << std::endl;
-	man.addComponent("Voice");
 	std::cout << "- add Targeter component" << std::endl;
-	man.addComponent("Targeter");
 	std::cout << "- set HelloWords to Hi there" << std::endl;
-	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	std::cout << "- set ByeWords to Good bye" << std::endl;
+
+	man.addComponent("Voice");
+	man.addComponent("Targeter");
+
+	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	man.getProperty<T_String>("ByeWords") = "Good bye"; //Seconds per tick
 }
 

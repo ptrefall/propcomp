@@ -281,7 +281,7 @@ public:
 		data->valueCleared.emit();
 	}
 
-	virtual U32 size() const { return data->value.size(); }
+	virtual U32 size() const { return (U32)data->value.size(); }
 
 	const typename T_Vector<T>::Type &get() const { return data->value; }
 
