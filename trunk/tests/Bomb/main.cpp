@@ -38,8 +38,8 @@ requirements or restrictions.
 
 void printStartup();
 void initFactory(ComponentFactory &factory);
-void buildBomb(Entity &bomb, ComponentFactory &factory);
-void buildCrate(Entity &crate, ComponentFactory &factory);
+void defineBomb(Entity &bomb, ComponentFactory &factory);
+void defineCrate(Entity &crate, ComponentFactory &factory);
 void printReady();
 void printResult(Entity &entity);
 void wait(int ms);
@@ -54,20 +54,20 @@ void main()
 	initFactory(factory);
 
 	Entity &bomb = EntityManager::Instance().create(factory, "Bomb");
-	buildBomb(bomb, factory);
+	defineBomb(bomb, factory);
 
 	Entity &crateA = EntityManager::Instance().create(factory, "Crate", "CrateA");
-	buildCrate(crateA, factory);
+	defineCrate(crateA, factory);
 	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
 	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
 
 	Entity &crateB = EntityManager::Instance().create(factory, "Crate", "CrateB");
-	buildCrate(crateB, factory);
+	defineCrate(crateB, factory);
 	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
 	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
 
 	Entity &crateC = EntityManager::Instance().create(factory, "Crate", "CrateC");
-	buildCrate(crateC, factory);
+	defineCrate(crateC, factory);
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
@@ -105,50 +105,52 @@ void printStartup()
 void initFactory(ComponentFactory &factory)
 {
 	std::cout << "Initialize components..." << std::endl;
-	
 	std::cout << "- register Health" << std::endl;
-	factory.registerComponent(Components::Health::getType(), &Components::Health::Create);
 	std::cout << "- register Timer" << std::endl;
-	factory.registerComponent(Components::Timer::getType(), &Components::Timer::Create);
 	std::cout << "- register Explosive" << std::endl;
-	factory.registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
 	std::cout << "- register MultiTargeter" << std::endl;
-	factory.registerComponent(Components::MultiTargeter::getType(), &Components::MultiTargeter::Create);
 	std::cout << "- register RadiusTargetSeeker" << std::endl;
-	factory.registerComponent(Components::RadiusTargetSeeker::getType(), &Components::RadiusTargetSeeker::Create);
 	std::cout << "- register Transformable" << std::endl;
+
+	factory.registerComponent(Components::Health::getType(), &Components::Health::Create);
+	factory.registerComponent(Components::Timer::getType(), &Components::Timer::Create);
+	factory.registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
+	factory.registerComponent(Components::MultiTargeter::getType(), &Components::MultiTargeter::Create);
+	factory.registerComponent(Components::RadiusTargetSeeker::getType(), &Components::RadiusTargetSeeker::Create);
 	factory.registerComponent(Components::Transformable::getType(), &Components::Transformable::Create);
 }
 
-void buildBomb(Entity &bomb, ComponentFactory &factory)
+void defineBomb(Entity &bomb, ComponentFactory &factory)
 {
-	std::cout << "Build bomb entity..." << std::endl;
-
+	std::cout << "Define bomb entity..." << std::endl;
 	std::cout << "- add Timer component" << std::endl;
-	bomb.addComponent("Timer");
 	std::cout << "- add Explosive component" << std::endl;
-	bomb.addComponent("Explosive");
 	std::cout << "- add MultiTargeter component" << std::endl;
-	bomb.addComponent("MultiTargeter");
 	std::cout << "- add RadiusTargetSeeker component" << std::endl;
-	bomb.addComponent("RadiusTargetSeeker");
 	std::cout << "- add Transformable component" << std::endl;
-	bomb.addComponent("Transformable");
 	std::cout << "- set TimeoutValue to 6" << std::endl;
-	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	std::cout << "- set TickInterval to 1.0" << std::endl;
+
+	bomb.addComponent("Timer");
+	bomb.addComponent("Explosive");
+	bomb.addComponent("MultiTargeter");
+	bomb.addComponent("RadiusTargetSeeker");
+	bomb.addComponent("Transformable");
+	
+	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
 
-void buildCrate(Entity &crate, ComponentFactory &factory)
+void defineCrate(Entity &crate, ComponentFactory &factory)
 {
-	std::cout << "Build crate entity..." << std::endl;
-
+	std::cout << "Define crate entity..." << std::endl;
 	std::cout << "- add Health component" << std::endl;
-	crate.addComponent("Health");
 	std::cout << "- add Transformable component" << std::endl;
-	crate.addComponent("Transformable");
 	std::cout << "- set Health to 100.0" << std::endl;
+
+	crate.addComponent("Health");
+	crate.addComponent("Transformable");
+	
 	crate.getProperty<F32>("Health") = 100.0f;
 }
 
