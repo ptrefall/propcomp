@@ -29,15 +29,9 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The component factory has the job of holding a register of component types and the means
- * to instanciate those registered component types.
- *
- * It holds a function pointer definition ComponentCreator, that each component implementation
- * must adhere to in order to register a component type to the factory.
- * 
- * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an entity- and a component-instance
- * will only associate with a single component factory instance.
+ * The entity holds the means of containing components and properties and represents an object
+ * in "the world", whether it's visible or purely functional. Only it's components restricts it's
+ * functionality.
  * 
  */
 
@@ -50,38 +44,142 @@ class ComponentFactory;
 class Entity
 {
 public:
+	/**
+	 * Constructor
+	 *
+	 * @param componentFactory The componentFactory instance from which this entity will instanciate components.
+	 * @param id The unique id of this entity instance, whos type and creation is specified by the engine implementation.
+	 * @param type The type string associated with this entity instance.
+	 */
 	Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type);
+	/**
+	 * Destructor
+	 */
 	virtual ~Entity();
 
+	/**
+	 * Get the unique id of this entity instance.
+	 *
+	 * @return Returns the unique id of this entity instance.
+	 */
 	const T_EntityId &getId() const { return id_property.get(); }
+	
+	/**
+	 * Get the type that defines this entity instance.
+	 *
+	 * @return Returns the type of the entity instance.
+	 */
 	const T_String &getType() const { return type_property.get(); }
 
-	//-----------------------------------------------
-	//Component Container specific logic
-	Component &addComponent(const T_String& type);
-	bool hasComponent(const T_String& type);
-	Component &getComponent(const T_String& type);
-	T_Vector<Component*>::Type &getComponents() { return components; }
-	//-----------------------------------------------
+	//--------------------------------------------------------------
 
-	//------------------------------------------------
-	//Property Container specific logic
+	/**
+	 * Add a component of specified type to this entity.
+	 *
+	 * @param type The type of the component.
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	Component &addComponent(const T_String& type);
+	
+	/**
+	 * Check whether the specified component type exist in this entity.
+	 *
+	 * @param type The type of the component.
+	 * @return Returns true if the component exist in this entity, false if it doesn't.
+	 */
+	bool hasComponent(const T_String& type);
+
+	/**
+	 * Get a reference to a component of specified type from the entity.
+	 *
+	 * @param type The type of the component.
+	 * @return Returns a reference to the component.
+	 */
+	Component &getComponent(const T_String& type);
+
+	/**
+	 * Get a reference to the entire list of components owned by the entity.
+	 *
+	 * @return Returns a reference to the entity's component list.
+	 */
+	T_Vector<Component*>::Type &getComponents() { return components; }
+	
+	//--------------------------------------------------------------
+
+	/**
+	 * Check whether the specified property name exist in this entity.
+	 * This function works on the interface (IProperty) of the property,
+	 * thus no casting is involved in it's usage.
+	 *
+	 * @param name The name of the property.
+	 * @return Returns true if the property exist in this entity, false if it doesn't.
+	 */
 	bool hasProperty(const T_String& name);
+
+	/**
+	 * Add a property of specified type T and name to this entity with a default value.
+	 * If readOnly is specified to true, one can only change the property by
+	 * directly calling property.set(value, forced=true), all other pipes, like
+	 * via operators, will throw an exception.
+	 *
+	 * @param name The name of the property used to store and associate the property in the entity.
+	 * @param defaultValue The initial value this property should be set to when added to the entity.
+	 * @param readOnly Flag this property as read-only if it should only be read. Defaults to false.
+	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the entity.
+	 */
 	template<class T>Property<T> addProperty(const T_String& name, const T &defaultValue, bool readOnly = false);
+
+	/**
+	 * Add a property interface to this entity.
+	 * There can be situations where this is required.
+	 *
+	 * @param property The interface of the property.
+	 */
 	void addProperty(IProperty *property);
 
+	/**
+	 * Get a shared_ptr (pimpl) reference to a property of specified name from the entity.
+	 *
+	 * @param name The name of the property.
+	 * @return Returns a shared_ptr (pimpl) reference to the property.
+	 */
 	template<class T>Property<T> getProperty(const T_String& name);
+
+	/**
+	 * Get a property interface pointer to a property of specified name from the entity.
+	 *
+	 * @param name  The name of the property.
+	 * @return The interface pointer to the property.
+	 */
 	IProperty *getIProperty(const T_String& name);
 
+	/**
+	 * Remove the property of specified name from entity with
+	 * option to postpone deletion until the next time update
+	 * is called on the entity.
+	 *
+	 * @param name The name of the property.
+	 * @param postponeDelete Flag whether to postpone the deletion of this property (if true), or delete it immediately (if false). Defaults to false.
+	 */
 	void removeProperty(const T_String& name, bool postponeDelete = false);
+
+	/**
+	 * Remove all properties from entity.
+	 *
+	 */
 	void removeAllProperties();
+
+	/**
+	 * Delete all properties that was deleted last time update was called
+	 * and marked postponeDelete.
+	 *
+	 */
 	void clearDeletedProperties();
 
 	T_Map<T_String, IProperty*>::Type &getProperties() { return properties; }
+
 	//-----------------------------------------------
 
-	//------------------------------------------------
-	//PropertyList Container specific logic
 	bool hasPropertyList(const T_String& name);
 	template<class T>PropertyList<T> addPropertyList(const T_String& name, bool readOnly = false);
 	void addPropertyList(IPropertyList *propertyList);
