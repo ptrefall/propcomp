@@ -29,9 +29,9 @@ requirements or restrictions.
 Entity::Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type, const T_String &name)
 : componentFactory(componentFactory)
 {
-	id_property = addProperty<T_EntityId>("Id", id);
-	type_property = addProperty<T_String>("Type", type);
-	name_property = addProperty<T_String>("Name", name.empty() ? type : name);
+	id_property = addProperty<T_EntityId>("Id", id, true); //read-only
+	type_property = addProperty<T_String>("Type", type, true); //read-only
+	name_property = addProperty<T_String>("Name", name.empty() ? type : name, true); //read-only
 }
 
 Entity::~Entity()
