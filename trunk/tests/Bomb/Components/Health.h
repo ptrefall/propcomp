@@ -40,6 +40,7 @@ namespace Components
 		static Component* Create(Entity &owner, const T_String &name) { return new Health(owner, name); }
 
 	protected:
+		Property<T_String> name_property;
 		Property<bool> alive_property;
 		Property<F32> health_property;
 		Property<F32> maxhealth_property;

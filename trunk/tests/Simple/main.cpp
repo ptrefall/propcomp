@@ -31,8 +31,8 @@ requirements or restrictions.
 
 void printStartup();
 void initFactory(ComponentFactory &factory);
-void defineDog(Entity &dog, ComponentFactory &factory);
-void defineMan(Entity &man, ComponentFactory &factory);
+void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name);
+void defineMan(Entity &man, ComponentFactory &factory, const T_String &name);
 void printReady();
 void wait(int ms);
 
@@ -52,24 +52,28 @@ public:
 	{
 		if(event.type == "SPEAK")
 		{
-			T_String what = event.arg0.str;
+			const T_String &what = event.arg0.str;
+			const T_String &owner_name = owner.getProperty<T_String>("Name").get();
+
 			if(target_property.get() == NULL_PTR)
 			{
 				if(what == "HELLO")
-					std::cout << owner.getName().c_str() << " the " << owner.getType().c_str() << " says: " 
+					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
 					<< hello_property.get().c_str() << std::endl;
 				else if(what == "BYE")
-					std::cout << owner.getName().c_str() << " the " << owner.getType().c_str() << " says: " 
+					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
 					<< bye_property.get().c_str() << std::endl;
 			}
 			else
 			{
+				const T_String &target_name = target_property.get()->getProperty<T_String>("Name").get();
+
 				if(what == "HELLO")
-					std::cout << owner.getName().c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< hello_property.get().c_str() << " to " << target_property.get()->getName().c_str() << std::endl;
+					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+					<< hello_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 				else if(what == "BYE")
-					std::cout << owner.getName().c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< bye_property.get().c_str() << " to " << target_property.get()->getName().c_str() << std::endl;
+					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+					<< bye_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 			}
 		}
 	}
@@ -102,8 +106,8 @@ protected:
 
 	void onTargetChanged(Entity * const &oldValue, Entity * const &newValue)
 	{
-		std::cout << owner.getName().c_str() << " the " << owner.getType().c_str() << " looks at " 
-		<< target_property.get()->getName().c_str() << std::endl;
+		std::cout << owner.getProperty<T_String>("Name").get().c_str() << " the " << owner.getType().c_str() << " looks at " 
+		<< target_property.get()->getProperty<T_String>("Name").get().c_str() << std::endl;
 		wait(1000);
 	}
 };
@@ -117,11 +121,11 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &dog = Entity(factory, 0, "Dog", "Champ");
-	defineDog(dog, factory);
+	Entity &dog = Entity(factory, 0, "Dog");
+	defineDog(dog, factory, "Champ");
 
-	Entity &man = Entity(factory, 1, "Man", "James");
-	defineMan(man, factory);
+	Entity &man = Entity(factory, 1, "Man");
+	defineMan(man, factory, "James");
 
 	printReady();
 
@@ -163,32 +167,36 @@ void initFactory(ComponentFactory &factory)
 	factory.registerComponent(Targeter::getType(), &Targeter::Create);
 }
 
-void defineDog(Entity &dog, ComponentFactory &factory)
+void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)
 {
 	std::cout << "Define dog entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
 	std::cout << "- add Targeter component" << std::endl;
+	std::cout << "- set Name to " << name.c_str() << std::endl;
 	std::cout << "- set HelloWords to Voff!" << std::endl;
 	std::cout << "- set ByeWords to VoffVoff!" << std::endl;
 
 	dog.addComponent("Voice");
 	dog.addComponent("Targeter");
 
+	dog.getProperty<T_String>("Name") = name;
 	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
 }
 
-void defineMan(Entity &man, ComponentFactory &factory)
+void defineMan(Entity &man, ComponentFactory &factory, const T_String &name)
 {
 	std::cout << "Build man entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
 	std::cout << "- add Targeter component" << std::endl;
+	std::cout << "- set Name to " << name.c_str() << std::endl;
 	std::cout << "- set HelloWords to Hi there" << std::endl;
 	std::cout << "- set ByeWords to Good bye" << std::endl;
 
 	man.addComponent("Voice");
 	man.addComponent("Targeter");
 
+	man.getProperty<T_String>("Name") = name;
 	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	man.getProperty<T_String>("ByeWords") = "Good bye"; //Seconds per tick
 }

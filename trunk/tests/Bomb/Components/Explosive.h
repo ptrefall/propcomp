@@ -39,6 +39,7 @@ namespace Components
 		static Component* Create(Entity &owner, const T_String &name) { return new Explosive(owner, name); }
 
 	protected:
+		Property<T_String> name_property;
 		Property<bool> timeout_property;
 		Property<F32> base_damage_property;
 		Property<F32> blast_radius_property;

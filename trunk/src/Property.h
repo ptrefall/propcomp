@@ -226,7 +226,8 @@ public:
 	T_String name;
 	bool readOnly;
 	typename T_Signal_v1<const T&>::Type valueAdded;
-	typename T_Signal_v0<>::Type valueCleared;
+	typename T_Signal_v0<>::Type valueErased;
+	typename T_Signal_v0<>::Type valuesCleared;
 };
 
 template<class T>
@@ -281,6 +282,7 @@ public:
 			delete data->value[index];
 
 		data->value.erase(data->value.begin()+index);
+		data->valueErased.emit();
 	}
 
 	void clear(bool deleteData = false, bool forced = false)
@@ -294,7 +296,7 @@ public:
 				delete data->value[i];
 		}
 		data->value.clear();
-		data->valueCleared.emit();
+		data->valuesCleared.emit();
 	}
 
 	U32 size() const { return (U32)data->value.size(); }

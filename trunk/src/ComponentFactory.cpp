@@ -25,9 +25,8 @@ requirements or restrictions.
 #include "ComponentFactory.h"
 #include "Component.h"
 
-T_Map<T_String, ComponentFactory::ComponentCreator>::Type* ComponentFactory::creators;
-
 ComponentFactory::ComponentFactory()
+: creators(NULL_PTR)
 {
 }
 
@@ -52,7 +51,7 @@ void ComponentFactory::registerComponent(const T_String& type, ComponentCreator 
 	}
 }
 
-Component* ComponentFactory::createComponent(Entity &entity, const T_String& compType, const T_String& compName)
+Component* ComponentFactory::createComponent(Entity &entity, const T_String& compType)
 {
 	if(creators == NULL_PTR)
 		throw T_Exception(("Unable to create component " + compType).c_str());
@@ -62,9 +61,5 @@ Component* ComponentFactory::createComponent(Entity &entity, const T_String& com
 		throw T_Exception(("Unable to create component " + compType).c_str());
 	
 	ComponentCreator creator = creatorIt->second;
-
-	if(compName.empty())
-		return creator(entity, compType);
-	else
-		return creator(entity, compName);
+	return creator(entity, compType);
 }

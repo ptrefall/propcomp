@@ -26,12 +26,11 @@ requirements or restrictions.
 #include "ComponentFactory.h"
 #include "Property.h"
 
-Entity::Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type, const T_String &name)
+Entity::Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type)
 : componentFactory(componentFactory)
 {
 	id_property = addProperty<T_EntityId>("Id", id, true); //read-only
 	type_property = addProperty<T_String>("Type", type, true); //read-only
-	name_property = addProperty<T_String>("Name", name.empty() ? type : name, true); //read-only
 }
 
 Entity::~Entity()
@@ -43,50 +42,42 @@ Entity::~Entity()
 	removeAllProperties();
 }
 
-Component &Entity::addComponent(const T_String& componentType, const T_String& componentName)
+Component &Entity::addComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
-		Component *component = components[i];
-		if(componentName.length() == 0)
-		{
-			if(component->getName() == componentType)
-				return *component;
-		}
-		else
-		{
-			if(component->getName() == componentName)
-				return *component;
-		}
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
 	}
 
-	Component* component = componentFactory.createComponent(*this, componentType, componentName);
+	Component* component = componentFactory.createComponent(*this, type);
 	components.push_back(component);
 	return *component;
 }
 
-bool Entity::hasComponent(const T_String& componentName)
+bool Entity::hasComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
 		Component *component = components[i];
-		if(component->getName() == componentName)
+		if(component->getType() == type)
 			return true;
 	}
 	return false;
 }
 
-Component &Entity::getComponent(const T_String& componentName)
+Component &Entity::getComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
 		Component *component = components[i];
-		if(component->getName() == componentName)
+		if(component->getType() == type)
 		{
 			return *component;
 		}
 	}
-	throw T_Exception(("Unable to get component " + componentName).c_str());
+	throw T_Exception(("Unable to get component " + type).c_str());
 }
 
 void Entity::updateComponents(F32 deltaTime)
