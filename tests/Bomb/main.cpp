@@ -39,7 +39,7 @@ requirements or restrictions.
 void printStartup();
 void initFactory(ComponentFactory &factory);
 void defineBomb(Entity &bomb, ComponentFactory &factory);
-void defineCrate(Entity &crate, ComponentFactory &factory);
+void defineCrate(Entity &crate, ComponentFactory &factory, const T_String &name);
 void printReady();
 void printResult(Entity &entity);
 void wait(int ms);
@@ -56,18 +56,18 @@ void main()
 	Entity &bomb = EntityManager::Instance().create(factory, "Bomb");
 	defineBomb(bomb, factory);
 
-	Entity &crateA = EntityManager::Instance().create(factory, "Crate", "CrateA");
-	defineCrate(crateA, factory);
+	Entity &crateA = EntityManager::Instance().create(factory, "Crate");
+	defineCrate(crateA, factory, "CrateA");
 	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
 	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
 
-	Entity &crateB = EntityManager::Instance().create(factory, "Crate", "CrateB");
-	defineCrate(crateB, factory);
+	Entity &crateB = EntityManager::Instance().create(factory, "Crate");
+	defineCrate(crateB, factory, "CrateB");
 	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
 	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
 
-	Entity &crateC = EntityManager::Instance().create(factory, "Crate", "CrateC");
-	defineCrate(crateC, factory);
+	Entity &crateC = EntityManager::Instance().create(factory, "Crate");
+	defineCrate(crateC, factory, "CrateC");
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
@@ -141,16 +141,18 @@ void defineBomb(Entity &bomb, ComponentFactory &factory)
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
 
-void defineCrate(Entity &crate, ComponentFactory &factory)
+void defineCrate(Entity &crate, ComponentFactory &factory, const T_String &name)
 {
 	std::cout << "Define crate entity..." << std::endl;
 	std::cout << "- add Health component" << std::endl;
 	std::cout << "- add Transformable component" << std::endl;
+	std::cout << "- set Name to " << name.c_str() << std::endl;
 	std::cout << "- set Health to 100.0" << std::endl;
 
 	crate.addComponent("Health");
 	crate.addComponent("Transformable");
 	
+	crate.getProperty<T_String>("Name") = name;
 	crate.getProperty<F32>("Health") = 100.0f;
 }
 
@@ -164,13 +166,14 @@ void printReady()
 
 void printResult(Entity &entity)
 {
+	const T_String &name = entity.getProperty<T_String>("Name").get();
 	if(entity.hasProperty("Alive") && entity.getProperty<bool>("Alive").get() && entity.hasProperty("Health"))
 	{
 		F32 hp = entity.getProperty<F32>("Health").get();
-		std::cout << entity.getName().c_str() << " HP:" << hp << "." << std::endl;
+		std::cout << name.c_str() << " HP:" << hp << "." << std::endl;
 	}
 	else
-		std::cout << entity.getName().c_str() << " is dead." << std::endl;
+		std::cout << name.c_str() << " is dead." << std::endl;
 }
 
 void wait(int ms)

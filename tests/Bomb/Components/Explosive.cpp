@@ -31,6 +31,7 @@ using namespace Components;
 Explosive::Explosive(Entity &owner, const T_String &name)
 : Component(owner, name)
 {
+	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
     timeout_property = owner.addProperty<bool>("Timeout", false);
 	base_damage_property = owner.addProperty<F32>("BaseDamage", 100.0f);
 	blast_radius_property = owner.addProperty<F32>("BlastRadius", 10.0f);
@@ -72,13 +73,13 @@ void Explosive::onTargetAdded(Entity * const &newValue)
 	if(distance > radius)
 		return;
 
-	std::cout << newValue->getName().c_str() << " is engulfed by the flames of the powerful explotion " << distance << " units away!" << std::endl;
+	std::cout << newValue->getProperty<T_String>("Name").get().c_str() << " is engulfed by the flames of the powerful explotion " << distance << " units away!" << std::endl;
 
 	F32 half_radius = radius * 0.5f;
 	F32 dmg_weight = 1.0f - ((distance - half_radius) / half_radius);
 
 	T_Event event("DMG");
 	event.arg0.f = 200.0f * dmg_weight;
-	event.arg1.str = owner.getName().c_str();
+	event.arg1.str = name_property.get().c_str();
 	newValue->onEvent(event);
 }
