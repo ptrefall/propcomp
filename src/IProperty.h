@@ -41,7 +41,7 @@ public:
 
 	virtual const T_String &getName() const = 0;
 	virtual bool isNull() const = 0;
-	virtual void erase(U32 index, bool deleteData = false) = 0;
-	virtual void clear(bool deleteData = false) = 0;
+	virtual void erase(U32 index, bool deleteData = false, bool forced = false) = 0;
+	virtual void clear(bool deleteData = false, bool forced = false) = 0;
 	virtual U32 size() const = 0;
 };

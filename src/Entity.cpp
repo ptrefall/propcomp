@@ -26,13 +26,12 @@ requirements or restrictions.
 #include "ComponentFactory.h"
 #include "Property.h"
 
-Entity::Entity(ComponentFactory& componentFactory, const T_String &type, const T_String &name)
-: componentFactory(componentFactory), type(type)
+Entity::Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type, const T_String &name)
+: componentFactory(componentFactory)
 {
-	if(name.empty())
-		this->name = type;
-	else
-		this->name = name;
+	id_property = addProperty<T_EntityId>("Id", id);
+	type_property = addProperty<T_String>("Type", type);
+	name_property = addProperty<T_String>("Name", name.empty() ? type : name);
 }
 
 Entity::~Entity()
