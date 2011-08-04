@@ -109,7 +109,7 @@ public:
 	/**
 	 * Check whether the specified property name exist in this entity.
 	 * This function works on the interface (IProperty) of the property,
-	 * thus no casting is involved in it's usage.
+	 * thus no type-casting is involved in it's usage.
 	 *
 	 * @param name The name of the property.
 	 * @return Returns true if the property exist in this entity, false if it doesn't.
@@ -176,38 +176,138 @@ public:
 	 */
 	void clearDeletedProperties();
 
+	/**
+	 * Get a reference to the entire map of properties owned by the entity.
+	 *
+	 * @return Returns a reference to the entity's property map.
+	 */
 	T_Map<T_String, IProperty*>::Type &getProperties() { return properties; }
 
 	//-----------------------------------------------
 
+	/**
+	 * Check whether the specified property list name exist in this entity.
+	 * This function works on the interface (IPropertyList) of the property list,
+	 * thus no type-casting is involved in it's usage.
+	 *
+	 * @param name The name of the property list.
+	 * @return Returns true if the property list exist in this entity, false if it doesn't.
+	 */
 	bool hasPropertyList(const T_String& name);
+
+	/**
+	 * Add a property list of specified type T and name to this entity.
+	 * If readOnly is specified to true, one can only change the property list by
+	 * directly calling propertyList.add(value, forced=true), all other pipes, like
+	 * via operators, will throw an exception.
+	 *
+	 * @param name The name of the property list used to store and associate the property list in the entity.
+	 * @param readOnly Flag this property list as read-only if it should only be read. Defaults to false.
+	 * @return Returns a shared_ptr (pimpl) reference to the property list that was added to the entity.
+	 */
 	template<class T>PropertyList<T> addPropertyList(const T_String& name, bool readOnly = false);
+
+	/**
+	 * Add a property list interface to this entity.
+	 * There can be situations where this is required.
+	 *
+	 * @param propertyList The interface of the property list.
+	 */
 	void addPropertyList(IPropertyList *propertyList);
 
+	/**
+	 * Get a shared_ptr (pimpl) reference to a property list of specified name from the entity.
+	 *
+	 * @param name The name of the property list.
+	 * @return Returns a shared_ptr (pimpl) reference to the property list.
+	 */
 	template<class T>PropertyList<T> getPropertyList(const T_String& name);
+
+	/**
+	 * Get a property list interface pointer to a property list of specified name from the entity.
+	 *
+	 * @param name  The name of the property list.
+	 * @return The interface pointer to the property list.
+	 */
 	IPropertyList *getIPropertyList(const T_String& name);
 
+	/**
+	 * Remove the property list of specified name from entity with
+	 * option to postpone deletion until the next time update
+	 * is called on the entity.
+	 *
+	 * @param name The name of the property list.
+	 * @param postponeDelete Flag whether to postpone the deletion of this property list (if true), or delete it immediately (if false). Defaults to false.
+	 */
 	void removePropertyList(const T_String& name, bool postponeDelete = false);
+
+	/**
+	 * Remove all property lists from entity.
+	 *
+	 */
 	void removeAllPropertyLists();
+
+	/**
+	 * Delete all property lists that was deleted last time update was called
+	 * and marked postponeDelete.
+	 *
+	 */
 	void clearDeletedPropertyLists();
 
+	/**
+	 * Get a reference to the entire map of property lists owned by the entity.
+	 *
+	 * @return Returns a reference to the entity's property list map.
+	 */
 	T_Map<T_String, IPropertyList*>::Type &getPropertyLists() { return propertyLists; }
+	
 	//-----------------------------------------------
 
+	/**
+	 * Call update function on all the components owned by this entity.
+	 *
+	 * @param deltaTime  Should be the time elapsed since update was called last time.
+	 */
 	void updateComponents(F32 deltaTime);
+	
+	/**
+	 * Handles deletion of all properties pending for deletion in this entity.
+	 *
+	 * @param deltaTime  Should be the time elapsed since update was called last time.
+	 */
 	void updateProperties(F32 deltaTime);
+
+	/**
+	 * Handles deletion of all property lists pending for deletion in this entity.
+	 *
+	 * @param deltaTime  Should be the time elapsed since update was called last time.
+	 */
 	void updatePropertyLists(F32 deltaTime);
+
+	/**
+	 * Forwards the event to all components owned by this entity.
+	 *
+	 * @param event  An event instance, the implementation is specified by types_config.h.
+	 */
 	void onEvent(const T_Event &event);
 
 protected:
+	/// The list of all components owned by this entity.
 	T_Vector<Component*>::Type components;
+	/// The map of all properties owned by this entity.
 	T_Map<T_String, IProperty*>::Type properties;
+	/// The list of all properties pending deletion in this entity.
 	T_Vector<IProperty*>::Type deletedProperties;
+	/// The map of all property lists owned by this entity.
 	T_Map<T_String, IPropertyList*>::Type propertyLists;
+	/// The list of all property lists pending deletion in this entity.
 	T_Vector<IPropertyList*>::Type deletedPropertyLists;
 
+	/// Reference to the component factory responsible for instancing components for this entity.
 	ComponentFactory& componentFactory;
+	/// Type property (read-only), holds the type string given in entity's constructor.
 	Property<T_String> type_property;
+	/// Id property (read-only), holds the id T_EntityId given in the entity's constructor.
 	Property<T_EntityId> id_property;
 };
 
