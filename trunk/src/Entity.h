@@ -32,11 +32,12 @@ class ComponentFactory;
 class Entity
 {
 public:
-	Entity(ComponentFactory& componentFactory, const T_String &type, const T_String &name = T_String());
+	Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type, const T_String &name = T_String());
 	virtual ~Entity();
 
-	const T_String &getType() const { return type; }
-	const T_String &getName() const { return name; }
+	const T_EntityId &getId() const { return id_property.get(); }
+	const T_String &getType() const { return type_property.get(); }
+	const T_String &getName() const { return name_property.get(); }
 
 	//-----------------------------------------------
 	//Component Container specific logic
@@ -49,7 +50,7 @@ public:
 	//------------------------------------------------
 	//Property Container specific logic
 	bool hasProperty(const T_String& propName);
-	template<class T>Property<T> addProperty(const T_String& propName, const T &defaultValue);
+	template<class T>Property<T> addProperty(const T_String& propName, const T &defaultValue, bool readOnly = false);
 	void addProperty(IProperty *property);
 
 	template<class T>Property<T> getProperty(const T_String& propName);
@@ -65,7 +66,7 @@ public:
 	//------------------------------------------------
 	//PropertyList Container specific logic
 	bool hasPropertyList(const T_String& propListName);
-	template<class T>PropertyList<T> addPropertyList(const T_String& propListName);
+	template<class T>PropertyList<T> addPropertyList(const T_String& propListName, bool readOnly = false);
 	void addPropertyList(IPropertyList *propertyList);
 
 	template<class T>PropertyList<T> getPropertyList(const T_String& propListName);
@@ -91,7 +92,8 @@ protected:
 	T_Vector<IPropertyList*>::Type deletedPropertyLists;
 
 	ComponentFactory& componentFactory;
-	T_String type, name;
+	Property<T_String> type_property, name_property;
+	Property<T_EntityId> id_property;
 };
 
 //------------------------------------------------------
@@ -116,7 +118,7 @@ inline void Entity::addProperty(IProperty *property)
 }
 
 template<class T>
-inline Property<T> Entity::addProperty(const T_String& propName, const T &defaultValue)
+inline Property<T> Entity::addProperty(const T_String& propName, const T &defaultValue, bool readOnly)
 {
 	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(propName);
 	if(it != properties.end())
@@ -132,8 +134,8 @@ inline Property<T> Entity::addProperty(const T_String& propName, const T &defaul
 		return *property;
 	}
 
-	Property<T> *property = new Property<T>(propName);
-	property->set(defaultValue);
+	Property<T> *property = new Property<T>(propName, readOnly);
+	property->set(defaultValue, true);
 	properties[property->getName()] = property;
 
 	//return *property;
@@ -229,7 +231,7 @@ inline void Entity::addPropertyList(IPropertyList *propertyList)
 }
 
 template<class T>
-inline PropertyList<T> Entity::addPropertyList(const T_String& propListName)
+inline PropertyList<T> Entity::addPropertyList(const T_String& propListName, bool readOnly)
 {
 	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propListName);
 	if(it != propertyLists.end())
@@ -245,7 +247,7 @@ inline PropertyList<T> Entity::addPropertyList(const T_String& propListName)
 		return *propertyList;
 	}
 
-	PropertyList<T> *propertyList = new PropertyList<T>(propListName);
+	PropertyList<T> *propertyList = new PropertyList<T>(propListName, readOnly);
 	propertyLists[propertyList->getName()] = propertyList;
 
 	//return *propertyList;

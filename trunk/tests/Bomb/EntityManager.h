@@ -42,7 +42,8 @@ public:
 	T_Vector<Entity*>::Type &getEntities() { return entities; }
 
 protected:
-	EntityManager() {}
+	EntityManager() : nextEntityId(0) {}
 	T_Vector<Entity*>::Type entities;
 	T_Vector<Entity*>::Type pendingDelete;
+	T_EntityId nextEntityId;
 };

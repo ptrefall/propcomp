@@ -38,33 +38,9 @@ public:
     virtual void update(F32 deltaTime) {};
 	virtual void onEvent(const T_Event &event) {};
 
-	template<class T>Property<T> addProperty(const T_String &propName, const T &defaultValue);
-	template<class T>Property<T> getProperty(const T_String &propName);
-	void removeProperty(const T_String &propName);
-
 protected:
 	Component(Entity &owner, const T_String &name) : owner(owner), name(name) {};
 
 	Entity &owner;
     T_String name;
 };
-
-template<class T>
-inline Property<T> Component::addProperty(const T_String &propName, const T &defaultValue)
-{
-	T_String compPropName = name + ":" + propName;
-	return owner.addProperty<T>(compPropName, defaultValue);
-}
-
-template<class T>
-inline Property<T> Component::getProperty(const T_String &propName)
-{
-	T_String compPropName = name + ":" + propName;
-	return owner.getProperty<T>(compPropName);
-}
-
-inline void Component::removeProperty(const T_String &propName)
-{
-	T_String compPropName = name + ":" + propName;
-	owner.removeProperty(compPropName);
-}

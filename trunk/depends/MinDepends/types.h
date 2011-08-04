@@ -43,6 +43,7 @@ typedef std::string T_String;
 typedef float F32;
 typedef int S32;
 typedef unsigned int U32;
+typedef unsigned long T_EntityId;
 
 
 //Container types

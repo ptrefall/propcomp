@@ -117,10 +117,10 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &dog = Entity(factory, "Dog", "Champ");
+	Entity &dog = Entity(factory, 0, "Dog", "Champ");
 	defineDog(dog, factory);
 
-	Entity &man = Entity(factory, "Man", "James");
+	Entity &man = Entity(factory, 1, "Man", "James");
 	defineMan(man, factory);
 
 	printReady();

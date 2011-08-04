@@ -34,6 +34,7 @@ public:
 	~PropertyData() {}
 	T value;
 	T_String name;
+	bool readOnly;
 	typename T_Signal_v2<const T&, const T&>::Type valueChanged;
 };
 
@@ -50,16 +51,20 @@ public:
 	{
 	}
 
-	Property(const T_String &name)
+	Property(const T_String &name, bool readOnly = false)
 	: data(new PropertyData<T>())
 	{	
-		data->name = name; 
+		data->name = name;
+		data->readOnly = readOnly;
 	}
 
 	virtual ~Property() {}
 
-	void set(const T& value) 
+	void set(const T& value, bool forced = false) 
 	{ 
+		if(data->readOnly && !forced)
+			throw T_Exception(("Property " + data->name + " is read-only!").c_str());
+
 		if(data->value != value)
 		{
 			T oldValue = data->value;
@@ -219,6 +224,7 @@ public:
 	~PropertyListData() {}
 	typename T_Vector<T>::Type value;
 	T_String name;
+	bool readOnly;
 	typename T_Signal_v1<const T&>::Type valueAdded;
 	typename T_Signal_v0<>::Type valueCleared;
 };
@@ -236,16 +242,20 @@ public:
 	{
 	}
 
-	PropertyList(const T_String &name)
+	PropertyList(const T_String &name, bool readOnly = false)
 	: data(new PropertyListData<T>())
 	{	
-		data->name = name; 
+		data->name = name;
+		data->readOnly = readOnly;
 	}
 
 	virtual ~PropertyList() {}
 
-	void add(const T& value, bool duplicationGuard = false) 
+	void add(const T& value, bool forced = false, bool duplicationGuard = false) 
 	{ 
+		if(data->readOnly && !forced)
+			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
+
 		if(duplicationGuard)
 		{
 			for(U32 i = 0; i < data->value.size(); i++)
@@ -259,8 +269,11 @@ public:
 		data->valueAdded.emit(value);
 	}
 
-	virtual void erase(U32 index, bool deleteData = false)
+	virtual void erase(U32 index, bool deleteData = false, bool forced = false)
 	{
+		if(data->readOnly && !forced)
+			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
+
 		if(index >= data->value.size())
 			return;
 
@@ -270,8 +283,11 @@ public:
 		data->value.erase(data->value.begin()+index);
 	}
 
-	virtual void clear(bool deleteData = false)
+	virtual void clear(bool deleteData = false, bool forced = false)
 	{
+		if(data->readOnly && !forced)
+			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
+
 		if(deleteData)
 		{
 			for(U32 i = 0; i < data->value.size(); i++)
