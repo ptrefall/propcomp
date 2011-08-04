@@ -269,7 +269,7 @@ public:
 		data->valueAdded.emit(value);
 	}
 
-	virtual void erase(U32 index, bool deleteData = false, bool forced = false)
+	void erase(U32 index, bool deleteData = false, bool forced = false)
 	{
 		if(data->readOnly && !forced)
 			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
@@ -283,7 +283,7 @@ public:
 		data->value.erase(data->value.begin()+index);
 	}
 
-	virtual void clear(bool deleteData = false, bool forced = false)
+	void clear(bool deleteData = false, bool forced = false)
 	{
 		if(data->readOnly && !forced)
 			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
@@ -297,7 +297,7 @@ public:
 		data->valueCleared.emit();
 	}
 
-	virtual U32 size() const { return (U32)data->value.size(); }
+	U32 size() const { return (U32)data->value.size(); }
 
 	const typename T_Vector<T>::Type &get() const { return data->value; }
 
