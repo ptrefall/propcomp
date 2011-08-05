@@ -21,11 +21,17 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#pragma once
+#include "types_config.h"
+#include "Transformable.h"
 
-#include <types_config.h>
+using namespace Components;
 
-class Vec3f
+Transformable::Transformable(Entity &owner, const T_String &name)
+: Component(owner, name)
 {
-public:
-};
+	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
+}
+
+Transformable::~Transformable()
+{
+}

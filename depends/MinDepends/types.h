@@ -79,6 +79,13 @@ struct sEvent
 		U32 u;
 	} arg1;
 
+	union {
+		const char *str;
+		F32 f;
+		S32 i;
+		U32 u;
+	} arg2;
+
 	sEvent(const T_String &type) : type(type) {}
 };
 typedef sEvent T_Event;
