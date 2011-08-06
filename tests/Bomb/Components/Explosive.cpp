@@ -55,9 +55,7 @@ void Explosive::onTimeoutChanged(const bool &oldValue, const bool &newValue)
 		std::cout << "The " << owner.getType().c_str() << " explodes in a hughe blast of flames!" << std::endl;
 
 		//Affect all entities in blast radius
-		T_Event event("SEEK_IN_RADIUS");
-		event.arg0.f = blast_radius_property;
-		owner.onEvent(event);
+		owner.onEvent1<F32>("SEEK_IN_RADIUS", blast_radius_property.get());
 	}
 }
 
@@ -78,8 +76,6 @@ void Explosive::onTargetAdded(Entity * const &newValue)
 	F32 half_radius = radius * 0.5f;
 	F32 dmg_weight = 1.0f - ((distance - half_radius) / half_radius);
 
-	T_Event event("DMG");
-	event.arg0.f = 200.0f * dmg_weight;
-	event.arg1.str = name_property.get().c_str();
-	newValue->onEvent(event);
+	F32 dmg = 200.0f * dmg_weight;
+	newValue->onEvent2<F32, T_String>("DMG", dmg, name_property.get());
 }

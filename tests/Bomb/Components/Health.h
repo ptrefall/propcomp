@@ -34,8 +34,6 @@ namespace Components
 		Health(Entity &owner, const T_String &name);
 		virtual ~Health();
 		
-		virtual void onEvent(const T_Event &event);
-		
 		static T_String getType() { return "Health"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new Health(owner, name); }
 
@@ -47,5 +45,7 @@ namespace Components
 
 		void onHealthChanged(const F32 &oldValue, const F32 &newValue);
 		void onAliveChanged(const bool &oldValue, const bool &newValue);
+
+		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
 	};
 }

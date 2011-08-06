@@ -35,28 +35,23 @@ Throttle::Throttle(Entity &owner, const T_String &name)
 	engineForce_property = owner.addProperty<F32>("EngineForce", 1.0f);
 	engineEffect_property = owner.addProperty<F32>("EngineEffect", 1.0f);
 	mass_property = owner.addProperty<F32>("Mass", 1.0f);
+
+	owner.registerToEvent0("THROTTLE").connect(this, &Throttle::onThrottleEvent);
 }
 
 Throttle::~Throttle()
 {
 }
 
-void Throttle::onEvent(const T_Event &event)
+void Throttle::onThrottleEvent()
 {
-	if(event.type == "THROTTLE")
-	{
-		std::cout << "Player presses the gas pedal of his " << owner.getType().c_str() << std::endl;
+	std::cout << "Player presses the gas pedal of his " << owner.getType().c_str() << std::endl;
 
-		engineForce_property = engineEffect_property.get();
+	engineForce_property = engineEffect_property.get();
 
-		//We spend some energy forcing the wheels to turn
-		T_Event eventSpend("SPEND_EFFECT");
-		eventSpend.arg0.f = engineEffect_property.get();
-		owner.onEvent(eventSpend);
+	//We spend some energy forcing the wheels to turn
+	owner.onEvent1<F32>("SPEND_EFFECT", engineEffect_property.get());
 		
-		//Throttling forces wheels to rotate by an acceleration
-		T_Event eventSpin("ACCELERATE_WHEELS");
-		eventSpin.arg0.f = engineForce_property.get();
-		owner.onEvent(eventSpin);
-	}
+	//Throttling forces wheels to rotate by an acceleration
+	owner.onEvent1<F32>("ACCELERATE_WHEELS", engineForce_property.get());
 }

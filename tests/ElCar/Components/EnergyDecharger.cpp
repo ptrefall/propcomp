@@ -35,33 +35,31 @@ EnergyDecharger::EnergyDecharger(Entity &owner, const T_String &name)
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	minEnergy_property = owner.addProperty<F32>("MinEnergy", 0.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
+
+	owner.registerToEvent1<F32>("SPEND_EFFECT").connect(this, &EnergyDecharger::onSpendEffectEvent);
 }
 
 EnergyDecharger::~EnergyDecharger()
 {
 }
 
-void EnergyDecharger::onEvent(const T_Event &event)
+void EnergyDecharger::onSpendEffectEvent(const F32 &effect)
 {
-	if(event.type == "SPEND_EFFECT")
+	if(energy_property.get() == minEnergy_property.get())
 	{
-		if(energy_property.get() == minEnergy_property.get())
-		{
-			std::cout << "Energy has already been decharged to the minimum level!" << std::endl;
-			return;
-		}
+		std::cout << "Energy has already been decharged to the minimum level!" << std::endl;
+		return;
+	}
 
-		F32 effect = event.arg0.f;
-		energy_property -= effect;
+	energy_property -= effect;
 
-		if(energy_property.get() <= minEnergy_property.get())
-		{
-			std::cout << "Energy has been decharged to the minimum level!" << std::endl;
-			energy_property = minEnergy_property.get();
-		}
-		else
-		{
-			std::cout << "Energy was decharged down to " << ((energy_property.get() / maxEnergy_property.get()) * 100.0f) << "% of full capacity!" << std::endl;
-		}
+	if(energy_property.get() <= minEnergy_property.get())
+	{
+		std::cout << "Energy has been decharged to the minimum level!" << std::endl;
+		energy_property = minEnergy_property.get();
+	}
+	else
+	{
+		std::cout << "Energy was decharged down to " << ((energy_property.get() / maxEnergy_property.get()) * 100.0f) << "% of full capacity!" << std::endl;
 	}
 }

@@ -39,25 +39,22 @@ Health::Health(Entity &owner, const T_String &name)
 
     health_property.valueChanged().connect(this, &Health::onHealthChanged);
 	alive_property.valueChanged().connect(this, &Health::onAliveChanged);
+
+	owner.registerToEvent2<F32, T_String>("DMG").connect(this, &Health::onDmgEvent);
 }
 
 Health::~Health()
 {
 }
 
-void Health::onEvent(const T_Event &event)
+void Health::onDmgEvent(const F32 &dmg, const T_String &attackerName)
 {
-	if(event.type == "DMG")
-	{
-		F32 dmg = event.arg0.f;
-		T_String attackerName = event.arg1.str;
-		std::cout << attackerName.c_str() << " inflicted " << dmg << " damage to " << name_property.get().c_str() << std::endl;
+	std::cout << attackerName.c_str() << " inflicted " << dmg << " damage to " << name_property.get().c_str() << std::endl;
 
-		health_property -= dmg;
-		if(0 < health_property)
-		{
-			std::cout << name_property.get().c_str() << "'s remaining health is " << health_property.get() << " hp!" << std::endl;
-		}
+	health_property -= dmg;
+	if(0 < health_property)
+	{
+		std::cout << name_property.get().c_str() << "'s remaining health is " << health_property.get() << " hp!" << std::endl;
 	}
 }
 

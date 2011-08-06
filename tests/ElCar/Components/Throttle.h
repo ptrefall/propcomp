@@ -34,8 +34,6 @@ namespace Components
 	public:
 		Throttle(Entity &owner, const T_String &name);
 		virtual ~Throttle();
-
-		virtual void onEvent(const T_Event &event);
 		
 		static T_String getType() { return "Throttle"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new Throttle(owner, name); }
@@ -46,5 +44,7 @@ namespace Components
 		Property<F32> engineForce_property;
 		Property<F32> mass_property;
 		Property<F32> engineEffect_property;
+
+		void onThrottleEvent();
 	};
 }

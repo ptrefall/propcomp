@@ -85,9 +85,3 @@ void Entity::updateComponents(F32 deltaTime)
 	for(unsigned int i = 0; i < components.size(); i++)
 		components[i]->update(deltaTime);
 }
-
-void Entity::onEvent(const T_Event &event)
-{
-	for(unsigned int i = 0; i < components.size(); i++)
-		components[i]->onEvent(event);
-}

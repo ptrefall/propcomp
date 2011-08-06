@@ -183,7 +183,7 @@ public:
 	 */
 	T_Map<T_String, IProperty*>::Type &getProperties() { return properties; }
 
-	//-----------------------------------------------
+	//--------------------------------------------------------------
 
 	/**
 	 * Check whether the specified property list name exist in this entity.
@@ -261,7 +261,7 @@ public:
 	 */
 	T_Map<T_String, IPropertyList*>::Type &getPropertyLists() { return propertyLists; }
 	
-	//-----------------------------------------------
+	//--------------------------------------------------------------
 
 	/**
 	 * Call update function on all the components owned by this entity.
@@ -284,12 +284,55 @@ public:
 	 */
 	void updatePropertyLists(F32 deltaTime);
 
+	//--------------------------------------------------------------
+
 	/**
-	 * Forwards the event to all components owned by this entity.
+	 * Calls all slots registered to the argument-less event signal of type.
 	 *
-	 * @param event  An event instance, the implementation is specified by types_config.h.
+	 * @param type The type name of the event.
 	 */
-	void onEvent(const T_Event &event);
+	void onEvent0(const T_String &type);
+
+	/**
+	 * Calls all slots registered to the event signal of type holding one argument.
+	 *
+	 * @param type The type name of the event.
+	 * @param arg0 First argument of type T.
+	 */
+	template<class T> void onEvent1(const T_String &type, const T &arg0);
+
+	/**
+	 * Calls all slots registered to the event signal of type holding two arguments.
+	 *
+	 * @param type The type name of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
+	 */
+	template<class T, class U> void onEvent2(const T_String &type, const T &arg0, const U &arg1);
+
+	/**
+	 * Register a slot to the event signal of type holding two arguments.
+	 *
+	 * @param type The type name of the event.
+	 * @return A signal that requires no arguments in the slot.
+	 */
+	T_Signal_v0<>::Type &registerToEvent0(const T_String &type);
+
+	/**
+	 * Register a slot to the event signal of type holding two arguments.
+	 *
+	 * @param type The type name of the event.
+	 * @return A signal that requires one arguments in the slot.
+	 */
+	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_String &type);
+
+	/**
+	 * Register a slot to the event signal of type holding two arguments.
+	 *
+	 * @param type The type name of the event.
+	 * @return A signal that requires two arguments in the slot.
+	 */
+	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_String &type);
 
 protected:
 	/// The list of all components owned by this entity.
@@ -302,6 +345,48 @@ protected:
 	T_Map<T_String, IPropertyList*>::Type propertyLists;
 	/// The list of all property lists pending deletion in this entity.
 	T_Vector<IPropertyList*>::Type deletedPropertyLists;
+
+	//--------------------------------------------------------------
+
+	/**
+	 * In order to support multiple different types registered into the event maps
+	 * we need to store them as interfaces, else we can only store one specific type
+	 * into the map (must specify value of template classes).
+	 */
+	class IEventSignal
+	{
+	public:
+		/// Constructor.
+		IEventSignal() {}
+		/// Destructor.
+		virtual ~IEventSignal() {}
+	};
+	/// Event holding an argument-less signal.
+	class EventSignal0 : public IEventSignal
+	{
+	public:
+		T_Signal_v0<>::Type signal;
+	};
+	/// Event holding a signal that requires a single signal.
+	template<class T> class EventSignal1 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v1<const T&>::Type signal;
+	};
+	/// Event holding a signal that requires two signals.
+	template<class T, class U> class EventSignal2 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v2<const T&, const U&>::Type signal;
+	};
+	/// Map of argument-less event signals held by entity.
+	T_Map<T_String, IEventSignal*>::Type events0;
+	/// Map of event signals with one argument held by entity.
+	T_Map<T_String, IEventSignal*>::Type events1;
+	/// Map of event signals with two arguments held by entity.
+	T_Map<T_String, IEventSignal*>::Type events2;
+
+	//--------------------------------------------------------------
 
 	/// Reference to the component factory responsible for instancing components for this entity.
 	ComponentFactory& componentFactory;
@@ -534,4 +619,117 @@ inline void Entity::clearDeletedPropertyLists()
 	for(unsigned int i = 0; i < deletedPropertyLists.size(); i++)
 		delete deletedPropertyLists[i];
 	deletedPropertyLists.clear();
+}
+
+//----------------------------------------------
+
+inline void Entity::onEvent0(const T_String &type)
+{
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events0.find(type);
+	if(it == events0.end())
+		throw T_Exception(("Couldn't find event type " + type + " in events0 registry!").c_str());
+
+	static_cast<EventSignal0*>(it->second)->signal.emit();
+}
+
+template<class T>
+inline void Entity::onEvent1(const T_String &type, const T &arg0)
+{
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events1.find(type);
+	if(it == events1.end())
+		throw T_Exception(("Couldn't find event type " + type + " in events1 registry!").c_str());
+
+#ifdef _DEBUG
+	EventSignal1<T> *signal = dynamic_cast<EventSignal1<T>*>(it->second);
+	if(signal == NULL_PTR)
+		throw T_Exception(("Tried to emit event " + type + ", but the argument type didn't match the registered type!").c_str());
+	signal->signal.emit(arg0);
+#else
+	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0);
+#endif
+}
+
+template<class T, class U>
+inline void Entity::onEvent2(const T_String &type, const T &arg0, const U &arg1)
+{
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events2.find(type);
+	if(it == events2.end())
+		throw T_Exception(("Couldn't find event type " + type + " in events2 registry!").c_str());
+
+#ifdef _DEBUG
+	EventSignal2<T,U> *signal = dynamic_cast<EventSignal2<T,U>*>(it->second);
+	if(signal == NULL_PTR)
+		throw T_Exception(("Tried to emit event " + type + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.emit(arg0, arg1);
+#else
+	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0, arg1);
+#endif
+}
+
+inline T_Signal_v0<>::Type &Entity::registerToEvent0(const T_String &type)
+{
+	EventSignal0 *signal = NULL_PTR;
+
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events0.find(type);
+	if(it == events0.end())
+	{
+		signal = new EventSignal0();
+		events0[type.c_str()] = signal;
+	}
+	else
+	{
+		signal = static_cast<EventSignal0*>(it->second);
+	}
+
+	return signal->signal;
+}
+
+template<class T>
+inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const T_String &type)
+{
+	EventSignal1<T> *signal = NULL_PTR;
+
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events1.find(type);
+	if(it == events1.end())
+	{
+		signal = new EventSignal1<T>();
+		events1[type.c_str()] = signal;
+	}
+	else
+	{
+#ifdef _DEBUG
+		signal = dynamic_cast<EventSignal1<T>*>(it->second);
+		if(signal == NULL_PTR)
+			throw T_Exception(("Tried to return the event signal " + type + ", but the argument type didn't match the registered type!").c_str());
+#else
+		signal = static_cast<EventSignal0*>(it->second);
+#endif
+	}
+
+	return signal->signal;
+}
+
+template<class T, class U>
+inline typename T_Signal_v2<const T&, const U&>::Type &Entity::registerToEvent2(const T_String &type)
+{
+	EventSignal2<T,U> *signal = NULL_PTR;
+
+	T_Map<T_String, IEventSignal*>::Type::iterator it = events2.find(type);
+	if(it == events2.end())
+	{
+		signal = new EventSignal2<T,U>();
+		events2[type.c_str()] = signal;
+	}
+	else
+	{
+#ifdef _DEBUG
+		signal = dynamic_cast<EventSignal2<T,U>*>(it->second);
+		if(signal == NULL_PTR)
+			throw T_Exception(("Tried toreturn the event signal " + type + ", but one or both of the argument types didn't match the registered types!").c_str());
+#else
+		signal = static_cast<EventSignal0*>(it->second);
+#endif
+	}
+
+	return signal->signal;
 }

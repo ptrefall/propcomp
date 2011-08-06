@@ -36,7 +36,6 @@ namespace Components
 		virtual ~WheelMount();
 		
 		virtual void update(F32 deltaTime);
-		virtual void onEvent(const T_Event &event);
 
 		static T_String getType() { return "WheelMount"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new WheelMount(owner, name); }
@@ -45,5 +44,7 @@ namespace Components
 		PropertyList<Entity*> wheels_property_list;
 		Property<U32> activeWheelCount_property;
 		Property<F32> velocity_property;
+
+		void onAccelerateWheelsEvent(const F32 &force);
 	};
 }

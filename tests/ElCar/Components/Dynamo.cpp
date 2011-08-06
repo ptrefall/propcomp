@@ -47,9 +47,13 @@ void Dynamo::update(F32 deltaTime)
 	if(car_property.get() == NULL_PTR)
 		return;
 
-	F32 factor = generationFactor_property.get() * dynamoEfficiency_property.get();
+	if(owner.hasProperty("Name"))
+		std::cout << "Dynamo of " << owner.getProperty<T_String>("Name").get().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
+	else
+		std::cout << "Dynamo of " << owner.getType().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
 
-	T_Event event("ADD_EFFECT");
-	event.arg0.f = angularVelocity_property.get() * factor;
-	car_property.get()->onEvent(event);
+	F32 factor = generationFactor_property.get() * dynamoEfficiency_property.get();
+	F32 effect = angularVelocity_property.get() * factor;
+
+	car_property.get()->onEvent1<F32>("ADD_EFFECT", effect);
 }

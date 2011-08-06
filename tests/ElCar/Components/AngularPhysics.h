@@ -35,7 +35,6 @@ namespace Components
 		virtual ~AngularPhysics();
 
 		virtual void update(F32 deltaTime);
-		virtual void onEvent(const T_Event &event);
 		
 		static T_String getType() { return "AngularPhysics"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new AngularPhysics(owner, name); }
@@ -46,5 +45,8 @@ namespace Components
 		Property<F32> dimension_property;
 		Property<F32> friction_property;
 		PropertyList<F32> forces_property_list;
+
+		void onForceAngularAccelerationEvent(const F32 &force);
+		void onSyncVelocityEvent(const F32 &velocity);
 	};
 }

@@ -35,6 +35,8 @@ WheelMount::WheelMount(Entity &owner, const T_String &name)
     wheels_property_list = owner.addPropertyList<Entity*>("Wheels");
 	activeWheelCount_property = owner.addProperty<U32>("ActiveWheelCount", 2); //Two wheels can accelerate by throttling by default
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
+
+	owner.registerToEvent1<F32>("ACCELERATE_WHEELS").connect(this, &WheelMount::onAccelerateWheelsEvent);
 }
 
 WheelMount::~WheelMount()
@@ -52,18 +54,18 @@ void WheelMount::update(F32 deltaTime)
 	avgVelocity /= wheels_property_list.size();
 	velocity_property = avgVelocity;
 	std::cout << owner.getType().c_str() << " velocity changed to " << avgVelocity << std::endl;
+
+	//Now force all wheels to turn at same speed as the car
+	for(U32 i = 0; i < wheels_property_list.size(); i++)
+	{
+		for(U32 i = 0; i < wheels_property_list.size(); i++)
+			wheels_property_list.get()[i]->onEvent1<F32>("SYNC_VELOCITY", avgVelocity);
+	}
 }
 
-void WheelMount::onEvent(const T_Event &event)
+void WheelMount::onAccelerateWheelsEvent(const F32 &force)
 {
-	if(event.type == "ACCELERATE_WHEELS")
-	{
-		F32 force = event.arg0.f;
-
-		//Force wheels to spin
-		T_Event eventAccelerate("FORCE_ANGULAR_ACCELERATION");
-		eventAccelerate.arg0.f = force;
-		for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
-			wheels_property_list.get()[i]->onEvent(eventAccelerate);
-	}
+	//Force wheels to spin
+	for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
+		wheels_property_list.get()[i]->onEvent1<F32>("FORCE_ANGULAR_ACCELERATION", force);
 }
