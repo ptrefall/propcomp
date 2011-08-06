@@ -34,37 +34,34 @@ RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name)
 {
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
+
+	owner.registerToEvent1<F32>("SEEK_IN_RADIUS").connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
 }
 
 RadiusTargetSeeker::~RadiusTargetSeeker()
 {
 }
 
-void RadiusTargetSeeker::onEvent(const T_Event &event)
+void RadiusTargetSeeker::onSeekInRadiusEvent(const F32 &radius)
 {
-	if(event.type == "SEEK_IN_RADIUS")
+	//Perform some algorithm
+	EntityManager &mgr = EntityManager::Instance();
+	for(U32 i = 0; i < mgr.getEntities().size(); i++)
 	{
-		F32 radius = event.arg0.f;
+		if(&owner == mgr.getEntities()[i])
+			continue;
 
-		//Perform some algorithm
-		EntityManager &mgr = EntityManager::Instance();
-		for(U32 i = 0; i < mgr.getEntities().size(); i++)
-		{
-			if(&owner == mgr.getEntities()[i])
-				continue;
+		Entity &entity = *mgr.getEntities()[i];
 
-			Entity &entity = *mgr.getEntities()[i];
+		//Must have a position in order to be affected
+		if(entity.hasProperty("Position") == false)
+			continue;
 
-			//Must have a position in order to be affected
-			if(entity.hasProperty("Position") == false)
-				continue;
+		const T_Vec3f &targetPos = entity.getProperty<T_Vec3f>("Position").get();
+		F32 distance = position_property.get().distance(targetPos);
+		if(distance > radius)
+			continue;
 
-			const T_Vec3f &targetPos = entity.getProperty<T_Vec3f>("Position").get();
-			F32 distance = position_property.get().distance(targetPos);
-			if(distance > radius)
-				continue;
-
-			target_property_list.add(&entity);
-		}
+		target_property_list.add(&entity);
 	}
 }

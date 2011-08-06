@@ -33,33 +33,31 @@ EnergyCharger::EnergyCharger(Entity &owner, const T_String &name)
 {
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
+
+	owner.registerToEvent1<F32>("ADD_EFFECT").connect(this, &EnergyCharger::onAddEffectEvent);
 }
 
 EnergyCharger::~EnergyCharger()
 {
 }
 
-void EnergyCharger::onEvent(const T_Event &event)
+void EnergyCharger::onAddEffectEvent(const F32 &effect)
 {
-	if(event.type == "ADD_EFFECT")
+	if(energy_property.get() == maxEnergy_property.get())
 	{
-		if(energy_property.get() == maxEnergy_property.get())
-		{
-			std::cout << "Energy is already at full capacity!" << std::endl;
-			return;
-		}
+		std::cout << "Energy is already at full capacity!" << std::endl;
+		return;
+	}
 
-		F32 effect = event.arg0.f;
-		energy_property += effect;
+	energy_property += effect;
 
-		if(energy_property.get() >= maxEnergy_property.get())
-		{
-			std::cout << "Energy has been charged to full capacity!" << std::endl;
-			energy_property = maxEnergy_property.get();
-		}
-		else
-		{
-			std::cout << "Energy was charged up to " << ((energy_property.get() / maxEnergy_property.get()) * 100.0f) << "% of full capacity!" << std::endl;
-		}
+	if(energy_property.get() >= maxEnergy_property.get())
+	{
+		std::cout << "Energy has been charged to full capacity!" << std::endl;
+		energy_property = maxEnergy_property.get();
+	}
+	else
+	{
+		std::cout << "Energy was charged up to " << ((energy_property.get() / maxEnergy_property.get()) * 100.0f) << "% of full capacity!" << std::endl;
 	}
 }

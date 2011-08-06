@@ -35,13 +35,13 @@ namespace Components
 		RadiusTargetSeeker(Entity &owner, const T_String &name);
 		virtual ~RadiusTargetSeeker();
 		
-		virtual void onEvent(const T_Event &event);
-		
 		static T_String getType() { return "RadiusTargetSeeker"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new RadiusTargetSeeker(owner, name); }
 
 	protected:
 		PropertyList<Entity*> target_property_list;
 		Property<T_Vec3f> position_property;
+
+		void onSeekInRadiusEvent(const F32 &radius);
 	};
 }

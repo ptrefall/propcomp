@@ -59,15 +59,14 @@ void main()
 
 	printReady();
 
-	T_Event event_throttle("THROTTLE");
-
 	U32 num_iterations = 5;
 	U32 curr_iteration = 0;
 	while(curr_iteration < num_iterations)
 	{
 		F32 deltaTime = 0.016f;
-		car.onEvent(event_throttle);
+		car.onEvent0("THROTTLE");
 		EntityManager::Instance().update(deltaTime);
+		std::cout << std::endl;
 		wait(16);
 		curr_iteration++;
 	}
@@ -114,20 +113,20 @@ void initFactory(ComponentFactory &factory)
 void defineCar(Entity &car, ComponentFactory &factory)
 {
 	std::cout << "Define car entity..." << std::endl;
-	std::cout << "- add EnergyCharger component" << std::endl;
-	std::cout << "- add EnergyDecharger component" << std::endl;
-	std::cout << "- add LinearPhysics component" << std::endl;
 	std::cout << "- add Throttle component" << std::endl;
-	std::cout << "- add Transformable component" << std::endl;
 	std::cout << "- add WheelMount component" << std::endl;
+	std::cout << "- add EnergyDecharger component" << std::endl;
+	std::cout << "- add EnergyCharger component" << std::endl;
+	std::cout << "- add LinearPhysics component" << std::endl;
+	std::cout << "- add Transformable component" << std::endl;
 	std::cout << "- set EngineEffect to 0.5" << std::endl;
 
-	car.addComponent("EnergyCharger");
-	car.addComponent("EnergyDecharger");
-	car.addComponent("LinearPhysics");
 	car.addComponent("Throttle");
-	car.addComponent("Transformable");
 	car.addComponent("WheelMount");
+	car.addComponent("EnergyDecharger");
+	car.addComponent("EnergyCharger");
+	car.addComponent("LinearPhysics");
+	car.addComponent("Transformable");
 
 	car.getProperty<F32>("EngineEffect") = 0.5f; //Spend this much energy to move car every time we throttle
 

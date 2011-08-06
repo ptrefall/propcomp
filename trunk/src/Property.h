@@ -319,6 +319,8 @@ public:
 
 	U32 size() const { return (U32)data->value.size(); }
 
+	bool empty() const { return data->value.empty(); }
+
 	const typename T_Vector<T>::Type &get() const { return data->value; }
 
 	IPropertyList *getInterface() { return static_cast<IPropertyList*>(this); }

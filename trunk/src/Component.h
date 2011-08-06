@@ -73,15 +73,6 @@ public:
 	 */
     virtual void update(F32 deltaTime) {};
 
-	/**
-	 * Optional virtual function that can be overloaded by
-	 * component implementations. OnEvent is a way for components
-	 * to react to some specific event in the world.
-	 *
-	 * @param event The object that describes the event.
-	 */
-	virtual void onEvent(const T_Event &event) {};
-
 protected:
 	/**
 	 * Protected Constructor

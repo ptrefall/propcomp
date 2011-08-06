@@ -60,36 +60,6 @@ struct T_Pair {
 	typedef std::pair<K,V> Type;
 };
 
-//Event handling
-struct sEvent
-{
-	T_String type;
-
-	union {
-		const char *str;
-		F32 f;
-		S32 i;
-		U32 u;
-	} arg0;
-
-	union {
-		const char *str;
-		F32 f;
-		S32 i;
-		U32 u;
-	} arg1;
-
-	union {
-		const char *str;
-		F32 f;
-		S32 i;
-		U32 u;
-	} arg2;
-
-	sEvent(const T_String &type) : type(type) {}
-};
-typedef sEvent T_Event;
-
 //Exception handling
 typedef std::exception T_Exception;
 
@@ -98,19 +68,46 @@ class NoTemplate {};
 template<class T = NoTemplate>
 struct T_Signal_v0 {
 	typedef sigslot::signal0<> Type;
-	void invoke() { T_Signal_v0::Type::emit(); }
 };
 
 template< typename T >
 struct T_Signal_v1 {
 	typedef sigslot::signal1<T> Type;
-	void invoke(T a1) { T_Signal_v1::Type::emit(a1); }
 };
 
 template<typename T,typename U>
 struct T_Signal_v2 {
    typedef sigslot::signal2<T,U> Type;
-   void invoke(T a1, U a2) { T_Signal_v2::Type::emit(a1, a2); }
+};
+
+template<typename T,typename U, typename V>
+struct T_Signal_v3 {
+   typedef sigslot::signal3<T,U,V> Type;
+};
+
+template<typename T,typename U, typename V, typename W>
+struct T_Signal_v4 {
+   typedef sigslot::signal4<T,U,V,W> Type;
+};
+
+template<typename T,typename U, typename V, typename W, typename X>
+struct T_Signal_v5 {
+   typedef sigslot::signal5<T,U,V,W,X> Type;
+};
+
+template<typename T,typename U, typename V, typename W, typename X, typename Y>
+struct T_Signal_v6 {
+   typedef sigslot::signal6<T,U,V,W,X,Y> Type;
+};
+
+template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z>
+struct T_Signal_v7 {
+   typedef sigslot::signal7<T,U,V,W,X,Y,Z> Type;
+};
+
+template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z, typename S>
+struct T_Signal_v8 {
+   typedef sigslot::signal8<T,U,V,W,X,Y,Z,S> Type;
 };
 
 template < typename T >

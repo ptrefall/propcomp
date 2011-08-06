@@ -34,8 +34,6 @@ namespace Components
 		EnergyDecharger(Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 		
-		virtual void onEvent(const T_Event &event);
-		
 		static T_String getType() { return "EnergyDecharger"; }
 		static Component* Create(Entity &owner, const T_String &name) { return new EnergyDecharger(owner, name); }
 
@@ -43,5 +41,7 @@ namespace Components
 		Property<F32> energy_property;
 		Property<F32> minEnergy_property;
 		Property<F32> maxEnergy_property;
+
+		void onSpendEffectEvent(const F32 &effect);
 	};
 }

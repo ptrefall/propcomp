@@ -37,6 +37,9 @@ AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
 	dimension_property = owner.addProperty<F32>("Dimension", 0.5f);
 	friction_property = owner.addProperty<F32>("Friction", 0.01f);
 	forces_property_list = owner.addPropertyList<F32>("AngularForces");
+
+	owner.registerToEvent1<F32>("FORCE_ANGULAR_ACCELERATION").connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
+	owner.registerToEvent1<F32>("SYNC_VELOCITY").connect(this, &AngularPhysics::onSyncVelocityEvent);
 }
 
 AngularPhysics::~AngularPhysics()
@@ -46,6 +49,9 @@ AngularPhysics::~AngularPhysics()
 void AngularPhysics::update(F32 deltaTime)
 {
 	if(car_property.get() == NULL_PTR ||  car_property.get()->hasProperty("Mass") == false)
+		return;
+
+	if(forces_property_list.empty())
 		return;
 
 	F32 sumForces = 0.0f;
@@ -60,12 +66,13 @@ void AngularPhysics::update(F32 deltaTime)
 	angularVelocity_property = angularVelocity_property.get() + acceleration * deltaTime;
 }
 
-void AngularPhysics::onEvent(const T_Event &event)
+void AngularPhysics::onForceAngularAccelerationEvent(const F32 &force)
 {
-	//If some force has forced the entity to spin
-	if(event.type == "FORCE_ANGULAR_ACCELERATION")
-	{
-		// We just sum up the forces acting on this entity this frame
-		forces_property_list.add(event.arg0.f);
-	}
+	// We just sum up the forces acting on this entity this frame
+	forces_property_list.add(force);
+}
+
+void AngularPhysics::onSyncVelocityEvent(const F32 &velocity)
+{
+	angularVelocity_property = velocity;
 }

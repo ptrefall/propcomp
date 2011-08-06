@@ -45,36 +45,35 @@ public:
 		hello_property = owner.addProperty<T_String>("HelloWords", "Hello!");
 		bye_property = owner.addProperty<T_String>("ByeWords", "Bye!");
 		target_property = owner.addProperty<Entity*>("Target", NULL_PTR);
+
+		owner.registerToEvent1<T_String>("SPEAK").connect(this, &Voice::onSpeakEvent);
+
 	}
 	virtual ~Voice() {}
-	
-	virtual void onEvent(const T_Event &event)
+
+	void onSpeakEvent(const T_String &what)
 	{
-		if(event.type == "SPEAK")
+		const T_String &owner_name = owner.getProperty<T_String>("Name").get();
+
+		if(target_property.get() == NULL_PTR)
 		{
-			const T_String &what = event.arg0.str;
-			const T_String &owner_name = owner.getProperty<T_String>("Name").get();
+			if(what == "HELLO")
+				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				<< hello_property.get().c_str() << std::endl;
+			else if(what == "BYE")
+				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				<< bye_property.get().c_str() << std::endl;
+		}
+		else
+		{
+			const T_String &target_name = target_property.get()->getProperty<T_String>("Name").get();
 
-			if(target_property.get() == NULL_PTR)
-			{
-				if(what == "HELLO")
-					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< hello_property.get().c_str() << std::endl;
-				else if(what == "BYE")
-					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< bye_property.get().c_str() << std::endl;
-			}
-			else
-			{
-				const T_String &target_name = target_property.get()->getProperty<T_String>("Name").get();
-
-				if(what == "HELLO")
-					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< hello_property.get().c_str() << " to " << target_name.c_str() << std::endl;
-				else if(what == "BYE")
-					std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
-					<< bye_property.get().c_str() << " to " << target_name.c_str() << std::endl;
-			}
+			if(what == "HELLO")
+				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				<< hello_property.get().c_str() << " to " << target_name.c_str() << std::endl;
+			else if(what == "BYE")
+				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				<< bye_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 		}
 	}
 	
@@ -132,18 +131,14 @@ void main()
 	dog.getProperty<Entity*>("Target") = &man;
 	man.getProperty<Entity*>("Target") = &dog;
 
-	T_Event event("SPEAK");
+	man.onEvent1<T_String>("SPEAK", "HELLO");
+	wait(1000);
+	dog.onEvent1<T_String>("SPEAK", "HELLO");
+	wait(1000);
 
-	event.arg0.str = "HELLO";
-	man.onEvent(event);
+	man.onEvent1<T_String>("SPEAK", "BYE");
 	wait(1000);
-	dog.onEvent(event);
-	wait(1000);
-	
-	event.arg0.str = "BYE";
-	man.onEvent(event);
-	wait(1000);
-	dog.onEvent(event);
+	dog.onEvent1<T_String>("SPEAK", "BYE");
 	wait(1000);
 
 	system("pause");
@@ -179,7 +174,7 @@ void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)
 	dog.addComponent("Voice");
 	dog.addComponent("Targeter");
 
-	dog.getProperty<T_String>("Name") = name;
+	dog.addProperty<T_String>("Name", name);
 	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
 }
@@ -196,7 +191,7 @@ void defineMan(Entity &man, ComponentFactory &factory, const T_String &name)
 	man.addComponent("Voice");
 	man.addComponent("Targeter");
 
-	man.getProperty<T_String>("Name") = name;
+	man.addProperty<T_String>("Name", name);
 	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	man.getProperty<T_String>("ByeWords") = "Good bye"; //Seconds per tick
 }
