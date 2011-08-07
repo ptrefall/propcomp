@@ -50,6 +50,15 @@ public:
 
 	}
 	virtual ~Voice() {}
+	
+	static T_String getType() { return "Voice"; }
+	static Component* Create(Entity &owner, const T_String &name) { return new Voice(owner, name); }
+
+private:
+	Property<T_String> hello_property;
+	Property<T_String> bye_property;
+	Property<Entity*> target_property;
+	T_StringId speakEventId;
 
 	void onSpeakEvent(const T_String &what)
 	{
@@ -76,15 +85,6 @@ public:
 				<< bye_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 		}
 	}
-	
-	static T_String getType() { return "Voice"; }
-	static Component* Create(Entity &owner, const T_String &name) { return new Voice(owner, name); }
-
-protected:
-	Property<T_String> hello_property;
-	Property<T_String> bye_property;
-	Property<Entity*> target_property;
-	T_StringId speakEventId;
 };
 
 class Targeter : public Component
@@ -101,7 +101,7 @@ public:
 	static T_String getType() { return "Targeter"; }
 	static Component* Create(Entity &owner, const T_String &name) { return new Targeter(owner, name); }
 
-protected:
+private:
 	Property<Entity*> target_property;
 
 	void onTargetChanged(Entity * const &oldValue, Entity * const &newValue)

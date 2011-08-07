@@ -289,14 +289,14 @@ public:
 	/**
 	 * Calls all slots registered to the argument-less event signal of type.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 */
 	void onEvent0(const T_StringId &type);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 * @param arg0 First argument of type T.
 	 */
 	template<class T> void onEvent1(const T_StringId &type, const T &arg0);
@@ -304,7 +304,7 @@ public:
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
@@ -313,7 +313,7 @@ public:
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires no arguments in the slot.
 	 */
 	T_Signal_v0<>::Type &registerToEvent0(const T_StringId &type);
@@ -321,7 +321,7 @@ public:
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires one arguments in the slot.
 	 */
 	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_StringId &type);
@@ -329,7 +329,7 @@ public:
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
 	 *
-	 * @param type The type name of the event.
+	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires two arguments in the slot.
 	 */
 	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_StringId &type);
@@ -367,17 +367,53 @@ protected:
 	public:
 		T_Signal_v0<>::Type signal;
 	};
-	/// Event holding a signal that requires a single signal.
+	/// Event holding a signal that requires a single argument.
 	template<class T> class EventSignal1 : public IEventSignal
 	{
 	public:
 		typename T_Signal_v1<const T&>::Type signal;
 	};
-	/// Event holding a signal that requires two signals.
+	/// Event holding a signal that requires two arguments.
 	template<class T, class U> class EventSignal2 : public IEventSignal
 	{
 	public:
 		typename T_Signal_v2<const T&, const U&>::Type signal;
+	};
+	/// Event holding a signal that requires three arguments.
+	template<class T, class U, class V> class EventSignal3 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v3<const T&, const U&, const V&>::Type signal;
+	};
+	/// Event holding a signal that requires four arguments.
+	template<class T, class U, class V, class W> class EventSignal4 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type signal;
+	};
+	/// Event holding a signal that requires five arguments.
+	template<class T, class U, class V, class W, class X> class EventSignal5 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type signal;
+	};
+	/// Event holding a signal that requires six arguments.
+	template<class T, class U, class V, class W, class X, class Y> class EventSignal6 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type signal;
+	};
+	/// Event holding a signal that requires seven arguments.
+	template<class T, class U, class V, class W, class X, class Y, class Z> class EventSignal7 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type signal;
+	};
+	/// Event holding a signal that requires eight arguments.
+	template<class T, class U, class V, class W, class X, class Y, class Z, class S> class EventSignal8 : public IEventSignal
+	{
+	public:
+		typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type signal;
 	};
 	/// Map of argument-less event signals held by entity.
 	T_Map<T_StringIdType, IEventSignal*>::Type events0;
@@ -385,6 +421,18 @@ protected:
 	T_Map<T_StringIdType, IEventSignal*>::Type events1;
 	/// Map of event signals with two arguments held by entity.
 	T_Map<T_StringIdType, IEventSignal*>::Type events2;
+	/// Map of event signals with three arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events3;
+	/// Map of event signals with four arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events4;
+	/// Map of event signals with five arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events5;
+	/// Map of event signals with six arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events6;
+	/// Map of event signals with seven arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events7;
+	/// Map of event signals with eight arguments held by entity.
+	T_Map<T_StringIdType, IEventSignal*>::Type events8;
 
 	//--------------------------------------------------------------
 
@@ -665,6 +713,8 @@ inline void Entity::onEvent2(const T_StringId &type, const T &arg0, const U &arg
 	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0, arg1);
 #endif
 }
+
+//------------------------------------------------------------------
 
 inline T_Signal_v0<>::Type &Entity::registerToEvent0(const T_StringId &type)
 {

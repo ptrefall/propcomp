@@ -31,13 +31,13 @@ set(Component_SRCS
 SOURCE_GROUP("Source Files\\Components" FILES ${Component_SRCS})
 
 set(HDRS
-  ./EntityManager.h
-  ./Vector3.h
+  ../Common/EntityManager.h
+  ../Common/Vector3.h
 )
 
 set(SRCS
   ./main.cpp
-  ./EntityManager.cpp
+  ../Common/EntityManager.cpp
 )
  
 add_executable(TestElCar ${Component_HDRS} ${Component_SRCS} ${HDRS} ${SRCS})
