@@ -44,6 +44,6 @@ namespace Components
 
 		void onSpendEffectEvent(const F32 &effect);
 
-		StringId spendEffectEventId;
+		T_StringId spendEffectEventId;
 	};
 }

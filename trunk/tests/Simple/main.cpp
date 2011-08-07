@@ -84,7 +84,7 @@ protected:
 	Property<T_String> hello_property;
 	Property<T_String> bye_property;
 	Property<Entity*> target_property;
-	StringId speakEventId;
+	T_StringId speakEventId;
 };
 
 class Targeter : public Component
@@ -132,7 +132,7 @@ void main()
 	dog.getProperty<Entity*>("Target") = &man;
 	man.getProperty<Entity*>("Target") = &dog;
 
-	StringId speakEventId("SPEAK");
+	T_StringId speakEventId("SPEAK");
 
 	man.onEvent1<T_String>(speakEventId, "HELLO");
 	wait(1000);

@@ -44,6 +44,6 @@ namespace Components
 
 		void onSeekInRadiusEvent(const F32 &radius);
 
-		StringId seekInRadiusEventId;
+		T_StringId seekInRadiusEventId;
 	};
 }

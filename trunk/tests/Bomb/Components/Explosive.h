@@ -54,7 +54,7 @@ namespace Components
 		void onTargetAdded(Entity * const &newValue);
 
 		//Event Ids
-		StringId seekInRadiusEventId;
-		StringId dmgEventId;
+		T_StringId seekInRadiusEventId;
+		T_StringId dmgEventId;
 	};
 }

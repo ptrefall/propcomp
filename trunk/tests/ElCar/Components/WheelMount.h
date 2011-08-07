@@ -47,8 +47,8 @@ namespace Components
 
 		void onAccelerateWheelsEvent(const F32 &force);
 
-		StringId accelerateWheelsEventId;
-		StringId syncVelocityEventId;
-		StringId forceAngularAccelerationEventId;
+		T_StringId accelerateWheelsEventId;
+		T_StringId syncVelocityEventId;
+		T_StringId forceAngularAccelerationEventId;
 	};
 }
