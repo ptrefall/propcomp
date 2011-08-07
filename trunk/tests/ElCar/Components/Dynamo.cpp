@@ -30,7 +30,7 @@ requirements or restrictions.
 using namespace Components;
 
 Dynamo::Dynamo(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), addEffectEventId("ADD_EFFECT")
 {
     car_property = owner.addProperty<Entity*>("Car", NULL_PTR);
 	angularVelocity_property = owner.addProperty<F32>("AngularVelocity", 0.0f);
@@ -55,5 +55,5 @@ void Dynamo::update(F32 deltaTime)
 	F32 factor = generationFactor_property.get() * dynamoEfficiency_property.get();
 	F32 effect = angularVelocity_property.get() * factor;
 
-	car_property.get()->onEvent1<F32>("ADD_EFFECT", effect);
+	car_property.get()->onEvent1<F32>(addEffectEventId, effect);
 }

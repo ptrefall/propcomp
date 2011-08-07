@@ -28,6 +28,7 @@ requirements or restrictions.
 #include <unordered_map>
 #include <exception>
 #include <memory>
+#include <functional>
 #include "sigslot.h"
 
 //Sigslot.h requires that PropertyData and Component inherit from
@@ -114,3 +115,26 @@ template < typename T >
 struct T_SharedPtr {
 	typedef std::tr1::shared_ptr<T> Type;
 };
+
+#if USE_EVENT_STRING_ID_HASHING
+
+typedef unsigned int T_StringIdType;
+
+class StringId
+{
+public:
+	StringId(const T_String &str)
+	{
+		this->str = str;
+		this->hashId = (T_StringIdType)std::hash_value(str.c_str());
+	}
+
+	const T_StringIdType &getId() const { return hashId; }
+	const T_String &getStr() const { return str; }
+
+private:
+	T_StringIdType hashId;
+	T_String str;
+};
+
+#endif //USE_EVENT_STRING_ID_HASHING

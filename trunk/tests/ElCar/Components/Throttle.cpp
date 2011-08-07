@@ -28,7 +28,7 @@ requirements or restrictions.
 using namespace Components;
 
 Throttle::Throttle(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), throttleEventId("THROTTLE"), spendEffectEventId("SPEND_EFFECT"), accelerateWheelsEventId("ACCELERATE_WHEELS")
 {
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
 	maxVelocity_property = owner.addProperty<F32>("MaxVelocity", 100.0f);
@@ -36,7 +36,7 @@ Throttle::Throttle(Entity &owner, const T_String &name)
 	engineEffect_property = owner.addProperty<F32>("EngineEffect", 1.0f);
 	mass_property = owner.addProperty<F32>("Mass", 1.0f);
 
-	owner.registerToEvent0("THROTTLE").connect(this, &Throttle::onThrottleEvent);
+	owner.registerToEvent0(throttleEventId).connect(this, &Throttle::onThrottleEvent);
 }
 
 Throttle::~Throttle()
@@ -50,8 +50,8 @@ void Throttle::onThrottleEvent()
 	engineForce_property = engineEffect_property.get();
 
 	//We spend some energy forcing the wheels to turn
-	owner.onEvent1<F32>("SPEND_EFFECT", engineEffect_property.get());
+	owner.onEvent1<F32>(spendEffectEventId, engineEffect_property.get());
 		
 	//Throttling forces wheels to rotate by an acceleration
-	owner.onEvent1<F32>("ACCELERATE_WHEELS", engineForce_property.get());
+	owner.onEvent1<F32>(accelerateWheelsEventId, engineForce_property.get());
 }

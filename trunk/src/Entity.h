@@ -291,7 +291,7 @@ public:
 	 *
 	 * @param type The type name of the event.
 	 */
-	void onEvent0(const T_String &type);
+	void onEvent0(const StringId &type);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
@@ -299,7 +299,7 @@ public:
 	 * @param type The type name of the event.
 	 * @param arg0 First argument of type T.
 	 */
-	template<class T> void onEvent1(const T_String &type, const T &arg0);
+	template<class T> void onEvent1(const StringId &type, const T &arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -308,7 +308,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
-	template<class T, class U> void onEvent2(const T_String &type, const T &arg0, const U &arg1);
+	template<class T, class U> void onEvent2(const StringId &type, const T &arg0, const U &arg1);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -316,7 +316,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires no arguments in the slot.
 	 */
-	T_Signal_v0<>::Type &registerToEvent0(const T_String &type);
+	T_Signal_v0<>::Type &registerToEvent0(const StringId &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -324,7 +324,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires one arguments in the slot.
 	 */
-	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_String &type);
+	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const StringId &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -332,7 +332,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires two arguments in the slot.
 	 */
-	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_String &type);
+	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const StringId &type);
 
 protected:
 	/// The list of all components owned by this entity.
@@ -380,11 +380,11 @@ protected:
 		typename T_Signal_v2<const T&, const U&>::Type signal;
 	};
 	/// Map of argument-less event signals held by entity.
-	T_Map<T_String, IEventSignal*>::Type events0;
+	T_Map<T_StringIdType, IEventSignal*>::Type events0;
 	/// Map of event signals with one argument held by entity.
-	T_Map<T_String, IEventSignal*>::Type events1;
+	T_Map<T_StringIdType, IEventSignal*>::Type events1;
 	/// Map of event signals with two arguments held by entity.
-	T_Map<T_String, IEventSignal*>::Type events2;
+	T_Map<T_StringIdType, IEventSignal*>::Type events2;
 
 	//--------------------------------------------------------------
 
@@ -623,26 +623,26 @@ inline void Entity::clearDeletedPropertyLists()
 
 //----------------------------------------------
 
-inline void Entity::onEvent0(const T_String &type)
+inline void Entity::onEvent0(const StringId &type)
 {
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events0.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
-		throw T_Exception(("Couldn't find event type " + type + " in events0 registry!").c_str());
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
 
 	static_cast<EventSignal0*>(it->second)->signal.emit();
 }
 
 template<class T>
-inline void Entity::onEvent1(const T_String &type, const T &arg0)
+inline void Entity::onEvent1(const StringId &type, const T &arg0)
 {
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events1.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
-		throw T_Exception(("Couldn't find event type " + type + " in events1 registry!").c_str());
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
 
 #ifdef _DEBUG
 	EventSignal1<T> *signal = dynamic_cast<EventSignal1<T>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type + ", but the argument type didn't match the registered type!").c_str());
+		throw T_Exception(("Tried to emit event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 	signal->signal.emit(arg0);
 #else
 	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0);
@@ -650,31 +650,31 @@ inline void Entity::onEvent1(const T_String &type, const T &arg0)
 }
 
 template<class T, class U>
-inline void Entity::onEvent2(const T_String &type, const T &arg0, const U &arg1)
+inline void Entity::onEvent2(const StringId &type, const T &arg0, const U &arg1)
 {
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events2.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
-		throw T_Exception(("Couldn't find event type " + type + " in events2 registry!").c_str());
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
 
 #ifdef _DEBUG
 	EventSignal2<T,U> *signal = dynamic_cast<EventSignal2<T,U>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type + ", but one or both of the argument types didn't match the registered types!").c_str());
+		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.emit(arg0, arg1);
 #else
 	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0, arg1);
 #endif
 }
 
-inline T_Signal_v0<>::Type &Entity::registerToEvent0(const T_String &type)
+inline T_Signal_v0<>::Type &Entity::registerToEvent0(const StringId &type)
 {
 	EventSignal0 *signal = NULL_PTR;
 
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events0.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
 	{
 		signal = new EventSignal0();
-		events0[type.c_str()] = signal;
+		events0[type.getId()] = signal;
 	}
 	else
 	{
@@ -685,22 +685,22 @@ inline T_Signal_v0<>::Type &Entity::registerToEvent0(const T_String &type)
 }
 
 template<class T>
-inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const T_String &type)
+inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const StringId &type)
 {
 	EventSignal1<T> *signal = NULL_PTR;
 
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events1.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
 	{
 		signal = new EventSignal1<T>();
-		events1[type.c_str()] = signal;
+		events1[type.getId()] = signal;
 	}
 	else
 	{
 #ifdef _DEBUG
 		signal = dynamic_cast<EventSignal1<T>*>(it->second);
 		if(signal == NULL_PTR)
-			throw T_Exception(("Tried to return the event signal " + type + ", but the argument type didn't match the registered type!").c_str());
+			throw T_Exception(("Tried to return the event signal " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 #else
 		signal = static_cast<EventSignal0*>(it->second);
 #endif
@@ -710,22 +710,22 @@ inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const T_St
 }
 
 template<class T, class U>
-inline typename T_Signal_v2<const T&, const U&>::Type &Entity::registerToEvent2(const T_String &type)
+inline typename T_Signal_v2<const T&, const U&>::Type &Entity::registerToEvent2(const StringId &type)
 {
 	EventSignal2<T,U> *signal = NULL_PTR;
 
-	T_Map<T_String, IEventSignal*>::Type::iterator it = events2.find(type);
+	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
 	{
 		signal = new EventSignal2<T,U>();
-		events2[type.c_str()] = signal;
+		events2[type.getId()] = signal;
 	}
 	else
 	{
 #ifdef _DEBUG
 		signal = dynamic_cast<EventSignal2<T,U>*>(it->second);
 		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type + ", but one or both of the argument types didn't match the registered types!").c_str());
+			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = static_cast<EventSignal0*>(it->second);
 #endif

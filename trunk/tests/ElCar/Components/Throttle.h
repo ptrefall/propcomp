@@ -46,5 +46,9 @@ namespace Components
 		Property<F32> engineEffect_property;
 
 		void onThrottleEvent();
+
+		StringId throttleEventId;
+		StringId spendEffectEventId;
+		StringId accelerateWheelsEventId;
 	};
 }

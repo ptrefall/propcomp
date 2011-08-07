@@ -47,5 +47,7 @@ namespace Components
 		void onAliveChanged(const bool &oldValue, const bool &newValue);
 
 		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
+
+		StringId dmgEventId;
 	};
 }

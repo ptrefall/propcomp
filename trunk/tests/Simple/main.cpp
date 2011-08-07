@@ -40,13 +40,13 @@ class Voice : public Component
 {
 public:
 	Voice(Entity &owner, const T_String &name)
-	: Component(owner, name)
+	: Component(owner, name), speakEventId("SPEAK")
 	{
 		hello_property = owner.addProperty<T_String>("HelloWords", "Hello!");
 		bye_property = owner.addProperty<T_String>("ByeWords", "Bye!");
 		target_property = owner.addProperty<Entity*>("Target", NULL_PTR);
 
-		owner.registerToEvent1<T_String>("SPEAK").connect(this, &Voice::onSpeakEvent);
+		owner.registerToEvent1<T_String>(speakEventId).connect(this, &Voice::onSpeakEvent);
 
 	}
 	virtual ~Voice() {}
@@ -84,6 +84,7 @@ protected:
 	Property<T_String> hello_property;
 	Property<T_String> bye_property;
 	Property<Entity*> target_property;
+	StringId speakEventId;
 };
 
 class Targeter : public Component
@@ -131,14 +132,16 @@ void main()
 	dog.getProperty<Entity*>("Target") = &man;
 	man.getProperty<Entity*>("Target") = &dog;
 
-	man.onEvent1<T_String>("SPEAK", "HELLO");
+	StringId speakEventId("SPEAK");
+
+	man.onEvent1<T_String>(speakEventId, "HELLO");
 	wait(1000);
-	dog.onEvent1<T_String>("SPEAK", "HELLO");
+	dog.onEvent1<T_String>(speakEventId, "HELLO");
 	wait(1000);
 
-	man.onEvent1<T_String>("SPEAK", "BYE");
+	man.onEvent1<T_String>(speakEventId, "BYE");
 	wait(1000);
-	dog.onEvent1<T_String>("SPEAK", "BYE");
+	dog.onEvent1<T_String>(speakEventId, "BYE");
 	wait(1000);
 
 	system("pause");

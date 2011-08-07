@@ -52,5 +52,9 @@ namespace Components
 
 		//PropertyList Slots
 		void onTargetAdded(Entity * const &newValue);
+
+		//Event Ids
+		StringId seekInRadiusEventId;
+		StringId dmgEventId;
 	};
 }

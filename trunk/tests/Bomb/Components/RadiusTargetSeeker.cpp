@@ -30,12 +30,12 @@ requirements or restrictions.
 using namespace Components;
 
 RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS")
 {
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
 
-	owner.registerToEvent1<F32>("SEEK_IN_RADIUS").connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
+	owner.registerToEvent1<F32>(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
 }
 
 RadiusTargetSeeker::~RadiusTargetSeeker()

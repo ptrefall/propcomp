@@ -43,5 +43,7 @@ namespace Components
 		Property<F32> maxEnergy_property;
 
 		void onSpendEffectEvent(const F32 &effect);
+
+		StringId spendEffectEventId;
 	};
 }

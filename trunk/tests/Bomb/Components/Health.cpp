@@ -30,7 +30,7 @@ requirements or restrictions.
 using namespace Components;
 
 Health::Health(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), dmgEventId("DMG")
 {
 	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
     alive_property = owner.addProperty<bool>("Alive", true);
@@ -40,7 +40,7 @@ Health::Health(Entity &owner, const T_String &name)
     health_property.valueChanged().connect(this, &Health::onHealthChanged);
 	alive_property.valueChanged().connect(this, &Health::onAliveChanged);
 
-	owner.registerToEvent2<F32, T_String>("DMG").connect(this, &Health::onDmgEvent);
+	owner.registerToEvent2<F32, T_String>(dmgEventId).connect(this, &Health::onDmgEvent);
 }
 
 Health::~Health()
