@@ -291,7 +291,7 @@ public:
 	 *
 	 * @param type The type name of the event.
 	 */
-	void onEvent0(const StringId &type);
+	void onEvent0(const T_StringId &type);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
@@ -299,7 +299,7 @@ public:
 	 * @param type The type name of the event.
 	 * @param arg0 First argument of type T.
 	 */
-	template<class T> void onEvent1(const StringId &type, const T &arg0);
+	template<class T> void onEvent1(const T_StringId &type, const T &arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -308,7 +308,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
-	template<class T, class U> void onEvent2(const StringId &type, const T &arg0, const U &arg1);
+	template<class T, class U> void onEvent2(const T_StringId &type, const T &arg0, const U &arg1);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -316,7 +316,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires no arguments in the slot.
 	 */
-	T_Signal_v0<>::Type &registerToEvent0(const StringId &type);
+	T_Signal_v0<>::Type &registerToEvent0(const T_StringId &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -324,7 +324,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires one arguments in the slot.
 	 */
-	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const StringId &type);
+	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_StringId &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -332,7 +332,7 @@ public:
 	 * @param type The type name of the event.
 	 * @return A signal that requires two arguments in the slot.
 	 */
-	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const StringId &type);
+	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_StringId &type);
 
 protected:
 	/// The list of all components owned by this entity.
@@ -623,7 +623,7 @@ inline void Entity::clearDeletedPropertyLists()
 
 //----------------------------------------------
 
-inline void Entity::onEvent0(const StringId &type)
+inline void Entity::onEvent0(const T_StringId &type)
 {
 	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
@@ -633,7 +633,7 @@ inline void Entity::onEvent0(const StringId &type)
 }
 
 template<class T>
-inline void Entity::onEvent1(const StringId &type, const T &arg0)
+inline void Entity::onEvent1(const T_StringId &type, const T &arg0)
 {
 	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
@@ -650,7 +650,7 @@ inline void Entity::onEvent1(const StringId &type, const T &arg0)
 }
 
 template<class T, class U>
-inline void Entity::onEvent2(const StringId &type, const T &arg0, const U &arg1)
+inline void Entity::onEvent2(const T_StringId &type, const T &arg0, const U &arg1)
 {
 	T_Map<T_StringIdType, IEventSignal*>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
@@ -666,7 +666,7 @@ inline void Entity::onEvent2(const StringId &type, const T &arg0, const U &arg1)
 #endif
 }
 
-inline T_Signal_v0<>::Type &Entity::registerToEvent0(const StringId &type)
+inline T_Signal_v0<>::Type &Entity::registerToEvent0(const T_StringId &type)
 {
 	EventSignal0 *signal = NULL_PTR;
 
@@ -685,7 +685,7 @@ inline T_Signal_v0<>::Type &Entity::registerToEvent0(const StringId &type)
 }
 
 template<class T>
-inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const StringId &type)
+inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const T_StringId &type)
 {
 	EventSignal1<T> *signal = NULL_PTR;
 
@@ -710,7 +710,7 @@ inline typename T_Signal_v1<const T&>::Type &Entity::registerToEvent1(const Stri
 }
 
 template<class T, class U>
-inline typename T_Signal_v2<const T&, const U&>::Type &Entity::registerToEvent2(const StringId &type)
+inline typename T_Signal_v2<const T&, const U&>::Type &Entity::registerToEvent2(const T_StringId &type)
 {
 	EventSignal2<T,U> *signal = NULL_PTR;
 

@@ -116,14 +116,14 @@ struct T_SharedPtr {
 	typedef std::tr1::shared_ptr<T> Type;
 };
 
-#if USE_EVENT_STRING_ID_HASHING
+//--------------------------------------------
 
 typedef unsigned int T_StringIdType;
 
-class StringId
+class T_StringId
 {
 public:
-	StringId(const T_String &str)
+	T_StringId(const T_String &str)
 	{
 		this->str = str;
 		this->hashId = (T_StringIdType)std::hash_value(str.c_str());
@@ -137,4 +137,3 @@ private:
 	T_String str;
 };
 
-#endif //USE_EVENT_STRING_ID_HASHING

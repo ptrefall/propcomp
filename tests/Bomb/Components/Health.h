@@ -48,6 +48,6 @@ namespace Components
 
 		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
 
-		StringId dmgEventId;
+		T_StringId dmgEventId;
 	};
 }
