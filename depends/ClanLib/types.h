@@ -29,7 +29,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * ClanLib Types Configuration
+ * ClanLib Types Configuration, originally contributed by 'savuporo'.
  * 
  */
 

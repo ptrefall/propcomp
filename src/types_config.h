@@ -29,7 +29,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * Types Configuration
+ * Types Configuration, originally contributed by 'savuporo'.
  * 
  */
 
