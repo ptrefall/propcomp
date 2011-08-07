@@ -49,6 +49,7 @@ set(HDRS
   ./IProperty.h
   ./Property.h
   ./Entity.h
+  ./EventHandler.h
   ./types_config.h
 )
 

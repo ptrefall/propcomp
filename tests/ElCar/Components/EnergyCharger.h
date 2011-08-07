@@ -23,9 +23,8 @@ requirements or restrictions.
 
 #pragma once
 
-#include <types_config.h>
 #include <Component.h>
-#include "../Vector3.h"
+#include "../../Common/Vector3.h"
 
 namespace Components
 {

@@ -22,7 +22,7 @@ requirements or restrictions.
 */
 
 #include "Health.h"
-#include "../EntityManager.h"
+#include "../../Common/EntityManager.h"
 
 #include <iostream>
 
