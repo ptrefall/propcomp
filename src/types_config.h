@@ -51,6 +51,8 @@
 //	Some type implementations might want to use different null pointer conventions.
 //	For instance the C++0x nullptr type, or some other approach like (void*)0, etc.
 #define NULL_PTR 0x0
+//
+#define USE_EVENT_STRING_ID_HASHING 1
 
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------

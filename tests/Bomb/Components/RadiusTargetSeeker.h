@@ -43,5 +43,7 @@ namespace Components
 		Property<T_Vec3f> position_property;
 
 		void onSeekInRadiusEvent(const F32 &radius);
+
+		StringId seekInRadiusEventId;
 	};
 }

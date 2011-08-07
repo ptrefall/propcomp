@@ -30,13 +30,13 @@ requirements or restrictions.
 using namespace Components;
 
 EnergyDecharger::EnergyDecharger(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), spendEffectEventId("SPEND_EFFECT")
 {
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	minEnergy_property = owner.addProperty<F32>("MinEnergy", 0.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
 
-	owner.registerToEvent1<F32>("SPEND_EFFECT").connect(this, &EnergyDecharger::onSpendEffectEvent);
+	owner.registerToEvent1<F32>(spendEffectEventId).connect(this, &EnergyDecharger::onSpendEffectEvent);
 }
 
 EnergyDecharger::~EnergyDecharger()

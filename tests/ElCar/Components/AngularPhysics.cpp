@@ -30,7 +30,7 @@ requirements or restrictions.
 using namespace Components;
 
 AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION"), syncVelocityEventId("SYNC_VELOCITY")
 {
     car_property = owner.addProperty<Entity*>("Car", NULL_PTR);
 	angularVelocity_property = owner.addProperty<F32>("AngularVelocity", 0.0f);
@@ -38,8 +38,8 @@ AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
 	friction_property = owner.addProperty<F32>("Friction", 0.01f);
 	forces_property_list = owner.addPropertyList<F32>("AngularForces");
 
-	owner.registerToEvent1<F32>("FORCE_ANGULAR_ACCELERATION").connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
-	owner.registerToEvent1<F32>("SYNC_VELOCITY").connect(this, &AngularPhysics::onSyncVelocityEvent);
+	owner.registerToEvent1<F32>(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
+	owner.registerToEvent1<F32>(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
 }
 
 AngularPhysics::~AngularPhysics()

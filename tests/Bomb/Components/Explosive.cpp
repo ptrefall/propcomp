@@ -29,7 +29,7 @@ requirements or restrictions.
 using namespace Components;
 
 Explosive::Explosive(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS"), dmgEventId("DMG")
 {
 	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
     timeout_property = owner.addProperty<bool>("Timeout", false);
@@ -55,7 +55,7 @@ void Explosive::onTimeoutChanged(const bool &oldValue, const bool &newValue)
 		std::cout << "The " << owner.getType().c_str() << " explodes in a hughe blast of flames!" << std::endl;
 
 		//Affect all entities in blast radius
-		owner.onEvent1<F32>("SEEK_IN_RADIUS", blast_radius_property.get());
+		owner.onEvent1<F32>(seekInRadiusEventId, blast_radius_property.get());
 	}
 }
 
@@ -77,5 +77,5 @@ void Explosive::onTargetAdded(Entity * const &newValue)
 	F32 dmg_weight = 1.0f - ((distance - half_radius) / half_radius);
 
 	F32 dmg = 200.0f * dmg_weight;
-	newValue->onEvent2<F32, T_String>("DMG", dmg, name_property.get());
+	newValue->onEvent2<F32, T_String>(dmgEventId, dmg, name_property.get());
 }

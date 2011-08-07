@@ -29,12 +29,12 @@ requirements or restrictions.
 using namespace Components;
 
 EnergyCharger::EnergyCharger(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(owner, name), addEffectEventId("ADD_EFFECT")
 {
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
 
-	owner.registerToEvent1<F32>("ADD_EFFECT").connect(this, &EnergyCharger::onAddEffectEvent);
+	owner.registerToEvent1<F32>(addEffectEventId).connect(this, &EnergyCharger::onAddEffectEvent);
 }
 
 EnergyCharger::~EnergyCharger()

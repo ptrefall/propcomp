@@ -44,5 +44,7 @@ namespace Components
 		Property<F32> angularVelocity_property;
 		Property<F32> generationFactor_property;
 		Property<F32> dynamoEfficiency_property;
+
+		StringId addEffectEventId;
 	};
 }

@@ -46,5 +46,9 @@ namespace Components
 		Property<F32> velocity_property;
 
 		void onAccelerateWheelsEvent(const F32 &force);
+
+		StringId accelerateWheelsEventId;
+		StringId syncVelocityEventId;
+		StringId forceAngularAccelerationEventId;
 	};
 }
