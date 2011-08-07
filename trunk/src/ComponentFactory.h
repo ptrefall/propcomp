@@ -79,7 +79,7 @@ public:
     void registerComponent(const T_String &type, ComponentCreator functor);
 
 	/**
-	 * Create an instance of a component of type with optional name, owned by entity.
+	 * Create an instance of a component of type, owned by entity.
 	 *
 	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.

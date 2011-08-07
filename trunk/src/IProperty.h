@@ -29,15 +29,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The component factory has the job of holding a register of component types and the means
- * to instanciate those registered component types.
- *
- * It holds a function pointer definition ComponentCreator, that each component implementation
- * must adhere to in order to register a component type to the factory.
- * 
- * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an entity- and a component-instance
- * will only associate with a single component factory instance.
+ * Property Interface and Property List Interface
  * 
  */
 
@@ -46,17 +38,45 @@
 class IProperty
 {
 public: 
+	/**
+	 * Destructor
+	 */
 	virtual ~IProperty() {}
 
+	/**
+	 * Get the name of this property.
+	 *
+	 * @return Returns the name of the property.
+	 */
 	virtual const T_String &getName() const = 0;
+
+	/**
+	 * Check if PropertyData exist in this Property.
+	 *
+	 * @return Returns whether the PropertyData of this property has been initialized.
+	 */
 	virtual bool isNull() const = 0;
 };
 
 class IPropertyList
 {
 public:
+	/**
+	 * Destructor
+	 */
 	virtual ~IPropertyList() {}
 
+	/**
+	 * Get the name of this property list.
+	 *
+	 * @return Returns the name of the property list.
+	 */
 	virtual const T_String &getName() const = 0;
+
+	/**
+	 * Check if PropertyListData exist in this PropertyList.
+	 *
+	 * @return Returns whether the PropertyListData of this property list has been initialized.
+	 */
 	virtual bool isNull() const = 0;
 };
