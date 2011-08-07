@@ -22,7 +22,7 @@ requirements or restrictions.
 */
 
 #include "MultiTargeter.h"
-#include "../EntityManager.h"
+#include "../../Common/EntityManager.h"
 
 #include <iostream>
 

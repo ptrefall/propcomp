@@ -24,7 +24,7 @@ requirements or restrictions.
 #include <Entity.h>
 #include <ComponentFactory.h>
 
-#include "EntityManager.h"
+#include "../Common/EntityManager.h"
 #include "Components/Health.h"
 #include "Components/Timer.h"
 #include "Components/Explosive.h"

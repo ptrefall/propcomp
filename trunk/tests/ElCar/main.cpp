@@ -24,7 +24,7 @@ requirements or restrictions.
 #include <Entity.h>
 #include <ComponentFactory.h>
 
-#include "EntityManager.h"
+#include "../Common/EntityManager.h"
 #include "Components/AngularPhysics.h"
 #include "Components/Dynamo.h"
 #include "Components/EnergyCharger.h"

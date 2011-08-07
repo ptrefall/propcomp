@@ -21,7 +21,6 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "types_config.h"
 #include "EnergyCharger.h"
 
 #include <iostream>
