@@ -51,6 +51,7 @@ set(HDRS
   ./Entity.h
   ./EventHandler.h
   ./types_config.h
+  ./mainpage.h
 )
 
 set(SRCS

@@ -29,15 +29,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The component factory has the job of holding a register of component types and the means
- * to instanciate those registered component types.
- *
- * It holds a function pointer definition ComponentCreator, that each component implementation
- * must adhere to in order to register a component type to the factory.
- * 
- * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an entity- and a component-instance
- * will only associate with a single component factory instance.
+ * Types Configuration
  * 
  */
 

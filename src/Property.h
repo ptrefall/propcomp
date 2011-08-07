@@ -29,15 +29,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The component factory has the job of holding a register of component types and the means
- * to instanciate those registered component types.
- *
- * It holds a function pointer definition ComponentCreator, that each component implementation
- * must adhere to in order to register a component type to the factory.
- * 
- * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an entity- and a component-instance
- * will only associate with a single component factory instance.
+ * Property, PropertyData, PropertyList and PropertyListData
  * 
  */
 
@@ -49,10 +41,17 @@ template<class T>
 class PropertyData HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
+	/**
+	 * Destructor
+	 */
 	~PropertyData() {}
+	/// Actual data of the property.
 	T value;
+	/// Name of the property.
 	T_String name;
+	/// Is the property read-only?
 	bool readOnly;
+	/// Signal that's emitted when the value of the property change, returning the old and new value.
 	typename T_Signal_v2<const T&, const T&>::Type valueChanged;
 };
 
@@ -60,15 +59,27 @@ template<class T>
 class Property : public IProperty
 {
 public:
+	/**
+	 * Default Constructor, results in a Property with no data!
+	 */
 	Property()
 	{
 	}
 
+	/**
+	 * Copy Constructor
+	 */
 	Property(const Property& copy)
 	: data(copy.data)
 	{
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param name Name of the property.
+	 * @param readOnly Should the property be read only? (Defaults to false).
+	 */
 	Property(const T_String &name, bool readOnly = false)
 	: data(new PropertyData<T>())
 	{	
@@ -76,8 +87,19 @@ public:
 		data->readOnly = readOnly;
 	}
 
+	/**
+	 * Destructor
+	 */
 	virtual ~Property() {}
 
+	/**
+	 * Set the value of the property. Handles setting the actual PropertyData.value,
+	 * plus emit the valueChanged signal. This also enforces the readOnly flag, which
+	 * can only be bypassed by passing in forced = true.
+	 *
+	 * @param value The new value of the property.
+	 * @param forced If this property is read-only, setting this parameter to true will bypass the read-only rule.
+	 */
 	void set(const T& value, bool forced = false) 
 	{ 
 		if(data->readOnly && !forced)
@@ -91,43 +113,89 @@ public:
 			data->valueChanged.emit(oldValue, value);
 		}
 	}
+
+	/**
+	 * Returns the real data of the PropertyData value
+	 *
+	 * @return Returns the real data of the PropertyData value.
+	 */
 	const T& get() const { return data->value; }
 
+	/**
+	 * Get the interface of this property.
+	 * 
+	 * @return Returns the property interface of this property.
+	 */
 	IProperty *getInterface() { return static_cast<IProperty*>(this); }
 
+	/**
+	 * Get the name of this property.
+	 * 
+	 * @return Returns the name of this property.
+	 */
 	virtual const T_String &getName() const { return data->name; }
 
+	/**
+	 * Check whether the PropertyData is valid.
+	 *
+	 * @return Returns true if data does not exist, true if it does.
+	 */
 	virtual bool isNull() const { return data == NULL_PTR; }
 
+	/**
+	 * Function that gives the outside access to the PropertyData's
+	 * valueChanged signal. It's through this function call we can
+	 * register slots to the valueChanged signal.
+	 *
+	 * @return Returns the valueChanged signal of this property's PropertyData.
+	 */
 	typename T_Signal_v2<const T&, const T&>::Type &valueChanged() { return data->valueChanged; }
 
+	///
 	Property<T> operator= (const Property<T>& rhs);
+	///
 	Property<T> operator= (const T& rhs);
 
+	///
 	Property<T> operator+= (const Property<T>& rhs);
+	///
 	Property<T> operator+= (const T& rhs);
 
+	///
 	Property<T> operator-= (const Property<T>& rhs);
+	///
 	Property<T> operator-= (const T& rhs);
 
+	///
 	Property<T> operator*= (const Property<T>& rhs);
+	///
 	Property<T> operator*= (const T& rhs);
 
+	///
 	bool operator== (const Property<T>& rhs);
+	///
 	bool operator== (const T& rhs);
 
+	///
 	bool operator!= (const Property<T>& rhs);
+	///
 	bool operator!= (const T& rhs);
 
+	///
 	bool operator> (const Property<T>& rhs);
+	///
 	bool operator> (const T& rhs);
 
+	///
 	bool operator< (const Property<T>& rhs);
+	///
 	bool operator< (const T& rhs);
 
+	/// Instead of property.get() one can also use the property() operator to get the real PropertyData value.
 	operator T() const { return data->value; }
 
 private:
+	/// PropertyData of the Property is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyData<T> >::Type data;
 };
 
