@@ -24,14 +24,15 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
+#include "../../Common/EntityManager.h"
 
 namespace Components
 {
 	class Health : public Component
 	{
 	public:
-		COMPONENT(Health)
-		Health(Entity &owner, const T_String &name);
+		COMPONENT1(Health, EntityManager)
+		Health(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~Health();
 
 	protected:
@@ -46,5 +47,7 @@ namespace Components
 		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
 
 		T_StringId dmgEventId;
+
+		EntityManager &entityMgr;
 	};
 }

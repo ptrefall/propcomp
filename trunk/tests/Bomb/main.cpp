@@ -37,9 +37,9 @@ requirements or restrictions.
 #include <time.h>
 
 void printStartup();
-void initFactory(ComponentFactory &factory);
-void defineBomb(Entity &bomb, ComponentFactory &factory);
-void defineCrate(Entity &crate, ComponentFactory &factory, const T_String &name);
+void initFactory(ComponentFactory &factory, EntityManager &entityMgr);
+void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMgr);
+void defineCrate(Entity &crate, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name);
 void printReady();
 void printResult(Entity &entity);
 void wait(int ms);
@@ -49,25 +49,27 @@ void main()
 	//Print out some startup text
 	printStartup();
 
+	EntityManager entityMgr;
+
 	//Create factory and register components
 	ComponentFactory factory;
-	initFactory(factory);
+	initFactory(factory, entityMgr);
 
-	Entity &bomb = EntityManager::Instance().create(factory, "Bomb");
-	defineBomb(bomb, factory);
+	Entity &bomb = entityMgr.create(factory, "Bomb");
+	defineBomb(bomb, factory, entityMgr);
 
-	Entity &crateA = EntityManager::Instance().create(factory, "Crate");
-	defineCrate(crateA, factory, "CrateA");
+	Entity &crateA = entityMgr.create(factory, "Crate");
+	defineCrate(crateA, factory, entityMgr, "CrateA");
 	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
 	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
 
-	Entity &crateB = EntityManager::Instance().create(factory, "Crate");
-	defineCrate(crateB, factory, "CrateB");
+	Entity &crateB = entityMgr.create(factory, "Crate");
+	defineCrate(crateB, factory, entityMgr, "CrateB");
 	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
 	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
 
-	Entity &crateC = EntityManager::Instance().create(factory, "Crate");
-	defineCrate(crateC, factory, "CrateC");
+	Entity &crateC = entityMgr.create(factory, "Crate");
+	defineCrate(crateC, factory, entityMgr, "CrateC");
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
@@ -76,7 +78,7 @@ void main()
 	while(bomb.getProperty<bool>("Timeout").get() == false)
 	{
 		F32 deltaTime = 0.016f;
-		EntityManager::Instance().update(deltaTime);
+		entityMgr.update(deltaTime);
 		wait(16);
 	}
 
@@ -88,9 +90,6 @@ void main()
 	printResult(crateC);
 
 	system("pause");
-
-	//Clean up
-	EntityManager::Shutdown();
 }
 
 void printStartup()
@@ -102,7 +101,7 @@ void printStartup()
 	system("pause");
 }
 
-void initFactory(ComponentFactory &factory)
+void initFactory(ComponentFactory &factory, EntityManager &entityMgr)
 {
 	std::cout << "Initialize components..." << std::endl;
 	std::cout << "- register Health" << std::endl;
@@ -120,7 +119,7 @@ void initFactory(ComponentFactory &factory)
 	Components::Transformable::RegisterToFactory(factory);
 }
 
-void defineBomb(Entity &bomb, ComponentFactory &factory)
+void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMgr)
 {
 	std::cout << "Define bomb entity..." << std::endl;
 	std::cout << "- add Timer component" << std::endl;
@@ -134,14 +133,14 @@ void defineBomb(Entity &bomb, ComponentFactory &factory)
 	bomb.addComponent("Timer");
 	bomb.addComponent("Explosive");
 	bomb.addComponent("MultiTargeter");
-	bomb.addComponent("RadiusTargetSeeker");
+	bomb.addComponent<EntityManager>("RadiusTargetSeeker", entityMgr);
 	bomb.addComponent("Transformable");
 	
 	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
 
-void defineCrate(Entity &crate, ComponentFactory &factory, const T_String &name)
+void defineCrate(Entity &crate, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name)
 {
 	std::cout << "Define crate entity..." << std::endl;
 	std::cout << "- add Health component" << std::endl;
@@ -149,7 +148,7 @@ void defineCrate(Entity &crate, ComponentFactory &factory, const T_String &name)
 	std::cout << "- set Name to " << name.c_str() << std::endl;
 	std::cout << "- set Health to 100.0" << std::endl;
 
-	crate.addComponent("Health");
+	crate.addComponent<EntityManager>("Health", entityMgr);
 	crate.addComponent("Transformable");
 	
 	crate.getProperty<T_String>("Name") = name;

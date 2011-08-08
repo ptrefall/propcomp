@@ -39,9 +39,9 @@ requirements or restrictions.
 #include <time.h>
 
 void printStartup();
-void initFactory(ComponentFactory &factory);
-void defineCar(Entity &car, ComponentFactory &factory);
-void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name);
+void initFactory(ComponentFactory &factory, EntityManager &entityMgr);
+void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr);
+void defineWheel(Entity &wheel, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name);
 void printReady();
 void wait(int ms);
 
@@ -50,12 +50,14 @@ void main()
 	//Print out some startup text
 	printStartup();
 
+	EntityManager entityMgr;
+
 	//Create factory and register components
 	ComponentFactory factory;
-	initFactory(factory);
+	initFactory(factory, entityMgr);
 
-	Entity &car = EntityManager::Instance().create(factory, "Car");
-	defineCar(car, factory);
+	Entity &car = entityMgr.create(factory, "Car");
+	defineCar(car, factory, entityMgr);
 
 	printReady();
 
@@ -67,16 +69,13 @@ void main()
 	{
 		F32 deltaTime = 0.016f;
 		car.onEvent0(throttleEventId);
-		EntityManager::Instance().update(deltaTime);
+		entityMgr.update(deltaTime);
 		std::cout << std::endl;
 		wait(16);
 		curr_iteration++;
 	}
 
 	system("pause");
-
-	//Clean up
-	EntityManager::Shutdown();
 }
 
 void printStartup()
@@ -88,7 +87,7 @@ void printStartup()
 	system("pause");
 }
 
-void initFactory(ComponentFactory &factory)
+void initFactory(ComponentFactory &factory, EntityManager &entityMgr)
 {
 	std::cout << "Initialize components..." << std::endl;
 	std::cout << "- register AngularPhysics" << std::endl;
@@ -110,7 +109,7 @@ void initFactory(ComponentFactory &factory)
 	Components::WheelMount::RegisterToFactory(factory);
 }
 
-void defineCar(Entity &car, ComponentFactory &factory)
+void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 {
 	std::cout << "Define car entity..." << std::endl;
 	std::cout << "- add Throttle component" << std::endl;
@@ -132,38 +131,38 @@ void defineCar(Entity &car, ComponentFactory &factory)
 
 	//Front Left
 	{
-		Entity &wheel = EntityManager::Instance().create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelFrontLeft");
+		Entity &wheel = entityMgr.create(factory, "Wheel");
+		defineWheel(wheel, factory, entityMgr, "WheelFrontLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
 	//Front Right
 	{
-		Entity &wheel = EntityManager::Instance().create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelFrontRight");
+		Entity &wheel = entityMgr.create(factory, "Wheel");
+		defineWheel(wheel, factory, entityMgr, "WheelFrontRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
 	//Back Left
 	{
-		Entity &wheel = EntityManager::Instance().create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelBackLeft");
+		Entity &wheel = entityMgr.create(factory, "Wheel");
+		defineWheel(wheel, factory, entityMgr, "WheelBackLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
 	//Back Right
 	{
-		Entity &wheel = EntityManager::Instance().create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelBackRight");
+		Entity &wheel = entityMgr.create(factory, "Wheel");
+		defineWheel(wheel, factory, entityMgr, "WheelBackRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 }
 
-void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name)
+void defineWheel(Entity &wheel, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name)
 {
 	std::cout << "Define wheel entity..." << std::endl;
 	std::cout << "- add AngularPhysics component" << std::endl;

@@ -22,14 +22,13 @@ requirements or restrictions.
 */
 
 #include "RadiusTargetSeeker.h"
-#include "../../Common/EntityManager.h"
 
 #include <iostream>
 
 using namespace Components;
 
-RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name)
-: Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS")
+RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr)
+: Component(owner, name), entityMgr(entityMgr), seekInRadiusEventId("SEEK_IN_RADIUS")
 {
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
@@ -44,13 +43,12 @@ RadiusTargetSeeker::~RadiusTargetSeeker()
 void RadiusTargetSeeker::onSeekInRadiusEvent(const F32 &radius)
 {
 	//Perform some algorithm
-	EntityManager &mgr = EntityManager::Instance();
-	for(U32 i = 0; i < mgr.getEntities().size(); i++)
+	for(U32 i = 0; i < entityMgr.getEntities().size(); i++)
 	{
-		if(&owner == mgr.getEntities()[i])
+		if(&owner == entityMgr.getEntities()[i])
 			continue;
 
-		Entity &entity = *mgr.getEntities()[i];
+		Entity &entity = *entityMgr.getEntities()[i];
 
 		//Must have a position in order to be affected
 		if(entity.hasProperty("Position") == false)

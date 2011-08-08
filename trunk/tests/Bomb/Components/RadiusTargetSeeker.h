@@ -24,6 +24,7 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
+#include "../../Common/EntityManager.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -31,8 +32,8 @@ namespace Components
 	class RadiusTargetSeeker : public Component
 	{
 	public:
-		COMPONENT(RadiusTargetSeeker)
-		RadiusTargetSeeker(Entity &owner, const T_String &name);
+		COMPONENT1(RadiusTargetSeeker, EntityManager)
+		RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~RadiusTargetSeeker();
 
 	protected:
@@ -42,5 +43,7 @@ namespace Components
 		void onSeekInRadiusEvent(const F32 &radius);
 
 		T_StringId seekInRadiusEventId;
+
+		EntityManager &entityMgr;
 	};
 }

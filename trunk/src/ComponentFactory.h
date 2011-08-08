@@ -69,6 +69,7 @@ public:
 	 * @param type The type identifier assigned to this component instance.
 	 */
 	typedef Component*(* ComponentCreator)(Entity &entity, const T_String &type);
+	typedef Component*(* ComponentCreator1)(Entity &entity, const T_String &type, T_Any &custom1);
 
 	/**
 	 * Registers a component with the factory. This has to be done before the component
@@ -80,6 +81,15 @@ public:
     void registerComponent(const T_String &type, ComponentCreator functor);
 
 	/**
+	 * Registers a component with the factory. This has to be done before the component
+	 * can be instanciated.
+	 *
+	 * @param type The identifier assigned to this component type.
+	 * @param functor The function pointer to the component's create function.
+	 */
+    void registerComponentCustom1(const T_String &type, ComponentCreator1 functor);
+
+	/**
 	 * Create an instance of a component of type, owned by entity.
 	 *
 	 * @param entity The owner of the component instance.
@@ -87,7 +97,16 @@ public:
 	 */
 	Component* createComponent(Entity &entity, const T_String &type);
 
+	/**
+	 * Create an instance of a component of type, owned by entity.
+	 *
+	 * @param entity The owner of the component instance.
+	 * @param type The registered component type identifier associated with the component.
+	 */
+	Component* createComponentCustom1(Entity &entity, const T_String &type, T_Any &custom1);
+
 private:
 	/// The container of component createor function pointers registered to the factory, each associated with a string key.
 	T_Map<T_String, ComponentCreator>::Type* creators;
+	T_Map<T_String, ComponentCreator1>::Type* creators_custom1;
 };

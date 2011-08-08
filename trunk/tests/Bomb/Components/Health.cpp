@@ -22,14 +22,13 @@ requirements or restrictions.
 */
 
 #include "Health.h"
-#include "../../Common/EntityManager.h"
 
 #include <iostream>
 
 using namespace Components;
 
-Health::Health(Entity &owner, const T_String &name)
-: Component(owner, name), dmgEventId("DMG")
+Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
+: Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")
 {
 	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
     alive_property = owner.addProperty<bool>("Alive", true);
@@ -74,6 +73,6 @@ void Health::onAliveChanged(const bool &oldValue, const bool &newValue)
 		//or the game manager should put us in a pending_deletion list or something...
 
 		std::cout << name_property.get().c_str() << " died..." << std::endl;
-		EntityManager::Instance().erase(&owner);
+		entityMgr.erase(&owner);
 	}
 }

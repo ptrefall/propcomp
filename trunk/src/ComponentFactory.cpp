@@ -26,7 +26,7 @@ requirements or restrictions.
 #include "Component.h"
 
 ComponentFactory::ComponentFactory()
-: creators(NULL_PTR)
+: creators(NULL_PTR), creators_custom1(NULL_PTR)
 {
 }
 
@@ -36,6 +36,11 @@ ComponentFactory::~ComponentFactory()
 	{
 		creators->clear();
 		delete creators;
+	}
+	if(creators_custom1)
+	{
+		creators_custom1->clear();
+		delete creators_custom1;
 	}
 }
 
@@ -51,15 +56,40 @@ void ComponentFactory::registerComponent(const T_String& type, ComponentCreator 
 	}
 }
 
-Component* ComponentFactory::createComponent(Entity &entity, const T_String& compType)
+void ComponentFactory::registerComponentCustom1(const T_String& type, ComponentCreator1 functor)
+{
+	if(creators_custom1 == NULL_PTR)
+		creators_custom1 = new T_Map<T_String, ComponentCreator1>::Type();
+
+	if(creators_custom1->find(type) == creators_custom1->end())
+	{
+		T_Pair<T_String, ComponentCreator1>::Type value(type, functor);
+		creators_custom1->insert(value);
+	}
+}
+
+Component* ComponentFactory::createComponent(Entity &entity, const T_String& type)
 {
 	if(creators == NULL_PTR)
-		throw T_Exception(("Unable to create component " + compType).c_str());
+		throw T_Exception(("Unable to create component " + type).c_str());
 
-	T_Map<T_String, ComponentCreator>::Type::iterator creatorIt = creators->find(compType);
+	T_Map<T_String, ComponentCreator>::Type::iterator creatorIt = creators->find(type);
 	if(creatorIt == creators->end())
-		throw T_Exception(("Unable to create component " + compType).c_str());
+		throw T_Exception(("Unable to create component " + type).c_str());
 	
 	ComponentCreator creator = creatorIt->second;
-	return creator(entity, compType);
+	return creator(entity, type);
+}
+
+Component* ComponentFactory::createComponentCustom1(Entity &entity, const T_String &type, T_Any &custom1)
+{
+	if(creators_custom1 == NULL_PTR)
+		throw T_Exception(("Unable to create component " + type).c_str());
+
+	T_Map<T_String, ComponentCreator1>::Type::iterator creatorIt = creators_custom1->find(type);
+	if(creatorIt == creators_custom1->end())
+		throw T_Exception(("Unable to create component " + type).c_str());
+	
+	ComponentCreator1 creator = creatorIt->second;
+	return creator(entity, type, custom1);
 }

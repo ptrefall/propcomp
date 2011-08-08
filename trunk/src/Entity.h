@@ -81,6 +81,15 @@ public:
 	 * @return Returns a reference to the component that was added to the entity.
 	 */
 	Component &addComponent(const T_String& type);
+
+	/**
+	 * Add a component of specified type to this entity.
+	 *
+	 * @param type The type of the component.
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T>
+	Component &addComponent(const T_String& type, T &custom1);
 	
 	/**
 	 * Check whether the specified component type exist in this entity.
@@ -308,6 +317,24 @@ protected:
 	/// Id property (read-only), holds the id T_EntityId given in the entity's constructor.
 	Property<T_EntityId> id_property;
 };
+
+//------------------------------------------------------
+
+template<class T>
+inline Component &Entity::addComponent(const T_String& type, T &custom1)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	Component* component = componentFactory.createComponentCustom1(*this, type, any);
+	components.push_back(component);
+	return *component;
+}
 
 //------------------------------------------------------
 
