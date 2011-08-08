@@ -30,7 +30,7 @@ namespace Components
 	class EnergyDecharger : public Component
 	{
 	public:
-		COMPONENT(EnergyDecharger)
+		COMPONENT_0(EnergyDecharger)
 		EnergyDecharger(Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 

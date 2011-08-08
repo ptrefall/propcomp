@@ -30,7 +30,7 @@ namespace Components
 	class AngularPhysics : public Component
 	{
 	public:
-		COMPONENT(AngularPhysics)
+		COMPONENT_0(AngularPhysics)
 		AngularPhysics(Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 

@@ -30,7 +30,7 @@ namespace Components
 	class Timer : public Component
 	{
 	public:
-		COMPONENT(Timer)
+		COMPONENT_0(Timer)
 		Timer(Entity &owner, const T_String &name);
 		virtual ~Timer();
 

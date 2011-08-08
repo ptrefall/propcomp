@@ -30,7 +30,7 @@ namespace Components
 	class MultiTargeter : public Component
 	{
 	public:
-		COMPONENT(MultiTargeter)
+		COMPONENT_0(MultiTargeter)
 		MultiTargeter(Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 

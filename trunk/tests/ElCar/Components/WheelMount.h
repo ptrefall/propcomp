@@ -31,7 +31,7 @@ namespace Components
 	class WheelMount : public Component
 	{
 	public:
-		COMPONENT(WheelMount)
+		COMPONENT_0(WheelMount)
 		WheelMount(Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		

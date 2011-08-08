@@ -37,7 +37,7 @@ requirements or restrictions.
 #include <time.h>
 
 void printStartup();
-void initFactory(ComponentFactory &factory, EntityManager &entityMgr);
+void initFactory(ComponentFactory &factory);
 void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMgr);
 void defineCrate(Entity &crate, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name);
 void printReady();
@@ -53,7 +53,7 @@ void main()
 
 	//Create factory and register components
 	ComponentFactory factory;
-	initFactory(factory, entityMgr);
+	initFactory(factory);
 
 	Entity &bomb = entityMgr.create(factory, "Bomb");
 	defineBomb(bomb, factory, entityMgr);
@@ -101,7 +101,7 @@ void printStartup()
 	system("pause");
 }
 
-void initFactory(ComponentFactory &factory, EntityManager &entityMgr)
+void initFactory(ComponentFactory &factory)
 {
 	std::cout << "Initialize components..." << std::endl;
 	std::cout << "- register Health" << std::endl;

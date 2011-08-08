@@ -83,13 +83,114 @@ public:
 	Component &addComponent(const T_String& type);
 
 	/**
-	 * Add a component of specified type to this entity.
+	 * Add a component of specified type to this entity with custom parameters.
 	 *
 	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
 	 * @return Returns a reference to the component that was added to the entity.
 	 */
 	template<class T>
 	Component &addComponent(const T_String& type, T &custom1);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @param custom4 The custom parameter of type W
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V, class W>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @param custom4 The custom parameter of type W
+	 * @param custom5 The custom parameter of type X
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V, class W, class X>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @param custom4 The custom parameter of type W
+	 * @param custom5 The custom parameter of type X
+	 * @param custom6 The custom parameter of type Y
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V, class W, class X, class Y>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @param custom4 The custom parameter of type W
+	 * @param custom5 The custom parameter of type X
+	 * @param custom6 The custom parameter of type Y
+	 * @param custom7 The custom parameter of type Z
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V, class W, class X, class Y, class Z>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7);
+
+	/**
+	 * Add a component of specified type to this entity with custom parameters.
+	 *
+	 * @param type The type of the component.
+	 * @param custom1 The custom parameter of type T
+	 * @param custom2 The custom parameter of type U
+	 * @param custom3 The custom parameter of type V
+	 * @param custom4 The custom parameter of type W
+	 * @param custom5 The custom parameter of type X
+	 * @param custom6 The custom parameter of type Y
+	 * @param custom7 The custom parameter of type Z
+	 * @param custom8 The custom parameter of type S
+	 * @return Returns a reference to the component that was added to the entity.
+	 */
+	template<class T, class U, class V, class W, class X, class Y, class Z, class S>
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8);
+
+	//--------------------------------------------------------------
 	
 	/**
 	 * Check whether the specified component type exist in this entity.
@@ -332,6 +433,146 @@ inline Component &Entity::addComponent(const T_String& type, T &custom1)
 
 	T_Any any = &custom1;
 	Component* component = componentFactory.createComponentCustom1(*this, type, any);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	Component* component = componentFactory.createComponentCustom2(*this, type, any, any2);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	Component* component = componentFactory.createComponentCustom3(*this, type, any, any2, any3);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V, class W>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	T_Any any4 = &custom4;
+	Component* component = componentFactory.createComponentCustom4(*this, type, any, any2, any3, any4);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V, class W, class X>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	T_Any any4 = &custom4;
+	T_Any any5 = &custom5;
+	Component* component = componentFactory.createComponentCustom5(*this, type, any, any2, any3, any4, any5);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V, class W, class X, class Y>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	T_Any any4 = &custom4;
+	T_Any any5 = &custom5;
+	T_Any any6 = &custom6;
+	Component* component = componentFactory.createComponentCustom6(*this, type, any, any2, any3, any4, any5, any6);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V, class W, class X, class Y, class Z>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	T_Any any4 = &custom4;
+	T_Any any5 = &custom5;
+	T_Any any6 = &custom6;
+	T_Any any7 = &custom7;
+	Component* component = componentFactory.createComponentCustom7(*this, type, any, any2, any3, any4, any5, any6, any7);
+	components.push_back(component);
+	return *component;
+}
+
+template<class T, class U, class V, class W, class X, class Y, class Z, class S>
+inline Component &Entity::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+
+	T_Any any = &custom1;
+	T_Any any2 = &custom2;
+	T_Any any3 = &custom3;
+	T_Any any4 = &custom4;
+	T_Any any5 = &custom5;
+	T_Any any6 = &custom6;
+	T_Any any7 = &custom7;
+	T_Any any8 = &custom8;
+	Component* component = componentFactory.createComponentCustom8(*this, type, any, any2, any3, any4, any5, any6, any7, any8);
 	components.push_back(component);
 	return *component;
 }

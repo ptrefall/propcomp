@@ -31,7 +31,7 @@ namespace Components
 	class LinearPhysics : public Component
 	{
 	public:
-		COMPONENT(LinearPhysics)
+		COMPONENT_0(LinearPhysics)
 		LinearPhysics(Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 

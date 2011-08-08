@@ -31,7 +31,7 @@ namespace Components
 	class Health : public Component
 	{
 	public:
-		COMPONENT1(Health, EntityManager)
+		COMPONENT_1(Health, EntityManager)
 		Health(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~Health();
 

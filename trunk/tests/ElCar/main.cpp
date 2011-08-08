@@ -39,9 +39,9 @@ requirements or restrictions.
 #include <time.h>
 
 void printStartup();
-void initFactory(ComponentFactory &factory, EntityManager &entityMgr);
+void initFactory(ComponentFactory &factory);
 void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr);
-void defineWheel(Entity &wheel, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name);
+void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name);
 void printReady();
 void wait(int ms);
 
@@ -54,7 +54,7 @@ void main()
 
 	//Create factory and register components
 	ComponentFactory factory;
-	initFactory(factory, entityMgr);
+	initFactory(factory);
 
 	Entity &car = entityMgr.create(factory, "Car");
 	defineCar(car, factory, entityMgr);
@@ -87,7 +87,7 @@ void printStartup()
 	system("pause");
 }
 
-void initFactory(ComponentFactory &factory, EntityManager &entityMgr)
+void initFactory(ComponentFactory &factory)
 {
 	std::cout << "Initialize components..." << std::endl;
 	std::cout << "- register AngularPhysics" << std::endl;
@@ -132,7 +132,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Front Left
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, entityMgr, "WheelFrontLeft");
+		defineWheel(wheel, factory, "WheelFrontLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -140,7 +140,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Front Right
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, entityMgr, "WheelFrontRight");
+		defineWheel(wheel, factory, "WheelFrontRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -148,7 +148,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Back Left
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, entityMgr, "WheelBackLeft");
+		defineWheel(wheel, factory, "WheelBackLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -156,13 +156,13 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Back Right
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, entityMgr, "WheelBackRight");
+		defineWheel(wheel, factory, "WheelBackRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 }
 
-void defineWheel(Entity &wheel, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name)
+void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name)
 {
 	std::cout << "Define wheel entity..." << std::endl;
 	std::cout << "- add AngularPhysics component" << std::endl;

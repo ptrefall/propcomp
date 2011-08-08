@@ -32,7 +32,7 @@ namespace Components
 	class RadiusTargetSeeker : public Component
 	{
 	public:
-		COMPONENT1(RadiusTargetSeeker, EntityManager)
+		COMPONENT_1(RadiusTargetSeeker, EntityManager)
 		RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~RadiusTargetSeeker();
 

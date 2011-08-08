@@ -39,7 +39,7 @@ void wait(int ms);
 class Voice : public Component
 {
 public:
-	COMPONENT(Voice)
+	COMPONENT_0(Voice)
 	Voice(Entity &owner, const T_String &name)
 	: Component(owner, name), speakEventId("SPEAK")
 	{
@@ -88,7 +88,7 @@ private:
 class Targeter : public Component
 {
 public:
-	COMPONENT(Targeter)
+	COMPONENT_0(Targeter)
 	Targeter(Entity &owner, const T_String &name)
 	: Component(owner, name)
 	{
@@ -108,6 +108,19 @@ private:
 	}
 };
 
+class CustomParamsHolder : public Component
+{
+public:
+	COMPONENT_8(CustomParamsHolder, int, int, int, int, int, int, int, int)
+	CustomParamsHolder(Entity &owner, const T_String &name, int &a, int &b, int &c, int &d, int &e, int &f, int &g, int &h)
+	: Component(owner, name), a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h)
+	{
+		std::cout << "CustomParamsHolder: " << a << " " << b << " " << c << " " << d << " " << e << " " << f << " " << g << " " << h << std::endl;
+	}
+	virtual ~CustomParamsHolder() {}
+	int a,b,c,d,e,f,g,h;
+};
+
 void main()
 {
 	//Print out some startup text
@@ -122,6 +135,10 @@ void main()
 
 	Entity &man = Entity(factory, 1, "Man");
 	defineMan(man, factory, "James");
+
+	Entity &custom_test = Entity(factory, 2, "CustomTest");
+	int a = 0; int b = 1; int c = 2; int d = 3; int e = 4; int f = 5; int g = 6; int h = 7;
+	custom_test.addComponent<int,int,int,int,int,int,int,int>("CustomParamsHolder", a,b,c,d,e,f,g,h);
 
 	printReady();
 
@@ -156,9 +173,11 @@ void initFactory(ComponentFactory &factory)
 	std::cout << "Initialize components..." << std::endl;
 	std::cout << "- register Voice" << std::endl;
 	std::cout << "- register Targeter" << std::endl;
+	std::cout << "- register CustomParamsHolder" << std::endl;
 
 	Voice::RegisterToFactory(factory);
 	Targeter::RegisterToFactory(factory);
+	CustomParamsHolder::RegisterToFactory(factory);
 }
 
 void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)
