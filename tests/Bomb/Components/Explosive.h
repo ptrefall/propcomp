@@ -31,7 +31,7 @@ namespace Components
 	class Explosive : public Component
 	{
 	public:
-		COMPONENT(Explosive)
+		COMPONENT_0(Explosive)
 		Explosive(Entity &owner, const T_String &name);
 		virtual ~Explosive();
 

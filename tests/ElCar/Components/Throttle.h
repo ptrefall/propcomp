@@ -31,7 +31,7 @@ namespace Components
 	class Throttle : public Component
 	{
 	public:
-		COMPONENT(Throttle)
+		COMPONENT_0(Throttle)
 		Throttle(Entity &owner, const T_String &name);
 		virtual ~Throttle();
 

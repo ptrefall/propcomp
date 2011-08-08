@@ -31,7 +31,7 @@ namespace Components
 	class Transformable : public Component
 	{
 	public:
-		COMPONENT(Transformable)
+		COMPONENT_0(Transformable)
 		Transformable(Entity &owner, const T_String &name);
 		virtual ~Transformable();
 

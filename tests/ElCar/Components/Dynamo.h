@@ -30,7 +30,7 @@ namespace Components
 	class Dynamo : public Component
 	{
 	public:
-		COMPONENT(Dynamo)
+		COMPONENT_0(Dynamo)
 		Dynamo(Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 

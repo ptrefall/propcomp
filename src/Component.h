@@ -96,14 +96,23 @@ protected:
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance COMPONENT_CREATOR_IMPL(Health)
+ * @param component The ComponentImplementation class, for instance Health
  */
-#define COMPONENT(component) \
+#define COMPONENT_0(component) \
 			static T_String Type() { return T_String(#component); } \
 			static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
 			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
 
-#define COMPONENT1(component, Custom_type1) \
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_1(component, Custom_type1) \
 			static T_String Type() { return T_String(#component); } \
 			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1) \
 			{ \
@@ -111,8 +120,365 @@ protected:
 				try { \
 					custom = custom1.cast<Custom_type1*>(); \
 				}catch(T_Bad_any_cast) { \
-					throw T_Exception(("Type of custom was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				return new component(owner, name, *custom); \
 			} \
 			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_2(component, Custom_type1, Custom_type2) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); }
+
+ /**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_3(component, Custom_type1, Custom_type2, Custom_type3) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_4(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC, *customD); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_5(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC, *customD, *customE); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_6(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				Custom_type6 *customF = NULL_PTR; \
+				try { \
+					customF = custom6.cast<Custom_type6*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type7 The seventh custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_7(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				Custom_type6 *customF = NULL_PTR; \
+				try { \
+					customF = custom6.cast<Custom_type6*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+				} \
+				Custom_type7 *customG = NULL_PTR; \
+				try { \
+					customG = custom7.cast<Custom_type7*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); }
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type7 The seventh custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type8 The eight custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_8(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7, Custom_type8) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8) \
+			{ \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				Custom_type6 *customF = NULL_PTR; \
+				try { \
+					customF = custom6.cast<Custom_type6*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+				} \
+				Custom_type7 *customG = NULL_PTR; \
+				try { \
+					customG = custom7.cast<Custom_type7*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
+				} \
+				Custom_type8 *customH = NULL_PTR; \
+				try { \
+					customH = custom8.cast<Custom_type8*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom8 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type8)).c_str()); \
+				} \
+				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); }
