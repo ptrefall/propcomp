@@ -31,12 +31,11 @@ namespace Components
 	class WheelMount : public Component
 	{
 	public:
+		COMPONENT(WheelMount)
 		WheelMount(Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		
 		virtual void update(F32 deltaTime);
-
-		COMPONENT_CREATOR_IMPL(WheelMount)
 
 	protected:
 		PropertyList<Entity*> wheels_property_list;

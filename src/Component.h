@@ -50,7 +50,8 @@
 #include "Property.h"
 #include "ComponentFactory.h"
 
-class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
+class Component 
+	: public sigslot::has_slots<> //HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**
@@ -97,6 +98,6 @@ protected:
  *
  * @param component The ComponentImplementation class, for instance COMPONENT_CREATOR_IMPL(Health)
  */
-#define COMPONENT_CREATOR_IMPL(component) static T_String Type() { return T_String(#component); } \
+#define COMPONENT(component) static T_String Type() { return T_String(#component); } \
 										  static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
 										  static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }

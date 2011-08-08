@@ -30,10 +30,9 @@ namespace Components
 	class MultiTargeter : public Component
 	{
 	public:
+		COMPONENT(MultiTargeter)
 		MultiTargeter(Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
-		
-		COMPONENT_CREATOR_IMPL(MultiTargeter)
 
 	protected:
 		PropertyList<Entity*> target_property_list;

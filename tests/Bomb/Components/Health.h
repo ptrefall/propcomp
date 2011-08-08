@@ -30,10 +30,9 @@ namespace Components
 	class Health : public Component
 	{
 	public:
+		COMPONENT(Health)
 		Health(Entity &owner, const T_String &name);
 		virtual ~Health();
-		
-		COMPONENT_CREATOR_IMPL(Health)
 
 	protected:
 		Property<T_String> name_property;
