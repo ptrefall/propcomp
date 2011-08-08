@@ -34,8 +34,7 @@ namespace Components
 		RadiusTargetSeeker(Entity &owner, const T_String &name);
 		virtual ~RadiusTargetSeeker();
 		
-		static T_String getType() { return "RadiusTargetSeeker"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new RadiusTargetSeeker(owner, name); }
+		COMPONENT_CREATOR_IMPL(RadiusTargetSeeker)
 
 	protected:
 		PropertyList<Entity*> target_property_list;

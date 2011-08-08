@@ -36,8 +36,7 @@ namespace Components
 
 		virtual void update(F32 deltaTime);
 		
-		static T_String getType() { return "LinearPhysics"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new LinearPhysics(owner, name); }
+		COMPONENT_CREATOR_IMPL(LinearPhysics)
 
 	protected:
 		Property<F32> velocity_property;

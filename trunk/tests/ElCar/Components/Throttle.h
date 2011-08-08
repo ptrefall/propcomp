@@ -34,8 +34,7 @@ namespace Components
 		Throttle(Entity &owner, const T_String &name);
 		virtual ~Throttle();
 		
-		static T_String getType() { return "Throttle"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Throttle(owner, name); }
+		COMPONENT_CREATOR_IMPL(Throttle)
 
 	protected:
 		Property<F32> velocity_property;

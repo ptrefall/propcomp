@@ -34,8 +34,7 @@ namespace Components
 		Transformable(Entity &owner, const T_String &name);
 		virtual ~Transformable();
 		
-		static T_String getType() { return "Transformable"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Transformable(owner, name); }
+		COMPONENT_CREATOR_IMPL(Transformable)
 
 	protected:
 		Property<T_Vec3f> position_property;

@@ -48,6 +48,7 @@
 
 #include "Entity.h"
 #include "Property.h"
+#include "ComponentFactory.h"
 
 class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
@@ -87,3 +88,15 @@ protected:
 	/// The type identifier for this component.
     T_String type;
 };
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the component implementation that calls it. It simplifies adding new components, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param component The ComponentImplementation class, for instance COMPONENT_CREATOR_IMPL(Health)
+ */
+#define COMPONENT_CREATOR_IMPL(component) static T_String Type() { return T_String(#component); } \
+										  static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
+										  static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }

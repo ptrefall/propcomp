@@ -35,8 +35,7 @@ namespace Components
 
 		virtual void update(F32 deltaTime);
 		
-		static T_String getType() { return "Dynamo"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Dynamo(owner, name); }
+		COMPONENT_CREATOR_IMPL(Dynamo)
 
 	protected:
 		Property<Entity*> car_property;

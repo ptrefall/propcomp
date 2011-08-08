@@ -112,12 +112,12 @@ void initFactory(ComponentFactory &factory)
 	std::cout << "- register RadiusTargetSeeker" << std::endl;
 	std::cout << "- register Transformable" << std::endl;
 
-	factory.registerComponent(Components::Health::getType(), &Components::Health::Create);
-	factory.registerComponent(Components::Timer::getType(), &Components::Timer::Create);
-	factory.registerComponent(Components::Explosive::getType(), &Components::Explosive::Create);
-	factory.registerComponent(Components::MultiTargeter::getType(), &Components::MultiTargeter::Create);
-	factory.registerComponent(Components::RadiusTargetSeeker::getType(), &Components::RadiusTargetSeeker::Create);
-	factory.registerComponent(Components::Transformable::getType(), &Components::Transformable::Create);
+	Components::Health::RegisterToFactory(factory);
+	Components::Timer::RegisterToFactory(factory);
+	Components::Explosive::RegisterToFactory(factory);
+	Components::MultiTargeter::RegisterToFactory(factory);
+	Components::RadiusTargetSeeker::RegisterToFactory(factory);
+	Components::Transformable::RegisterToFactory(factory);
 }
 
 void defineBomb(Entity &bomb, ComponentFactory &factory)

@@ -53,6 +53,7 @@ public:
 	 * Constructor
 	 */
 	ComponentFactory();
+
 	/**
 	 * Destructor
 	 */

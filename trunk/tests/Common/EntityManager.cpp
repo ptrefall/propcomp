@@ -46,7 +46,7 @@ void EntityManager::Shutdown()
 	if(_instance)
 	{
 		delete _instance;
-		_instance = 0;
+		_instance = NULL_PTR;
 		std::cout << "Shut down entity manager" << std::endl;
 	}
 	else
