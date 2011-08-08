@@ -39,6 +39,7 @@ void wait(int ms);
 class Voice : public Component
 {
 public:
+	COMPONENT(Voice)
 	Voice(Entity &owner, const T_String &name)
 	: Component(owner, name), speakEventId("SPEAK")
 	{
@@ -50,8 +51,6 @@ public:
 
 	}
 	virtual ~Voice() {}
-	
-	COMPONENT_CREATOR_IMPL(Voice)
 
 private:
 	Property<T_String> hello_property;
@@ -89,6 +88,7 @@ private:
 class Targeter : public Component
 {
 public:
+	COMPONENT(Targeter)
 	Targeter(Entity &owner, const T_String &name)
 	: Component(owner, name)
 	{
@@ -96,8 +96,6 @@ public:
 		target_property.valueChanged().connect(this, &Targeter::onTargetChanged);
 	}
 	virtual ~Targeter() {}
-	
-	COMPONENT_CREATOR_IMPL(Targeter)
 
 private:
 	Property<Entity*> target_property;

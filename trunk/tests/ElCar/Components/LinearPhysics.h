@@ -31,12 +31,11 @@ namespace Components
 	class LinearPhysics : public Component
 	{
 	public:
+		COMPONENT(LinearPhysics)
 		LinearPhysics(Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 
 		virtual void update(F32 deltaTime);
-		
-		COMPONENT_CREATOR_IMPL(LinearPhysics)
 
 	protected:
 		Property<F32> velocity_property;

@@ -30,12 +30,11 @@ namespace Components
 	class Dynamo : public Component
 	{
 	public:
+		COMPONENT(Dynamo)
 		Dynamo(Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 
 		virtual void update(F32 deltaTime);
-		
-		COMPONENT_CREATOR_IMPL(Dynamo)
 
 	protected:
 		Property<Entity*> car_property;

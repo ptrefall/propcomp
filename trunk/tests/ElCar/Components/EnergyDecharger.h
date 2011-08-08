@@ -30,10 +30,9 @@ namespace Components
 	class EnergyDecharger : public Component
 	{
 	public:
+		COMPONENT(EnergyDecharger)
 		EnergyDecharger(Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
-		
-		COMPONENT_CREATOR_IMPL(EnergyDecharger)
 
 	protected:
 		Property<F32> energy_property;

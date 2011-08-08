@@ -30,12 +30,11 @@ namespace Components
 	class AngularPhysics : public Component
 	{
 	public:
+		COMPONENT(AngularPhysics)
 		AngularPhysics(Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 
 		virtual void update(F32 deltaTime);
-		
-		COMPONENT_CREATOR_IMPL(AngularPhysics)
 
 	protected:
 		Property<Entity*> car_property;

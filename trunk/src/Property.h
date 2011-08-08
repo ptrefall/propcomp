@@ -38,7 +38,8 @@
 #include "IProperty.h"
 
 template<class T>
-class PropertyData HAS_SIGNALSLOTS_INHERITANCE_TYPE
+class PropertyData 
+	: public sigslot::has_slots<> //HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**

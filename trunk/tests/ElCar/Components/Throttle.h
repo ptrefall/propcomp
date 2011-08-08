@@ -31,10 +31,9 @@ namespace Components
 	class Throttle : public Component
 	{
 	public:
+		COMPONENT(Throttle)
 		Throttle(Entity &owner, const T_String &name);
 		virtual ~Throttle();
-		
-		COMPONENT_CREATOR_IMPL(Throttle)
 
 	protected:
 		Property<F32> velocity_property;

@@ -30,12 +30,11 @@ namespace Components
 	class Timer : public Component
 	{
 	public:
+		COMPONENT(Timer)
 		Timer(Entity &owner, const T_String &name);
 		virtual ~Timer();
 
 		virtual void update(F32 deltaTime);
-		
-		COMPONENT_CREATOR_IMPL(Timer)
 
 	protected:
 		Property<bool> timeout_property;

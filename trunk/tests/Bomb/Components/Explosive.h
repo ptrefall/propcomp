@@ -31,10 +31,9 @@ namespace Components
 	class Explosive : public Component
 	{
 	public:
+		COMPONENT(Explosive)
 		Explosive(Entity &owner, const T_String &name);
 		virtual ~Explosive();
-
-		COMPONENT_CREATOR_IMPL(Explosive)
 
 	protected:
 		Property<T_String> name_property;

@@ -31,10 +31,9 @@ namespace Components
 	class RadiusTargetSeeker : public Component
 	{
 	public:
+		COMPONENT(RadiusTargetSeeker)
 		RadiusTargetSeeker(Entity &owner, const T_String &name);
 		virtual ~RadiusTargetSeeker();
-		
-		COMPONENT_CREATOR_IMPL(RadiusTargetSeeker)
 
 	protected:
 		PropertyList<Entity*> target_property_list;
