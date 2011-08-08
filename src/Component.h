@@ -98,6 +98,21 @@ protected:
  *
  * @param component The ComponentImplementation class, for instance COMPONENT_CREATOR_IMPL(Health)
  */
-#define COMPONENT(component) static T_String Type() { return T_String(#component); } \
-										  static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
-										  static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
+#define COMPONENT(component) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
+
+#define COMPONENT1(component, Custom_type1) \
+			static T_String Type() { return T_String(#component); } \
+			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1) \
+			{ \
+				Custom_type1 *custom = NULL_PTR; \
+				try { \
+					custom = custom1.cast<Custom_type1*>(); \
+				}catch(T_Bad_any_cast) { \
+					throw T_Exception(("Type of custom was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				return new component(owner, name, *custom); \
+			} \
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); }

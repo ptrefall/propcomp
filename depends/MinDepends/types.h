@@ -40,6 +40,7 @@
 #include <memory>
 #include <functional>
 #include "sigslot.h"
+#include "cdiggins_any.h"
 
 //Sigslot.h requires that PropertyData and Component inherit from
 //sigslot::has_slots<>, thus "overload" this preprocessed definition.
@@ -55,6 +56,8 @@ typedef float F32;
 typedef int S32;
 typedef unsigned int U32;
 typedef unsigned long T_EntityId;
+typedef cdiggins::any T_Any;
+typedef cdiggins::anyimpl::bad_any_cast T_Bad_any_cast;
 
 
 //Container types

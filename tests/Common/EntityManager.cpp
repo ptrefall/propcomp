@@ -29,30 +29,6 @@ requirements or restrictions.
 
 #include <iostream>
 
-namespace { EntityManager* _instance = NULL_PTR; }
-
-EntityManager& EntityManager::Instance()
-{
-	if(_instance == NULL_PTR)
-	{
-		std::cout << "Instanciate entity manager" << std::endl;
-		_instance = new EntityManager();
-	}
-	return *_instance;
-}
-
-void EntityManager::Shutdown()
-{
-	if(_instance)
-	{
-		delete _instance;
-		_instance = NULL_PTR;
-		std::cout << "Shut down entity manager" << std::endl;
-	}
-	else
-		std::cout << "Entity manager already shut down" << std::endl;
-}
-
 EntityManager::~EntityManager()
 {
 	for(unsigned int i = 0; i < entities.size(); i++)

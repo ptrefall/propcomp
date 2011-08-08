@@ -31,8 +31,7 @@ class Entity;
 class EntityManager
 {
 public:
-	static EntityManager& Instance();
-	static void Shutdown();
+	EntityManager() : nextEntityId(0) {}
 	~EntityManager();
 
 	void update(F32 deltaTime);
@@ -42,7 +41,6 @@ public:
 	T_Vector<Entity*>::Type &getEntities() { return entities; }
 
 protected:
-	EntityManager() : nextEntityId(0) {}
 	T_Vector<Entity*>::Type entities;
 	T_Vector<Entity*>::Type pendingDelete;
 	T_EntityId nextEntityId;

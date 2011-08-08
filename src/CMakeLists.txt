@@ -30,6 +30,7 @@ project(EntitySystem)
 set(MinDepends_HDRS
 	../depends/MinDepends/types.h
 	../depends/MinDepends/sigslot.h
+	../depends/MinDepends/cdiggins_any.h
 )
 SOURCE_GROUP("Header Files\\Types\\MinDepends" FILES ${MinDepends_HDRS})
 
