@@ -35,8 +35,7 @@ namespace Components
 
 		virtual void update(F32 deltaTime);
 		
-		static T_String getType() { return "AngularPhysics"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new AngularPhysics(owner, name); }
+		COMPONENT_CREATOR_IMPL(AngularPhysics)
 
 	protected:
 		Property<Entity*> car_property;

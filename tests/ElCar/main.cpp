@@ -100,16 +100,14 @@ void initFactory(ComponentFactory &factory)
 	std::cout << "- register Transformable" << std::endl;
 	std::cout << "- register WheelMount" << std::endl;
 
-	factory.registerComponent(Components::AngularPhysics::getType(), &Components::AngularPhysics::Create);
-	factory.registerComponent(Components::Dynamo::getType(), &Components::Dynamo::Create);
-	factory.registerComponent(Components::EnergyCharger::getType(), &Components::EnergyCharger::Create);
-	factory.registerComponent(Components::EnergyDecharger::getType(), &Components::EnergyDecharger::Create);
-	factory.registerComponent(Components::LinearPhysics::getType(), &Components::LinearPhysics::Create);
-	factory.registerComponent(Components::Throttle::getType(), &Components::Throttle::Create);
-	factory.registerComponent(Components::Transformable::getType(), &Components::Transformable::Create);
-	factory.registerComponent(Components::WheelMount::getType(), &Components::WheelMount::Create);
-	
-	
+	Components::AngularPhysics::RegisterToFactory(factory);
+	Components::Dynamo::RegisterToFactory(factory);
+	Components::EnergyCharger::RegisterToFactory(factory);
+	Components::EnergyDecharger::RegisterToFactory(factory);
+	Components::LinearPhysics::RegisterToFactory(factory);
+	Components::Throttle::RegisterToFactory(factory);
+	Components::Transformable::RegisterToFactory(factory);
+	Components::WheelMount::RegisterToFactory(factory);
 }
 
 void defineCar(Entity &car, ComponentFactory &factory)

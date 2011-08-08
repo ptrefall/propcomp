@@ -33,8 +33,7 @@ namespace Components
 		EnergyDecharger(Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 		
-		static T_String getType() { return "EnergyDecharger"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new EnergyDecharger(owner, name); }
+		COMPONENT_CREATOR_IMPL(EnergyDecharger)
 
 	protected:
 		Property<F32> energy_property;

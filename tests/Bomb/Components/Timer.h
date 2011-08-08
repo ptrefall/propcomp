@@ -35,8 +35,7 @@ namespace Components
 
 		virtual void update(F32 deltaTime);
 		
-		static T_String getType() { return "Timer"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Timer(owner, name); }
+		COMPONENT_CREATOR_IMPL(Timer)
 
 	protected:
 		Property<bool> timeout_property;

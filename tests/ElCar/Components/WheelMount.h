@@ -36,8 +36,7 @@ namespace Components
 		
 		virtual void update(F32 deltaTime);
 
-		static T_String getType() { return "WheelMount"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new WheelMount(owner, name); }
+		COMPONENT_CREATOR_IMPL(WheelMount)
 
 	protected:
 		PropertyList<Entity*> wheels_property_list;

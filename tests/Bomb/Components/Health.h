@@ -33,8 +33,7 @@ namespace Components
 		Health(Entity &owner, const T_String &name);
 		virtual ~Health();
 		
-		static T_String getType() { return "Health"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Health(owner, name); }
+		COMPONENT_CREATOR_IMPL(Health)
 
 	protected:
 		Property<T_String> name_property;

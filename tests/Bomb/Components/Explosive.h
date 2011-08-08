@@ -33,9 +33,8 @@ namespace Components
 	public:
 		Explosive(Entity &owner, const T_String &name);
 		virtual ~Explosive();
-		
-		static T_String getType() { return "Explosive"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new Explosive(owner, name); }
+
+		COMPONENT_CREATOR_IMPL(Explosive)
 
 	protected:
 		Property<T_String> name_property;

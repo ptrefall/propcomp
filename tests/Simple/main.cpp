@@ -51,8 +51,7 @@ public:
 	}
 	virtual ~Voice() {}
 	
-	static T_String getType() { return "Voice"; }
-	static Component* Create(Entity &owner, const T_String &name) { return new Voice(owner, name); }
+	COMPONENT_CREATOR_IMPL(Voice)
 
 private:
 	Property<T_String> hello_property;
@@ -98,8 +97,7 @@ public:
 	}
 	virtual ~Targeter() {}
 	
-	static T_String getType() { return "Targeter"; }
-	static Component* Create(Entity &owner, const T_String &name) { return new Targeter(owner, name); }
+	COMPONENT_CREATOR_IMPL(Targeter)
 
 private:
 	Property<Entity*> target_property;
@@ -161,8 +159,8 @@ void initFactory(ComponentFactory &factory)
 	std::cout << "- register Voice" << std::endl;
 	std::cout << "- register Targeter" << std::endl;
 
-	factory.registerComponent(Voice::getType(), &Voice::Create);
-	factory.registerComponent(Targeter::getType(), &Targeter::Create);
+	Voice::RegisterToFactory(factory);
+	Targeter::RegisterToFactory(factory);
 }
 
 void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)

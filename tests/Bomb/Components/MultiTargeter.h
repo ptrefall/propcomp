@@ -33,8 +33,7 @@ namespace Components
 		MultiTargeter(Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 		
-		static T_String getType() { return "MultiTargeter"; }
-		static Component* Create(Entity &owner, const T_String &name) { return new MultiTargeter(owner, name); }
+		COMPONENT_CREATOR_IMPL(MultiTargeter)
 
 	protected:
 		PropertyList<Entity*> target_property_list;
