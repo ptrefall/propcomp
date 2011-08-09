@@ -37,21 +37,24 @@ EntityManager::~EntityManager()
 
 void EntityManager::update(F32 deltaTime)
 {
-	for(unsigned int i = 0; i < pendingDelete.size(); i++)
+	if(!pendingDelete.empty())
 	{
-		for(unsigned int j = 0; j < entities.size(); j++)
+		for(unsigned int i = 0; i < pendingDelete.size(); i++)
 		{
-			if(entities[j] == pendingDelete[i])
+			for(unsigned int j = 0; j < entities.size(); j++)
 			{
-				//This is a vector element removal trick that's O(1)
-				entities[j] = entities.back();
-				entities.pop_back();
-				break;
+				if(entities[j] == pendingDelete[i])
+				{
+					//This is a vector element removal trick that's O(1)
+					entities[j] = entities.back();
+					entities.pop_back();
+					break;
+				}
 			}
+			delete pendingDelete[i];
 		}
-		delete pendingDelete[i];
+		pendingDelete.clear();
 	}
-	pendingDelete.clear();
 
 	for(unsigned int i = 0; i < entities.size(); i++)
 		entities[i]->updateComponents(deltaTime);
