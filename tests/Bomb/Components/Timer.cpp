@@ -41,7 +41,7 @@ Timer::~Timer()
 {
 }
 
-void Timer::update(F32 deltaTime)
+void Timer::update(const F32 &deltaTime)
 {
 	if(timeout_property.get() == true)
 		return;
