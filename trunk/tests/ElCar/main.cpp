@@ -133,7 +133,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
 		defineWheel(wheel, "WheelFrontLeft");
-		car.getPropertyList<Entity*>("Wheels").add(&wheel);
+		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
@@ -141,7 +141,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
 		defineWheel(wheel, "WheelFrontRight");
-		car.getPropertyList<Entity*>("Wheels").add(&wheel);
+		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
@@ -149,7 +149,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
 		defineWheel(wheel, "WheelBackLeft");
-		car.getPropertyList<Entity*>("Wheels").add(&wheel);
+		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 
@@ -157,7 +157,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
 		defineWheel(wheel, "WheelBackRight");
-		car.getPropertyList<Entity*>("Wheels").add(&wheel);
+		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 }

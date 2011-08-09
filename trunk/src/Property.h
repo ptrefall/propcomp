@@ -398,6 +398,8 @@ public:
 	T_String name;
 	/// Is the property read-only?
 	bool readOnly;
+	/// Signal that's emitted when a value in the property list change, returning the index that was changed, plus the old and new value.
+	typename T_Signal_v3<const U32 &, const T&, const T&>::Type valueChanged;
 	/// Signal that's emitted when a value is added to the property list, passing the new value with the signal.
 	typename T_Signal_v1<const T&>::Type valueAdded;
 	/// Signal that's emitted when a value is erased from the property list, passing the erased value with the signal.
@@ -405,6 +407,82 @@ public:
 	/// Signal that's emitted when the values of the property list is cleared.
 	typename T_Signal_v0<>::Type valuesCleared;
 };
+
+/**
+ * @file
+ * @class PropertyListValue
+ *
+ * @author Pål Trefall
+ * @author Kenneth Gangstø
+ *
+ * @version 2.0
+ *
+ * @brief Property List Value, returned by list to allow changing an index in the list safely.
+ *
+ * @section LICENSE
+ * This software is provided 'as-is', without any express or implied
+ * warranty.  In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ * 
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ *
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ *
+ * 3. This notice may not be removed or altered from any source distribution.
+ * 
+ * Note: Some of the libraries Component-based Entity Engine may link to may have additional
+ * requirements or restrictions.
+ * 
+ * @section DESCRIPTION
+ * PropertyListValue
+ * 
+ */
+
+template<class T>
+class PropertyListValue
+{
+public:
+	/**
+	 * Constructor
+	 */
+	PropertyListValue(T &value, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
+		: value(value), index(index), valueChanged(valueChanged)
+	{
+	}
+
+	/**
+	 * Destructor
+	 */
+	~PropertyListValue() {}
+
+	/// Set's property list value's data to rhs' shared pointer data.
+	void operator= (const T& rhs);
+
+private:
+	///
+	T &value;
+	///
+	const U32 &index;
+	///
+	typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged;
+};
+
+template<class T>
+inline void PropertyListValue<T>::operator =(const T &rhs)
+{
+	T oldValue = value;
+	value = rhs;
+	valueChanged.invoke(index, oldValue, newValue);
+}
+
 
 /**
  * @file
@@ -482,7 +560,7 @@ public:
 	virtual ~PropertyList() {}
 
 	/**
-	 * Add a value to the property list. Handles pushing onto the actual PropertyData.value,
+	 * Push back a value to the property list. Handles pushing onto the actual PropertyData.value,
 	 * plus invoke the valueAdded signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
@@ -490,7 +568,7 @@ public:
 	 * @param forced If this property list is read-only, setting this parameter to true will bypass the read-only rule.
 	 * @param duplicationGuard Whether the PropertyList should make an effort to guard against duplicate entires, defaults to false.
 	 */
-	void add(const T& value, bool forced = false, bool duplicationGuard = false) 
+	void push_back(const T& value, bool forced = false, bool duplicationGuard = false) 
 	{ 
 		if(data->readOnly && !forced)
 			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
@@ -624,6 +702,12 @@ public:
 	 */
 	typename T_Signal_v0<>::Type &valuesCleared() { return data->valuesCleared; }
 
+	/// Set's property list's data to rhs' shared pointer data.
+	PropertyList<T> operator= (const PropertyList<T>& rhs);
+
+	/// Get the value of list at given index.
+	PropertyListValue<T> operator[] (const U32& index);
+
 	/// Instead of propertyList.get() one can also use the propertyList() operator to get the real PropertyListData value.
 	operator typename T_Vector<T>::Type() const { return data->value; }
 
@@ -631,3 +715,19 @@ private:
 	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
 };
+
+template<class T>
+inline PropertyList<T> PropertyList<T>::operator =(const PropertyList<T> &rhs)
+{
+	data = rhs.data;
+	return *this;
+}
+
+template<class T>
+inline PropertyListValue<T> PropertyList<T>::operator [](const U32 &index)
+{
+	if(index >= data->value.size())
+		throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
+
+	return PropertyListValue<T>(data->value[index], index, data->valueChanged);
+}

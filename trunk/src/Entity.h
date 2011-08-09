@@ -314,7 +314,7 @@ public:
 	/**
 	 * Add a property list of specified type T and name to this entity.
 	 * If readOnly is specified to true, one can only change the property list by
-	 * directly calling propertyList.add(value, forced=true), all other pipes, like
+	 * directly calling propertyList.push_back(value, forced=true), all other pipes, like
 	 * via operators, will throw an exception.
 	 *
 	 * @param name The name of the property list used to store and associate the property list in the entity.
