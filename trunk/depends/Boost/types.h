@@ -67,13 +67,11 @@ typedef boost::exception T_Exception;
 template< typename T >
 struct T_Signal_v1 {
 	typedef boost::signal1<T> Type;
-	void invoke(T a1) { T_Signal_v1::Type.emit(a1); }
 };
 
 template<typename T,typename U>
 struct T_Signal_v2 {
    typedef boost::signal2<T,U> Type;
-   void invoke(T a1, U a2) { T_Signal_v2::Type.emit(a1, a2); }
 };
 
 template < typename T >

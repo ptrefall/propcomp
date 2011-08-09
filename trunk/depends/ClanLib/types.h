@@ -64,13 +64,11 @@ typedef CL_Exception T_Exception;
 template< typename T >
 struct T_Signal_v1 {
 	typedef CL_Signal_v1<T> Type;
-	void invoke(T a1) { T_Signal_v1::Type.invoke(a1); }
 };
 
 template<typename T,typename U>
 struct T_Signal_v2 {
    typedef CL_Signal_v2<T,U> Type;
-   void invoke(T a1, U a2) { T_Signal_v2::Type.invoke(a1, a2); }
 };
 
 template < typename T >
