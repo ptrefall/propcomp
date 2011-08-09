@@ -59,6 +59,6 @@ void RadiusTargetSeeker::onSeekInRadiusEvent(const F32 &radius)
 		if(distance > radius)
 			continue;
 
-		target_property_list.add(&entity);
+		target_property_list.push_back(&entity);
 	}
 }
