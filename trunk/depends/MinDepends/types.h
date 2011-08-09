@@ -57,7 +57,7 @@ typedef int S32;
 typedef unsigned int U32;
 typedef unsigned long T_EntityId;
 typedef cdiggins::any T_Any;
-typedef cdiggins::anyimpl::bad_any_cast T_Bad_any_cast;
+typedef cdiggins::anyimpl::bad_any_cast T_BadAnyCast;
 
 
 //Container types
