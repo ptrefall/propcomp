@@ -339,7 +339,7 @@ inline void EventHandler::onEvent0(const T_StringId &type)
 	if(it == events0.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
 
-	static_cast<EventSignal0*>(it->second)->signal.emit();
+	static_cast<EventSignal0*>(it->second)->signal.invoke();
 }
 
 template<class T>
@@ -352,10 +352,10 @@ inline void EventHandler::onEvent1(const T_StringId &type, const T &arg0)
 #ifdef _DEBUG
 	EventSignal1<T> *signal = dynamic_cast<EventSignal1<T>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
-	signal->signal.emit(arg0);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
+	signal->signal.invoke(arg0);
 #else
-	static_cast<EventSignal1<T>*>(it->second)->signal.emit(arg0);
+	static_cast<EventSignal1<T>*>(it->second)->signal.invoke(arg0);
 #endif
 }
 
@@ -369,10 +369,10 @@ inline void EventHandler::onEvent2(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal2<T,U> *signal = dynamic_cast<EventSignal2<T,U>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1);
 #else
-	static_cast<EventSignal2<T,U>*>(it->second)->signal.emit(arg0, arg1);
+	static_cast<EventSignal2<T,U>*>(it->second)->signal.invoke(arg0, arg1);
 #endif
 }
 
@@ -386,10 +386,10 @@ inline void EventHandler::onEvent3(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal3<T,U,V> *signal = dynamic_cast<EventSignal3<T,U,V>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2);
 #else
-	static_cast<EventSignal3<T,U,V>*>(it->second)->signal.emit(arg0, arg1, arg2);
+	static_cast<EventSignal3<T,U,V>*>(it->second)->signal.invoke(arg0, arg1, arg2);
 #endif
 }
 
@@ -403,10 +403,10 @@ inline void EventHandler::onEvent4(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal4<T,U,V,W> *signal = dynamic_cast<EventSignal4<T,U,V,W>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2, arg3);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2, arg3);
 #else
-	static_cast<EventSignal4<T,U,V,W>*>(it->second)->signal.emit(arg0, arg1, arg2, arg3);
+	static_cast<EventSignal4<T,U,V,W>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3);
 #endif
 }
 
@@ -420,10 +420,10 @@ inline void EventHandler::onEvent5(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal5<T,U,V,W,X> *signal = dynamic_cast<EventSignal5<T,U,V,W,X>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2, arg3, arg4);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4);
 #else
-	static_cast<EventSignal5<T,U,V,W,X>*>(it->second)->signal.emit(arg0, arg1, arg2, arg3, arg4);
+	static_cast<EventSignal5<T,U,V,W,X>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4);
 #endif
 }
 
@@ -437,10 +437,10 @@ inline void EventHandler::onEvent6(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal6<T,U,V,W,X,Y> *signal = dynamic_cast<EventSignal6<T,U,V,W,X,Y>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
 #else
-	static_cast<EventSignal6<T,U,V,W,X,Y>*>(it->second)->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5);
+	static_cast<EventSignal6<T,U,V,W,X,Y>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
 #endif
 }
 
@@ -454,10 +454,10 @@ inline void EventHandler::onEvent7(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal7<T,U,V,W,X,Y,Z> *signal = dynamic_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 #else
-	static_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second)->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+	static_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 #endif
 }
 
@@ -471,10 +471,10 @@ inline void EventHandler::onEvent8(const T_StringId &type, const T &arg0, const 
 #ifdef _DEBUG
 	EventSignal8<T,U,V,W,X,Y,Z,S> *signal = dynamic_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second);
 	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to emit event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 #else
-	static_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second)->signal.emit(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+	static_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 #endif
 }
 

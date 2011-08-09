@@ -137,7 +137,7 @@ public:
 
 	/**
 	 * Set the value of the property. Handles setting the actual PropertyData.value,
-	 * plus emit the valueChanged signal. This also enforces the readOnly flag, which
+	 * plus invoke the valueChanged signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param value The new value of the property.
@@ -153,7 +153,7 @@ public:
 			T oldValue = data->value;
 			data->value = value; 
 
-			data->valueChanged.emit(oldValue, value);
+			data->valueChanged.invoke(oldValue, value);
 		}
 	}
 
@@ -483,7 +483,7 @@ public:
 
 	/**
 	 * Add a value to the property list. Handles pushing onto the actual PropertyData.value,
-	 * plus emit the valueAdded signal. This also enforces the readOnly flag, which
+	 * plus invoke the valueAdded signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param value The new value to add to the property list.
@@ -505,12 +505,12 @@ public:
 		}
 
 		data->value.push_back(value); 
-		data->valueAdded.emit(value);
+		data->valueAdded.invoke(value);
 	}
 
 	/**
 	 * Erase a value from the property list. Handles erasing from the actual PropertyData.value,
-	 * plus emit the valueErased signal. This also enforces the readOnly flag, which
+	 * plus invoke the valueErased signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param index The index to erase from the property list.
@@ -530,12 +530,12 @@ public:
 
 		const T &value = data->value[index];
 		data->value.erase(data->value.begin()+index);
-		data->valueErased.emit(value);
+		data->valueErased.invoke(value);
 	}
 
 	/**
 	 * Clear all values from the property list. Handles clearing all values from the actual PropertyData.value,
-	 * plus emit the valuesCleared signal. This also enforces the readOnly flag, which
+	 * plus invoke the valuesCleared signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param deleteData Whether the data being cleared should be automatically deleted. Defaults to false.
@@ -552,7 +552,7 @@ public:
 			//	delete data->value[i];
 		}
 		data->value.clear();
-		data->valuesCleared.emit();
+		data->valuesCleared.invoke();
 	}
 
 	/**
