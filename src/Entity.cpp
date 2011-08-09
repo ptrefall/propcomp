@@ -40,6 +40,7 @@ Entity::~Entity()
 	components.clear();
 
 	removeAllProperties();
+	removeAllPropertyLists();
 }
 
 Component &Entity::addComponent(const T_String& type)
@@ -84,4 +85,12 @@ void Entity::updateComponents(F32 deltaTime)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 		components[i]->update(deltaTime);
+}
+
+Entity &Entity::operator= (const Entity &rhs)
+{
+	if(this == &rhs)
+		return *this;
+
+	throw T_Exception("Assignment operation between entities are not supported!");
 }

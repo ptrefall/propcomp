@@ -46,7 +46,7 @@ Explosive::~Explosive()
 {
 }
 
-void Explosive::onTimeoutChanged(const bool &oldValue, const bool &newValue)
+void Explosive::onTimeoutChanged(const bool &/*oldValue*/, const bool &newValue)
 {
 	//If no longer alive, EXPLODE!
 	if(newValue)

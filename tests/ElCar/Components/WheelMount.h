@@ -35,7 +35,7 @@ namespace Components
 		WheelMount(Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		
-		virtual void update(F32 deltaTime);
+		virtual void update(const F32 &deltaTime);
 
 	protected:
 		PropertyList<Entity*> wheels_property_list;

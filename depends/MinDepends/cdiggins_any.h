@@ -42,7 +42,7 @@ namespace anyimpl
     template<typename T>
     struct small_any_policy : typed_base_any_policy<T>
     {
-        virtual void static_delete(void** x) { }
+        virtual void static_delete(void** /*x*/) { }
         virtual void copy_from_value(void const* src, void** dest)
             { new(dest) T(*reinterpret_cast<T const*>(src)); }
         virtual void clone(void* const* src, void** dest) { *dest = *src; }

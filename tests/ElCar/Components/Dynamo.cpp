@@ -41,7 +41,7 @@ Dynamo::~Dynamo()
 {
 }
 
-void Dynamo::update(F32 deltaTime)
+void Dynamo::update(const F32 &/*deltaTime*/)
 {
 	if(car_property.get() == NULL_PTR)
 		return;

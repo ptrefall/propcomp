@@ -45,7 +45,7 @@ AngularPhysics::~AngularPhysics()
 {
 }
 
-void AngularPhysics::update(F32 deltaTime)
+void AngularPhysics::update(const F32 &deltaTime)
 {
 	if(car_property.get() == NULL_PTR ||  car_property.get()->hasProperty("Mass") == false)
 		return;

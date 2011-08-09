@@ -39,7 +39,7 @@ LinearPhysics::~LinearPhysics()
 {
 }
 
-void LinearPhysics::update(F32 deltaTime)
+void LinearPhysics::update(const F32 &deltaTime)
 {
 	position_property += T_Vec3f(0.0f, 0.0f, velocity_property.get() * deltaTime);
 	std::cout << owner.getType().c_str() << " moved to (" << position_property.get().x << ", " << position_property.get().y << ", " << position_property.get().z << ")" << std::endl;

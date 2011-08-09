@@ -31,8 +31,8 @@ requirements or restrictions.
 
 void printStartup();
 void initFactory(ComponentFactory &factory);
-void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name);
-void defineMan(Entity &man, ComponentFactory &factory, const T_String &name);
+void defineDog(Entity &dog, const T_String &name);
+void defineMan(Entity &man, const T_String &name);
 void printReady();
 void wait(int ms);
 
@@ -100,7 +100,7 @@ public:
 private:
 	Property<Entity*> target_property;
 
-	void onTargetChanged(Entity * const &oldValue, Entity * const &newValue)
+	void onTargetChanged(Entity * const &/*oldValue*/, Entity * const &/*newValue*/)
 	{
 		std::cout << owner.getProperty<T_String>("Name").get().c_str() << " the " << owner.getType().c_str() << " looks at " 
 		<< target_property.get()->getProperty<T_String>("Name").get().c_str() << std::endl;
@@ -130,13 +130,13 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &dog = Entity(factory, 0, "Dog");
-	defineDog(dog, factory, "Champ");
+	Entity dog = Entity(factory, 0, "Dog");
+	defineDog(dog, "Champ");
 
-	Entity &man = Entity(factory, 1, "Man");
-	defineMan(man, factory, "James");
+	Entity man = Entity(factory, 1, "Man");
+	defineMan(man, "James");
 
-	Entity &custom_test = Entity(factory, 2, "CustomTest");
+	Entity custom_test = Entity(factory, 2, "CustomTest");
 	int a = 0; int b = 1; int c = 2; int d = 3; int e = 4; int f = 5; int g = 6; int h = 7;
 	custom_test.addComponent<int,int,int,int,int,int,int,int>("CustomParamsHolder", a,b,c,d,e,f,g,h);
 
@@ -180,7 +180,7 @@ void initFactory(ComponentFactory &factory)
 	CustomParamsHolder::RegisterToFactory(factory);
 }
 
-void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)
+void defineDog(Entity &dog, const T_String &name)
 {
 	std::cout << "Define dog entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
@@ -197,7 +197,7 @@ void defineDog(Entity &dog, ComponentFactory &factory, const T_String &name)
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
 }
 
-void defineMan(Entity &man, ComponentFactory &factory, const T_String &name)
+void defineMan(Entity &man, const T_String &name)
 {
 	std::cout << "Build man entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
