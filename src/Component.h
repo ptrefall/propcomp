@@ -121,7 +121,7 @@ protected:
 				Custom_type1 *custom = NULL_PTR; \
 				try { \
 					custom = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				return new component(owner, name, *custom); \
@@ -145,13 +145,13 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB); \
@@ -176,19 +176,19 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC); \
@@ -214,25 +214,25 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD); \
@@ -259,31 +259,31 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE); \
@@ -311,37 +311,37 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF); \
@@ -370,43 +370,43 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
 				Custom_type7 *customG = NULL_PTR; \
 				try { \
 					customG = custom7.cast<Custom_type7*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
@@ -436,49 +436,49 @@ protected:
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
 				Custom_type7 *customG = NULL_PTR; \
 				try { \
 					customG = custom7.cast<Custom_type7*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
 				} \
 				Custom_type8 *customH = NULL_PTR; \
 				try { \
 					customH = custom8.cast<Custom_type8*>(); \
-				}catch(T_Bad_any_cast) { \
+				}catch(T_BadAnyCast) { \
 					throw T_Exception(("Type of custom8 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type8)).c_str()); \
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
