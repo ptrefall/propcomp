@@ -42,7 +42,7 @@ WheelMount::~WheelMount()
 {
 }
 
-void WheelMount::update(F32 deltaTime)
+void WheelMount::update(const F32 &/*deltaTime*/)
 {
 	F32 avgVelocity = 0.0f;
 	for(U32 i = 0; i < wheels_property_list.size(); i++)

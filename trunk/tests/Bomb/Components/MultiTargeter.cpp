@@ -40,6 +40,6 @@ MultiTargeter::~MultiTargeter()
 {
 }
 
-void MultiTargeter::onTargetAdded(Entity * const &newValue)
+void MultiTargeter::onTargetAdded(Entity * const &/*newValue*/)
 {
 }

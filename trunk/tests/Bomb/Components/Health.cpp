@@ -56,7 +56,7 @@ void Health::onDmgEvent(const F32 &dmg, const T_String &attackerName)
 	}
 }
 
-void Health::onHealthChanged(const F32 &oldValue, const F32 &newValue)
+void Health::onHealthChanged(const F32 &/*oldValue*/, const F32 &newValue)
 {
 	if(newValue <= 0.0f)
 	{
@@ -64,7 +64,7 @@ void Health::onHealthChanged(const F32 &oldValue, const F32 &newValue)
 	}
 }
 
-void Health::onAliveChanged(const bool &oldValue, const bool &newValue)
+void Health::onAliveChanged(const bool &/*oldValue*/, const bool &newValue)
 {
 	//If no longer alive, tell the go's player, if there is a player
 	if(!newValue)

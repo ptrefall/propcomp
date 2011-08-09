@@ -35,7 +35,7 @@ namespace Components
 		LinearPhysics(Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 
-		virtual void update(F32 deltaTime);
+		virtual void update(const F32 &deltaTime);
 
 	protected:
 		Property<F32> velocity_property;

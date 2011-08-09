@@ -77,7 +77,16 @@ public:
 	 *
 	 * @param deltaTime Number of seconds that has passed since our last update.
 	 */
-    virtual void update(F32 deltaTime) {};
+    virtual void update(const F32 &/*deltaTime*/) {};
+
+	/// Provide an assignment operator to leviate level W4 warning
+	Component &operator= (const Component &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		throw T_Exception("Assignment operation between components are not supported!");
+	}
 
 protected:
 	/**
@@ -128,7 +137,13 @@ protected:
 				} \
 				return new component(owner, name, *custom); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -158,7 +173,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
  /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -195,7 +216,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -239,7 +266,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -290,7 +323,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -348,7 +387,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -413,7 +458,13 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -485,4 +536,10 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); }
+			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); } \
+			component &operator= (const component &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between components are not supported!"); \
+			}

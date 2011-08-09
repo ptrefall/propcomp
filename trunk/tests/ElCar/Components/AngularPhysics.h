@@ -34,7 +34,7 @@ namespace Components
 		AngularPhysics(Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 
-		virtual void update(F32 deltaTime);
+		virtual void update(const F32 &deltaTime);
 
 	protected:
 		Property<Entity*> car_property;

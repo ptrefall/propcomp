@@ -41,7 +41,7 @@ requirements or restrictions.
 void printStartup();
 void initFactory(ComponentFactory &factory);
 void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr);
-void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name);
+void defineWheel(Entity &wheel, const T_String &name);
 void printReady();
 void wait(int ms);
 
@@ -132,7 +132,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Front Left
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelFrontLeft");
+		defineWheel(wheel, "WheelFrontLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -140,7 +140,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Front Right
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelFrontRight");
+		defineWheel(wheel, "WheelFrontRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -148,7 +148,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Back Left
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelBackLeft");
+		defineWheel(wheel, "WheelBackLeft");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
@@ -156,13 +156,13 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	//Back Right
 	{
 		Entity &wheel = entityMgr.create(factory, "Wheel");
-		defineWheel(wheel, factory, "WheelBackRight");
+		defineWheel(wheel, "WheelBackRight");
 		car.getPropertyList<Entity*>("Wheels").add(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
 	}
 }
 
-void defineWheel(Entity &wheel, ComponentFactory &factory, const T_String &name)
+void defineWheel(Entity &wheel, const T_String &name)
 {
 	std::cout << "Define wheel entity..." << std::endl;
 	std::cout << "- add AngularPhysics component" << std::endl;

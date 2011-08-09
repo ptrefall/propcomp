@@ -38,8 +38,8 @@ requirements or restrictions.
 
 void printStartup();
 void initFactory(ComponentFactory &factory);
-void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMgr);
-void defineCrate(Entity &crate, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name);
+void defineBomb(Entity &bomb, EntityManager &entityMgr);
+void defineCrate(Entity &crate, EntityManager &entityMgr, const T_String &name);
 void printReady();
 void printResult(Entity &entity);
 void wait(int ms);
@@ -56,20 +56,20 @@ void main()
 	initFactory(factory);
 
 	Entity &bomb = entityMgr.create(factory, "Bomb");
-	defineBomb(bomb, factory, entityMgr);
+	defineBomb(bomb, entityMgr);
 
 	Entity &crateA = entityMgr.create(factory, "Crate");
-	defineCrate(crateA, factory, entityMgr, "CrateA");
+	defineCrate(crateA, entityMgr, "CrateA");
 	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
 	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
 
 	Entity &crateB = entityMgr.create(factory, "Crate");
-	defineCrate(crateB, factory, entityMgr, "CrateB");
+	defineCrate(crateB, entityMgr, "CrateB");
 	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
 	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
 
 	Entity &crateC = entityMgr.create(factory, "Crate");
-	defineCrate(crateC, factory, entityMgr, "CrateC");
+	defineCrate(crateC, entityMgr, "CrateC");
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
@@ -119,7 +119,7 @@ void initFactory(ComponentFactory &factory)
 	Components::Transformable::RegisterToFactory(factory);
 }
 
-void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMgr)
+void defineBomb(Entity &bomb, EntityManager &entityMgr)
 {
 	std::cout << "Define bomb entity..." << std::endl;
 	std::cout << "- add Timer component" << std::endl;
@@ -140,7 +140,7 @@ void defineBomb(Entity &bomb, ComponentFactory &factory, EntityManager &entityMg
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
 
-void defineCrate(Entity &crate, ComponentFactory &factory, EntityManager &entityMgr, const T_String &name)
+void defineCrate(Entity &crate, EntityManager &entityMgr, const T_String &name)
 {
 	std::cout << "Define crate entity..." << std::endl;
 	std::cout << "- add Health component" << std::endl;

@@ -389,18 +389,19 @@ public:
 	/**
 	 * Handles deletion of all properties pending for deletion in this entity.
 	 *
-	 * @param deltaTime  Should be the time elapsed since update was called last time.
 	 */
-	void updateProperties(F32 deltaTime);
+	void updateProperties();
 
 	/**
 	 * Handles deletion of all property lists pending for deletion in this entity.
 	 *
-	 * @param deltaTime  Should be the time elapsed since update was called last time.
 	 */
-	void updatePropertyLists(F32 deltaTime);
+	void updatePropertyLists();
 
 	//--------------------------------------------------------------
+
+	/// Provide an assignment operator to leviate level W4 warning
+	Entity &operator= (const Entity &rhs);
 
 protected:
 	/// The list of all components owned by this entity.
@@ -683,7 +684,7 @@ inline void Entity::removeAllProperties()
 	clearDeletedProperties();
 }
 
-inline void Entity::updateProperties(F32 deltaTime)
+inline void Entity::updateProperties()
 {
 	clearDeletedProperties();
 }
@@ -795,7 +796,7 @@ inline void Entity::removeAllPropertyLists()
 	clearDeletedPropertyLists();
 }
 
-inline void Entity::updatePropertyLists(F32 deltaTime)
+inline void Entity::updatePropertyLists()
 {
 	clearDeletedPropertyLists();
 }
