@@ -2,11 +2,14 @@
 
 /**
  * @file
+ * @class ComponentFactory
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
+ *
+ * @brief Component Factory class
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
