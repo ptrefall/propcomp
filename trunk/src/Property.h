@@ -410,14 +410,14 @@ public:
 
 /**
  * @file
- * @class PropertyListValue
+ * @class PropertyListIndexValue
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief Property List Value, returned by list to allow changing an index in the list safely.
+ * @brief Property List Index Value, returned by list to allow changing an index in the list safely.
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -442,18 +442,18 @@ public:
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * PropertyListValue
+ * PropertyListIndexValue
  * 
  */
 
 template<class T>
-class PropertyListValue
+class PropertyListIndexValue
 {
 public:
 	/**
 	 * Constructor
 	 */
-	PropertyListValue(T &value, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
+	PropertyListIndexValue(T &value, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
 		: value(value), index(index), valueChanged(valueChanged)
 	{
 	}
@@ -461,7 +461,7 @@ public:
 	/**
 	 * Destructor
 	 */
-	~PropertyListValue() {}
+	~PropertyListIndexValue() {}
 
 	/**
 	 * Returns the real value of the PropertyListValue
@@ -474,7 +474,7 @@ public:
 	void operator= (const T& rhs);
 
 	/// Provide an assignment operator to leviate level W4 warning
-	PropertyListValue<T> &operator= (const PropertyListValue<T> &rhs);
+	PropertyListIndexValue<T> &operator= (const PropertyListIndexValue<T> &rhs);
 
 	/// Instead of propertyListValue.get() this operator exist for convenience.
 	operator const T &() const { return value; }
@@ -489,7 +489,7 @@ private:
 };
 
 template<class T>
-inline void PropertyListValue<T>::operator =(const T &rhs)
+inline void PropertyListIndexValue<T>::operator =(const T &rhs)
 {
 	T oldValue = value;
 	value = rhs;
@@ -497,12 +497,12 @@ inline void PropertyListValue<T>::operator =(const T &rhs)
 }
 
 template<class T>
-inline PropertyListValue<T> &PropertyListValue<T>::operator= (const PropertyListValue<T> &rhs)
+inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const PropertyListIndexValue<T> &rhs)
 {
 	if(this == &rhs)
 		return *this;
 
-	throw T_Exception("Assignment operation between property list values are not supported!");
+	throw T_Exception("Assignment operation between property list index values are not supported!");
 }
 
 /**
@@ -726,7 +726,7 @@ public:
 	PropertyList<T> operator= (const PropertyList<T>& rhs);
 
 	/// Get the value of list at given index.
-	PropertyListValue<T> operator[] (const U32& index);
+	PropertyListIndexValue<T> operator[] (const U32& index);
 
 	/// Instead of propertyList.get() this operator exist for convenience.
 	operator const typename T_Vector<T>::Type &() const { return data->value; }
@@ -744,10 +744,10 @@ inline PropertyList<T> PropertyList<T>::operator =(const PropertyList<T> &rhs)
 }
 
 template<class T>
-inline PropertyListValue<T> PropertyList<T>::operator [](const U32 &index)
+inline PropertyListIndexValue<T> PropertyList<T>::operator [](const U32 &index)
 {
 	if(index >= data->value.size())
 		throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
 
-	return PropertyListValue<T>(data->value[index], index, data->valueChanged);
+	return PropertyListIndexValue<T>(data->value[index], index, data->valueChanged);
 }
