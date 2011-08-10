@@ -58,7 +58,7 @@ void Explosive::onTimeoutChanged(const bool &/*oldValue*/, const bool &newValue)
 	}
 }
 
-void Explosive::onTargetAdded(Entity * const &newValue)
+void Explosive::onTargetAdded(const U32 &/*index*/, Entity * const &newValue)
 {
 	//Must have a position in order to be affected
 	if(newValue->hasProperty("Position") == false)

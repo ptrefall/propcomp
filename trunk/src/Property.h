@@ -399,11 +399,11 @@ public:
 	/// Is the property read-only?
 	bool readOnly;
 	/// Signal that's emitted when a value in the property list change, returning the index that was changed, plus the old and new value.
-	typename T_Signal_v3<const U32 &, const T&, const T&>::Type valueChanged;
-	/// Signal that's emitted when a value is added to the property list, passing the new value with the signal.
-	typename T_Signal_v1<const T&>::Type valueAdded;
-	/// Signal that's emitted when a value is erased from the property list, passing the erased value with the signal.
-	typename T_Signal_v1<const T&>::Type valueErased;
+	typename T_Signal_v3<const U32&, const T&, const T&>::Type valueChanged;
+	/// Signal that's emitted when a value is added to the property list, passing the new value with the signal along with the index.
+	typename T_Signal_v2<const U32&, const T&>::Type valueAdded;
+	/// Signal that's emitted when a value is erased from the property list, passing the erased value with the signal along with the index.
+	typename T_Signal_v2<const U32&, const T&>::Type valueErased;
 	/// Signal that's emitted when the values of the property list is cleared.
 	typename T_Signal_v0<>::Type valuesCleared;
 };
@@ -466,6 +466,9 @@ public:
 	/// Set's property list value's data to rhs' shared pointer data.
 	void operator= (const T& rhs);
 
+	/// Provide an assignment operator to leviate level W4 warning
+	PropertyListValue<T> &operator= (const PropertyListValue<T> &rhs);
+
 private:
 	///
 	T &value;
@@ -480,9 +483,17 @@ inline void PropertyListValue<T>::operator =(const T &rhs)
 {
 	T oldValue = value;
 	value = rhs;
-	valueChanged.invoke(index, oldValue, newValue);
+	valueChanged.invoke(index, oldValue, value);
 }
 
+template<class T>
+inline PropertyListValue<T> &PropertyListValue<T>::operator= (const PropertyListValue<T> &rhs)
+{
+	if(this == &rhs)
+		return *this;
+
+	throw T_Exception("Assignment operation between property list values are not supported!");
+}
 
 /**
  * @file
@@ -583,7 +594,7 @@ public:
 		}
 
 		data->value.push_back(value); 
-		data->valueAdded.invoke(value);
+		data->valueAdded.invoke((U32)data->value.size()-1, value);
 	}
 
 	/**
@@ -592,10 +603,9 @@ public:
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param index The index to erase from the property list.
-	 * @param deleteData Whether the data being erased should be automatically deleted. Defaults to false.
 	 * @param forced If this property list is read-only, setting this parameter to true will bypass the read-only rule.
 	 */
-	void erase(U32 index, bool deleteData = false, bool forced = false)
+	void erase(const U32 &index, bool forced = false)
 	{
 		if(data->readOnly && !forced)
 			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
@@ -603,12 +613,9 @@ public:
 		if(index >= data->value.size())
 			return;
 
-		//if(deleteData)
-		//	delete data->value[index];
-
-		const T &value = data->value[index];
+		T value = data->value[index];
 		data->value.erase(data->value.begin()+index);
-		data->valueErased.invoke(value);
+		data->valueErased.invoke(index, value);
 	}
 
 	/**
@@ -616,19 +623,13 @@ public:
 	 * plus invoke the valuesCleared signal. This also enforces the readOnly flag, which
 	 * can only be bypassed by passing in forced = true.
 	 *
-	 * @param deleteData Whether the data being cleared should be automatically deleted. Defaults to false.
 	 * @param forced If this property list is read-only, setting this parameter to true will bypass the read-only rule.
 	 */
-	void clear(bool deleteData = false, bool forced = false)
+	void clear(bool forced = false)
 	{
 		if(data->readOnly && !forced)
 			throw T_Exception(("PropertyList " + data->name + " is read-only!").c_str());
 
-		if(deleteData)
-		{
-			//for(U32 i = 0; i < data->value.size(); i++)
-			//	delete data->value[i];
-		}
 		data->value.clear();
 		data->valuesCleared.invoke();
 	}
@@ -677,12 +678,21 @@ public:
 
 	/**
 	 * Function that gives the outside access to the PropertyListData's
+	 * valueChanged signal. It's through this function call we can
+	 * register slots to the valueChanged signal.
+	 *
+	 * @return Returns the valueChanged signal of this property list's PropertyListData.
+	 */
+	typename T_Signal_v3<const U32&, const T&, const T&>::Type &valueChanged() { return data->valueChanged; }
+
+	/**
+	 * Function that gives the outside access to the PropertyListData's
 	 * valueAdded signal. It's through this function call we can
 	 * register slots to the valueAdded signal.
 	 *
 	 * @return Returns the valueAdded signal of this property list's PropertyListData.
 	 */
-	typename T_Signal_v1<const T&>::Type &valueAdded() { return data->valueAdded; }
+	typename T_Signal_v2<const U32&, const T&>::Type &valueAdded() { return data->valueAdded; }
 
 	/**
 	 * Function that gives the outside access to the PropertyListData's
@@ -691,7 +701,7 @@ public:
 	 *
 	 * @return Returns the valueErased signal of this property list's PropertyListData.
 	 */
-	typename T_Signal_v1<const T&>::Type &valueErased() { return data->valueErased; }
+	typename T_Signal_v2<const U32&, const T&>::Type &valueErased() { return data->valueErased; }
 
 	/**
 	 * Function that gives the outside access to the PropertyListData's

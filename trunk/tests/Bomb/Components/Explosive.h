@@ -48,7 +48,7 @@ namespace Components
 		void onTimeoutChanged(const bool &oldValue, const bool &newValue);
 
 		//PropertyList Slots
-		void onTargetAdded(Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Entity * const &newValue);
 
 		//Event Ids
 		T_StringId seekInRadiusEventId;

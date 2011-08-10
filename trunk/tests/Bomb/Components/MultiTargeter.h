@@ -37,6 +37,6 @@ namespace Components
 	protected:
 		PropertyList<Entity*> target_property_list;
 
-		void onTargetAdded(Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Entity * const &newValue);
 	};
 }
