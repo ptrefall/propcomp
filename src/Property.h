@@ -234,7 +234,7 @@ public:
 	/// Check whether the value of rhs is greater than property's data value
 	bool operator< (const T& rhs);
 
-	/// Instead of property.get() one can also use the property() operator to get the real PropertyData value.
+	/// Instead of property.get() this operator exist for convenience.
 	operator T() const { return data->value; }
 
 private:
@@ -463,11 +463,21 @@ public:
 	 */
 	~PropertyListValue() {}
 
+	/**
+	 * Returns the real value of the PropertyListValue
+	 *
+	 * @return Returns the real value of the PropertyListValue.
+	 */
+	const T &get() const { return value; }
+
 	/// Set's property list value's data to rhs' shared pointer data.
 	void operator= (const T& rhs);
 
 	/// Provide an assignment operator to leviate level W4 warning
 	PropertyListValue<T> &operator= (const PropertyListValue<T> &rhs);
+
+	/// Instead of propertyListValue.get() this operator exist for convenience.
+	operator T() const { return value; }
 
 private:
 	///
@@ -718,7 +728,7 @@ public:
 	/// Get the value of list at given index.
 	PropertyListValue<T> operator[] (const U32& index);
 
-	/// Instead of propertyList.get() one can also use the propertyList() operator to get the real PropertyListData value.
+	/// Instead of propertyList.get() this operator exist for convenience.
 	operator typename T_Vector<T>::Type() const { return data->value; }
 
 private:
