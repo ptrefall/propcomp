@@ -42,6 +42,6 @@ namespace Components
 		Property<F32> generationFactor_property;
 		Property<F32> dynamoEfficiency_property;
 
-		T_HashedStringId addEffectEventId;
+		T_HashedString addEffectEventId;
 	};
 }

@@ -41,6 +41,6 @@ namespace Components
 
 		void onAddEffectEvent(const F32 &effect);
 
-		T_HashedStringId addEffectEventId;
+		T_HashedString addEffectEventId;
 	};
 }

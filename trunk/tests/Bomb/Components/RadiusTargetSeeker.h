@@ -42,7 +42,7 @@ namespace Components
 
 		void onSeekInRadiusEvent(const F32 &radius);
 
-		T_HashedStringId seekInRadiusEventId;
+		T_HashedString seekInRadiusEventId;
 
 		EntityManager &entityMgr;
 	};

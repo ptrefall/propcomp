@@ -61,7 +61,7 @@ void main()
 
 	printReady();
 
-	T_HashedStringId throttleEventId("THROTTLE");
+	T_HashedString throttleEventId("THROTTLE");
 
 	U32 num_iterations = 5;
 	U32 curr_iteration = 0;
