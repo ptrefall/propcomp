@@ -41,15 +41,16 @@
  * must adhere to in order to register a component type to the factory.
  * 
  * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an entity- and a component-instance
+ * active, and use it as a way to organize components, but an Entity- and a component-instance
  * will only associate with a single component factory instance.
  * 
  */
 
 #include "types_config.h"
 
-class Component;
 class Entity;
+
+class Component;
 
 class ComponentFactory
 {
@@ -70,7 +71,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 */
 	typedef Component*(* ComponentCreator)(Entity &entity, const T_String &type);
@@ -81,7 +82,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 */
@@ -93,7 +94,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -106,7 +107,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -120,7 +121,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -135,7 +136,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -151,7 +152,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -168,7 +169,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -186,7 +187,7 @@ public:
 	 * to instanciate itself within it's function, and then provide it, along with
 	 * a type identifier, to the component factory for registration.
 	 *
-	 * @param entity Reference to the entity that will own this component instance.
+	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
@@ -285,26 +286,26 @@ public:
 	//--------------------------------------------------------------------------------
 
 	/**
-	 * Create an instance of a component of type, owned by entity.
+	 * Create an instance of a component of type, owned by Entity.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 */
 	Component* createComponent(Entity &entity, const T_String &type);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 */
 	Component* createComponentCustom1(Entity &entity, const T_String &type, T_Any &custom1);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -312,9 +313,9 @@ public:
 	Component* createComponentCustom2(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -323,9 +324,9 @@ public:
 	Component* createComponentCustom3(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -335,9 +336,9 @@ public:
 	Component* createComponentCustom4(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -348,9 +349,9 @@ public:
 	Component* createComponentCustom5(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -362,9 +363,9 @@ public:
 	Component* createComponentCustom6(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -377,9 +378,9 @@ public:
 	Component* createComponentCustom7(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7);
 
 	/**
-	 * Create an instance of a component of type, owned by entity, that takes custom parameters.
+	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param entity The owner of the component instance.
+	 * @param Entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.

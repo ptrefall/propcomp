@@ -21,7 +21,7 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include <Entity.h>
+#include "../Common/Entity.h"
 #include <Component.h>
 #include <ComponentFactory.h>
 
@@ -93,7 +93,7 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	std::cout << "Define test entity..." << std::endl;
+	std::cout << "Define test Entity..." << std::endl;
 	std::cout << "- add ComponentA component" << std::endl;
 	std::cout << "- add ComponentB component" << std::endl;
 
@@ -103,13 +103,13 @@ void main()
 
 	printReady();
 
-	// When accessing a Property(List) externally from the entity,
+	// When accessing a Property(List) externally from the Entity,
 	// it's good practise to check that the property you're about to
 	// work on actually exist. Software has living code, that might
 	// change several times during it's lifetime, by different developers...
 	if(test.hasPropertyList("F32List") == false)
 	{
-		std::cout << "Couldn't find property list F32List for entity " << test.getType() << "!" << std::endl;
+		std::cout << "Couldn't find property list F32List for Entity " << test.getType() << "!" << std::endl;
 		system("pause");
 		return;
 	}

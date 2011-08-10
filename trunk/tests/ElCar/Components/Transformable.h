@@ -24,6 +24,7 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
+#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components

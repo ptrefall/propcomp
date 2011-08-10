@@ -25,7 +25,7 @@ requirements or restrictions.
 
 #include <types_config.h>
 #include "EntityManager.h"
-#include <Entity.h>
+#include "Entity.h"
 
 #include <iostream>
 

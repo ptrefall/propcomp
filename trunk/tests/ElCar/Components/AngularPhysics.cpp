@@ -67,7 +67,7 @@ void AngularPhysics::update(const F32 &deltaTime)
 
 void AngularPhysics::onForceAngularAccelerationEvent(const F32 &force)
 {
-	// We just sum up the forces acting on this entity this frame
+	// We just sum up the forces acting on this Entity this frame
 	forces_property_list.push_back(force);
 }
 

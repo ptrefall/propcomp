@@ -47,9 +47,13 @@ SOURCE_GROUP("Header Files\\Types\\Boost" FILES ${Boost_HDRS})
 set(HDRS
   ./Component.h
   ./ComponentFactory.h
+  ./ComponentHandler.h
   ./IProperty.h
   ./Property.h
-  ./Entity.h
+  ./PropertyHandler.h
+  ./IPropertyList.h
+  ./PropertyList.h
+  ./PropertyListHandler.h
   ./EventHandler.h
   ./types_config.h
   ./mainpage.h
@@ -57,7 +61,7 @@ set(HDRS
 
 set(SRCS
   ./ComponentFactory.cpp
-  ./Entity.cpp
+  ./ComponentHandler.cpp
 )
  
 add_library(EntitySystem STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
