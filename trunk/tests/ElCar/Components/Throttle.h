@@ -24,7 +24,6 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
-#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -37,6 +36,7 @@ namespace Components
 		virtual ~Throttle();
 
 	protected:
+		Property<T_String> type_property;
 		Property<F32> velocity_property;
 		Property<F32> maxVelocity_property;
 		Property<F32> engineForce_property;

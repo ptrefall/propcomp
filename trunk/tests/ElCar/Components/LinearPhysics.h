@@ -24,7 +24,6 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
-#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -39,6 +38,7 @@ namespace Components
 		virtual void update(const F32 &deltaTime);
 
 	protected:
+		Property<T_String> type_property;
 		Property<F32> velocity_property;
 		Property<T_Vec3f> position_property;
 	};

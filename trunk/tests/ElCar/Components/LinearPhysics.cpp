@@ -31,6 +31,7 @@ using namespace Components;
 LinearPhysics::LinearPhysics(Entity &owner, const T_String &name)
 : Component(owner, name)
 {
+	type_property = owner.addProperty<T_String>("Type", "");
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
 }
@@ -42,5 +43,5 @@ LinearPhysics::~LinearPhysics()
 void LinearPhysics::update(const F32 &deltaTime)
 {
 	position_property += T_Vec3f(0.0f, 0.0f, velocity_property.get() * deltaTime);
-	std::cout << owner.getType().c_str() << " moved to (" << position_property.get().x << ", " << position_property.get().y << ", " << position_property.get().z << ")" << std::endl;
+	std::cout << type_property.get().c_str() << " moved to (" << position_property.get().x << ", " << position_property.get().y << ", " << position_property.get().z << ")" << std::endl;
 }

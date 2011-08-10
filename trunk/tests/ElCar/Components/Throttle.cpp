@@ -29,6 +29,7 @@ using namespace Components;
 Throttle::Throttle(Entity &owner, const T_String &name)
 : Component(owner, name), throttleEventId("THROTTLE"), spendEffectEventId("SPEND_EFFECT"), accelerateWheelsEventId("ACCELERATE_WHEELS")
 {
+	type_property = owner.addProperty<T_String>("Type", "");
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
 	maxVelocity_property = owner.addProperty<F32>("MaxVelocity", 100.0f);
 	engineForce_property = owner.addProperty<F32>("EngineForce", 1.0f);
@@ -44,7 +45,7 @@ Throttle::~Throttle()
 
 void Throttle::onThrottleEvent()
 {
-	std::cout << "Player presses the gas pedal of his " << owner.getType().c_str() << std::endl;
+	std::cout << "Player presses the gas pedal of his " << type_property.get().c_str() << std::endl;
 
 	engineForce_property = engineEffect_property.get();
 

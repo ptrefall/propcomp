@@ -21,7 +21,6 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "../Common/Entity.h"
 #include <Component.h>
 #include <ComponentFactory.h>
 
@@ -97,7 +96,7 @@ void main()
 	std::cout << "- add ComponentA component" << std::endl;
 	std::cout << "- add ComponentB component" << std::endl;
 
-	Entity test = Entity(factory, 0, "Test");
+	Entity test = Entity(factory); //, 0, "Test");
 	test.addComponent("ComponentA");
 	test.addComponent("ComponentB");
 
@@ -109,7 +108,7 @@ void main()
 	// change several times during it's lifetime, by different developers...
 	if(test.hasPropertyList("F32List") == false)
 	{
-		std::cout << "Couldn't find property list F32List for Entity " << test.getType() << "!" << std::endl;
+		std::cout << "Couldn't find property list F32List for Entity!" << std::endl;
 		system("pause");
 		return;
 	}

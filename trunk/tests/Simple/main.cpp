@@ -21,7 +21,6 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "../Common/Entity.h"
 #include <Component.h>
 #include <ComponentFactory.h>
 
@@ -43,6 +42,7 @@ public:
 	Voice(Entity &owner, const T_String &name)
 	: Component(owner, name), speakEventId("SPEAK")
 	{
+		type_property = owner.addProperty<T_String>("Type", "");
 		hello_property = owner.addProperty<T_String>("HelloWords", "Hello!");
 		bye_property = owner.addProperty<T_String>("ByeWords", "Bye!");
 		target_property = owner.addProperty<Entity*>("Target", NULL_PTR);
@@ -53,6 +53,7 @@ public:
 	virtual ~Voice() {}
 
 private:
+	Property<T_String> type_property;
 	Property<T_String> hello_property;
 	Property<T_String> bye_property;
 	Property<Entity*> target_property;
@@ -65,10 +66,10 @@ private:
 		if(target_property.get() == NULL_PTR)
 		{
 			if(what == "HELLO")
-				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				std::cout << owner_name.c_str() << " the " << type_property.get().c_str() << " says: " 
 				<< hello_property.get().c_str() << std::endl;
 			else if(what == "BYE")
-				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				std::cout << owner_name.c_str() << " the " << type_property.get().c_str() << " says: " 
 				<< bye_property.get().c_str() << std::endl;
 		}
 		else
@@ -76,10 +77,10 @@ private:
 			const T_String &target_name = target_property.get()->getProperty<T_String>("Name").get();
 
 			if(what == "HELLO")
-				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				std::cout << owner_name.c_str() << " the " << type_property.get().c_str() << " says: " 
 				<< hello_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 			else if(what == "BYE")
-				std::cout << owner_name.c_str() << " the " << owner.getType().c_str() << " says: " 
+				std::cout << owner_name.c_str() << " the " << type_property.get().c_str() << " says: " 
 				<< bye_property.get().c_str() << " to " << target_name.c_str() << std::endl;
 		}
 	}
@@ -92,17 +93,21 @@ public:
 	Targeter(Entity &owner, const T_String &name)
 	: Component(owner, name)
 	{
+		type_property = owner.addProperty<T_String>("Type", "");
+		name_property = owner.addProperty<T_String>("Name", "");
 		target_property = owner.addProperty<Entity*>("Target", NULL_PTR);
 		target_property.valueChanged().connect(this, &Targeter::onTargetChanged);
 	}
 	virtual ~Targeter() {}
 
 private:
+	Property<T_String> type_property;
+	Property<T_String> name_property;
 	Property<Entity*> target_property;
 
 	void onTargetChanged(Entity * const &/*oldValue*/, Entity * const &/*newValue*/)
 	{
-		std::cout << owner.getProperty<T_String>("Name").get().c_str() << " the " << owner.getType().c_str() << " looks at " 
+		std::cout << name_property.get().c_str() << " the " << type_property.get().c_str() << " looks at " 
 		<< target_property.get()->getProperty<T_String>("Name").get().c_str() << std::endl;
 		wait(1000);
 	}
@@ -130,13 +135,13 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity dog = Entity(factory, 0, "Dog");
+	Entity dog = Entity(factory); //, 0, "Dog");
 	defineDog(dog, "Champ");
 
-	Entity man = Entity(factory, 1, "Man");
+	Entity man = Entity(factory); //, 1, "Man");
 	defineMan(man, "James");
 
-	Entity custom_test = Entity(factory, 2, "CustomTest");
+	Entity custom_test = Entity(factory); //, 2, "CustomTest");
 	int a = 0; int b = 1; int c = 2; int d = 3; int e = 4; int f = 5; int g = 6; int h = 7;
 	custom_test.addComponent<int,int,int,int,int,int,int,int>("CustomParamsHolder", a,b,c,d,e,f,g,h);
 
@@ -192,6 +197,7 @@ void defineDog(Entity &dog, const T_String &name)
 	dog.addComponent("Voice");
 	dog.addComponent("Targeter");
 
+	dog.addProperty<T_String>("Type", "Dog");
 	dog.addProperty<T_String>("Name", name);
 	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
@@ -209,6 +215,7 @@ void defineMan(Entity &man, const T_String &name)
 	man.addComponent("Voice");
 	man.addComponent("Targeter");
 
+	man.addProperty<T_String>("Type", "Man");
 	man.addProperty<T_String>("Name", name);
 	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	man.getProperty<T_String>("ByeWords") = "Good bye"; //Seconds per tick

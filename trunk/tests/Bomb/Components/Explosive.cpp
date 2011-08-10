@@ -30,7 +30,8 @@ using namespace Components;
 Explosive::Explosive(Entity &owner, const T_String &name)
 : Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS"), dmgEventId("DMG")
 {
-	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
+	type_property = owner.addProperty<T_String>("Type", "");
+	name_property = owner.addProperty<T_String>("Name", "");
     timeout_property = owner.addProperty<bool>("Timeout", false);
 	base_damage_property = owner.addProperty<F32>("BaseDamage", 100.0f);
 	blast_radius_property = owner.addProperty<F32>("BlastRadius", 10.0f);
@@ -51,7 +52,7 @@ void Explosive::onTimeoutChanged(const bool &/*oldValue*/, const bool &newValue)
 	//If no longer alive, EXPLODE!
 	if(newValue)
 	{
-		std::cout << "The " << owner.getType().c_str() << " explodes in a hughe blast of flames!" << std::endl;
+		std::cout << "The " << type_property.get().c_str() << " explodes in a hughe blast of flames!" << std::endl;
 
 		//Affect all entities in blast radius
 		owner.sendEvent1<F32>(seekInRadiusEventId, blast_radius_property.get());

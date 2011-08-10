@@ -21,7 +21,6 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "../Common/Entity.h"
 #include <ComponentFactory.h>
 
 #include "../Common/EntityManager.h"
