@@ -131,22 +131,22 @@ struct T_SharedPtr {
 
 //--------------------------------------------
 
-typedef unsigned int T_HashedStringIdType;
+typedef unsigned int T_HashedStringType;
 
-class T_HashedStringId
+class T_HashedString
 {
 public:
-	T_HashedStringId(const T_String &str)
+	T_HashedString(const T_String &str)
 	{
 		this->str = str;
-		this->hashId = (T_HashedStringIdType)std::hash_value(str.c_str());
+		this->hashId = (T_HashedStringType)std::hash_value(str.c_str());
 	}
 
-	const T_HashedStringIdType &getId() const { return hashId; }
+	const T_HashedStringType &getId() const { return hashId; }
 	const T_String &getStr() const { return str; }
 
 private:
-	T_HashedStringIdType hashId;
+	T_HashedStringType hashId;
 	T_String str;
 };
 

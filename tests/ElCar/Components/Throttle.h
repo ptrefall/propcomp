@@ -44,8 +44,8 @@ namespace Components
 
 		void onThrottleEvent();
 
-		T_HashedStringId throttleEventId;
-		T_HashedStringId spendEffectEventId;
-		T_HashedStringId accelerateWheelsEventId;
+		T_HashedString throttleEventId;
+		T_HashedString spendEffectEventId;
+		T_HashedString accelerateWheelsEventId;
 	};
 }
