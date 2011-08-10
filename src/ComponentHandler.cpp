@@ -21,29 +21,23 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "Entity.h"
+#include "ComponentHandler.h"
 #include "Component.h"
 #include "ComponentFactory.h"
-#include "Property.h"
 
-Entity::Entity(ComponentFactory& componentFactory, const T_EntityId &id, const T_String &type)
+ComponentHandler::ComponentHandler(ComponentFactory& componentFactory)
 : componentFactory(componentFactory)
 {
-	id_property = addProperty<T_EntityId>("Id", id, true); //read-only
-	type_property = addProperty<T_String>("Type", type, true); //read-only
 }
 
-Entity::~Entity()
+ComponentHandler::~ComponentHandler()
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 		delete components[i];
 	components.clear();
-
-	removeAllProperties();
-	removeAllPropertyLists();
 }
 
-Component &Entity::addComponent(const T_String& type)
+Component &ComponentHandler::addComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -52,12 +46,12 @@ Component &Entity::addComponent(const T_String& type)
 			return component;
 	}
 
-	Component* component = componentFactory.createComponent(*this, type);
+	Component* component = componentFactory.createComponent(*reinterpret_cast<Entity*>(this), type);
 	components.push_back(component);
 	return *component;
 }
 
-bool Entity::hasComponent(const T_String& type)
+bool ComponentHandler::hasComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -68,7 +62,7 @@ bool Entity::hasComponent(const T_String& type)
 	return false;
 }
 
-Component &Entity::getComponent(const T_String& type)
+Component &ComponentHandler::getComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -81,16 +75,16 @@ Component &Entity::getComponent(const T_String& type)
 	throw T_Exception(("Unable to get component " + type).c_str());
 }
 
-void Entity::updateComponents(F32 deltaTime)
+void ComponentHandler::updateComponents(F32 deltaTime)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 		components[i]->update(deltaTime);
 }
 
-Entity &Entity::operator= (const Entity &rhs)
+ComponentHandler &ComponentHandler::operator= (const ComponentHandler &rhs)
 {
 	if(this == &rhs)
 		return *this;
 
-	throw T_Exception("Assignment operation between entities are not supported!");
+	throw T_Exception("Assignment operation between ComponentHandlers are not supported!");
 }

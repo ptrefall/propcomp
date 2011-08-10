@@ -27,12 +27,12 @@ requirements or restrictions.
 
 using namespace Components;
 
-Timer::Timer(Entity &entity, const T_String &name)
-: Component(entity, name)
+Timer::Timer(Entity &owner, const T_String &name)
+: Component(owner, name)
 {
-    timeout_property = entity.addProperty<bool>("Timeout", false);
-	timeoutValue_property = entity.addProperty<U32>("TimeoutValue", 5);
-	tickInterval_property = entity.addProperty<F32>("TickInterval", 1.0f);
+    timeout_property = owner.addProperty<bool>("Timeout", false);
+	timeoutValue_property = owner.addProperty<U32>("TimeoutValue", 5);
+	tickInterval_property = owner.addProperty<F32>("TickInterval", 1.0f);
 	time = 0.0f;
 	ticks = 0;
 }

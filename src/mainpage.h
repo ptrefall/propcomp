@@ -7,21 +7,21 @@
  * @author Kenneth Gangstø
  *
  * @section INTRODUCTION
- * Propcomp is an entity system designed from the idea of writing an intuitive 
- * API for entity abilities and property definition through aggregation. An entity 
+ * Propcomp is an Entity system designed from the idea of writing an intuitive 
+ * API for Entity abilities and property definition through aggregation. An Entity 
  * consist of multiple components that defines it's abilities, while referencing 
- * necessary properties of the entity required for the ability to function.
+ * necessary properties of the Entity required for the ability to function.
  *
  * The approach originated from the realization that the most common relationship 
- * between components in an entity, is the requirement to either read from or write 
- * to the same properties of an entity in order to define an ability, and the search 
+ * between components in an Entity, is the requirement to either read from or write 
+ * to the same properties of an Entity in order to define an ability, and the search 
  * for how to 100% decouple this relationship between components and at the same time 
  * avoid duplication of properties begun.
  *
- * And so the Propcomp entity system was born. Properties adds some extra logic on top 
+ * And so the Propcomp Entity system was born. Properties adds some extra logic on top 
  * of the data they represent, like a valueChanged signal that function slots can be 
  * registered to. Thus several components can "react" when a property is changed in some 
- * component, or from outside the entity system.
+ * component, or from outside the Entity system.
  *
  * This adds a clean flow of events in the system, much more intuitive than in systems
  * where the components own the properties, and where other components that need access 
@@ -29,7 +29,7 @@
  * with other components.
  *
  * The realization is highly logical. An ability simply references and are limited by the 
- * properties that exist in the entity they belong to. Whether multiple components require 
+ * properties that exist in the Entity they belong to. Whether multiple components require 
  * access to the same property is irrelevant for the existence of each individual component 
  * of ability.
  *

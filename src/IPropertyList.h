@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class IProperty
+ * @class IPropertyList
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief Property Interface base class
+ * @brief Property List Interface base class
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -40,25 +40,25 @@
 
 #include "types_config.h"
 
-class IProperty
+class IPropertyList
 {
-public: 
+public:
 	/**
 	 * Destructor
 	 */
-	virtual ~IProperty() {}
+	virtual ~IPropertyList() {}
 
 	/**
-	 * Get the name of this property.
+	 * Get the name of this property list.
 	 *
-	 * @return Returns the name of the property.
+	 * @return Returns the name of the property list.
 	 */
 	virtual const T_String &getName() const = 0;
 
 	/**
-	 * Check if PropertyData exist in this Property.
+	 * Check if PropertyListData exist in this PropertyList.
 	 *
-	 * @return Returns whether the PropertyData of this property has been initialized.
+	 * @return Returns whether the PropertyListData of this property list has been initialized.
 	 */
 	virtual bool isNull() const = 0;
 };

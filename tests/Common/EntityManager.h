@@ -24,9 +24,9 @@ requirements or restrictions.
 #pragma once
 
 #include <types_config.h>
+#include "Entity.h"
 
 class ComponentFactory;
-class Entity;
 
 class EntityManager
 {
@@ -37,7 +37,7 @@ public:
 	void update(F32 deltaTime);
 
 	Entity &create(ComponentFactory &factory, const T_String &type);
-	void erase(Entity *entity);
+	void erase(Entity *Entity);
 	T_Vector<Entity*>::Type &getEntities() { return entities; }
 
 protected:

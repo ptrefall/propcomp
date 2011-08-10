@@ -36,7 +36,7 @@
  * @section DESCRIPTION
  * The base component class simply holds the means to build components on top of it.
  * It has a type identifier used to associate with what type of component it is, and
- * a reference to the entity that owns it.
+ * a reference to the Entity that owns it.
  *
  * It also holds two virtual functions, update and onEvent, that can optionally be
  * overloaded by each component implementation.
@@ -51,9 +51,10 @@
 
 #include "types_config.h"
 
-#include "Entity.h"
 #include "Property.h"
 #include "ComponentFactory.h"
+
+class Entity;
 
 class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
@@ -73,7 +74,7 @@ public:
 	/**
 	 * Optional virtual function that can be overloaded by
 	 * component implementations. Update is typically called
-	 * at least once per frame, and is channeled via the entity.
+	 * at least once per frame, and is channeled via the Entity.
 	 *
 	 * @param deltaTime Number of seconds that has passed since our last update.
 	 */
@@ -92,12 +93,12 @@ protected:
 	/**
 	 * Protected Constructor
 	 *
-	 * @param owner Reference to the entity that owns this component.
+	 * @param owner Reference to the Entity that owns this component.
 	 * @param type The type-name assigned to this component from it's implementation.
 	 */
 	Component(Entity &owner, const T_String &type) : owner(owner), type(type) {};
 
-	/// The entity that owns this component.
+	/// The Entity that owns this component.
 	Entity &owner;
 	/// The type identifier for this component.
     T_String type;

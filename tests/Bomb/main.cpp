@@ -21,7 +21,7 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include <Entity.h>
+#include "../Common/Entity.h"
 #include <ComponentFactory.h>
 
 #include "../Common/EntityManager.h"
@@ -121,7 +121,7 @@ void initFactory(ComponentFactory &factory)
 
 void defineBomb(Entity &bomb, EntityManager &entityMgr)
 {
-	std::cout << "Define bomb entity..." << std::endl;
+	std::cout << "Define bomb Entity..." << std::endl;
 	std::cout << "- add Timer component" << std::endl;
 	std::cout << "- add Explosive component" << std::endl;
 	std::cout << "- add MultiTargeter component" << std::endl;
@@ -142,7 +142,7 @@ void defineBomb(Entity &bomb, EntityManager &entityMgr)
 
 void defineCrate(Entity &crate, EntityManager &entityMgr, const T_String &name)
 {
-	std::cout << "Define crate entity..." << std::endl;
+	std::cout << "Define crate Entity..." << std::endl;
 	std::cout << "- add Health component" << std::endl;
 	std::cout << "- add Transformable component" << std::endl;
 	std::cout << "- set Name to " << name.c_str() << std::endl;

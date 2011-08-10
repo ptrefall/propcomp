@@ -21,7 +21,7 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include <Entity.h>
+#include "../Common/Entity.h"
 #include <Component.h>
 #include <ComponentFactory.h>
 
@@ -182,7 +182,7 @@ void initFactory(ComponentFactory &factory)
 
 void defineDog(Entity &dog, const T_String &name)
 {
-	std::cout << "Define dog entity..." << std::endl;
+	std::cout << "Define dog Entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
 	std::cout << "- add Targeter component" << std::endl;
 	std::cout << "- set Name to " << name.c_str() << std::endl;
@@ -199,7 +199,7 @@ void defineDog(Entity &dog, const T_String &name)
 
 void defineMan(Entity &man, const T_String &name)
 {
-	std::cout << "Build man entity..." << std::endl;
+	std::cout << "Build man Entity..." << std::endl;
 	std::cout << "- add Voice component" << std::endl;
 	std::cout << "- add Targeter component" << std::endl;
 	std::cout << "- set Name to " << name.c_str() << std::endl;

@@ -21,7 +21,7 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include <Entity.h>
+#include "../Common/Entity.h"
 #include <ComponentFactory.h>
 
 #include "../Common/EntityManager.h"
@@ -111,7 +111,7 @@ void initFactory(ComponentFactory &factory)
 
 void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 {
-	std::cout << "Define car entity..." << std::endl;
+	std::cout << "Define car Entity..." << std::endl;
 	std::cout << "- add Throttle component" << std::endl;
 	std::cout << "- add WheelMount component" << std::endl;
 	std::cout << "- add EnergyDecharger component" << std::endl;
@@ -164,7 +164,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 
 void defineWheel(Entity &wheel, const T_String &name)
 {
-	std::cout << "Define wheel entity..." << std::endl;
+	std::cout << "Define wheel Entity..." << std::endl;
 	std::cout << "- add AngularPhysics component" << std::endl;
 	std::cout << "- add Dynamo component" << std::endl;
 	std::cout << "- set Name to " << name.c_str() << std::endl;
