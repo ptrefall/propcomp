@@ -235,7 +235,7 @@ public:
 	bool operator< (const T& rhs);
 
 	/// Instead of property.get() this operator exist for convenience.
-	operator T() const { return data->value; }
+	operator const T &() const { return data->value; }
 
 private:
 	/// PropertyData of the Property is stored inside a shared pointer.
@@ -477,7 +477,7 @@ public:
 	PropertyListValue<T> &operator= (const PropertyListValue<T> &rhs);
 
 	/// Instead of propertyListValue.get() this operator exist for convenience.
-	operator T() const { return value; }
+	operator const T &() const { return value; }
 
 private:
 	///
@@ -729,7 +729,7 @@ public:
 	PropertyListValue<T> operator[] (const U32& index);
 
 	/// Instead of propertyList.get() this operator exist for convenience.
-	operator typename T_Vector<T>::Type() const { return data->value; }
+	operator const typename T_Vector<T>::Type &() const { return data->value; }
 
 private:
 	/// PropertyListData of the Property list is stored inside a shared pointer.
