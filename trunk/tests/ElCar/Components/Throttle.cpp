@@ -49,8 +49,8 @@ void Throttle::onThrottleEvent()
 	engineForce_property = engineEffect_property.get();
 
 	//We spend some energy forcing the wheels to turn
-	owner.onEvent1<F32>(spendEffectEventId, engineEffect_property.get());
+	owner.sendEvent1<F32>(spendEffectEventId, engineEffect_property.get());
 		
 	//Throttling forces wheels to rotate by an acceleration
-	owner.onEvent1<F32>(accelerateWheelsEventId, engineForce_property.get());
+	owner.sendEvent1<F32>(accelerateWheelsEventId, engineForce_property.get());
 }

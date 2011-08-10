@@ -51,7 +51,7 @@ namespace Components
 		void onTargetAdded(const U32 &index, Entity * const &newValue);
 
 		//Event Ids
-		T_StringId seekInRadiusEventId;
-		T_StringId dmgEventId;
+		T_HashedStringId seekInRadiusEventId;
+		T_HashedStringId dmgEventId;
 	};
 }

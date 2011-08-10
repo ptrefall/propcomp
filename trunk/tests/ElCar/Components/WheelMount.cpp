@@ -58,7 +58,7 @@ void WheelMount::update(const F32 &/*deltaTime*/)
 	for(U32 i = 0; i < wheels_property_list.size(); i++)
 	{
 		for(U32 i = 0; i < wheels_property_list.size(); i++)
-			wheels_property_list.get()[i]->onEvent1<F32>(syncVelocityEventId, avgVelocity);
+			wheels_property_list.get()[i]->sendEvent1<F32>(syncVelocityEventId, avgVelocity);
 	}
 }
 
@@ -66,5 +66,5 @@ void WheelMount::onAccelerateWheelsEvent(const F32 &force)
 {
 	//Force wheels to spin
 	for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
-		wheels_property_list.get()[i]->onEvent1<F32>(forceAngularAccelerationEventId, force);
+		wheels_property_list.get()[i]->sendEvent1<F32>(forceAngularAccelerationEventId, force);
 }
