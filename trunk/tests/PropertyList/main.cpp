@@ -32,7 +32,6 @@ requirements or restrictions.
 void printStartup();
 void initFactory(ComponentFactory &factory);
 void printReady();
-void wait(int ms);
 
 class ComponentA : public Component
 {
@@ -104,6 +103,17 @@ void main()
 
 	printReady();
 
+	// When accessing a Property(List) externally from the entity,
+	// it's good practise to check that the property you're about to
+	// work on actually exist. Software has living code, that might
+	// change several times during it's lifetime, by different developers...
+	if(test.hasPropertyList("F32List") == false)
+	{
+		std::cout << "Couldn't find property list F32List for entity " << test.getType() << "!" << std::endl;
+		system("pause");
+		return;
+	}
+
 	for(U32 i = 0; i < 10; i++)
 		test.getPropertyList<F32>("F32List").push_back(i*i*0.1f);
 	
@@ -149,11 +159,4 @@ void printReady()
 	std::cout << "Press any key to start simulation." << std::endl;
 	std::cout << "\n";
 	system("pause");
-}
-
-void wait(int ms)
-{
-  clock_t endwait;
-  endwait = clock () + ms * (CLOCKS_PER_SEC/1000) ;
-  while (clock() < endwait) {}
 }
