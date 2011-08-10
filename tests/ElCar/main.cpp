@@ -61,14 +61,14 @@ void main()
 
 	printReady();
 
-	T_StringId throttleEventId("THROTTLE");
+	T_HashedStringId throttleEventId("THROTTLE");
 
 	U32 num_iterations = 5;
 	U32 curr_iteration = 0;
 	while(curr_iteration < num_iterations)
 	{
 		F32 deltaTime = 0.016f;
-		car.onEvent0(throttleEventId);
+		car.sendEvent0(throttleEventId);
 		entityMgr.update(deltaTime);
 		std::cout << std::endl;
 		wait(16);

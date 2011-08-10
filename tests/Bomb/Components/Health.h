@@ -46,7 +46,7 @@ namespace Components
 
 		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
 
-		T_StringId dmgEventId;
+		T_HashedStringId dmgEventId;
 
 		EntityManager &entityMgr;
 	};

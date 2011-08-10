@@ -46,7 +46,7 @@ namespace Components
 		void onForceAngularAccelerationEvent(const F32 &force);
 		void onSyncVelocityEvent(const F32 &velocity);
 
-		T_StringId forceAngularAccelerationEventId;
-		T_StringId syncVelocityEventId;
+		T_HashedStringId forceAngularAccelerationEventId;
+		T_HashedStringId syncVelocityEventId;
 	};
 }

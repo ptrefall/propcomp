@@ -56,7 +56,7 @@ private:
 	Property<T_String> hello_property;
 	Property<T_String> bye_property;
 	Property<Entity*> target_property;
-	T_StringId speakEventId;
+	T_HashedStringId speakEventId;
 
 	void onSpeakEvent(const T_String &what)
 	{
@@ -145,16 +145,16 @@ void main()
 	dog.getProperty<Entity*>("Target") = &man;
 	man.getProperty<Entity*>("Target") = &dog;
 
-	T_StringId speakEventId("SPEAK");
+	T_HashedStringId speakEventId("SPEAK");
 
-	man.onEvent1<T_String>(speakEventId, "HELLO");
+	man.sendEvent1<T_String>(speakEventId, "HELLO");
 	wait(1000);
-	dog.onEvent1<T_String>(speakEventId, "HELLO");
+	dog.sendEvent1<T_String>(speakEventId, "HELLO");
 	wait(1000);
 
-	man.onEvent1<T_String>(speakEventId, "BYE");
+	man.sendEvent1<T_String>(speakEventId, "BYE");
 	wait(1000);
-	dog.onEvent1<T_String>(speakEventId, "BYE");
+	dog.sendEvent1<T_String>(speakEventId, "BYE");
 	wait(1000);
 
 	system("pause");
