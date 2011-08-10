@@ -114,22 +114,27 @@ void main()
 		return;
 	}
 
-	for(U32 i = 0; i < 10; i++)
-		test.getPropertyList<F32>("F32List").push_back(i*i*0.1f);
-	
-	std::cout << "Size of F32List is " << test.getPropertyList<F32>("F32List").size() << std::endl;
+	PropertyList<F32> f32List = test.getPropertyList<F32>("F32List");
 
-	test.getPropertyList<F32>("F32List")[0] = 0.5f;
-	test.getPropertyList<F32>("F32List")[1] = 0.2f;
+	for(U32 i = 0; i < 10; i++)
+		f32List.push_back(i*i*0.1f);
+	
+	std::cout << "Size of F32List is " << f32List.size() << std::endl;
+
+	f32List[0] = 0.5f;
+	f32List[1] = 0.2f;
 
 	for(U32 i = 0; i < 5; i++)
-		test.getPropertyList<F32>("F32List").erase(0);
+		f32List.erase(0);
 
-	std::cout << "Size of F32List is " << test.getPropertyList<F32>("F32List").size() << std::endl;
+	std::cout << "Size of F32List is " << f32List.size() << std::endl;
 
-	test.getPropertyList<F32>("F32List").clear();
+	const F32 &value0 = f32List[0];
+	std::cout << "Real value of F32List's index 0 is " << value0 << std::endl;
 
-	if(test.getPropertyList<F32>("F32List").empty())
+	f32List.clear();
+
+	if(f32List.empty())
 		std::cout << "F32List is empty!" << std::endl;
 
 	system("pause");
