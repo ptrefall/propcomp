@@ -45,6 +45,7 @@ set(Boost_HDRS
 SOURCE_GROUP("Header Files\\Types\\Boost" FILES ${Boost_HDRS})
 
 set(HDRS
+  ./Entity.h
   ./Component.h
   ./ComponentFactory.h
   ./ComponentHandler.h

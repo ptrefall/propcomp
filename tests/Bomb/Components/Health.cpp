@@ -30,7 +30,7 @@ using namespace Components;
 Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
 : Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")
 {
-	name_property = owner.addProperty<T_String>("Name", owner.getType()); //Default owner name to owner type
+	name_property = owner.addProperty<T_String>("Name", "");
     alive_property = owner.addProperty<bool>("Alive", true);
 	health_property = owner.addProperty<F32>("Health", 100.0f);
 	maxhealth_property = owner.addProperty<F32>("MaxHealth", 100.0f);

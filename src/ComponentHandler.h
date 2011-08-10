@@ -40,6 +40,7 @@
 
 #include "types_config.h"
 
+class Entity;
 class Component;
 class ComponentFactory;
 
@@ -56,6 +57,8 @@ public:
 	 * Destructor
 	 */
 	virtual ~ComponentHandler();
+
+	Entity &toEntity();
 
 	//--------------------------------------------------------------
 
@@ -237,7 +240,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	}
 
 	T_Any any = &custom1;
-	Component* component = componentFactory.createComponentCustom1(*reinterpret_cast<Entity*>(this), type, any);
+	Component* component = componentFactory.createComponentCustom1(toEntity(), type, any);
 	components.push_back(component);
 	return *component;
 }
@@ -254,7 +257,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 
 	T_Any any = &custom1;
 	T_Any any2 = &custom2;
-	Component* component = componentFactory.createComponentCustom2(*reinterpret_cast<Entity*>(this), type, any, any2);
+	Component* component = componentFactory.createComponentCustom2(toEntity(), type, any, any2);
 	components.push_back(component);
 	return *component;
 }
@@ -272,7 +275,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any = &custom1;
 	T_Any any2 = &custom2;
 	T_Any any3 = &custom3;
-	Component* component = componentFactory.createComponentCustom3(*reinterpret_cast<Entity*>(this), type, any, any2, any3);
+	Component* component = componentFactory.createComponentCustom3(toEntity(), type, any, any2, any3);
 	components.push_back(component);
 	return *component;
 }
@@ -291,7 +294,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any2 = &custom2;
 	T_Any any3 = &custom3;
 	T_Any any4 = &custom4;
-	Component* component = componentFactory.createComponentCustom4(*reinterpret_cast<Entity*>(this), type, any, any2, any3, any4);
+	Component* component = componentFactory.createComponentCustom4(toEntity(), type, any, any2, any3, any4);
 	components.push_back(component);
 	return *component;
 }
@@ -311,7 +314,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any3 = &custom3;
 	T_Any any4 = &custom4;
 	T_Any any5 = &custom5;
-	Component* component = componentFactory.createComponentCustom5(*reinterpret_cast<Entity*>(this), type, any, any2, any3, any4, any5);
+	Component* component = componentFactory.createComponentCustom5(toEntity(), type, any, any2, any3, any4, any5);
 	components.push_back(component);
 	return *component;
 }
@@ -332,7 +335,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any4 = &custom4;
 	T_Any any5 = &custom5;
 	T_Any any6 = &custom6;
-	Component* component = componentFactory.createComponentCustom6(*reinterpret_cast<Entity*>(this), type, any, any2, any3, any4, any5, any6);
+	Component* component = componentFactory.createComponentCustom6(toEntity(), type, any, any2, any3, any4, any5, any6);
 	components.push_back(component);
 	return *component;
 }
@@ -354,7 +357,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any5 = &custom5;
 	T_Any any6 = &custom6;
 	T_Any any7 = &custom7;
-	Component* component = componentFactory.createComponentCustom7(*reinterpret_cast<Entity*>(this), type, any, any2, any3, any4, any5, any6, any7);
+	Component* component = componentFactory.createComponentCustom7(toEntity(), type, any, any2, any3, any4, any5, any6, any7);
 	components.push_back(component);
 	return *component;
 }
@@ -377,7 +380,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	T_Any any6 = &custom6;
 	T_Any any7 = &custom7;
 	T_Any any8 = &custom8;
-	Component* component = componentFactory.createComponentCustom8(*reinterpret_cast<Entity*>(this), type, any, any2, any3, any4, any5, any6, any7, any8);
+	Component* component = componentFactory.createComponentCustom8(toEntity(), type, any, any2, any3, any4, any5, any6, any7, any8);
 	components.push_back(component);
 	return *component;
 }

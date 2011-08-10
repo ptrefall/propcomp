@@ -24,6 +24,7 @@ requirements or restrictions.
 #include "ComponentHandler.h"
 #include "Component.h"
 #include "ComponentFactory.h"
+#include "Entity.h"
 
 ComponentHandler::ComponentHandler(ComponentFactory& componentFactory)
 : componentFactory(componentFactory)
@@ -37,6 +38,11 @@ ComponentHandler::~ComponentHandler()
 	components.clear();
 }
 
+Entity &ComponentHandler::toEntity()
+{
+	return *static_cast<Entity*>(this);
+}
+
 Component &ComponentHandler::addComponent(const T_String& type)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
@@ -46,7 +52,7 @@ Component &ComponentHandler::addComponent(const T_String& type)
 			return component;
 	}
 
-	Component* component = componentFactory.createComponent(*reinterpret_cast<Entity*>(this), type);
+	Component* component = componentFactory.createComponent(toEntity(), type);
 	components.push_back(component);
 	return *component;
 }

@@ -51,10 +51,9 @@
 
 #include "types_config.h"
 
+#include "Entity.h"
 #include "Property.h"
 #include "ComponentFactory.h"
-
-class Entity;
 
 class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {

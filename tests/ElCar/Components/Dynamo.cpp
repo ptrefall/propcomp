@@ -31,6 +31,8 @@ using namespace Components;
 Dynamo::Dynamo(Entity &owner, const T_String &name)
 : Component(owner, name), addEffectEventId("ADD_EFFECT")
 {
+	type_property = owner.addProperty<T_String>("Type", "");
+	name_property = owner.addProperty<T_String>("Name", "");
     car_property = owner.addProperty<Entity*>("Car", NULL_PTR);
 	angularVelocity_property = owner.addProperty<F32>("AngularVelocity", 0.0f);
 	generationFactor_property = owner.addProperty<F32>("GenerationFactor", 1.0f);
@@ -46,10 +48,10 @@ void Dynamo::update(const F32 &/*deltaTime*/)
 	if(car_property.get() == NULL_PTR)
 		return;
 
-	if(owner.hasProperty("Name"))
-		std::cout << "Dynamo of " << owner.getProperty<T_String>("Name").get().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
+	if(name_property.get() != "")
+		std::cout << "Dynamo of " << name_property.get().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
 	else
-		std::cout << "Dynamo of " << owner.getType().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
+		std::cout << "Dynamo of " << type_property.get().c_str() << " turnes with velocity " << angularVelocity_property.get() << std::endl;
 
 	F32 factor = generationFactor_property.get() * dynamoEfficiency_property.get();
 	F32 effect = angularVelocity_property.get() * factor;

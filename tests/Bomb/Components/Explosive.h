@@ -24,7 +24,6 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
-#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -37,6 +36,7 @@ namespace Components
 		virtual ~Explosive();
 
 	protected:
+		Property<T_String> type_property;
 		Property<T_String> name_property;
 		Property<bool> timeout_property;
 		Property<F32> base_damage_property;

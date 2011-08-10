@@ -31,6 +31,7 @@ using namespace Components;
 WheelMount::WheelMount(Entity &owner, const T_String &name)
 : Component(owner, name), accelerateWheelsEventId("ACCELERATE_WHEELS"), syncVelocityEventId("SYNC_VELOCITY"), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION")
 {
+	type_property = owner.addProperty<T_String>("Type", "");
     wheels_property_list = owner.addPropertyList<Entity*>("Wheels");
 	activeWheelCount_property = owner.addProperty<U32>("ActiveWheelCount", 2); //Two wheels can accelerate by throttling by default
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
@@ -52,7 +53,7 @@ void WheelMount::update(const F32 &/*deltaTime*/)
 	}
 	avgVelocity /= wheels_property_list.size();
 	velocity_property = avgVelocity;
-	std::cout << owner.getType().c_str() << " velocity changed to " << avgVelocity << std::endl;
+	std::cout << type_property.get().c_str() << " velocity changed to " << avgVelocity << std::endl;
 
 	//Now force all wheels to turn at same speed as the car
 	for(U32 i = 0; i < wheels_property_list.size(); i++)

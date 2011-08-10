@@ -52,7 +52,6 @@ set(Component_SRCS
 SOURCE_GROUP("Source Files\\Components" FILES ${Component_SRCS})
 
 set(HDRS
-  ../Common/Entity.h
   ../Common/EntityManager.h
   ../Common/Vector3.h
 )

@@ -24,7 +24,6 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
-#include "../../Common/Entity.h"
 #include "../../Common/EntityManager.h"
 
 namespace Components

@@ -24,7 +24,6 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
-#include "../../Common/Entity.h"
 
 namespace Components
 {
@@ -38,6 +37,8 @@ namespace Components
 		virtual void update(const F32 &deltaTime);
 
 	protected:
+		Property<T_String> type_property;
+		Property<T_String> name_property;
 		Property<Entity*> car_property;
 		Property<F32> angularVelocity_property;
 		Property<F32> generationFactor_property;
