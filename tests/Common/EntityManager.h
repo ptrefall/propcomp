@@ -36,7 +36,7 @@ public:
 
 	void update(F32 deltaTime);
 
-	Entity &create(ComponentFactory &factory, const T_String &type);
+	Entity &create(ComponentFactory &factory);
 	void erase(Entity *Entity);
 	T_Vector<Entity*>::Type &getEntities() { return entities; }
 

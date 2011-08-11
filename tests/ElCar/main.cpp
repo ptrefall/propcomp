@@ -21,7 +21,6 @@ Note: Some of the libraries Component-based Entity Engine may link to may have a
 requirements or restrictions.
 */
 
-#include "../Common/Entity.h"
 #include <ComponentFactory.h>
 
 #include "../Common/EntityManager.h"
@@ -56,7 +55,7 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &car = entityMgr.create(factory, "Car");
+	Entity &car = entityMgr.create(factory);
 	defineCar(car, factory, entityMgr);
 
 	printReady();
@@ -127,11 +126,12 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	car.addComponent("LinearPhysics");
 	car.addComponent("Transformable");
 
+	car.addProperty<T_String>("Type", "Car");
 	car.getProperty<F32>("EngineEffect") = 0.5f; //Spend this much energy to move car every time we throttle
 
 	//Front Left
 	{
-		Entity &wheel = entityMgr.create(factory, "Wheel");
+		Entity &wheel = entityMgr.create(factory);
 		defineWheel(wheel, "WheelFrontLeft");
 		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
@@ -139,7 +139,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 
 	//Front Right
 	{
-		Entity &wheel = entityMgr.create(factory, "Wheel");
+		Entity &wheel = entityMgr.create(factory);
 		defineWheel(wheel, "WheelFrontRight");
 		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
@@ -147,7 +147,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 
 	//Back Left
 	{
-		Entity &wheel = entityMgr.create(factory, "Wheel");
+		Entity &wheel = entityMgr.create(factory);
 		defineWheel(wheel, "WheelBackLeft");
 		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
@@ -155,7 +155,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 
 	//Back Right
 	{
-		Entity &wheel = entityMgr.create(factory, "Wheel");
+		Entity &wheel = entityMgr.create(factory);
 		defineWheel(wheel, "WheelBackRight");
 		car.getPropertyList<Entity*>("Wheels").push_back(&wheel);
 		wheel.getProperty<Entity*>("Car") = &car;
@@ -174,6 +174,7 @@ void defineWheel(Entity &wheel, const T_String &name)
 	wheel.addComponent("AngularPhysics");
 	wheel.addComponent("Dynamo");
 	
+	wheel.addProperty<T_String>("Type", "Wheel");
 	wheel.addProperty<T_String>("Name", name);
 	wheel.getProperty<F32>("DynamoEfficiency") = 4.0f;
 	wheel.getProperty<F32>("GenerationFactor") = 2.4f;
