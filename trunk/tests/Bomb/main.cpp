@@ -54,20 +54,20 @@ void main()
 	ComponentFactory factory;
 	initFactory(factory);
 
-	Entity &bomb = entityMgr.create(factory, "Bomb");
+	Entity &bomb = entityMgr.create(factory);
 	defineBomb(bomb, entityMgr);
 
-	Entity &crateA = entityMgr.create(factory, "Crate");
+	Entity &crateA = entityMgr.create(factory);
 	defineCrate(crateA, entityMgr, "CrateA");
 	std::cout << "- set Position to (5.0, 0.0, 0.0)" << std::endl;
 	crateA.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 0.0f, 0.0f);
 
-	Entity &crateB = entityMgr.create(factory, "Crate");
+	Entity &crateB = entityMgr.create(factory);
 	defineCrate(crateB, entityMgr, "CrateB");
 	std::cout << "- set Position to (0.0, 11.0, 0.0)" << std::endl;
 	crateB.getProperty<T_Vec3f>("Position") = T_Vec3f(0.0f, 11.0f, 0.0f);
 
-	Entity &crateC = entityMgr.create(factory, "Crate");
+	Entity &crateC = entityMgr.create(factory);
 	defineCrate(crateC, entityMgr, "CrateC");
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
@@ -135,6 +135,7 @@ void defineBomb(Entity &bomb, EntityManager &entityMgr)
 	bomb.addComponent<EntityManager>("RadiusTargetSeeker", entityMgr);
 	bomb.addComponent("Transformable");
 	
+	bomb.getProperty<T_String>("Type") = "Bomb";
 	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
@@ -149,7 +150,7 @@ void defineCrate(Entity &crate, EntityManager &entityMgr, const T_String &name)
 
 	crate.addComponent<EntityManager>("Health", entityMgr);
 	crate.addComponent("Transformable");
-	
+
 	crate.getProperty<T_String>("Name") = name;
 	crate.getProperty<F32>("Health") = 100.0f;
 }

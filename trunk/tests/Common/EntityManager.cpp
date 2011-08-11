@@ -60,9 +60,9 @@ void EntityManager::update(F32 deltaTime)
 		entities[i]->updateComponents(deltaTime);
 }
 
-Entity &EntityManager::create(ComponentFactory &factory, const T_String &type)
+Entity &EntityManager::create(ComponentFactory &factory)
 {
-	Entity *entity = new Entity(factory); //, nextEntityId++, type);
+	Entity *entity = new Entity(factory);
 	entities.push_back(entity);
 		return *entity;
 }
