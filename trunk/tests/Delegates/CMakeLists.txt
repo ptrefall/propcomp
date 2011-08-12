@@ -23,9 +23,20 @@
 #
 ###
 
-add_subdirectory(Bomb)
-add_subdirectory(Simple)
-add_subdirectory(ElCar)
-add_subdirectory(PropertyList)
-add_subdirectory(Delegates)
-add_subdirectory(Common)
+cmake_minimum_required(VERSION 2.8.3)
+
+project(TestDelegates)
+
+set(SRCS
+  ./main.cpp
+)
+ 
+add_executable(TestDelegates ${SRCS})
+
+set_target_properties(TestDelegates PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TestDelegates PROPERTIES FOLDER "Tests")
+
+
+target_link_libraries(TestDelegates
+  EntitySystem
+)
