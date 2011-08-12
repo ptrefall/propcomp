@@ -41,12 +41,16 @@
 #include <functional>
 #include "sigslot.h"
 #include "cdiggins_any.h"
+#include "FastDelegate.h"
+#include "FastDelegateBind.h"
 
 //Sigslot.h requires that PropertyData and Component inherit from
 //sigslot::has_slots<>, thus "overload" this preprocessed definition.
 //-------------------------------------------------------------------
 #undef HAS_SIGNALSLOTS_INHERITANCE_TYPE
 #define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots<>
+
+//--------------------------------------------
 
 //Base types
 //#undef NULL_PTR
@@ -59,6 +63,7 @@ typedef unsigned long T_EntityId;
 typedef cdiggins::any T_Any;
 typedef cdiggins::anyimpl::bad_any_cast T_BadAnyCast;
 
+//--------------------------------------------
 
 //Container types
 template< typename T >
@@ -74,8 +79,12 @@ struct T_Pair {
 	typedef std::pair<K,V> Type;
 };
 
+//--------------------------------------------
+
 //Exception handling
 typedef std::exception T_Exception;
+
+//--------------------------------------------
 
 //Signal handling
 class NoTemplate {};
@@ -123,6 +132,58 @@ template<typename T,typename U, typename V, typename W, typename X, typename Y, 
 struct T_Signal_v8 {
    typedef sigslot::signal8<T,U,V,W,X,Y,Z,S> Type;
 };
+
+//--------------------------------------------
+
+//Delegate handling
+typedef const void *T_Void;
+
+template<class RetType=T_Void>
+struct T_Delegate_v0 {
+	typedef fastdelegate::FastDelegate0<RetType> Type;
+};
+
+template<class Param1, class RetType=T_Void>
+struct T_Delegate_v1 {
+	typedef fastdelegate::FastDelegate1<Param1, RetType> Type;
+};
+
+template<class Param1, class Param2, class RetType=T_Void>
+struct T_Delegate_v2 {
+	typedef fastdelegate::FastDelegate2<Param1, Param2, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class RetType=T_Void>
+struct T_Delegate_v3 {
+	typedef fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class RetType=T_Void>
+struct T_Delegate_v4 {
+	typedef fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType=T_Void>
+struct T_Delegate_v5 {
+	typedef fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType=T_Void>
+struct T_Delegate_v6 {
+	typedef fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType=T_Void>
+struct T_Delegate_v7 {
+	typedef fastdelegate::FastDelegate7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType=T_Void>
+struct T_Delegate_v8 {
+	typedef fastdelegate::FastDelegate8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType> Type;
+};
+
+//--------------------------------------------
 
 template < typename T >
 struct T_SharedPtr {
