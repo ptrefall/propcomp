@@ -72,6 +72,9 @@ void main()
 	std::cout << "- set Position to (0.0, 0.0, 7.0)" << std::endl;
 	crateC.getProperty<T_Vec3f>("Position") = T_Vec3f(5.0f, 7.0f, 2.0f);
 
+	//T_HashedString applyDmgId("APPLY_DMG");
+	//F32 dmg = crateB.call2<const F32 &, const T_String &, F32>(applyDmgId, 10.0f, "Main");
+
 	printReady();
 
 	while(bomb.getProperty<bool>("Timeout").get() == false)

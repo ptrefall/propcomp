@@ -28,7 +28,7 @@ requirements or restrictions.
 using namespace Components;
 
 Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
-: Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")
+: Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")//, applyDmgId("APPLY_DMG")
 {
 	name_property = owner.addProperty<T_String>("Name", "");
     alive_property = owner.addProperty<bool>("Alive", true);
@@ -39,6 +39,8 @@ Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
 	alive_property.valueChanged().connect(this, &Health::onAliveChanged);
 
 	owner.registerToEvent2<F32, T_String>(dmgEventId).connect(this, &Health::onDmgEvent);
+
+	//owner.registerFunction2<const F32 &, const T_String &, F32>(applyDmgId).bind(this, &Health::applyDmg);
 }
 
 Health::~Health()

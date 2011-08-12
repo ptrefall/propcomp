@@ -31,6 +31,8 @@ set(MinDepends_HDRS
 	../depends/MinDepends/types.h
 	../depends/MinDepends/sigslot.h
 	../depends/MinDepends/cdiggins_any.h
+	../depends/MinDepends/FastDelegate.h
+	../depends/MinDepends/FastDelegateBind.h
 )
 SOURCE_GROUP("Header Files\\Types\\MinDepends" FILES ${MinDepends_HDRS})
 
@@ -56,6 +58,7 @@ set(HDRS
   ./PropertyList.h
   ./PropertyListHandler.h
   ./EventHandler.h
+  ./DelegateHandler.h
   ./types_config.h
   ./mainpage.h
 )
