@@ -15,17 +15,17 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 #
-# Note: Some of the libraries Component-based Entity Engine may link to may have additional
+# Note: Some of the libraries Factotum EDK may link to may have additional
 # requirements or restrictions.
 #
 ###
-# CMake system for Component-based Entity Engine was contributed by Jacob 'jacmoe' Moen
+# CMake system for Factotum EDK was contributed by Jacob 'jacmoe' Moen
 #
 ###
 
 cmake_minimum_required(VERSION 2.8)
 
-project(EntitySystemSolution)
+project(FactotumEDKSolution)
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
   # CMake defaults to leaving CMAKE_BUILD_TYPE empty. This screws up
