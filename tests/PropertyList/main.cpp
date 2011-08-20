@@ -1,4 +1,4 @@
-/*Component-based Entity Engine
+/*Factotum EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Component-based Entity Engine may link to may have additional
+Note: Some of the libraries Factotum EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -141,7 +141,7 @@ void main()
 
 void printStartup()
 {
-	std::cout << "Thank you for downloading and testing out the \nComponent-based entities using properties codebase!" << std::endl;
+	std::cout << "Thank you for downloading and testing out Factotum EDK!" << std::endl;
 	std::cout << "In this test we'll demonstrate the features of PropertyList." << std::endl;
 	std::cout << "\n";
 	system("pause");

@@ -15,17 +15,17 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 #
-# Note: Some of the libraries Component-based Entity Engine may link to may have additional
+# Note: Some of the libraries Factotum EDK may link to may have additional
 # requirements or restrictions.
 #
 ###
-# CMake system for Component-based Entity Engine was contributed by Jacob 'jacmoe' Moen
+# CMake system for Factotum EDK was contributed by Jacob 'jacmoe' Moen
 #
 ###
 
 cmake_minimum_required(VERSION 2.8)
  
-project(EntitySystem)
+project(FactotumEDK)
 
 set(MinDepends_HDRS
 	../depends/MinDepends/types.h
@@ -68,6 +68,6 @@ set(SRCS
   ./ComponentHandler.cpp
 )
  
-add_library(EntitySystem STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
+add_library(FactotumEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
 
-set_target_properties(EntitySystem PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(FactotumEDK PROPERTIES DEBUG_POSTFIX _d)
