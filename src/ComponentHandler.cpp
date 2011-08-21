@@ -26,6 +26,8 @@ requirements or restrictions.
 #include "ComponentFactory.h"
 #include "Entity.h"
 
+using namespace Factotum;
+
 ComponentHandler::ComponentHandler(ComponentFactory& componentFactory)
 : componentFactory(componentFactory)
 {
@@ -81,7 +83,7 @@ Component &ComponentHandler::getComponent(const T_String& type)
 	throw T_Exception(("Unable to get component " + type).c_str());
 }
 
-void ComponentHandler::updateComponents(F32 deltaTime)
+void ComponentHandler::updateComponents(const F32 &deltaTime)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 		components[i]->update(deltaTime);

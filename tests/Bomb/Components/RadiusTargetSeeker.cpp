@@ -26,6 +26,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr)
 : Component(owner, name), entityMgr(entityMgr), seekInRadiusEventId("SEEK_IN_RADIUS")

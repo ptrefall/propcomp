@@ -28,18 +28,18 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Health : public Component
+	class Health : public Factotum::Component
 	{
 	public:
 		COMPONENT_1(Health, EntityManager)
-		Health(Entity &owner, const T_String &name, EntityManager &entityMgr);
+		Health(Factotum::Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~Health();
 
 	protected:
-		Property<T_String> name_property;
-		Property<bool> alive_property;
-		Property<F32> health_property;
-		Property<F32> maxhealth_property;
+		Factotum::Property<T_String> name_property;
+		Factotum::Property<bool> alive_property;
+		Factotum::Property<F32> health_property;
+		Factotum::Property<F32> maxhealth_property;
 
 		void onHealthChanged(const F32 &oldValue, const F32 &newValue);
 		void onAliveChanged(const bool &oldValue, const bool &newValue);

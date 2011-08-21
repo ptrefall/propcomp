@@ -28,21 +28,21 @@ requirements or restrictions.
 
 namespace Components
 {
-	class WheelMount : public Component
+	class WheelMount : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(WheelMount)
-		WheelMount(Entity &owner, const T_String &name);
+		WheelMount(Factotum::Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Property<T_String> type_property;
+		Factotum::Property<T_String> type_property;
 
-		PropertyList<Entity*> wheels_property_list;
-		Property<U32> activeWheelCount_property;
-		Property<F32> velocity_property;
+		Factotum::PropertyList<Factotum::Entity*> wheels_property_list;
+		Factotum::Property<U32> activeWheelCount_property;
+		Factotum::Property<F32> velocity_property;
 
 		void onAccelerateWheelsEvent(const F32 &force);
 

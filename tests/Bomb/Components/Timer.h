@@ -27,19 +27,19 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Timer : public Component
+	class Timer : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(Timer)
-		Timer(Entity &owner, const T_String &name);
+		Timer(Factotum::Entity &owner, const T_String &name);
 		virtual ~Timer();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Property<bool> timeout_property;
-		Property<U32> timeoutValue_property;
-		Property<F32> tickInterval_property;
+		Factotum::Property<bool> timeout_property;
+		Factotum::Property<U32> timeoutValue_property;
+		Factotum::Property<F32> tickInterval_property;
 		F32 time;
 		U32 ticks;
 	};

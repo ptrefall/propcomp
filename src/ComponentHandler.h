@@ -40,10 +40,11 @@
 
 #include "types_config.h"
 
+namespace Factotum {
+
 class Entity;
 class Component;
 class ComponentFactory;
-
 class ComponentHandler
 {
 public:
@@ -210,7 +211,7 @@ public:
 	 *
 	 * @param deltaTime  Should be the time elapsed since update was called last time.
 	 */
-	void updateComponents(F32 deltaTime);
+	void updateComponents(const F32 &deltaTime);
 
 	//--------------------------------------------------------------
 
@@ -384,3 +385,5 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	components.push_back(component);
 	return *component;
 }
+
+} //namespace Factotum

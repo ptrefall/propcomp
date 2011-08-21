@@ -26,6 +26,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 EnergyCharger::EnergyCharger(Entity &owner, const T_String &name)
 : Component(owner, name), addEffectEventId("ADD_EFFECT")

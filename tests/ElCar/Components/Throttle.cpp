@@ -24,7 +24,9 @@ requirements or restrictions.
 #include "Throttle.h"
 
 #include <iostream>
+
 using namespace Components;
+using namespace Factotum;
 
 Throttle::Throttle(Entity &owner, const T_String &name)
 : Component(owner, name), throttleEventId("THROTTLE"), spendEffectEventId("SPEND_EFFECT"), accelerateWheelsEventId("ACCELERATE_WHEELS")

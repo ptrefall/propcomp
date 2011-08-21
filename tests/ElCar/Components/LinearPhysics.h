@@ -28,18 +28,18 @@ requirements or restrictions.
 
 namespace Components
 {
-	class LinearPhysics : public Component
+	class LinearPhysics : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(LinearPhysics)
-		LinearPhysics(Entity &owner, const T_String &name);
+		LinearPhysics(Factotum::Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Property<T_String> type_property;
-		Property<F32> velocity_property;
-		Property<T_Vec3f> position_property;
+		Factotum::Property<T_String> type_property;
+		Factotum::Property<F32> velocity_property;
+		Factotum::Property<T_Vec3f> position_property;
 	};
 }

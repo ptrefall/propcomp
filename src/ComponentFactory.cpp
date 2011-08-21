@@ -25,6 +25,8 @@ requirements or restrictions.
 #include "ComponentFactory.h"
 #include "Component.h"
 
+using namespace Factotum;
+
 ComponentFactory::ComponentFactory()
 : creators(NULL_PTR), creators_custom1(NULL_PTR), creators_custom2(NULL_PTR), creators_custom3(NULL_PTR), creators_custom4(NULL_PTR), 
 					  creators_custom5(NULL_PTR), creators_custom6(NULL_PTR), creators_custom7(NULL_PTR), creators_custom8(NULL_PTR)

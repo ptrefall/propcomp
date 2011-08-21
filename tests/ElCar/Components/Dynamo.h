@@ -27,22 +27,22 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Dynamo : public Component
+	class Dynamo : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(Dynamo)
-		Dynamo(Entity &owner, const T_String &name);
+		Dynamo(Factotum::Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Property<T_String> type_property;
-		Property<T_String> name_property;
-		Property<Entity*> car_property;
-		Property<F32> angularVelocity_property;
-		Property<F32> generationFactor_property;
-		Property<F32> dynamoEfficiency_property;
+		Factotum::Property<T_String> type_property;
+		Factotum::Property<T_String> name_property;
+		Factotum::Property<Factotum::Entity*> car_property;
+		Factotum::Property<F32> angularVelocity_property;
+		Factotum::Property<F32> generationFactor_property;
+		Factotum::Property<F32> dynamoEfficiency_property;
 
 		T_HashedString addEffectEventId;
 	};

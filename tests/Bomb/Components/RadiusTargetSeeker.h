@@ -29,16 +29,16 @@ requirements or restrictions.
 
 namespace Components
 {
-	class RadiusTargetSeeker : public Component
+	class RadiusTargetSeeker : public Factotum::Component
 	{
 	public:
 		COMPONENT_1(RadiusTargetSeeker, EntityManager)
-		RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr);
+		RadiusTargetSeeker(Factotum::Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~RadiusTargetSeeker();
 
 	protected:
-		PropertyList<Entity*> target_property_list;
-		Property<T_Vec3f> position_property;
+		Factotum::PropertyList<Factotum::Entity*> target_property_list;
+		Factotum::Property<T_Vec3f> position_property;
 
 		void onSeekInRadiusEvent(const F32 &radius);
 

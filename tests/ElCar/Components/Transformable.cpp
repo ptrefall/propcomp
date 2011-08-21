@@ -24,6 +24,7 @@ requirements or restrictions.
 #include "Transformable.h"
 
 using namespace Components;
+using namespace Factotum;
 
 Transformable::Transformable(Entity &owner, const T_String &name)
 : Component(owner, name)

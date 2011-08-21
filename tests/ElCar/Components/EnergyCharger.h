@@ -28,16 +28,16 @@ requirements or restrictions.
 
 namespace Components
 {
-	class EnergyCharger : public Component
+	class EnergyCharger : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(EnergyCharger)
-		EnergyCharger(Entity &owner, const T_String &name);
+		EnergyCharger(Factotum::Entity &owner, const T_String &name);
 		virtual ~EnergyCharger();
 
 	protected:
-		Property<F32> energy_property;
-		Property<F32> maxEnergy_property;
+		Factotum::Property<F32> energy_property;
+		Factotum::Property<F32> maxEnergy_property;
 
 		void onAddEffectEvent(const F32 &effect);
 

@@ -28,14 +28,14 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Transformable : public Component
+	class Transformable : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(Transformable)
-		Transformable(Entity &owner, const T_String &name);
+		Transformable(Factotum::Entity &owner, const T_String &name);
 		virtual ~Transformable();
 
 	protected:
-		Property<T_Vec3f> position_property;
+		Factotum::Property<T_Vec3f> position_property;
 	};
 }

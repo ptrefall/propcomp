@@ -27,16 +27,16 @@ requirements or restrictions.
 
 namespace Components
 {
-	class MultiTargeter : public Component
+	class MultiTargeter : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(MultiTargeter)
-		MultiTargeter(Entity &owner, const T_String &name);
+		MultiTargeter(Factotum::Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 
 	protected:
-		PropertyList<Entity*> target_property_list;
+		Factotum::PropertyList<Factotum::Entity*> target_property_list;
 
-		void onTargetAdded(const U32 &index, Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Factotum::Entity * const &newValue);
 	};
 }

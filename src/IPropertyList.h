@@ -40,6 +40,8 @@
 
 #include "types_config.h"
 
+namespace Factotum {
+
 class IPropertyList
 {
 public:
@@ -62,3 +64,5 @@ public:
 	 */
 	virtual bool isNull() const = 0;
 };
+
+} //namespace Factotum

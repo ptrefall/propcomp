@@ -28,28 +28,28 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Explosive : public Component
+	class Explosive : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(Explosive)
-		Explosive(Entity &owner, const T_String &name);
+		Explosive(Factotum::Entity &owner, const T_String &name);
 		virtual ~Explosive();
 
 	protected:
-		Property<T_String> type_property;
-		Property<T_String> name_property;
-		Property<bool> timeout_property;
-		Property<F32> base_damage_property;
-		Property<F32> blast_radius_property;
-		Property<T_Vec3f> position_property;
+		Factotum::Property<T_String> type_property;
+		Factotum::Property<T_String> name_property;
+		Factotum::Property<bool> timeout_property;
+		Factotum::Property<F32> base_damage_property;
+		Factotum::Property<F32> blast_radius_property;
+		Factotum::Property<T_Vec3f> position_property;
 
-		PropertyList<Entity*> target_property_list;
+		Factotum::PropertyList<Factotum::Entity*> target_property_list;
 
 		//Property Slots
 		void onTimeoutChanged(const bool &oldValue, const bool &newValue);
 
 		//PropertyList Slots
-		void onTargetAdded(const U32 &index, Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Factotum::Entity * const &newValue);
 
 		//Event Ids
 		T_HashedString seekInRadiusEventId;

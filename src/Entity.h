@@ -44,6 +44,9 @@
 #include <PropertyListHandler.h>
 #include <EventHandler.h>
 #include <DelegateHandler.h>
+
+namespace Factotum {
+
 class Entity :	public ComponentHandler, 
 				public PropertyHandler, 
 				public PropertyListHandler, 
@@ -58,3 +61,5 @@ public:
 
 	virtual ~Entity() {}
 };
+
+} //namespace Factotum
