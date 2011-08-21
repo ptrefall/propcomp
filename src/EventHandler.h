@@ -57,8 +57,8 @@ public:
 	 */
 	virtual ~EventHandler() 
 	{
-		for(U32 i = 0; i < scheduledEvents0.size(); i++)
-			delete scheduledEvents0[i];
+		for(U32 i = 0; i < scheduledEvents.size(); i++)
+			delete scheduledEvents[i];
 	}
 
 	//--------------------------------------------------------------
@@ -187,6 +187,16 @@ public:
 	 * @param time The time in seconds this event should be delayed by
 	 */
 	void scheduleEvent0(const T_HashedString &type, const F32 &time);
+
+	/**
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the argument-less event signal of type.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @param time The time in seconds this event should be delayed by
+	 */
+	template<class T>
+	void scheduleEvent1(const T_HashedString &type, const T &arg0, const F32 &time);
 
 	//--------------------------------------------------------------
 
@@ -379,15 +389,18 @@ protected:
 
 	//--------------------------------------------------------
 
-	/// Structure holding data of a scheduled event
-	struct ScheduledEvent 
+	/// Scheduled event base class definition
+	class ScheduledEvent 
 	{
+	public:
 		/// A flag that says whether we can write a new scheduled event to this instance.
 		bool read_only;
 		/// Type of the scheduled event
 		T_HashedString type;
 		/// The exact time this event should be invoked
 		F32 time;
+		/// List of any arguments
+		T_Vector<T_Any>::Type arguments;
 
 		/// The constructor takes all parameters in structure in, with read-only defaulting to true on construction.
 		ScheduledEvent(const T_HashedString &type, const F32 &time, const bool &read_only = true) 
@@ -396,7 +409,7 @@ protected:
 	};
 
 	/// List of argument-less, scheduled event signals held by EventHandler.
-	T_Vector<ScheduledEvent*>::Type scheduledEvents0;
+	T_Vector<ScheduledEvent*>::Type scheduledEvents;
 };
 
 //------------------------------------------------------
@@ -550,20 +563,25 @@ inline void EventHandler::sendEvent8(const T_HashedString &type, const T &arg0, 
 
 inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 {
-	for(U32 i = 0; i < scheduledEvents0.size(); i++)
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
-		ScheduledEvent *event = scheduledEvents0[i];
+		ScheduledEvent *event = scheduledEvents[i];
 		if(event->read_only == false)
 			continue;
 
 		event->time -= deltaTime;
 		if(event->time <= 0.0f)
-			this->sendEvent0(event->type);
+		{
+			if(event->arguments.empty())
+				this->sendEvent0(event->type);
+			else if(event->arguments.size() == 1)
+				this->sendEvent1<float>(event->type, event->arguments[0].cast<float>()); //FIXME: This doesn't work... :P
 
-		event->read_only = false;
-		scheduledEvents0[i] = scheduledEvents0.back();
-		scheduledEvents0.pop_back();
-		i--;
+			event->read_only = false;
+			scheduledEvents[i] = scheduledEvents.back();
+			scheduledEvents.pop_back();
+			i--;
+		}
 	}
 }
 
@@ -571,20 +589,45 @@ inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
-	for(U32 i = 0; i < scheduledEvents0.size(); i++)
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
-		ScheduledEvent *event = scheduledEvents0[i];
+		ScheduledEvent *event = scheduledEvents[i];
 		if(event->read_only == false)
 		{
 			event->read_only = true;
 			event->type = type;
 			event->time = time;
+			event->arguments.clear();
 			return;
 		}
 	}
 
 	ScheduledEvent *event = new ScheduledEvent(type, time);
-	scheduledEvents0.push_back(event);
+	scheduledEvents.push_back(event);
+}
+
+template<class T>
+inline void EventHandler::scheduleEvent1(const T_HashedString &type, const T &arg0, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->read_only == false)
+		{
+			event->read_only = true;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(T_Any(arg0));
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(T_Any(arg0));
+	scheduledEvents.push_back(event);
 }
 
 //------------------------------------------------------------------
