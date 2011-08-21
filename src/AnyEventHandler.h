@@ -9,7 +9,7 @@
  *
  * @version 2.0
  *
- * @brief EventHandler base class
+ * @brief EventHandler base class using Any
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -34,7 +34,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The event handler.
+ * The event handler using Any.
  * 
  */
 
@@ -68,7 +68,7 @@ public:
 	 *
 	 * @param type The hashed type string id of the event.
 	 */
-	void sendEvent0(const T_HashedString &type);
+	void sendEvent(const T_HashedString &type);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
@@ -76,8 +76,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @param arg0 First argument of type T.
 	 */
-	template<class T> 
-	void sendEvent1(const T_HashedString &type, const T &arg0);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -86,8 +85,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
-	template<class T, class U> 
-	void sendEvent2(const T_HashedString &type, const T &arg0, const U &arg1);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding three arguments.
@@ -97,8 +95,7 @@ public:
 	 * @param arg1 Second argument of type U.
 	 * @param arg2 Third argument of type V.
 	 */
-	template<class T, class U, class V> 
-	void sendEvent3(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding four arguments.
@@ -109,8 +106,7 @@ public:
 	 * @param arg2 Third argument of type V.
 	 * @param arg3 Fourth argument of type W.
 	 */
-	template<class T, class U, class V, class W> 
-	void sendEvent4(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2, const T_Any &arg3);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding five arguments.
@@ -122,8 +118,7 @@ public:
 	 * @param arg3 Fourth argument of type W.
 	 * @param arg4 Fifth argument of type X.
 	 */
-	template<class T, class U, class V, class W, class X> 
-	void sendEvent5(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2, const T_Any &arg3, const T_Any &arg4);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding six arguments.
@@ -136,8 +131,7 @@ public:
 	 * @param arg4 Fifth argument of type X.
 	 * @param arg5 Sixth argument of type Y.
 	 */
-	template<class T, class U, class V, class W, class X, class Y> 
-	void sendEvent6(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5);
+	void sendEvent6(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2, const T_Any &arg3, const T_Any &arg4, const T_Any &arg5);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding seven arguments.
@@ -151,8 +145,7 @@ public:
 	 * @param arg5 Sixth argument of type Y.
 	 * @param arg6 Seventh argument of type Z.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z> 
-	void sendEvent7(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2, const T_Any &arg3, const T_Any &arg4, const T_Any &arg5, const T_Any &arg6);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding eight arguments.
@@ -167,8 +160,7 @@ public:
 	 * @param arg6 Seventh argument of type Z.
 	 * @param arg7 Eight argument of type S.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S> 
-	void sendEvent8(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6, const S &arg7);
+	void sendEvent(const T_HashedString &type, const T_Any &arg0, const T_Any &arg1, const T_Any &arg2, const T_Any &arg3, const T_Any &arg4, const T_Any &arg5, const T_Any &arg6, const T_Any &arg7);
 
 	//--------------------------------------------------------------
 
@@ -186,7 +178,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent0(const T_HashedString &type, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -195,8 +187,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class T>
-	void scheduleEvent1(const T_HashedString &type, const T &arg0, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, const T_Any &arg0, const F32 &time);
 
 	//--------------------------------------------------------------
 
@@ -573,9 +564,9 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 		if(event->time <= 0.0f)
 		{
 			if(event->arguments.empty())
-				this->sendEvent0(event->type);
+				this->sendEvent(event->type);
 			else if(event->arguments.size() == 1)
-				this->sendEvent1<float>(event->type, event->arguments[0].cast<float>()); //FIXME: This doesn't work... :P
+				this->sendEvent(event->type, event->arguments[0]);
 
 			event->empty = true;
 			scheduledEvents[i] = scheduledEvents.back();
@@ -585,7 +576,7 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 	}
 }
 
-inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -606,8 +597,7 @@ inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &
 	scheduledEvents.push_back(event);
 }
 
-template<class T>
-inline void EventHandler::scheduleEvent1(const T_HashedString &type, const T &arg0, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, const T_Any &arg0, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -620,13 +610,13 @@ inline void EventHandler::scheduleEvent1(const T_HashedString &type, const T &ar
 			event->type = type;
 			event->time = time;
 			event->arguments.clear();
-			event->arguments.push_back(T_Any(arg0));
+			event->arguments.push_back(arg0);
 			return;
 		}
 	}
 
 	ScheduledEvent *event = new ScheduledEvent(type, time);
-	event->arguments.push_back(T_Any(arg0));
+	event->arguments.push_back(arg0);
 	scheduledEvents.push_back(event);
 }
 
