@@ -42,7 +42,7 @@
 #include <ComponentHandler.h>
 #include <PropertyHandler.h>
 #include <PropertyListHandler.h>
-#include <EventHandler.h>
+#include <TemplateEventHandler.h>
 #include <DelegateHandler.h>
 
 namespace Factotum {

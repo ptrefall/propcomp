@@ -57,7 +57,8 @@ set(HDRS
   ./IPropertyList.h
   ./PropertyList.h
   ./PropertyListHandler.h
-  ./EventHandler.h
+  ./TemplateEventHandler.h
+  ./AnyEventHandler.h
   ./DelegateHandler.h
   ./types_config.h
   ./mainpage.h
