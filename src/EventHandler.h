@@ -55,7 +55,11 @@ public:
 	/**
 	 * Destructor
 	 */
-	virtual ~EventHandler() {}
+	virtual ~EventHandler() 
+	{
+		for(U32 i = 0; i < scheduledEvents0.size(); i++)
+			delete scheduledEvents0[i];
+	}
 
 	//--------------------------------------------------------------
 
@@ -378,12 +382,17 @@ protected:
 	/// Structure holding data of a scheduled event
 	struct ScheduledEvent 
 	{
+		/// A flag that says whether we can write a new scheduled event to this instance.
+		bool read_only;
 		/// Type of the scheduled event
 		T_HashedString type;
 		/// The exact time this event should be invoked
 		F32 time;
 
-		ScheduledEvent(const T_HashedString &type, const F32 &time) : type(type), time(time) {}
+		/// The constructor takes all parameters in structure in, with read-only defaulting to true on construction.
+		ScheduledEvent(const T_HashedString &type, const F32 &time, const bool &read_only = true) 
+			: type(type), time(time), read_only(read_only) //Leave option for pooling these at construction, thus read_only can be set as false via constructor
+		{}
 	};
 
 	/// List of argument-less, scheduled event signals held by EventHandler.
@@ -544,11 +553,14 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 	for(U32 i = 0; i < scheduledEvents0.size(); i++)
 	{
 		ScheduledEvent *event = scheduledEvents0[i];
+		if(event->read_only == false)
+			continue;
+
 		event->time -= deltaTime;
 		if(event->time <= 0.0f)
 			this->sendEvent0(event->type);
 
-		delete event; //Maybe flag for reuse rather than delete/new all the time?
+		event->read_only = false;
 		scheduledEvents0[i] = scheduledEvents0.back();
 		scheduledEvents0.pop_back();
 		i--;
@@ -557,6 +569,20 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 
 inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &time)
 {
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents0.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents0[i];
+		if(event->read_only == false)
+		{
+			event->read_only = true;
+			event->type = type;
+			event->time = time;
+			return;
+		}
+	}
+
 	ScheduledEvent *event = new ScheduledEvent(type, time);
 	scheduledEvents0.push_back(event);
 }
