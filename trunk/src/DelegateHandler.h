@@ -41,9 +41,10 @@
 #include "types_config.h"
 #include "Property.h"
 
+namespace Factotum {
+
 class Component;
 class ComponentFactory;
-
 class DelegateHandler
 {
 public:
@@ -725,3 +726,5 @@ inline typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Pa
 
 	return delegate->delegate;
 }
+
+} //namespace Factotum

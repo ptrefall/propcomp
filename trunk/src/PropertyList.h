@@ -40,6 +40,8 @@
 
 #include "IPropertyList.h"
 
+namespace Factotum {
+
 template<class T>
 class PropertyListData HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
@@ -407,3 +409,5 @@ inline PropertyListIndexValue<T> PropertyList<T>::operator [](const U32 &index)
 
 	return PropertyListIndexValue<T>(data->value[index], index, data->valueChanged);
 }
+
+} //namespace Factotum

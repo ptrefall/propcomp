@@ -40,6 +40,8 @@
 
 #include "IProperty.h"
 
+namespace Factotum {
+
 template<class T>
 class PropertyData HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
@@ -343,3 +345,5 @@ inline bool Property<T>::operator <(const T &rhs)
 {
 	return (data->value < rhs);
 }
+
+} //namespace Factotum

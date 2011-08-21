@@ -29,6 +29,8 @@ requirements or restrictions.
 
 #include <iostream>
 
+using namespace Factotum;
+
 EntityManager::~EntityManager()
 {
 	for(unsigned int i = 0; i < entities.size(); i++)

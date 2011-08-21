@@ -37,6 +37,8 @@ requirements or restrictions.
 #include <stdio.h>
 #include <time.h>
 
+using namespace Factotum;
+
 void printStartup();
 void initFactory(ComponentFactory &factory);
 void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr);

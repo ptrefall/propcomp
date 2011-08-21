@@ -24,9 +24,8 @@ requirements or restrictions.
 #pragma once
 
 #include <types_config.h>
-#include "Entity.h"
 
-class ComponentFactory;
+namespace Factotum { class Entity; class ComponentFactory; }
 
 class EntityManager
 {
@@ -36,12 +35,12 @@ public:
 
 	void update(F32 deltaTime);
 
-	Entity &create(ComponentFactory &factory);
-	void erase(Entity *Entity);
-	T_Vector<Entity*>::Type &getEntities() { return entities; }
+	Factotum::Entity &create(Factotum::ComponentFactory &factory);
+	void erase(Factotum::Entity *Entity);
+	T_Vector<Factotum::Entity*>::Type &getEntities() { return entities; }
 
 protected:
-	T_Vector<Entity*>::Type entities;
-	T_Vector<Entity*>::Type pendingDelete;
+	T_Vector<Factotum::Entity*>::Type entities;
+	T_Vector<Factotum::Entity*>::Type pendingDelete;
 	T_EntityId nextEntityId;
 };

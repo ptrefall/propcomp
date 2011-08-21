@@ -41,9 +41,10 @@
 #include "types_config.h"
 #include "Property.h"
 
+namespace Factotum {
+
 class Component;
 class ComponentFactory;
-
 class EventHandler
 {
 public:
@@ -71,7 +72,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @param arg0 First argument of type T.
 	 */
-	template<class T> void sendEvent1(const T_HashedString &type, const T &arg0);
+	template<class T> 
+	void sendEvent1(const T_HashedString &type, const T &arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -80,7 +82,8 @@ public:
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
-	template<class T, class U> void sendEvent2(const T_HashedString &type, const T &arg0, const U &arg1);
+	template<class T, class U> 
+	void sendEvent2(const T_HashedString &type, const T &arg0, const U &arg1);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding three arguments.
@@ -90,7 +93,8 @@ public:
 	 * @param arg1 Second argument of type U.
 	 * @param arg2 Third argument of type V.
 	 */
-	template<class T, class U, class V> void sendEvent3(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2);
+	template<class T, class U, class V> 
+	void sendEvent3(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding four arguments.
@@ -101,7 +105,8 @@ public:
 	 * @param arg2 Third argument of type V.
 	 * @param arg3 Fourth argument of type W.
 	 */
-	template<class T, class U, class V, class W> void sendEvent4(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3);
+	template<class T, class U, class V, class W> 
+	void sendEvent4(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding five arguments.
@@ -113,7 +118,8 @@ public:
 	 * @param arg3 Fourth argument of type W.
 	 * @param arg4 Fifth argument of type X.
 	 */
-	template<class T, class U, class V, class W, class X> void sendEvent5(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4);
+	template<class T, class U, class V, class W, class X> 
+	void sendEvent5(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding six arguments.
@@ -126,7 +132,8 @@ public:
 	 * @param arg4 Fifth argument of type X.
 	 * @param arg5 Sixth argument of type Y.
 	 */
-	template<class T, class U, class V, class W, class X, class Y> void sendEvent6(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5);
+	template<class T, class U, class V, class W, class X, class Y> 
+	void sendEvent6(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding seven arguments.
@@ -140,7 +147,8 @@ public:
 	 * @param arg5 Sixth argument of type Y.
 	 * @param arg6 Seventh argument of type Z.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z> void sendEvent7(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6);
+	template<class T, class U, class V, class W, class X, class Y, class Z> 
+	void sendEvent7(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding eight arguments.
@@ -155,7 +163,26 @@ public:
 	 * @param arg6 Seventh argument of type Z.
 	 * @param arg7 Eight argument of type S.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S> void sendEvent8(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6, const S &arg7);
+	template<class T, class U, class V, class W, class X, class Y, class Z, class S> 
+	void sendEvent8(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6, const S &arg7);
+
+	//--------------------------------------------------------------
+
+	/**
+	 * Call update function on all the scheduled events pending in this EventHandler.
+	 *
+	 * @param deltaTime  Should be the time elapsed since update was called last time.
+	 */
+	void updateScheduledEvents(const F32 &deltaTime);
+
+	/**
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the argument-less event signal of type.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @param time The time in seconds this event should be delayed by
+	 */
+	void scheduleEvent0(const T_HashedString &type, const F32 &time);
 
 	//--------------------------------------------------------------
 
@@ -173,7 +200,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires one arguments in the slot.
 	 */
-	template<class T>typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_HashedString &type);
+	template<class T>
+	typename T_Signal_v1<const T&>::Type &registerToEvent1(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -181,7 +209,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires two arguments in the slot.
 	 */
-	template<class T, class U>typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_HashedString &type);
+	template<class T, class U>
+	typename T_Signal_v2<const T&, const U&>::Type &registerToEvent2(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding three arguments.
@@ -189,7 +218,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires three arguments in the slot.
 	 */
-	template<class T, class U, class V>typename T_Signal_v3<const T&, const U&, const V&>::Type &registerToEvent3(const T_HashedString &type);
+	template<class T, class U, class V>
+	typename T_Signal_v3<const T&, const U&, const V&>::Type &registerToEvent3(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding four arguments.
@@ -197,7 +227,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires four arguments in the slot.
 	 */
-	template<class T, class U, class V, class W>typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type &registerToEvent4(const T_HashedString &type);
+	template<class T, class U, class V, class W>
+	typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type &registerToEvent4(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding five arguments.
@@ -205,7 +236,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires five arguments in the slot.
 	 */
-	template<class T, class U, class V, class W, class X>typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type &registerToEvent5(const T_HashedString &type);
+	template<class T, class U, class V, class W, class X>
+	typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type &registerToEvent5(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding six arguments.
@@ -213,7 +245,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires six arguments in the slot.
 	 */
-	template<class T, class U, class V, class W, class X, class Y>typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type &registerToEvent6(const T_HashedString &type);
+	template<class T, class U, class V, class W, class X, class Y>
+	typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type &registerToEvent6(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding seven arguments.
@@ -221,7 +254,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires seven arguments in the slot.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z>typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type &registerToEvent7(const T_HashedString &type);
+	template<class T, class U, class V, class W, class X, class Y, class Z>
+	typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type &registerToEvent7(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding eight arguments.
@@ -229,7 +263,8 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires eight arguments in the slot.
 	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S>typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type &registerToEvent8(const T_HashedString &type);
+	template<class T, class U, class V, class W, class X, class Y, class Z, class S>
+	typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type &registerToEvent8(const T_HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -256,56 +291,64 @@ protected:
 		T_Signal_v0<>::Type signal;
 	};
 	/// Event holding a signal that requires a single argument.
-	template<class T> class EventSignal1 : public IEventSignal
+	template<class T> 
+	class EventSignal1 : public IEventSignal
 	{
 	public:
 		/// Signal taking one arguments
 		typename T_Signal_v1<const T&>::Type signal;
 	};
 	/// Event holding a signal that requires two arguments.
-	template<class T, class U> class EventSignal2 : public IEventSignal
+	template<class T, class U> 
+	class EventSignal2 : public IEventSignal
 	{
 	public:
 		/// Signal taking two arguments
 		typename T_Signal_v2<const T&, const U&>::Type signal;
 	};
 	/// Event holding a signal that requires three arguments.
-	template<class T, class U, class V> class EventSignal3 : public IEventSignal
+	template<class T, class U, class V> 
+	class EventSignal3 : public IEventSignal
 	{
 	public:
 		/// Signal taking three arguments
 		typename T_Signal_v3<const T&, const U&, const V&>::Type signal;
 	};
 	/// Event holding a signal that requires four arguments.
-	template<class T, class U, class V, class W> class EventSignal4 : public IEventSignal
+	template<class T, class U, class V, class W> 
+	class EventSignal4 : public IEventSignal
 	{
 	public:
 		/// Signal taking four arguments
 		typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type signal;
 	};
 	/// Event holding a signal that requires five arguments.
-	template<class T, class U, class V, class W, class X> class EventSignal5 : public IEventSignal
+	template<class T, class U, class V, class W, class X> 
+	class EventSignal5 : public IEventSignal
 	{
 	public:
 		/// Signal taking five arguments
 		typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type signal;
 	};
 	/// Event holding a signal that requires six arguments.
-	template<class T, class U, class V, class W, class X, class Y> class EventSignal6 : public IEventSignal
+	template<class T, class U, class V, class W, class X, class Y> 
+	class EventSignal6 : public IEventSignal
 	{
 	public:
 		/// Signal taking six arguments
 		typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type signal;
 	};
 	/// Event holding a signal that requires seven arguments.
-	template<class T, class U, class V, class W, class X, class Y, class Z> class EventSignal7 : public IEventSignal
+	template<class T, class U, class V, class W, class X, class Y, class Z> 
+	class EventSignal7 : public IEventSignal
 	{
 	public:
 		/// Signal taking seven arguments
 		typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type signal;
 	};
 	/// Event holding a signal that requires eight arguments.
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S> class EventSignal8 : public IEventSignal
+	template<class T, class U, class V, class W, class X, class Y, class Z, class S> 
+	class EventSignal8 : public IEventSignal
 	{
 	public:
 		/// Signal taking eight arguments
@@ -329,6 +372,22 @@ protected:
 	T_Map<T_HashedStringType, IEventSignal*>::Type events7;
 	/// Map of event signals with eight arguments held by EventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events8;
+
+	//--------------------------------------------------------
+
+	/// Structure holding data of a scheduled event
+	struct ScheduledEvent 
+	{
+		/// Type of the scheduled event
+		T_HashedString type;
+		/// The exact time this event should be invoked
+		F32 time;
+
+		ScheduledEvent(const T_HashedString &type, const F32 &time) : type(type), time(time) {}
+	};
+
+	/// List of argument-less, scheduled event signals held by EventHandler.
+	T_Vector<ScheduledEvent*>::Type scheduledEvents0;
 };
 
 //------------------------------------------------------
@@ -476,6 +535,30 @@ inline void EventHandler::sendEvent8(const T_HashedString &type, const T &arg0, 
 #else
 	static_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 #endif
+}
+
+//------------------------------------------------------
+
+inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
+{
+	for(U32 i = 0; i < scheduledEvents0.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents0[i];
+		event->time -= deltaTime;
+		if(event->time <= 0.0f)
+			this->sendEvent0(event->type);
+
+		delete event; //Maybe flag for reuse rather than delete/new all the time?
+		scheduledEvents0[i] = scheduledEvents0.back();
+		scheduledEvents0.pop_back();
+		i--;
+	}
+}
+
+inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &time)
+{
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	scheduledEvents0.push_back(event);
 }
 
 //------------------------------------------------------------------
@@ -697,3 +780,5 @@ inline typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, co
 
 	return signal->signal;
 }
+
+} //namespace Factotum

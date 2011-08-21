@@ -26,6 +26,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
 : Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")//, applyDmgId("APPLY_DMG")

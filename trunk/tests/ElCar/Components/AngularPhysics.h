@@ -27,21 +27,21 @@ requirements or restrictions.
 
 namespace Components
 {
-	class AngularPhysics : public Component
+	class AngularPhysics : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(AngularPhysics)
-		AngularPhysics(Entity &owner, const T_String &name);
+		AngularPhysics(Factotum::Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Property<Entity*> car_property;
-		Property<F32> angularVelocity_property;
-		Property<F32> dimension_property;
-		Property<F32> friction_property;
-		PropertyList<F32> forces_property_list;
+		Factotum::Property<Factotum::Entity*> car_property;
+		Factotum::Property<F32> angularVelocity_property;
+		Factotum::Property<F32> dimension_property;
+		Factotum::Property<F32> friction_property;
+		Factotum::PropertyList<F32> forces_property_list;
 
 		void onForceAngularAccelerationEvent(const F32 &force);
 		void onSyncVelocityEvent(const F32 &velocity);

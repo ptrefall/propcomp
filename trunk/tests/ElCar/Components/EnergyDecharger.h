@@ -27,17 +27,17 @@ requirements or restrictions.
 
 namespace Components
 {
-	class EnergyDecharger : public Component
+	class EnergyDecharger : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(EnergyDecharger)
-		EnergyDecharger(Entity &owner, const T_String &name);
+		EnergyDecharger(Factotum::Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 
 	protected:
-		Property<F32> energy_property;
-		Property<F32> minEnergy_property;
-		Property<F32> maxEnergy_property;
+		Factotum::Property<F32> energy_property;
+		Factotum::Property<F32> minEnergy_property;
+		Factotum::Property<F32> maxEnergy_property;
 
 		void onSpendEffectEvent(const F32 &effect);
 

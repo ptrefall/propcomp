@@ -26,6 +26,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 Explosive::Explosive(Entity &owner, const T_String &name)
 : Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS"), dmgEventId("DMG")

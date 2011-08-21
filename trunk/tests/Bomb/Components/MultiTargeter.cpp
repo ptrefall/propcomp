@@ -27,6 +27,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 MultiTargeter::MultiTargeter(Entity &owner, const T_String &name)
 : Component(owner, name)

@@ -27,6 +27,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 WheelMount::WheelMount(Entity &owner, const T_String &name)
 : Component(owner, name), accelerateWheelsEventId("ACCELERATE_WHEELS"), syncVelocityEventId("SYNC_VELOCITY"), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION")

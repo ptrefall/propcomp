@@ -28,20 +28,20 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Throttle : public Component
+	class Throttle : public Factotum::Component
 	{
 	public:
 		COMPONENT_0(Throttle)
-		Throttle(Entity &owner, const T_String &name);
+		Throttle(Factotum::Entity &owner, const T_String &name);
 		virtual ~Throttle();
 
 	protected:
-		Property<T_String> type_property;
-		Property<F32> velocity_property;
-		Property<F32> maxVelocity_property;
-		Property<F32> engineForce_property;
-		Property<F32> mass_property;
-		Property<F32> engineEffect_property;
+		Factotum::Property<T_String> type_property;
+		Factotum::Property<F32> velocity_property;
+		Factotum::Property<F32> maxVelocity_property;
+		Factotum::Property<F32> engineForce_property;
+		Factotum::Property<F32> mass_property;
+		Factotum::Property<F32> engineEffect_property;
 
 		void onThrottleEvent();
 

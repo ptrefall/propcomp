@@ -27,6 +27,7 @@ requirements or restrictions.
 #include <iostream>
 
 using namespace Components;
+using namespace Factotum;
 
 AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
 : Component(owner, name), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION"), syncVelocityEventId("SYNC_VELOCITY")

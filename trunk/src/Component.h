@@ -55,6 +55,8 @@
 #include "Property.h"
 #include "ComponentFactory.h"
 
+namespace Factotum {
+
 class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
@@ -103,6 +105,8 @@ protected:
     T_String type;
 };
 
+} //namespace Factotum
+
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
  * to the component implementation that calls it. It simplifies adding new components, and
@@ -113,8 +117,8 @@ protected:
  */
 #define COMPONENT_0(component) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name) { return new component(owner, name); } \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name) { return new component(owner, name); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
@@ -127,7 +131,7 @@ protected:
  */
 #define COMPONENT_1(component, Custom_type1) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1) \
 			{ \
 				Custom_type1 *custom = NULL_PTR; \
 				try { \
@@ -137,7 +141,7 @@ protected:
 				} \
 				return new component(owner, name, *custom); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -157,7 +161,7 @@ protected:
  */
 #define COMPONENT_2(component, Custom_type1, Custom_type2) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -173,7 +177,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -194,7 +198,7 @@ protected:
  */
 #define COMPONENT_3(component, Custom_type1, Custom_type2, Custom_type3) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -216,7 +220,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -238,7 +242,7 @@ protected:
  */
 #define COMPONENT_4(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -266,7 +270,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -289,7 +293,7 @@ protected:
  */
 #define COMPONENT_5(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -323,7 +327,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -347,7 +351,7 @@ protected:
  */
 #define COMPONENT_6(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -387,7 +391,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -412,7 +416,7 @@ protected:
  */
 #define COMPONENT_7(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -458,7 +462,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \
@@ -484,7 +488,7 @@ protected:
  */
 #define COMPONENT_8(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7, Custom_type8) \
 			static T_String Type() { return T_String(#component); } \
-			static Component *Create(Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8) \
+			static Factotum::Component *Create(Factotum::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8) \
 			{ \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
@@ -536,7 +540,7 @@ protected:
 				} \
 				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
 			} \
-			static void RegisterToFactory(ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); } \
+			static void RegisterToFactory(Factotum::ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); } \
 			component &operator= (const component &rhs) \
 			{ \
 				if(this == &rhs) \

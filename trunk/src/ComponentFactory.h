@@ -48,10 +48,10 @@
 
 #include "types_config.h"
 
+namespace Factotum {
+
 class Entity;
-
 class Component;
-
 class ComponentFactory
 {
 public:
@@ -413,3 +413,5 @@ private:
 	/// The container of component creator function pointers that take eight custom parameter registered to the factory, each associated with a string key.
 	T_Map<T_String, ComponentCreator8>::Type* creators_custom8;
 };
+
+} //namespace Factotum

@@ -40,6 +40,8 @@
 
 #include "PropertyList.h"
 
+namespace Factotum {
+
 class PropertyListHandler
 {
 public:
@@ -271,3 +273,5 @@ inline void PropertyListHandler::clearDeletedPropertyLists()
 		delete deletedPropertyLists[i];
 	deletedPropertyLists.clear();
 }
+
+} //namespace Factotum
