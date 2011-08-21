@@ -393,8 +393,8 @@ protected:
 	class ScheduledEvent 
 	{
 	public:
-		/// A flag that says whether we can write a new scheduled event to this instance.
-		bool read_only;
+		/// A flag that says whether this instance is free so we can write a new scheduled event to it.
+		bool empty;
 		/// Type of the scheduled event
 		T_HashedString type;
 		/// The exact time this event should be invoked
@@ -402,9 +402,9 @@ protected:
 		/// List of any arguments
 		T_Vector<T_Any>::Type arguments;
 
-		/// The constructor takes all parameters in structure in, with read-only defaulting to true on construction.
-		ScheduledEvent(const T_HashedString &type, const F32 &time, const bool &read_only = true) 
-			: type(type), time(time), read_only(read_only) //Leave option for pooling these at construction, thus read_only can be set as false via constructor
+		/// The constructor takes all parameters in structure in, with empty defaulting to false on construction.
+		ScheduledEvent(const T_HashedString &type, const F32 &time, const bool &empty = false) 
+			: type(type), time(time), empty(empty) //Leave option for pooling these at construction, thus empty can be set as true via constructor
 		{}
 	};
 
@@ -566,7 +566,7 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
 		ScheduledEvent *event = scheduledEvents[i];
-		if(event->read_only == false)
+		if(event->empty)
 			continue;
 
 		event->time -= deltaTime;
@@ -577,7 +577,7 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 			else if(event->arguments.size() == 1)
 				this->sendEvent1<float>(event->type, event->arguments[0].cast<float>()); //FIXME: This doesn't work... :P
 
-			event->read_only = false;
+			event->empty = true;
 			scheduledEvents[i] = scheduledEvents.back();
 			scheduledEvents.pop_back();
 			i--;
@@ -592,9 +592,9 @@ inline void EventHandler::scheduleEvent0(const T_HashedString &type, const F32 &
 	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
 		ScheduledEvent *event = scheduledEvents[i];
-		if(event->read_only == false)
+		if(event->empty)
 		{
-			event->read_only = true;
+			event->empty = false;
 			event->type = type;
 			event->time = time;
 			event->arguments.clear();
@@ -614,9 +614,9 @@ inline void EventHandler::scheduleEvent1(const T_HashedString &type, const T &ar
 	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
 		ScheduledEvent *event = scheduledEvents[i];
-		if(event->read_only == false)
+		if(event->empty)
 		{
-			event->read_only = true;
+			event->empty = false;
 			event->type = type;
 			event->time = time;
 			event->arguments.clear();
