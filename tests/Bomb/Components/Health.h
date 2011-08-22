@@ -47,7 +47,7 @@ namespace Components
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onDmgEvent(const F32 &dmg, const T_String &attackerName);
 #elif USE_ANY_EVENT_HANDLER
-		void onDmgEvent(T_Any &dmg, T_Any &attackerName);
+		void onDmgEvent(T_Any dmg, T_Any attackerName);
 #endif
 
 		//F32 applyDmg(const F32 &dmg, const T_String &) { return dmg; }

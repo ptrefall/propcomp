@@ -51,7 +51,7 @@ EnergyDecharger::~EnergyDecharger()
 void EnergyDecharger::onSpendEffectEvent(const F32 &effect)
 {
 #elif USE_ANY_EVENT_HANDLER
-void EnergyDecharger::onSpendEffectEvent(T_Any &effect_any)
+void EnergyDecharger::onSpendEffectEvent(T_Any effect_any)
 {
 	const F32 &effect = effect_any.cast<F32>();
 #endif

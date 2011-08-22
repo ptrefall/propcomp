@@ -49,7 +49,7 @@ RadiusTargetSeeker::~RadiusTargetSeeker()
 void RadiusTargetSeeker::onSeekInRadiusEvent(const F32 &radius)
 {
 #elif USE_ANY_EVENT_HANDLER
-void RadiusTargetSeeker::onSeekInRadiusEvent(T_Any &radius_any)
+void RadiusTargetSeeker::onSeekInRadiusEvent(T_Any radius_any)
 {
 	const F32 &radius = radius_any.cast<F32>();
 #endif

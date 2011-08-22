@@ -48,7 +48,7 @@
 //sigslot::has_slots<>, thus "overload" this preprocessed definition.
 //-------------------------------------------------------------------
 #undef HAS_SIGNALSLOTS_INHERITANCE_TYPE
-#define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots<>
+#define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots<sigslot::single_threaded>
 
 //--------------------------------------------
 
@@ -90,47 +90,47 @@ typedef std::exception T_Exception;
 class NoTemplate {};
 template<class T = NoTemplate>
 struct T_Signal_v0 {
-	typedef sigslot::signal0<> Type;
+	typedef sigslot::signal0<sigslot::single_threaded> Type;
 };
 
 template< typename T >
 struct T_Signal_v1 {
-	typedef sigslot::signal1<T> Type;
+	typedef sigslot::signal1<T,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U>
 struct T_Signal_v2 {
-   typedef sigslot::signal2<T,U> Type;
+   typedef sigslot::signal2<T,U,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V>
 struct T_Signal_v3 {
-   typedef sigslot::signal3<T,U,V> Type;
+   typedef sigslot::signal3<T,U,V,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V, typename W>
 struct T_Signal_v4 {
-   typedef sigslot::signal4<T,U,V,W> Type;
+   typedef sigslot::signal4<T,U,V,W,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X>
 struct T_Signal_v5 {
-   typedef sigslot::signal5<T,U,V,W,X> Type;
+   typedef sigslot::signal5<T,U,V,W,X,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X, typename Y>
 struct T_Signal_v6 {
-   typedef sigslot::signal6<T,U,V,W,X,Y> Type;
+   typedef sigslot::signal6<T,U,V,W,X,Y,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z>
 struct T_Signal_v7 {
-   typedef sigslot::signal7<T,U,V,W,X,Y,Z> Type;
+   typedef sigslot::signal7<T,U,V,W,X,Y,Z,sigslot::single_threaded> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z, typename S>
 struct T_Signal_v8 {
-   typedef sigslot::signal8<T,U,V,W,X,Y,Z,S> Type;
+   typedef sigslot::signal8<T,U,V,W,X,Y,Z,S,sigslot::single_threaded> Type;
 };
 
 //--------------------------------------------

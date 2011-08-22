@@ -42,7 +42,7 @@ namespace Components
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onSpendEffectEvent(const F32 &effect);
 #elif USE_ANY_EVENT_HANDLER
-		void onSpendEffectEvent(T_Any &effect);
+		void onSpendEffectEvent(T_Any effect);
 #endif
 
 		T_HashedString spendEffectEventId;

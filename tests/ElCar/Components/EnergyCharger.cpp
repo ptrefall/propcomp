@@ -49,7 +49,7 @@ EnergyCharger::~EnergyCharger()
 void EnergyCharger::onAddEffectEvent(const F32 &effect)
 {
 #elif USE_ANY_EVENT_HANDLER
-void EnergyCharger::onAddEffectEvent(T_Any &effect_any)
+void EnergyCharger::onAddEffectEvent(T_Any effect_any)
 {
 	const F32 &effect = effect_any.cast<F32>();
 #endif

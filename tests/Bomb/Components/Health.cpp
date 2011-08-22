@@ -56,7 +56,7 @@ Health::~Health()
 void Health::onDmgEvent(const F32 &dmg, const T_String &attackerName)
 {
 #elif USE_ANY_EVENT_HANDLER
-void Health::onDmgEvent(T_Any &dmg_any, T_Any &attackerName_any)
+void Health::onDmgEvent(T_Any dmg_any, T_Any attackerName_any)
 {
 	const F32 &dmg = dmg_any.cast<F32>();
 	const T_String &attackerName = attackerName_any.cast<T_String>();

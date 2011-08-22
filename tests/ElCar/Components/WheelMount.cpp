@@ -79,9 +79,9 @@ void WheelMount::update(const F32 &/*deltaTime*/)
 void WheelMount::onAccelerateWheelsEvent(const F32 &force)
 {
 #elif USE_ANY_EVENT_HANDLER
-void WheelMount::onAccelerateWheelsEvent(T_Any &force_any)
+void WheelMount::onAccelerateWheelsEvent(T_Any force_any)
 {
-	const F32 &force = force_any.cast<F32>();
+	//const F32 &force = force_any.cast<F32>();
 #endif
 	//Force wheels to spin
 	for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
