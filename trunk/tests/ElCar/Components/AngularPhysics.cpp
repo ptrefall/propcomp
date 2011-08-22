@@ -38,8 +38,13 @@ AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
 	friction_property = owner.addProperty<F32>("Friction", 0.01f);
 	forces_property_list = owner.addPropertyList<F32>("AngularForces");
 
+#if USE_TEMPLATE_EVENT_HANDLER
 	owner.registerToEvent1<F32>(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
 	owner.registerToEvent1<F32>(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
+#elif USE_ANY_EVENT_HANDLER
+	owner.registerToEvent1(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
+	owner.registerToEvent1(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
+#endif
 }
 
 AngularPhysics::~AngularPhysics()
@@ -66,13 +71,25 @@ void AngularPhysics::update(const F32 &deltaTime)
 	angularVelocity_property = angularVelocity_property.get() + acceleration * deltaTime;
 }
 
+#if USE_TEMPLATE_EVENT_HANDLER
 void AngularPhysics::onForceAngularAccelerationEvent(const F32 &force)
 {
+#elif USE_ANY_EVENT_HANDLER
+void AngularPhysics::onForceAngularAccelerationEvent(T_Any &force_any)
+{
+	const F32 &force = force_any.cast<F32>();
+#endif
 	// We just sum up the forces acting on this Entity this frame
 	forces_property_list.push_back(force);
 }
 
+#if USE_TEMPLATE_EVENT_HANDLER
 void AngularPhysics::onSyncVelocityEvent(const F32 &velocity)
 {
+#elif USE_ANY_EVENT_HANDLER
+void AngularPhysics::onSyncVelocityEvent(T_Any &velocity_any)
+{
+	const F32 &velocity = velocity_any.cast<F32>();
+#endif
 	angularVelocity_property = velocity;
 }

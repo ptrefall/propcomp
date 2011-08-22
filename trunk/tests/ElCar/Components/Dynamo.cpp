@@ -57,5 +57,9 @@ void Dynamo::update(const F32 &/*deltaTime*/)
 	F32 factor = generationFactor_property.get() * dynamoEfficiency_property.get();
 	F32 effect = angularVelocity_property.get() * factor;
 
+#if USE_TEMPLATE_EVENT_HANDLER
 	car_property.get()->sendEvent1<F32>(addEffectEventId, effect);
+#elif USE_ANY_EVENT_HANDLER
+	car_property.get()->sendEvent(addEffectEventId, T_Any(effect));
+#endif
 }

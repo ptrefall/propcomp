@@ -40,7 +40,11 @@ namespace Components
 		Factotum::PropertyList<Factotum::Entity*> target_property_list;
 		Factotum::Property<T_Vec3f> position_property;
 
+#if USE_TEMPLATE_EVENT_HANDLER
 		void onSeekInRadiusEvent(const F32 &radius);
+#elif USE_ANY_EVENT_HANDLER
+		void onSeekInRadiusEvent(T_Any &radius);
+#endif
 
 		T_HashedString seekInRadiusEventId;
 
