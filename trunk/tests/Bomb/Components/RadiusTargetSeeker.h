@@ -43,7 +43,7 @@ namespace Components
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onSeekInRadiusEvent(const F32 &radius);
 #elif USE_ANY_EVENT_HANDLER
-		void onSeekInRadiusEvent(T_Any &radius);
+		void onSeekInRadiusEvent(T_Any radius);
 #endif
 
 		T_HashedString seekInRadiusEventId;

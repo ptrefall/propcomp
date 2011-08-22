@@ -75,7 +75,7 @@ void AngularPhysics::update(const F32 &deltaTime)
 void AngularPhysics::onForceAngularAccelerationEvent(const F32 &force)
 {
 #elif USE_ANY_EVENT_HANDLER
-void AngularPhysics::onForceAngularAccelerationEvent(T_Any &force_any)
+void AngularPhysics::onForceAngularAccelerationEvent(T_Any force_any)
 {
 	const F32 &force = force_any.cast<F32>();
 #endif
@@ -87,7 +87,7 @@ void AngularPhysics::onForceAngularAccelerationEvent(T_Any &force_any)
 void AngularPhysics::onSyncVelocityEvent(const F32 &velocity)
 {
 #elif USE_ANY_EVENT_HANDLER
-void AngularPhysics::onSyncVelocityEvent(T_Any &velocity_any)
+void AngularPhysics::onSyncVelocityEvent(T_Any velocity_any)
 {
 	const F32 &velocity = velocity_any.cast<F32>();
 #endif

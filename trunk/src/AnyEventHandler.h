@@ -76,7 +76,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @param arg0 First argument of type T.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0);
+	void sendEvent(const T_HashedString &type, T_Any arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -85,7 +85,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 * @param arg1 Second argument of type U.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding three arguments.
@@ -95,7 +95,7 @@ public:
 	 * @param arg1 Second argument of type U.
 	 * @param arg2 Third argument of type V.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding four arguments.
@@ -106,7 +106,7 @@ public:
 	 * @param arg2 Third argument of type V.
 	 * @param arg3 Fourth argument of type W.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding five arguments.
@@ -118,7 +118,7 @@ public:
 	 * @param arg3 Fourth argument of type W.
 	 * @param arg4 Fifth argument of type X.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding six arguments.
@@ -131,7 +131,7 @@ public:
 	 * @param arg4 Fifth argument of type X.
 	 * @param arg5 Sixth argument of type Y.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding seven arguments.
@@ -145,7 +145,7 @@ public:
 	 * @param arg5 Sixth argument of type Y.
 	 * @param arg6 Seventh argument of type Z.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding eight arguments.
@@ -160,7 +160,7 @@ public:
 	 * @param arg6 Seventh argument of type Z.
 	 * @param arg7 Eight argument of type S.
 	 */
-	void sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, T_Any &arg7);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7);
 
 	//--------------------------------------------------------------
 
@@ -188,7 +188,7 @@ public:
 	 * @param arg0 First argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -199,7 +199,7 @@ public:
 	 * @param arg1 Second argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -211,7 +211,7 @@ public:
 	 * @param arg2 Third argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -224,7 +224,7 @@ public:
 	 * @param arg3 Fourth argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -238,7 +238,7 @@ public:
 	 * @param arg4 Fifth argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -253,7 +253,7 @@ public:
 	 * @param arg5 Sixth argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -269,7 +269,7 @@ public:
 	 * @param arg6 Seventh argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time);
 
 	/**
 	 * Schedule an event that after X seconds will call all slots 
@@ -286,7 +286,7 @@ public:
 	 * @param arg7 Eight argument of type T_Any.
 	 * @param time The time in seconds this event should be delayed by
 	 */
-	void scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, T_Any &arg7, const F32 &time);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time);
 
 	//--------------------------------------------------------------
 
@@ -304,7 +304,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires one arguments in the slot.
 	 */
-	T_Signal_v1<T_Any&>::Type &registerToEvent1(const T_HashedString &type);
+	T_Signal_v1<T_Any>::Type &registerToEvent1(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -312,7 +312,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires two arguments in the slot.
 	 */
-	T_Signal_v2<T_Any&, T_Any&>::Type &registerToEvent2(const T_HashedString &type);
+	T_Signal_v2<T_Any, T_Any>::Type &registerToEvent2(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding three arguments.
@@ -320,7 +320,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires three arguments in the slot.
 	 */
-	T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type &registerToEvent3(const T_HashedString &type);
+	T_Signal_v3<T_Any, T_Any, T_Any>::Type &registerToEvent3(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding four arguments.
@@ -328,7 +328,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires four arguments in the slot.
 	 */
-	T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type &registerToEvent4(const T_HashedString &type);
+	T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent4(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding five arguments.
@@ -336,7 +336,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires five arguments in the slot.
 	 */
-	T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &registerToEvent5(const T_HashedString &type);
+	T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent5(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding six arguments.
@@ -344,7 +344,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires six arguments in the slot.
 	 */
-	T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &registerToEvent6(const T_HashedString &type);
+	T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent6(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding seven arguments.
@@ -352,7 +352,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires seven arguments in the slot.
 	 */
-	T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &registerToEvent7(const T_HashedString &type);
+	T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent7(const T_HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding eight arguments.
@@ -360,7 +360,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires eight arguments in the slot.
 	 */
-	T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &registerToEvent8(const T_HashedString &type);
+	T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent8(const T_HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -368,21 +368,21 @@ protected:
 	/// Map of argument-less event signals held by EventHandler.
 	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type events0;
 	/// Map of event signals with one argument held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v1<T_Any&>::Type>::Type events1;
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type events1;
 	/// Map of event signals with two arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v2<T_Any&, T_Any&>::Type>::Type events2;
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type events2;
 	/// Map of event signals with three arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type>::Type events3;
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type events3;
 	/// Map of event signals with four arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type events4;
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type events4;
 	/// Map of event signals with five arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type events5;
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events5;
 	/// Map of event signals with six arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type events6;
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events6;
 	/// Map of event signals with seven arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type events7;
+	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events7;
 	/// Map of event signals with eight arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type events8;
+	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events8;
 
 	//--------------------------------------------------------
 
@@ -420,54 +420,54 @@ inline void EventHandler::sendEvent(const T_HashedString &type)
 	it->second.invoke();
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0)
 {
-	T_Map<T_HashedStringType, T_Signal_v1<T_Any&>::Type>::Type::iterator it = events1.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
 
 	it->second.invoke(arg0);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1)
 {
-	T_Map<T_HashedStringType, T_Signal_v2<T_Any&, T_Any&>::Type>::Type::iterator it = events2.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
 
 	it->second.invoke(arg0, arg1);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2)
 {
-	T_Map<T_HashedStringType, T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events3.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
 	if(it == events3.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
 
 	it->second.invoke(arg0, arg1, arg2);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3)
 {
-	T_Map<T_HashedStringType, T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events4.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
 	if(it == events4.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
 
 	it->second.invoke(arg0, arg1, arg2, arg3);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4)
 {
-	T_Map<T_HashedStringType, T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events5.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
 	if(it == events5.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
 
 	it->second.invoke(arg0, arg1, arg2, arg3, arg4);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5)
 {
-	T_Map<T_HashedStringType, T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events6.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
 
@@ -475,18 +475,18 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_A
 
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6)
 {
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events7.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
 	if(it == events7.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events7 registry!").c_str());
 
 	it->second.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, T_Any &arg7)
+inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7)
 {
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events8.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
 	if(it == events8.end())
 		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events8 registry!").c_str());
 
@@ -554,7 +554,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, const F32 &t
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -577,7 +577,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -602,7 +602,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -629,7 +629,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -658,7 +658,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -689,7 +689,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -722,7 +722,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -757,7 +757,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0,
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any &arg0, T_Any &arg1, T_Any &arg2, T_Any &arg3, T_Any &arg4, T_Any &arg5, T_Any &arg6, T_Any &arg7, const F32 &time)
+inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -805,74 +805,74 @@ inline T_Signal_v0<>::Type &EventHandler::registerToEvent0(const T_HashedString 
 		return it->second;
 }
 
-inline T_Signal_v1<T_Any&>::Type &EventHandler::registerToEvent1(const T_HashedString &type)
+inline T_Signal_v1<T_Any>::Type &EventHandler::registerToEvent1(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v1<T_Any&>::Type>::Type::iterator it = events1.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
-		return events1[type.getId()] = T_Signal_v1<T_Any&>::Type();
+		return events1[type.getId()] = T_Signal_v1<T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v2<T_Any&, T_Any&>::Type &EventHandler::registerToEvent2(const T_HashedString &type)
+inline T_Signal_v2<T_Any, T_Any>::Type &EventHandler::registerToEvent2(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v2<T_Any&, T_Any&>::Type>::Type::iterator it = events2.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
-		return events2[type.getId()] = T_Signal_v2<T_Any&, T_Any&>::Type();
+		return events2[type.getId()] = T_Signal_v2<T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent3(const T_HashedString &type)
+inline T_Signal_v3<T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent3(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events3.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
 	if(it == events3.end())
-		return events3[type.getId()] = T_Signal_v3<T_Any&, T_Any&, T_Any&>::Type();
+		return events3[type.getId()] = T_Signal_v3<T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent4(const T_HashedString &type)
+inline T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent4(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events4.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
 	if(it == events4.end())
-		return events4[type.getId()] = T_Signal_v4<T_Any&, T_Any&, T_Any&, T_Any&>::Type();
+		return events4[type.getId()] = T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent5(const T_HashedString &type)
+inline T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent5(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events5.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
 	if(it == events5.end())
-		return events5[type.getId()] = T_Signal_v5<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type();
+		return events5[type.getId()] = T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent6(const T_HashedString &type)
+inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent6(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events6.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
-		return events6[type.getId()] = T_Signal_v6<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type();
+		return events6[type.getId()] = T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent7(const T_HashedString &type)
+inline T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent7(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events7.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
 	if(it == events7.end())
-		return events7[type.getId()] = T_Signal_v7<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type();
+		return events7[type.getId()] = T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }
 
-inline T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type &EventHandler::registerToEvent8(const T_HashedString &type)
+inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent8(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type>::Type::iterator it = events8.find(type.getId());
+	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
 	if(it == events8.end())
-		return events8[type.getId()] = T_Signal_v8<T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&, T_Any&>::Type();
+		return events8[type.getId()] = T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }

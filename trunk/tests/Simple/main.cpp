@@ -69,9 +69,9 @@ private:
 	void onSpeakEvent(const T_String &what)
 	{
 #elif USE_ANY_EVENT_HANDLER
-	void onSpeakEvent(T_Any &what_any)
+	void onSpeakEvent(T_Any what_any)
 	{
-		T_String what = what_any.cast<T_String>();
+		const T_String &what = what_any.cast<T_String>();
 #endif
 		const T_String &owner_name = owner.getProperty<T_String>("Name").get();
 		if(target_property.get() == NULL_PTR)
@@ -166,26 +166,26 @@ void main()
 #if USE_TEMPLATE_EVENT_HANDLER
 	man.sendEvent1<T_String>(speakEventId, "HELLO");
 #elif USE_ANY_EVENT_HANDLER
-	man.sendEvent(speakEventId, T_Any("HELLO"));
+	man.sendEvent(speakEventId, T_Any(T_String("HELLO")));
 #endif
 	wait(1000);
 #if USE_TEMPLATE_EVENT_HANDLER
 	dog.sendEvent1<T_String>(speakEventId, "HELLO");
 #elif USE_ANY_EVENT_HANDLER
-	dog.sendEvent(speakEventId, T_Any("HELLO"));
+	dog.sendEvent(speakEventId, T_Any(T_String("HELLO")));
 #endif
 	wait(1000);
 
 #if USE_TEMPLATE_EVENT_HANDLER
 	man.sendEvent1<T_String>(speakEventId, "BYE");
 #elif USE_ANY_EVENT_HANDLER
-	man.sendEvent(speakEventId, T_Any("BYE"));
+	man.sendEvent(speakEventId, T_Any(T_String("BYE")));
 #endif
 	wait(1000);
 #if USE_TEMPLATE_EVENT_HANDLER
 	dog.sendEvent1<T_String>(speakEventId, "BYE");
 #elif USE_ANY_EVENT_HANDLER
-	dog.sendEvent(speakEventId, T_Any("BYE"));
+	dog.sendEvent(speakEventId, T_Any(T_String("BYE")));
 #endif
 	wait(1000);
 
@@ -224,8 +224,8 @@ void defineDog(Entity &dog, const T_String &name)
 	dog.addComponent("Voice");
 	dog.addComponent("Targeter");
 
-	dog.addProperty<T_String>("Type", "Dog");
-	dog.addProperty<T_String>("Name", name);
+	dog.getProperty<T_String>("Type") = "Dog";
+	dog.getProperty<T_String>("Name") = name;
 	dog.getProperty<T_String>("HelloWords") = "Voff!"; //Time out after 6 ticks
 	dog.getProperty<T_String>("ByeWords") = "VoffVoff!"; //Seconds per tick
 }
@@ -242,8 +242,8 @@ void defineMan(Entity &man, const T_String &name)
 	man.addComponent("Voice");
 	man.addComponent("Targeter");
 
-	man.addProperty<T_String>("Type", "Man");
-	man.addProperty<T_String>("Name", name);
+	man.getProperty<T_String>("Type") = "Man";
+	man.getProperty<T_String>("Name") = name;
 	man.getProperty<T_String>("HelloWords") = "Hi there"; //Time out after 6 ticks
 	man.getProperty<T_String>("ByeWords") = "Good bye"; //Seconds per tick
 }
