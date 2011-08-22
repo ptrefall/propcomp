@@ -39,7 +39,11 @@ Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
     health_property.valueChanged().connect(this, &Health::onHealthChanged);
 	alive_property.valueChanged().connect(this, &Health::onAliveChanged);
 
+#if USE_TEMPLATE_EVENT_HANDLER
 	owner.registerToEvent2<F32, T_String>(dmgEventId).connect(this, &Health::onDmgEvent);
+#elif USE_ANY_EVENT_HANDLER
+	owner.registerToEvent2(dmgEventId).connect(this, &Health::onDmgEvent);
+#endif
 
 	//owner.registerFunction2<const F32 &, const T_String &, F32>(applyDmgId).bind(this, &Health::applyDmg);
 }
@@ -48,8 +52,15 @@ Health::~Health()
 {
 }
 
+#if USE_TEMPLATE_EVENT_HANDLER
 void Health::onDmgEvent(const F32 &dmg, const T_String &attackerName)
 {
+#elif USE_ANY_EVENT_HANDLER
+void Health::onDmgEvent(T_Any &dmg_any, T_Any &attackerName_any)
+{
+	const F32 &dmg = dmg_any.cast<F32>();
+	const T_String &attackerName = attackerName_any.cast<T_String>();
+#endif
 	std::cout << attackerName.c_str() << " inflicted " << dmg << " damage to " << name_property.get().c_str() << std::endl;
 
 	health_property -= dmg;

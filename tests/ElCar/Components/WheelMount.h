@@ -44,8 +44,11 @@ namespace Components
 		Factotum::Property<U32> activeWheelCount_property;
 		Factotum::Property<F32> velocity_property;
 
+#if USE_TEMPLATE_EVENT_HANDLER
 		void onAccelerateWheelsEvent(const F32 &force);
-
+#elif USE_ANY_EVENT_HANDLER
+		void onAccelerateWheelsEvent(T_Any &force);
+#endif
 		T_HashedString accelerateWheelsEventId;
 		T_HashedString syncVelocityEventId;
 		T_HashedString forceAngularAccelerationEventId;

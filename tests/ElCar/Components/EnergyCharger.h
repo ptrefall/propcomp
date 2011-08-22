@@ -39,7 +39,11 @@ namespace Components
 		Factotum::Property<F32> energy_property;
 		Factotum::Property<F32> maxEnergy_property;
 
+#if USE_TEMPLATE_EVENT_HANDLER
 		void onAddEffectEvent(const F32 &effect);
+#elif USE_ANY_EVENT_HANDLER
+		void onAddEffectEvent(T_Any &effect);
+#endif
 
 		T_HashedString addEffectEventId;
 	};

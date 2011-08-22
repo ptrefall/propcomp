@@ -36,15 +36,25 @@ EnergyDecharger::EnergyDecharger(Entity &owner, const T_String &name)
 	minEnergy_property = owner.addProperty<F32>("MinEnergy", 0.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
 
+#if USE_TEMPLATE_EVENT_HANDLER
 	owner.registerToEvent1<F32>(spendEffectEventId).connect(this, &EnergyDecharger::onSpendEffectEvent);
+#elif USE_ANY_EVENT_HANDLER
+	owner.registerToEvent1(spendEffectEventId).connect(this, &EnergyDecharger::onSpendEffectEvent);
+#endif
 }
 
 EnergyDecharger::~EnergyDecharger()
 {
 }
 
+#if USE_TEMPLATE_EVENT_HANDLER
 void EnergyDecharger::onSpendEffectEvent(const F32 &effect)
 {
+#elif USE_ANY_EVENT_HANDLER
+void EnergyDecharger::onSpendEffectEvent(T_Any &effect_any)
+{
+	const F32 &effect = effect_any.cast<F32>();
+#endif
 	if(energy_property.get() == minEnergy_property.get())
 	{
 		std::cout << "Energy has already been decharged to the minimum level!" << std::endl;

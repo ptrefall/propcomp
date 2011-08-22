@@ -138,7 +138,7 @@ void defineBomb(Entity &bomb, EntityManager &entityMgr)
 	bomb.addComponent("Explosive");
 	bomb.addComponent("MultiTargeter");
 	bomb.addComponent<EntityManager>("RadiusTargetSeeker", entityMgr);
-	bomb.addComponent("Transformable");
+	//bomb.addComponent("Transformable");
 	
 	bomb.getProperty<T_String>("Type") = "Bomb";
 	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks

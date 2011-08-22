@@ -69,7 +69,11 @@ void main()
 	while(curr_iteration < num_iterations)
 	{
 		F32 deltaTime = 0.016f;
+#if USE_TEMPLATE_EVENT_HANDLER
 		car.sendEvent0(throttleEventId);
+#elif USE_ANY_EVENT_HANDLER
+		car.sendEvent(throttleEventId);
+#endif
 		entityMgr.update(deltaTime);
 		std::cout << std::endl;
 		wait(16);
