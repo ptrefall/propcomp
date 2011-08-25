@@ -54,8 +54,10 @@
 /**
  * 
  */
-//#define USE_TEMPLATE_EVENT_HANDLER 1
+#define USE_TEMPLATE_EVENT_HANDLER 1
+#ifndef USE_TEMPLATE_EVENT_HANDLER
 #define USE_ANY_EVENT_HANDLER 1
+#endif
 
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------
