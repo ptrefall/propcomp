@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class IPropertyList
+ * @class Factotum::IPropertyList
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø

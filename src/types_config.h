@@ -52,10 +52,14 @@
 #define NULL_PTR 0x0
 
 /**
- * 
+ * The Template-based event handler uses templates to send typesafe arguments with an event.
  */
 #define USE_TEMPLATE_EVENT_HANDLER 1
 #ifndef USE_TEMPLATE_EVENT_HANDLER
+/**
+ * The Any-based event handler uses the Any type to send typesafe arguments with an event.
+ * This implementation also supports scheduled events seamlessly.
+ */
 #define USE_ANY_EVENT_HANDLER 1
 #endif
 

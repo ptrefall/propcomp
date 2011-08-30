@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class ComponentHandler
+ * @class Factotum::ComponentHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -59,6 +59,9 @@ public:
 	 */
 	virtual ~ComponentHandler();
 
+	/**
+	 * Convert the component handler to an entity.
+	 */
 	Entity &toEntity();
 
 	//--------------------------------------------------------------

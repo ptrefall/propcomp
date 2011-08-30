@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class PropertyListData
+ * @class Factotum::PropertyListData
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -68,7 +68,7 @@ public:
 
 /**
  * @file
- * @class PropertyListIndexValue
+ * @class Factotum::PropertyListIndexValue
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -165,7 +165,7 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
 
 /**
  * @file
- * @class PropertyList
+ * @class Factotum::PropertyList
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø

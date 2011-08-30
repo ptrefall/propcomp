@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class DelegateHandler
+ * @class Factotum::DelegateHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -71,7 +71,7 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding one parameter.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
+	 * @param param1 First parameter of type Param1.
 	 */
 	template<class Param1, class RetType>
 	RetType call1(const T_HashedString &type, const Param1 &param1);
@@ -80,8 +80,8 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding two parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
 	 */
 	template<class Param1, class Param2, class RetType>
 	RetType call2(const T_HashedString &type, const Param1 &param1, const Param2 &param2);
@@ -90,9 +90,9 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding three parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
 	RetType call3(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3);
@@ -101,10 +101,10 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding four parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
-	 * @param param3 Fourth parameter of type Param4.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
+	 * @param param4 Fourth parameter of type Param4.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
 	RetType call4(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4);
@@ -113,11 +113,11 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding five parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
-	 * @param param3 Fourth parameter of type Param4.
-	 * @param param4 Fifth parameter of type Param5.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
+	 * @param param4 Fourth parameter of type Param4.
+	 * @param param5 Fifth parameter of type Param5.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
 	RetType call5(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5);
@@ -126,12 +126,12 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding six parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
-	 * @param param3 Fourth parameter of type Param4.
-	 * @param param4 Fifth parameter of type Param5.
-	 * @param param5 Sixth parameter of type Param6.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
+	 * @param param4 Fourth parameter of type Param4.
+	 * @param param5 Fifth parameter of type Param5.
+	 * @param param6 Sixth parameter of type Param6.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
 	RetType call6(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6);
@@ -140,13 +140,13 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding seven parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
-	 * @param param3 Fourth parameter of type Param4.
-	 * @param param4 Fifth parameter of type Param5.
-	 * @param param5 Sixth parameter of type Param6.
-	 * @param param6 Seventh parameter of type Param7.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
+	 * @param param4 Fourth parameter of type Param4.
+	 * @param param5 Fifth parameter of type Param5.
+	 * @param param6 Sixth parameter of type Param6.
+	 * @param param7 Seventh parameter of type Param7.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
 	RetType call7(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7);
@@ -155,14 +155,14 @@ public:
 	 * Calls all slots registered to the delegate signal of type holding eight parameters.
 	 *
 	 * @param type The hashed type string id of the delegate.
-	 * @param param0 First parameter of type Param1.
-	 * @param param1 Second parameter of type Param2.
-	 * @param param2 Third parameter of type Param3.
-	 * @param param3 Fourth parameter of type Param4.
-	 * @param param4 Fifth parameter of type Param5.
-	 * @param param5 Sixth parameter of type Param6.
-	 * @param param6 Seventh parameter of type Param7.
-	 * @param param7 Eight parameter of type Param8.
+	 * @param param1 First parameter of type Param1.
+	 * @param param2 Second parameter of type Param2.
+	 * @param param3 Third parameter of type Param3.
+	 * @param param4 Fourth parameter of type Param4.
+	 * @param param5 Fifth parameter of type Param5.
+	 * @param param6 Sixth parameter of type Param6.
+	 * @param param7 Seventh parameter of type Param7.
+	 * @param param8 Eight parameter of type Param8.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
 	RetType call8(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7, const Param8 &param8);

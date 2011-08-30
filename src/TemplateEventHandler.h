@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class EventHandler
+ * @class Factotum::EventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
