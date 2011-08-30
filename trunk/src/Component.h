@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Component
+ * @class Factotum::Component
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -77,7 +77,6 @@ public:
 	 * component implementations. Update is typically called
 	 * at least once per frame, and is channeled via the Entity.
 	 *
-	 * @param deltaTime Number of seconds that has passed since our last update.
 	 */
     virtual void update(const F32 &/*deltaTime*/) {};
 

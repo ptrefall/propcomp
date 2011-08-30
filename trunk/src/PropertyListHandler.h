@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class PropertyListHandler
+ * @class Factotum::PropertyListHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø

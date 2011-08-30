@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Entity
+ * @class Factotum::Entity
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -58,11 +58,13 @@ class Entity :	public ComponentHandler,
 				public DelegateHandler
 {
 public:
+	/// Constructor
 	Entity(ComponentFactory &factory)
 		: ComponentHandler(factory)
 	{
 	}
 
+	/// Destructor
 	virtual ~Entity() {}
 };
 

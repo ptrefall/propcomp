@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class ComponentFactory
+ * @class Factotum::ComponentFactory
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -288,7 +288,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 */
 	Component* createComponent(Entity &entity, const T_String &type);
@@ -296,7 +296,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 */
@@ -305,7 +305,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -315,7 +315,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -326,7 +326,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -338,7 +338,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -351,7 +351,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -365,7 +365,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
@@ -380,7 +380,7 @@ public:
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
 	 *
-	 * @param Entity The owner of the component instance.
+	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.

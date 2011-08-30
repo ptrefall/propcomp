@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class PropertyData
+ * @class Factotum::PropertyData
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -62,7 +62,7 @@ public:
 
 /**
  * @file
- * @class Property
+ * @class Factotum::Property
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
