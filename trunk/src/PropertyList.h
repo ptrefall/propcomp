@@ -64,6 +64,8 @@ public:
 	typename T_Signal_v2<const U32&, const T&>::Type valueErased;
 	/// Signal that's emitted when the values of the property list is cleared.
 	typename T_Signal_v0<>::Type valuesCleared;
+	/// Signal that's emitted when the size of the property list is resized to a given value
+	typename T_Signal_v1<const U32&>::Type listResized;
 };
 
 /**
@@ -321,14 +323,22 @@ public:
 	 *
 	 * @param size Sets the size of the list.
 	 */
-	void resize(const U32 &size) { data->value.resize(size); }
+	void resize(const U32 &size) 
+	{ 
+		data->value.resize(size);
+		data->listResized.invoke(size);
+	}
 	/**
 	 * Resize the size of the list.
 	 *
 	 * @param size Sets the size of the list.
 	 * @param value Fills list with this initial value
 	 */
-	void resize(const U32 &size, const T &value) { data->value.resize(size, value); }
+	void resize(const U32 &size, const T &value) 
+	{ 
+		data->value.resize(size, value);
+		data->listResized.invoke(size);
+	}
 
 	/**
 	 * Returns the real list data of the PropertyListData value
