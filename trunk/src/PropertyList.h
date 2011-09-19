@@ -317,6 +317,20 @@ public:
 	bool empty() const { return data->value.empty(); }
 
 	/**
+	 * Resize the size of the list.
+	 *
+	 * @param size Sets the size of the list.
+	 */
+	void resize(const U32 &size) { data->value.resize(size); }
+	/**
+	 * Resize the size of the list.
+	 *
+	 * @param size Sets the size of the list.
+	 * @param value Fills list with this initial value
+	 */
+	void resize(const U32 &size, const T &value) { data->value.resize(size, value); }
+
+	/**
 	 * Returns the real list data of the PropertyListData value
 	 *
 	 * @return Returns the real list data of the PropertyListData value.
