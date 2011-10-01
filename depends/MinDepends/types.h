@@ -213,3 +213,6 @@ private:
 	T_String str;
 };
 
+//--------------------------------------------
+
+typedef unsigned int T_PropertyTypeId;

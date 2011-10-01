@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class Factotum::IPropertyList
+ * @class Factotum::IPropertySerializer
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief Property List Interface base class
+ * @brief Property Serializer Interface base class
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -34,7 +34,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * Property Interface
+ * Property Serializer Interface
  * 
  */
 
@@ -42,64 +42,48 @@
 
 namespace Factotum {
 
-class IPropertyList
+class IProperty;
+class IPropertyList;
+
+class IPropertySerializer
 {
-public:
+public: 
 	/**
 	 * Destructor
 	 */
-	virtual ~IPropertyList() {}
+	virtual ~IPropertySerializer() {}
 
 	/**
-	 * Get the name of this property list.
+	 * Serializes a property to text string
 	 *
-	 * @return Returns the name of the property list.
+	 * @param property The property to serialize
+	 * @return Returns serialized property
 	 */
-	virtual const T_String &getName() const = 0;
+	virtual T_String toString(const IProperty *property) = 0;
 
 	/**
-	 * Check if PropertyListData exist in this PropertyList.
+	 * Serializes a property list to text string
 	 *
-	 * @return Returns whether the PropertyListData of this property list has been initialized.
+	 * @param propertyList The property list to serialize
+	 * @return Returns serialized property list
 	 */
-	virtual bool isNull() const = 0;
+	virtual T_String toString(IPropertyList *propertyList) = 0;
 
 	/**
+	 * Deserializes a property from string
 	 *
+	 * @param property The property to hold the serialized value
+	 * @param serialized_property The string to deserialize
 	 */
-	template<typename PropertyType>
-	static T_PropertyTypeId getTypeId()
-	{
-		static T_PropertyTypeId typeId(newPropertyTypeId());
-		return typeId;
-	}
+	virtual void fromString(IProperty *property, const T_String &serialized_property) = 0;
 
 	/**
+	 * Deserializes a property list from string
 	 *
+	 * @param propertyList The property list to hold the serialized value
+	 * @param serialized_propertyList The string to deserialize
 	 */
-	const T_PropertyTypeId &getId() const { return id; }
-
-	/**
-	 *
-	 */
-	virtual T_String toString() = 0;
-	/**
-	 *
-	 */
-	virtual void fromString(const T_String &serialized_propertyList) = 0;
-
-protected:
-	///
-	T_PropertyTypeId id;
-	
-	/**
-	 *
-	 */
-	static T_PropertyTypeId newPropertyTypeId()
-	{
-		static T_PropertyTypeId next_id(0);
-		return next_id++;
-	}
+	virtual void fromString(IPropertyList *propertyList, const T_String &serialized_propertyList) = 0;
 };
 
 } //namespace Factotum

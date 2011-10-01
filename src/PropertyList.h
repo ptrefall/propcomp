@@ -39,6 +39,7 @@
  */
 
 #include "IPropertyList.h"
+#include "IPropertySerializer.h"
 
 namespace Factotum {
 
@@ -131,6 +132,9 @@ public:
 	const T &get() const { return value; }
 
 	/// Set's property list value's data to rhs' shared pointer data.
+	void set(const T& rhs);
+
+	/// Set's property list value's data to rhs' shared pointer data.
 	void operator= (const T& rhs);
 
 	/// Provide an assignment operator to leviate level W4 warning
@@ -149,11 +153,17 @@ private:
 };
 
 template<class T>
-inline void PropertyListIndexValue<T>::operator =(const T &rhs)
+inline void PropertyListIndexValue<T>::set(const T &rhs)
 {
 	T oldValue = value;
 	value = rhs;
 	valueChanged.invoke(index, oldValue, value);
+}
+
+template<class T>
+inline void PropertyListIndexValue<T>::operator =(const T &rhs)
+{
+	set(rhs);
 }
 
 template<class T>
@@ -211,15 +221,18 @@ public:
 	 * Default Constructor, results in a PropertyList with no data!
 	 */
 	PropertyList()
+	: serializer(NULL_PTR)
 	{
+		id = getTypeId<T>();
 	}
 
 	/**
 	 * Copy Constructor
 	 */
 	PropertyList(const PropertyList& copy)
-	: data(copy.data)
+	: data(copy.data), serializer(copy.serializer)
 	{
+		id = getTypeId<T>();
 	}
 
 	/**
@@ -228,11 +241,12 @@ public:
 	 * @param name Name of the property list.
 	 * @param readOnly Should the property list be read only? (Defaults to false).
 	 */
-	PropertyList(const T_String &name, bool readOnly = false)
-	: data(new PropertyListData<T>())
+	PropertyList(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
+	: data(new PropertyListData<T>()), serializer(&serializer)
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
+		id = getTypeId<T>();
 	}
 
 	/**
@@ -258,7 +272,7 @@ public:
 		{
 			for(U32 i = 0; i < data->value.size(); i++)
 			{
-				if(value == data->value[i])
+				if(data->value[i] == value)
 					return;
 			}
 		}
@@ -341,6 +355,19 @@ public:
 	}
 
 	/**
+	 * Resize the size of the list.
+	 *
+	 * @param size Sets the size of the list.
+	 */
+	PropertyListIndexValue<T> at(const U32 &index) 
+	{ 
+		if(index >= data->value.size())
+			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
+
+		return PropertyListIndexValue<T>(data->value[index], index, data->valueChanged);
+	}
+
+	/**
 	 * Returns the real list data of the PropertyListData value
 	 *
 	 * @return Returns the real list data of the PropertyListData value.
@@ -367,6 +394,15 @@ public:
 	 * @return Returns true if data does not exist, false if it does.
 	 */
 	virtual bool isNull() const { return data == NULL_PTR; }
+
+	/**
+	 *
+	 */
+	virtual T_String toString() { return serializer->toString(this); }
+	/**
+	 *
+	 */
+	virtual void fromString(const T_String &serialized_propertyList) { serializer->fromString(this, serialized_propertyList); }
 
 	/**
 	 * Function that gives the outside access to the PropertyListData's
@@ -416,6 +452,8 @@ public:
 private:
 	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
+	///
+	IPropertySerializer *serializer;
 };
 
 template<class T>
@@ -428,10 +466,7 @@ inline PropertyList<T> PropertyList<T>::operator =(const PropertyList<T> &rhs)
 template<class T>
 inline PropertyListIndexValue<T> PropertyList<T>::operator [](const U32 &index)
 {
-	if(index >= data->value.size())
-		throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
-
-	return PropertyListIndexValue<T>(data->value[index], index, data->valueChanged);
+	return at(index);
 }
 
 } //namespace Factotum

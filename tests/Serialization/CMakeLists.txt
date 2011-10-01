@@ -23,10 +23,25 @@
 #
 ###
 
-add_subdirectory(Bomb)
-add_subdirectory(Simple)
-add_subdirectory(ElCar)
-add_subdirectory(PropertyList)
-add_subdirectory(Delegates)
-add_subdirectory(Serialization)
-add_subdirectory(Common)
+cmake_minimum_required(VERSION 2.8.3)
+
+project(TestSerialization)
+
+set(HDRS
+  ./CustomPropertySerializer.h
+  ../Common/Vector3.h
+)
+
+set(SRCS
+  ./main.cpp
+)
+ 
+add_executable(TestSerialization ${HDRS} ${SRCS})
+
+set_target_properties(TestSerialization PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TestSerialization PROPERTIES FOLDER "Tests")
+
+
+target_link_libraries(TestSerialization
+  FactotumEDK
+)

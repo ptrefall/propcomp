@@ -54,6 +54,8 @@ set(HDRS
   ./IProperty.h
   ./Property.h
   ./PropertyHandler.h
+  ./IPropertySerializer.h
+  ./PropertySerializer.h
   ./IPropertyList.h
   ./PropertyList.h
   ./PropertyListHandler.h

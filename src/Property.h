@@ -39,6 +39,7 @@
  */
 
 #include "IProperty.h"
+#include "IPropertySerializer.h"
 
 namespace Factotum {
 
@@ -106,28 +107,33 @@ public:
 	 * Default Constructor, results in a Property with no data!
 	 */
 	Property()
+	: serializer(NULL_PTR)
 	{
+		id = getTypeId<T>();
 	}
 
 	/**
-	 * Copy Constructor
+	 * Copy Constructor, points to same data via smart pointer
 	 */
 	Property(const Property& copy)
-	: data(copy.data)
+	: data(copy.data), serializer(copy.serializer)
 	{
+		id = getTypeId<T>();
 	}
 
 	/**
 	 * Constructor
 	 *
 	 * @param name Name of the property.
+	 * @param serializer Reference to the class that can convert this property to/from string
 	 * @param readOnly Should the property be read only? (Defaults to false).
 	 */
-	Property(const T_String &name, bool readOnly = false)
-	: data(new PropertyData<T>())
+	Property(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
+	: data(new PropertyData<T>()), serializer(&serializer)
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
+		id = getTypeId<T>();
 	}
 
 	/**
@@ -186,6 +192,15 @@ public:
 	virtual bool isNull() const { return data == NULL_PTR; }
 
 	/**
+	 *
+	 */
+	virtual T_String toString() { return serializer->toString(this); }
+	/**
+	 *
+	 */
+	virtual void fromString(const T_String &serialized_property) { serializer->fromString(this, serialized_property); }
+
+	/**
 	 * Function that gives the outside access to the PropertyData's
 	 * valueChanged signal. It's through this function call we can
 	 * register slots to the valueChanged signal.
@@ -240,6 +255,8 @@ public:
 private:
 	/// PropertyData of the Property is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyData<T> >::Type data;
+	///
+	IPropertySerializer *serializer;
 };
 
 template<class T>
