@@ -37,6 +37,7 @@ public:
 	T distance(const Vector3<T> &rhs) const;
 
 	Vector3<T> operator= (const Vector3<T>& rhs);
+	bool operator== (const Vector3<T>& rhs);
 	bool operator!= (const Vector3<T>& rhs);
 	Vector3<T> operator+ (const Vector3<T>& rhs) const;
 	Vector3<T> operator* (F32 rhs) const;
@@ -61,6 +62,14 @@ inline Vector3<T> Vector3<T>::operator =(const Vector3<T> &rhs)
 	y = rhs.y;
 	z = rhs.z;
 	return *this;
+}
+
+template<typename T>
+inline bool Vector3<T>::operator ==(const Vector3<T> &rhs)
+{
+	return ((x == rhs.x) ||
+			(y == rhs.y) ||
+			(z == rhs.z));
 }
 
 template<typename T>

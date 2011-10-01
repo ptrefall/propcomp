@@ -64,6 +64,12 @@ public:
 	{
 	}
 
+	/// Constructor
+	Entity(ComponentFactory &factory, IPropertySerializer *serializer)
+		: ComponentHandler(factory), PropertyHandler(serializer), PropertyListHandler(serializer)
+	{
+	}
+
 	/// Destructor
 	virtual ~Entity() {}
 };

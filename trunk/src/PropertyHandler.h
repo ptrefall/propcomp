@@ -39,6 +39,8 @@
  */
 
 #include "Property.h"
+#include "IPropertySerializer.h"
+#include "PropertySerializer.h"
 
 namespace Factotum {
 
@@ -49,13 +51,25 @@ public:
 	 * Constructor
 	 *
 	 */
-	PropertyHandler() {}
+	PropertyHandler() : serializer(new PropertySerializer()), external_serializer(false) {}
+
+	/**
+	 * Constructor
+	 *
+	 * @param serializer Optional to provide a custom property serializer
+	 *
+	 */
+	PropertyHandler(IPropertySerializer *serializer) : serializer(serializer), external_serializer(true) {}
+
 	/**
 	 * Destructor
 	 */
 	virtual ~PropertyHandler()
 	{
 		removeAllProperties();
+
+		if(external_serializer == false)
+			delete serializer;
 	}
 
 	//--------------------------------------------------------------
@@ -161,6 +175,10 @@ protected:
 	T_Map<T_String, IProperty*>::Type properties;
 	/// The list of all properties pending deletion in this PropertyHandler.
 	T_Vector<IProperty*>::Type deletedProperties;
+	///
+	IPropertySerializer *serializer;
+	///
+	bool external_serializer;
 };
 
 //------------------------------------------------------
@@ -201,7 +219,7 @@ inline Property<T> PropertyHandler::addProperty(const T_String& name, const T &d
 		return *property;
 	}
 
-	Property<T> *property = new Property<T>(name, readOnly);
+	Property<T> *property = new Property<T>(name, *serializer, readOnly);
 	property->set(defaultValue, true);
 	properties[property->getName()] = property;
 

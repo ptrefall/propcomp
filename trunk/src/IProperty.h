@@ -63,6 +63,43 @@ public:
 	 * @return Returns whether the PropertyData of this property has been initialized.
 	 */
 	virtual bool isNull() const = 0;
+
+	/**
+	 *
+	 */
+	template<typename PropertyType>
+	static T_PropertyTypeId getTypeId()
+	{
+		static T_PropertyTypeId typeId(newPropertyTypeId());
+		return typeId;
+	}
+
+	/**
+	 *
+	 */
+	const T_PropertyTypeId &getId() const { return id; }
+
+	/**
+	 *
+	 */
+	virtual T_String toString() = 0;
+	/**
+	 *
+	 */
+	virtual void fromString(const T_String &serialized_property) = 0;
+
+protected:
+	///
+	T_PropertyTypeId id;
+	
+	/**
+	 *
+	 */
+	static T_PropertyTypeId newPropertyTypeId()
+	{
+		static T_PropertyTypeId next_id(0);
+		return next_id++;
+	}
 };
 
 } //namespace Factotum
