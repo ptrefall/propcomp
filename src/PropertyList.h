@@ -323,6 +323,15 @@ public:
 	: serializer(NULL_PTR)
 	{
 		id = getTypeId<T>();
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
+		if(id == getTypeId<bool>())
+		{
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+#else
+			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
+#endif
+		}
+#endif
 	}
 
 	/**
@@ -332,6 +341,15 @@ public:
 	: data(copy.data), serializer(copy.serializer)
 	{
 		id = getTypeId<T>();
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
+		if(id == getTypeId<bool>())
+		{
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+#else
+			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
+#endif
+		}
+#endif
 	}
 
 	/**
@@ -346,6 +364,15 @@ public:
 		data->name = name;
 		data->readOnly = readOnly;
 		id = getTypeId<T>();
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
+		if(id == getTypeId<bool>())
+		{
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+#else
+			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
+#endif
+		}
+#endif
 	}
 
 	/**
