@@ -34,7 +34,8 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * Property Interface
+ * PropertyList Interface
+ * RTTI implementation was originally contributed by 'zerotri'.
  * 
  */
 
