@@ -96,6 +96,7 @@ public:
  * 
  * @section DESCRIPTION
  * Property
+ * RTTI implementation was originally contributed by 'zerotri'.
  * 
  */
 

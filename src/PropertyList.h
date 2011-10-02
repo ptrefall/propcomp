@@ -308,6 +308,7 @@ inline PropertyListIndexValueBool &PropertyListIndexValueBool::operator= (const 
  * 
  * @section DESCRIPTION
  * PropertyList
+ * RTTI implementation was originally contributed by 'zerotri'.
  * 
  */
 

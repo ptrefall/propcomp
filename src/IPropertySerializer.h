@@ -35,6 +35,7 @@
  * 
  * @section DESCRIPTION
  * Property Serializer Interface
+ * RTTI implementation was originally contributed by 'zerotri'.
  * 
  */
 
