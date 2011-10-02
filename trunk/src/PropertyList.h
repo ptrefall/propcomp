@@ -114,8 +114,8 @@ public:
 	/**
 	 * Constructor
 	 */
-	PropertyListIndexValue(T &value, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
-		: value(value), index(index), valueChanged(valueChanged)
+	PropertyListIndexValue(typename T_Vector<T>::Type &list, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
+		: list(list), index(index), valueChanged(valueChanged)
 	{
 	}
 
@@ -129,7 +129,7 @@ public:
 	 *
 	 * @return Returns the real value of the PropertyListValue.
 	 */
-	const T &get() const { return value; }
+	T get() const { return list[index]; }
 
 	/// Set's property list value's data to rhs' shared pointer data.
 	void set(const T& rhs);
@@ -141,11 +141,11 @@ public:
 	PropertyListIndexValue<T> &operator= (const PropertyListIndexValue<T> &rhs);
 
 	/// Instead of propertyListValue.get() this operator exist for convenience.
-	operator const T &() const { return value; }
+	operator T() const { return get(); }
 
 private:
 	///
-	T &value;
+	typename T_Vector<T>::Type &list;
 	///
 	const U32 &index;
 	///
@@ -155,9 +155,9 @@ private:
 template<class T>
 inline void PropertyListIndexValue<T>::set(const T &rhs)
 {
-	T oldValue = value;
-	value = rhs;
-	valueChanged.invoke(index, oldValue, value);
+	T oldValue = list[index];
+	list[index] = rhs;
+	valueChanged.invoke(index, oldValue, list[index]);
 }
 
 template<class T>
@@ -364,7 +364,11 @@ public:
 		if(index >= data->value.size())
 			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
 
-		return PropertyListIndexValue<T>(data->value[index], index, data->valueChanged);
+		return PropertyListIndexValue<T>(
+			this->data->value, 
+			index, 
+			this->data->valueChanged
+			);
 	}
 
 	/**
