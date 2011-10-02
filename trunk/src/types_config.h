@@ -79,7 +79,13 @@
 #define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND 0
 
 /**
- * 
+ * When enabled, the PropertyList class will perform an internal RTTI on its type id, to
+ * check whether it's a bool, and if bool, it will throw an exception if
+ * USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND was NOT enabled/0. This is a safeguard to
+ * prevent unaware users from using bool with PropertyList, and to make them aware of the
+ * problem related to use of bool with std::vector, and how it can impact PropertyList.
+ * Disable this/0 if you understand the problem and won't get caught by it, as it does add
+ * an RTTI for each time a new PropertyList is constructed.
  */
 #define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK 1
 
