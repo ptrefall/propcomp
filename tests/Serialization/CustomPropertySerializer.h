@@ -37,7 +37,7 @@ public:
 	CustomPropertySerializer() {}
 	virtual ~CustomPropertySerializer() {}
 
-	virtual T_String toString(const Factotum::IProperty *property)
+	virtual T_String toString(const Factotum::IProperty *const property)
 	{
 		if(property->getId() == Factotum::IProperty::getTypeId<Vector3<F32>>())
 			return serializeVector3<F32>(property);
@@ -49,7 +49,7 @@ public:
 			return Factotum::PropertySerializer::toString(property);
 	}
 
-	virtual T_String toString(Factotum::IPropertyList *propertyList)
+	virtual T_String toString(Factotum::IPropertyList *const propertyList)
 	{
 		if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<F32>>())
 			return serializeVector3<F32>(propertyList);
@@ -61,7 +61,7 @@ public:
 			return Factotum::PropertySerializer::toString(propertyList);
 	}
 
-	virtual void fromString(Factotum::IProperty *property, const T_String &serialized_property)
+	virtual void fromString(Factotum::IProperty *const property, const T_String &serialized_property)
 	{
 		if(property->getId() == Factotum::IProperty::getTypeId<Vector3<F32>>())
 			deserializeVector3<F32>(property, serialized_property);
@@ -74,7 +74,7 @@ public:
 
 	}
 
-	virtual void fromString(Factotum::IPropertyList *propertyList, const T_String &serialized_propertyList)
+	virtual void fromString(Factotum::IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
 		if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<F32>>())
 			deserializeVector3<F32>(propertyList, serialized_propertyList);
@@ -88,9 +88,9 @@ public:
 
 private:
 	template<typename T>
-	T_String serializeVector3(const Factotum::IProperty *property)
+	T_String serializeVector3(const Factotum::IProperty *const property)
 	{	
-		const Factotum::Property<Vector3<T>> *prop = static_cast<const Factotum::Property<Vector3<T>> *>(property);
+		const Factotum::Property<Vector3<T>> *const prop = static_cast<const Factotum::Property<Vector3<T>> *const>(property);
 		std::stringstream stream;
 		stream << prop->get().x << " ";
 		stream << prop->get().y << " ";
@@ -99,45 +99,46 @@ private:
 	}
 
 	template<typename T>
-	T_String serializeVector3(Factotum::IPropertyList *propertyList)
+	T_String serializeVector3(Factotum::IPropertyList *const propertyList)
 	{	
-		Factotum::PropertyList<Vector3<T>> *prop = static_cast<Factotum::PropertyList<Vector3<T>> *>(propertyList);
+		Factotum::PropertyList<Vector3<T>> *const prop = static_cast<Factotum::PropertyList<Vector3<T>> *const>(propertyList);
 		std::stringstream stream;
 		stream << prop->size() << " ";
 		for(U32 i = 0; i < prop->size(); i++)
 		{
-			stream << prop->get()[i].x << " ";
-			stream << prop->get()[i].y << " ";
-			stream << prop->get()[i].z << " ";
+			Vector3<T> value = prop->at(i).get();
+			stream << value.x << " ";
+			stream << value.y << " ";
+			stream << value.z << " ";
 		}
 		return stream.str();
 	}
 
 	template<typename T>
-	void deserializeVector3(Factotum::IProperty *property, const T_String &serialized_property)
+	void deserializeVector3(Factotum::IProperty *const property, const T_String &serialized_property)
 	{	
 		Vector3<T> value;
 		std::stringstream stream(serialized_property);
 		stream >> std::dec >> value.x >> value.y >> value.z;
 
-		Factotum::Property<Vector3<T>> *prop = static_cast<Factotum::Property<Vector3<T>> *>(property);
+		Factotum::Property<Vector3<T>> *const prop = static_cast<Factotum::Property<Vector3<T>> *const>(property);
 		prop->set(value);
 	}
 
 	template<typename T>
-	void deserializeVector3(Factotum::IPropertyList *propertyList, const T_String &serialized_propertyList)
+	void deserializeVector3(Factotum::IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{	
 		U32 size;
 		std::stringstream stream(serialized_propertyList);
 		stream >> std::dec >> size;
 
-		Factotum::PropertyList<Vector3<T>> *prop = static_cast<Factotum::PropertyList<Vector3<T>> *>(propertyList);
+		Factotum::PropertyList<Vector3<T>> *const prop = static_cast<Factotum::PropertyList<Vector3<T>> *const>(propertyList);
 		prop->resize(size);
 		Vector3<T> value;
 		for(U32 i = 0; i < size; i++)
 		{
 			stream >> value.x >> value.y >> value.z;
-			(*prop)[i] = value;
+			prop->at(i) = value;
 		}
 	}
 };

@@ -67,7 +67,7 @@ public:
 	 * @param property The property to serialize
 	 * @return Returns serialized property
 	 */
-	virtual T_String toString(const IProperty *property)
+	virtual T_String toString(const IProperty *const property)
 	{
 		if(property->getId() == IProperty::getTypeId<bool>())
 			return serialize<bool>(property);
@@ -87,7 +87,7 @@ public:
 	 * @param propertyList The property list to serialize
 	 * @return Returns serialized property list
 	 */
-	virtual T_String toString(IPropertyList *propertyList)
+	virtual T_String toString(IPropertyList *const propertyList)
 	{
 		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
 			return serialize<bool>(propertyList);
@@ -107,7 +107,7 @@ public:
 	 * @param property The property to hold the serialized value
 	 * @param serialized_property The string to deserialize
 	 */
-	virtual void fromString(IProperty *property, const T_String &serialized_property)
+	virtual void fromString(IProperty *const property, const T_String &serialized_property)
 	{
 		if(property->getId() == IProperty::getTypeId<bool>())
 			deserialize<bool>(property, serialized_property);
@@ -125,7 +125,7 @@ public:
 	 * @param propertyList The property list to hold the serialized value
 	 * @param serialized_propertyList The string to deserialize
 	 */
-	virtual void fromString(IPropertyList *propertyList, const T_String &serialized_propertyList)
+	virtual void fromString(IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
 		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
 			deserialize<bool>(propertyList, serialized_propertyList);
@@ -145,9 +145,9 @@ private:
 	 * @return Returns serialized property
 	 */
 	template<typename T>
-	T_String serialize(const IProperty *property)
+	T_String serialize(const IProperty *const property)
 	{	
-		const Property<T> *prop = static_cast<const Property<T> *>(property);
+		const Property<T> *const prop = static_cast<const Property<T> *const>(property);
 		std::stringstream stream;
 		stream << prop->get();
 		return stream.str();
@@ -160,13 +160,13 @@ private:
 	 * @return Returns serialized property list
 	 */
 	template<typename T>
-	T_String serialize(IPropertyList *propertyList)
+	T_String serialize(IPropertyList *const propertyList)
 	{	
-		PropertyList<T> *prop = static_cast<PropertyList<T> *>(propertyList);
+		PropertyList<T> *const prop = static_cast<PropertyList<T> *const>(propertyList);
 		std::stringstream stream;
 		stream << prop->size() << " ";
 		for(U32 i = 0; i < prop->size(); i++)
-			stream << /*prop->at(i).get()*/ prop->get()[i] << " ";
+			stream << prop->at(i).get() << " ";
 		return stream.str();
 	}
 
@@ -177,13 +177,13 @@ private:
 	 * @param serialized_property The string to deserialize
 	 */
 	template<typename T>
-	void deserialize(IProperty *property, const T_String &serialized_property)
+	void deserialize(IProperty *const property, const T_String &serialized_property)
 	{	
 		T value;
 		std::stringstream stream(serialized_property);
 		stream >> std::dec >> value;
 
-		Property<T> *prop = static_cast<Property<T> *>(property);
+		Property<T> *const prop = static_cast<Property<T> *const >(property);
 		prop->set(value);
 	}
 
@@ -194,13 +194,13 @@ private:
 	 * @param serialized_propertyList The string to deserialize
 	 */
 	template<typename T>
-	void deserialize(IPropertyList *propertyList, const T_String &serialized_propertyList)
+	void deserialize(IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{	
-		/*U32 size;
+		U32 size;
 		std::stringstream stream(serialized_propertyList);
 		stream >> std::dec >> size;
 
-		PropertyList<T> *prop = static_cast<PropertyList<T> *>(propertyList);
+		PropertyList<T> *const prop = static_cast<PropertyList<T> *const>(propertyList);
 		prop->resize(size);
 		T value;
 		for(U32 i = 0; i < size; i++)
@@ -208,7 +208,7 @@ private:
 			stream >> value;
 			PropertyListIndexValue<T> index = prop->at(i);
 			index.set(value);
-		}*/
+		}
 	}
 };
 
