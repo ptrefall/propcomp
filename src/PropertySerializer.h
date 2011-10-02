@@ -90,7 +90,13 @@ public:
 	virtual T_String toString(IPropertyList *const propertyList)
 	{
 		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
+		{
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 			return serialize<bool>(propertyList);
+#else
+			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
+#endif
+		}
 		else if(propertyList->getId() == IPropertyList::getTypeId<S32>())
 			return serialize<S32>(propertyList);
 		else if(propertyList->getId() == IPropertyList::getTypeId<U32>())
@@ -128,7 +134,13 @@ public:
 	virtual void fromString(IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
 		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
+		{
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 			deserialize<bool>(propertyList, serialized_propertyList);
+#else
+			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
+#endif
+		}
 		else if(propertyList->getId() == IPropertyList::getTypeId<S32>())
 			deserialize<S32>(propertyList, serialized_propertyList);
 		else if(propertyList->getId() == IPropertyList::getTypeId<U32>())
@@ -166,7 +178,16 @@ private:
 		std::stringstream stream;
 		stream << prop->size() << " ";
 		for(U32 i = 0; i < prop->size(); i++)
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+		{
+			if(prop->getId() == IPropertyList::getTypeId<bool>())
+				stream << prop->at_bool(i).get() << " ";
+			else
+				stream << prop->at(i).get() << " ";
+		}
+#else
 			stream << prop->at(i).get() << " ";
+#endif
 		return stream.str();
 	}
 
@@ -206,8 +227,22 @@ private:
 		for(U32 i = 0; i < size; i++)
 		{
 			stream >> value;
+#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+			if(prop->getId() == IPropertyList::getTypeId<bool>())
+			{
+				PropertyListIndexValueBool index = prop->at_bool(i);
+				index.set(value);
+			}
+			else
+			{
+				PropertyListIndexValue<T> index = prop->at(i);
+				index.set(value);
+			}
+			
+#else
 			PropertyListIndexValue<T> index = prop->at(i);
 			index.set(value);
+#endif
 		}
 	}
 };

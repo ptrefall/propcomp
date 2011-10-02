@@ -114,11 +114,11 @@ public:
 	/**
 	 * Constructor
 	 */
-	PropertyListIndexValue(typename T_Vector<T>::Type &list, const U32 &index, typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged)
-		: list(list), index(index), valueChanged(valueChanged)
+	PropertyListIndexValue(typename T_SharedPtr< PropertyListData<T> >::Type data, const U32 &index)
+		: data(data), index(index)
 	{
 	}
-
+	
 	/**
 	 * Destructor
 	 */
@@ -129,7 +129,7 @@ public:
 	 *
 	 * @return Returns the real value of the PropertyListValue.
 	 */
-	T get() const { return list[index]; }
+	const T &get() const { return data->value[index]; }
 
 	/// Set's property list value's data to rhs' shared pointer data.
 	void set(const T& rhs);
@@ -141,23 +141,21 @@ public:
 	PropertyListIndexValue<T> &operator= (const PropertyListIndexValue<T> &rhs);
 
 	/// Instead of propertyListValue.get() this operator exist for convenience.
-	operator T() const { return get(); }
+	operator const T &() const { return get(); }
 
 private:
 	///
-	typename T_Vector<T>::Type &list;
+	typename T_SharedPtr< PropertyListData<T> >::Type data;
 	///
 	const U32 &index;
-	///
-	typename T_Signal_v3<const U32 &, const T&, const T&>::Type &valueChanged;
 };
 
 template<class T>
 inline void PropertyListIndexValue<T>::set(const T &rhs)
 {
-	T oldValue = list[index];
-	list[index] = rhs;
-	valueChanged.invoke(index, oldValue, list[index]);
+	T oldValue = data->value[index];
+	data->value[index] = rhs;
+	data->valueChanged.invoke(index, oldValue, data->value[index]);
 }
 
 template<class T>
@@ -173,6 +171,106 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
 		return *this;
 
 	throw T_Exception("Assignment operation between property list index values are not supported!");
+}
+
+/**
+ * @file
+ * @class Factotum::PropertyListIndexValueBool
+ *
+ * @author Pål Trefall
+ * @author Kenneth Gangstø
+ *
+ * @version 2.0
+ *
+ * @brief Property List Index Value Bool, returned by list to allow changing an index in the list safely. Need to handle booleans as special case...
+ *
+ * @section LICENSE
+ * This software is provided 'as-is', without any express or implied
+ * warranty.  In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ * 
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ *
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ *
+ * 3. This notice may not be removed or altered from any source distribution.
+ * 
+ * Note: Some of the libraries Factotum EDK may link to may have additional
+ * requirements or restrictions.
+ * 
+ * @section DESCRIPTION
+ * PropertyListIndexValueBool
+ * 
+ */
+
+class PropertyListIndexValueBool
+{
+public:
+	/**
+	 * Constructor
+	 */
+	PropertyListIndexValueBool(T_SharedPtr< PropertyListData<bool> >::Type data, const U32 &index)
+		: data(data), index(index)
+	{
+	}
+	
+	/**
+	 * Destructor
+	 */
+	~PropertyListIndexValueBool() {}
+
+	/**
+	 * Returns the real value of the PropertyListValue
+	 *
+	 * @return Returns the real value of the PropertyListValue.
+	 */
+	const bool get() const { return data->value[index]; }
+
+	/// Set's property list value's data to rhs' shared pointer data.
+	void set(const bool& rhs);
+
+	/// Set's property list value's data to rhs' shared pointer data.
+	void operator= (const bool& rhs);
+
+	/// Provide an assignment operator to leviate level W4 warning
+	PropertyListIndexValueBool &operator= (const PropertyListIndexValueBool &rhs);
+
+	/// Instead of propertyListValue.get() this operator exist for convenience.
+	operator const bool () const { return get(); }
+
+private:
+	///
+	T_SharedPtr< PropertyListData<bool> >::Type data;
+	///
+	const U32 &index;
+};
+
+inline void PropertyListIndexValueBool::set(const bool &rhs)
+{
+	bool oldValue = data->value[index];
+	data->value[index] = rhs;
+	data->valueChanged.invoke(index, oldValue, data->value[index]);
+}
+
+inline void PropertyListIndexValueBool::operator =(const bool &rhs)
+{
+	set(rhs);
+}
+
+inline PropertyListIndexValueBool &PropertyListIndexValueBool::operator= (const PropertyListIndexValueBool &rhs)
+{
+	if(this == &rhs)
+		return *this;
+
+	throw T_Exception("Assignment operation between property list index value bools are not supported!");
 }
 
 /**
@@ -355,20 +453,32 @@ public:
 	}
 
 	/**
-	 * Resize the size of the list.
+	 * Get the value of list at given index.
 	 *
-	 * @param size Sets the size of the list.
+	 * @param index Index in the list for which value is returned
 	 */
 	PropertyListIndexValue<T> at(const U32 &index) 
 	{ 
 		if(index >= data->value.size())
 			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
 
-		return PropertyListIndexValue<T>(
-			this->data->value, 
-			index, 
-			this->data->valueChanged
-			);
+		return PropertyListIndexValue<T>(this->data, index);
+	}
+
+	/**
+	 * Get the value of list at given index when list is of type bool.
+	 * Due to how some list implementations treat booleans, for the case of 
+	 * the PropertyListIndexValue, this had to be treated as a special case
+	 * (see get() methods for reference).
+	 *
+	 * @param index Index in the list for which value is returned
+	 */
+	PropertyListIndexValueBool at_bool(const U32 &index) 
+	{ 
+		if(index >= data->value.size())
+			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
+
+		return PropertyListIndexValueBool(this->data, index);
 	}
 
 	/**

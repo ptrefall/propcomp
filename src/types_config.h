@@ -63,6 +63,21 @@
 #define USE_ANY_EVENT_HANDLER 1
 #endif
 
+/**
+ * Std Vector has a special handling of vector<bool> that doesn't support referencing the
+ * values of the list. Since we're using templates throughout Factotum, in order to treat
+ * bool as a special case, we need to use RTTI in order to recognize the use of booleans.
+ * The problem is that this forces RTTI on all types, and may slow down your performance.
+ * When looking up the vector<bool> problem online, one solution that's often suggested,
+ * is to store bools as unsigned chars, and manually cast to bool upon usage.
+ * The reason why this affects PropertyList, is because of how the PropertyListIndexValue
+ * works, which has a const T &get() const { return data->value[index]; } method. This works
+ * for all cases except for bool, which has to be handled as a special case of
+ * const bool get() const { return data->value[index]; }. If you're NOT using bool with
+ * PropertyList, you can leave this define as 0, and no RTTI will toll your execution.
+ */
+#define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND 0
+
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------
 /// Define this if the system should use the minimal dependency types
