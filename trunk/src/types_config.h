@@ -78,6 +78,11 @@
  */
 #define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND 0
 
+/**
+ * 
+ */
+#define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK 1
+
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------
 /// Define this if the system should use the minimal dependency types
