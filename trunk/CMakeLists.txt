@@ -55,4 +55,18 @@ include_directories("${CMAKE_SOURCE_DIR}"
 )
 
 add_subdirectory(src)
-add_subdirectory(tests)
+
+set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
+if(BUILD_TEST_PROJECTS)
+	add_subdirectory(tests)
+endif()
+
+set(BUILD_EXAMPLE_PROJECTS TRUE CACHE BOOL "TRUE if you want to include example projects with the generated solution, FALSE if not.")
+if(BUILD_EXAMPLE_PROJECTS)
+	add_subdirectory(examples)
+endif()
+
+set(BUILD_TOOL_PROJECTS TRUE CACHE BOOL "TRUE if you want to include tool projects with the generated solution, FALSE if not.")
+if(BUILD_TOOL_PROJECTS)
+	add_subdirectory(tools)
+endif()
