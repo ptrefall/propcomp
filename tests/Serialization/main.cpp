@@ -29,7 +29,7 @@ requirements or restrictions.
 #include <stdio.h>
 #include <time.h>
 
-#include "CustomPropertySerializer.h"
+#include "../Common/CustomPropertySerializer.h"
 #include "../Common/Vector3.h"
 
 using namespace Factotum;
@@ -138,5 +138,5 @@ void printStartup()
 void printReady(const T_String &msg)
 {
 	system("pause");
-	std::cout << msg << "\n";
+	std::cout << "\n" << msg << "\n";
 }
