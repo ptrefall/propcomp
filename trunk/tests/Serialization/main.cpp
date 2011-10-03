@@ -54,6 +54,18 @@ void main()
 	testVec3iList.push_back(Vector3<S32>(1,2,3));
 	testVec3iList.push_back(Vector3<S32>(-1,-2,-3));
 
+	//This should fail unless USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND is enabled in types_config.h
+	try
+	{
+		PropertyList<bool> testBoolList = entity.addPropertyList<bool>("TestBoolList");
+		testBoolList.push_back(true);
+	}
+	catch(T_Exception &e)
+	{
+		std::cout << "This exception is supposed to happen unless you enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND, so don't panic!" << std::endl;
+		std::cout << "std::vector<bool> handling exception: " << e.what() << std::endl;
+	}
+
 	
 	Entity entity2 = Entity(factory); //<-- instanciate "default" serializer
 	Property<U32> testUInt = entity2.addProperty<U32>("TestUInt", 20);

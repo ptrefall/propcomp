@@ -69,7 +69,7 @@
  * bool as a special case, we need to use RTTI in order to recognize the use of booleans.
  * The problem is that this forces RTTI on all types, and may slow down your performance.
  * When looking up the vector<bool> problem online, one solution that's often suggested,
- * is to store bools as unsigned chars, and manually cast to bool upon usage.
+ * is to store bools as unsigned chars, and manualy cast to bool upon usage.
  * The reason why this affects PropertyList, is because of how the PropertyListIndexValue
  * works, which has a const T &get() const { return data->value[index]; } method. This works
  * for all cases except for bool, which has to be handled as a special case of
