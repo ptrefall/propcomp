@@ -247,7 +247,7 @@ private:
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 			if(prop->getId() == IPropertyList::getTypeId<bool>())
 			{
-				PropertyListIndexValueBool index = prop->at_bool(i);
+				PropertyListIndexValueBool<T> index = prop->at_bool(i);
 				index.set(value);
 			}
 			else

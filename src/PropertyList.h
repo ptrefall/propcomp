@@ -129,7 +129,10 @@ public:
 	 *
 	 * @return Returns the real value of the PropertyListValue.
 	 */
+#pragma warning(push)
+#pragma warning(disable:4172)
 	const T &get() const { return data->value[index]; }
+#pragma warning(pop)
 
 	/// Set's property list value's data to rhs' shared pointer data.
 	void set(const T& rhs);
@@ -211,13 +214,14 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
  * 
  */
 
+template<class T>
 class PropertyListIndexValueBool
 {
 public:
 	/**
 	 * Constructor
 	 */
-	PropertyListIndexValueBool(T_SharedPtr< PropertyListData<bool> >::Type data, const U32 &index)
+	PropertyListIndexValueBool(typename T_SharedPtr< PropertyListData<T> >::Type data, const U32 &index)
 		: data(data), index(index)
 	{
 	}
@@ -232,40 +236,43 @@ public:
 	 *
 	 * @return Returns the real value of the PropertyListValue.
 	 */
-	const bool get() const { return data->value[index]; }
+	const T get() const { return data->value[index]; }
 
 	/// Set's property list value's data to rhs' shared pointer data.
-	void set(const bool& rhs);
+	void set(const T& rhs);
 
 	/// Set's property list value's data to rhs' shared pointer data.
-	void operator= (const bool& rhs);
+	void operator= (const T& rhs);
 
 	/// Provide an assignment operator to leviate level W4 warning
 	PropertyListIndexValueBool &operator= (const PropertyListIndexValueBool &rhs);
 
 	/// Instead of propertyListValue.get() this operator exist for convenience.
-	operator const bool () const { return get(); }
+	operator const T () const { return get(); }
 
 private:
 	///
-	T_SharedPtr< PropertyListData<bool> >::Type data;
+	typename T_SharedPtr< PropertyListData<T> >::Type data;
 	///
 	const U32 &index;
 };
 
-inline void PropertyListIndexValueBool::set(const bool &rhs)
+template<class T>
+inline void PropertyListIndexValueBool<T>::set(const T &rhs)
 {
-	bool oldValue = data->value[index];
+	T oldValue = data->value[index];
 	data->value[index] = rhs;
 	data->valueChanged.invoke(index, oldValue, data->value[index]);
 }
 
-inline void PropertyListIndexValueBool::operator =(const bool &rhs)
+template<class T>
+inline void PropertyListIndexValueBool<T>::operator =(const T &rhs)
 {
 	set(rhs);
 }
 
-inline PropertyListIndexValueBool &PropertyListIndexValueBool::operator= (const PropertyListIndexValueBool &rhs)
+template<class T>
+inline PropertyListIndexValueBool<T> &PropertyListIndexValueBool<T>::operator= (const PropertyListIndexValueBool<T> &rhs)
 {
 	if(this == &rhs)
 		return *this;
@@ -501,12 +508,12 @@ public:
 	 *
 	 * @param index Index in the list for which value is returned
 	 */
-	PropertyListIndexValueBool at_bool(const U32 &index) 
+	PropertyListIndexValueBool<T> at_bool(const U32 &index) 
 	{ 
 		if(index >= data->value.size())
 			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
 
-		return PropertyListIndexValueBool(this->data, index);
+		return PropertyListIndexValueBool<T>(this->data, index);
 	}
 
 	/**
