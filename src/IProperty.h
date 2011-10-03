@@ -66,7 +66,11 @@ public:
 	virtual bool isNull() const = 0;
 
 	/**
-	 *
+	 * Get the PropertyTypeId associated with the PropertyType. This value is generated
+	 * the first time each type of PropertyType is passed into the function, meaning that
+	 * the value of the PropertyTypeId is dependent on the order PropertyTypes are passed
+	 * into this function.
+	 * @return Returns the PropertyTypeId associated with this PropertyType.
 	 */
 	template<typename PropertyType>
 	static T_PropertyTypeId getTypeId()
@@ -76,25 +80,32 @@ public:
 	}
 
 	/**
-	 *
+	 * Get the PropertyTypeId associated with this property instance. Compare the value
+	 * with a call to the static function getTypeId<T>() to check which type this property
+	 * interface is made of.
+	 * @return Returns the PropertyTypeId associated with this property.
 	 */
 	const T_PropertyTypeId &getId() const { return id; }
 
 	/**
-	 *
+	 * Call this function to serialize the value of the property into a string.
+	 * @return Returns the serialized string value of this property.
 	 */
 	virtual T_String toString() = 0;
 	/**
-	 *
+	 * Call this function to deserialize a value from the string.
+	 * @param serialized_property The serialized string to deserialize.
 	 */
 	virtual void fromString(const T_String &serialized_property) = 0;
 
 protected:
-	///
+	/// The type id associated with this specific property instance.
 	T_PropertyTypeId id;
 	
 	/**
-	 *
+	 * Simply returns a new PropertyTypeId every time it's called. Called from
+	 * the static getTypeId<T>() function.
+	 * @return Returns a new PropertyTypeId.
 	 */
 	static T_PropertyTypeId newPropertyTypeId()
 	{

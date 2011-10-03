@@ -175,9 +175,9 @@ protected:
 	T_Map<T_String, IProperty*>::Type properties;
 	/// The list of all properties pending deletion in this PropertyHandler.
 	T_Vector<IProperty*>::Type deletedProperties;
-	///
+	/// The serializer interface that knows how to convert this property handler's properties to/from string.
 	IPropertySerializer *serializer;
-	///
+	/// Was this serializer defined internally in the handler (default), or externally? Only delete internally defined serializers in destructor.
 	bool external_serializer;
 };
 

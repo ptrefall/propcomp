@@ -110,7 +110,7 @@ public:
 	Property()
 	: serializer(NULL_PTR)
 	{
-		id = getTypeId<T>();
+		id = getTypeId<T>(); //RTTI id
 	}
 
 	/**
@@ -119,7 +119,7 @@ public:
 	Property(const Property& copy)
 	: data(copy.data), serializer(copy.serializer)
 	{
-		id = getTypeId<T>();
+		id = getTypeId<T>(); //RTTI id
 	}
 
 	/**
@@ -134,7 +134,7 @@ public:
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
-		id = getTypeId<T>();
+		id = getTypeId<T>(); //RTTI id
 	}
 
 	/**
@@ -193,11 +193,13 @@ public:
 	virtual bool isNull() const { return data == NULL_PTR; }
 
 	/**
-	 *
+	 * Call this function to serialize the value of the property into a string.
+	 * @return Returns the serialized string value of this property.
 	 */
 	virtual T_String toString() { return serializer->toString(this); }
 	/**
-	 *
+	 * Call this function to deserialize a value from the string.
+	 * @param serialized_property The serialized string to deserialize.
 	 */
 	virtual void fromString(const T_String &serialized_property) { serializer->fromString(this, serialized_property); }
 
@@ -256,7 +258,7 @@ public:
 private:
 	/// PropertyData of the Property is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyData<T> >::Type data;
-	///
+	/// The serializer interface that knows how to convert this property's data to/from string.
 	IPropertySerializer *serializer;
 };
 
