@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(TestSerialization)
 
 set(HDRS
-  ./CustomPropertySerializer.h
+  ../Common/CustomPropertySerializer.h
   ../Common/Vector3.h
 )
 
