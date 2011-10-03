@@ -141,6 +141,7 @@ void defineBomb(Entity &bomb, EntityManager &entityMgr)
 	//bomb.addComponent("Transformable");
 	
 	bomb.getProperty<T_String>("Type") = "Bomb";
+	bomb.getProperty<T_String>("Name") = "Bomb";
 	bomb.getProperty<U32>("TimeoutValue") = 6; //Time out after 6 ticks
 	bomb.getProperty<F32>("TickInterval") = 1.0f; //Seconds per tick
 }
