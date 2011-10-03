@@ -147,9 +147,9 @@ public:
 	operator const T &() const { return get(); }
 
 private:
-	///
+	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
-	///
+	/// The index in the Property list's data value that this PropertyListIndexValueBool represent.
 	const U32 &index;
 };
 
@@ -251,9 +251,9 @@ public:
 	operator const T () const { return get(); }
 
 private:
-	///
+	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
-	///
+	/// The index in the Property list's data value that this PropertyListIndexValueBool represent.
 	const U32 &index;
 };
 
@@ -363,6 +363,7 @@ public:
 	 * Constructor
 	 *
 	 * @param name Name of the property list.
+	 * @param serializer The serializer that can convert this property list to/from string
 	 * @param readOnly Should the property list be read only? (Defaults to false).
 	 */
 	PropertyList(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
@@ -545,11 +546,13 @@ public:
 	virtual bool isNull() const { return data == NULL_PTR; }
 
 	/**
-	 *
+	 * Call this function to serialize the value of the property list into a string.
+	 * @return Returns the serialized string value of this property list.
 	 */
 	virtual T_String toString() { return serializer->toString(this); }
 	/**
-	 *
+	 * Call this function to deserialize a value from the string.
+	 * @param serialized_propertyList The serialized string to deserialize.
 	 */
 	virtual void fromString(const T_String &serialized_propertyList) { serializer->fromString(this, serialized_propertyList); }
 
@@ -601,7 +604,7 @@ public:
 private:
 	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
-	///
+	/// The serializer interface that knows how to convert this property list's data to/from string.
 	IPropertySerializer *serializer;
 };
 
