@@ -132,7 +132,7 @@ void defineCar(Entity &car, ComponentFactory &factory, EntityManager &entityMgr)
 	car.addComponent("LinearPhysics");
 	car.addComponent("Transformable");
 
-	car.addProperty<T_String>("Type", "Car");
+	car.getProperty<T_String>("Type") = "Car";
 	car.getProperty<F32>("EngineEffect") = 0.5f; //Spend this much energy to move car every time we throttle
 
 	//Front Left
@@ -180,8 +180,8 @@ void defineWheel(Entity &wheel, const T_String &name)
 	wheel.addComponent("AngularPhysics");
 	wheel.addComponent("Dynamo");
 	
-	wheel.addProperty<T_String>("Type", "Wheel");
-	wheel.addProperty<T_String>("Name", name);
+	wheel.getProperty<T_String>("Type") = "Wheel";
+	wheel.getProperty<T_String>("Name") = name;
 	wheel.getProperty<F32>("DynamoEfficiency") = 4.0f;
 	wheel.getProperty<F32>("GenerationFactor") = 2.4f;
 }

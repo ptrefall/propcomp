@@ -82,7 +82,7 @@ private:
 	{
 		if(language == "Norwegian")
 		{
-			T_String translated_word = owner.call1<T_String, T_String>(translateToNorwegianId, word);
+			T_String translated_word = owner.call1<const T_String &, T_String>(translateToNorwegianId, word);
 			std::cout << word.c_str() << " in norwegian is " << translated_word.c_str() << std::endl;
 		}
 		return NULL_PTR;
@@ -116,14 +116,14 @@ void main()
 
 	printReady();
 
-	F32 value = test.call2<F32, F32, F32>(T_HashedString("INTRICATE_ALG"), 2.0f, 4.0f);
+	F32 value = test.call2<const F32 &, const F32 &, F32>(T_HashedString("INTRICATE_ALG"), 2.0f, 4.0f);
 	std::cout << "Result: " << value << std::endl << std::endl;
 
-	value = test.call8<U32, S32, F32, U32, S32, F32, F32, T_String, F32>(T_HashedString("CRAZY_FUNC"), 2, 1, 4.0f, 8, -2, 10.0f, -2.0f, "This is crazy!");
+	value = test.call8<U32, S32, F32, U32, S32, F32, F32, const T_String &, F32>(T_HashedString("CRAZY_FUNC"), 2, 1, 4.0f, 8, -2, 10.0f, -2.0f, "This is crazy!");
 	std::cout << "Result: " << value << std::endl << std::endl;
 
-	test.call2<T_String, T_String, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Hello", "Norwegian");
-	test.call2<T_String, T_String, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Bye", "Norwegian");
+	test.call2<const T_String &, const T_String &, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Hello", "Norwegian");
+	test.call2<const T_String &, const T_String &, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Bye", "Norwegian");
 
 	system("pause");
 }
