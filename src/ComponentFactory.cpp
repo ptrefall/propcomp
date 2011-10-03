@@ -166,7 +166,7 @@ Component* ComponentFactory::createComponent(Entity &entity, const T_String& typ
 
 	T_Map<T_String, ComponentCreator>::Type::iterator creatorIt = creators->find(type);
 	if(creatorIt == creators->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator creator = creatorIt->second;
 	return creator(entity, type);
@@ -179,7 +179,7 @@ Component* ComponentFactory::createComponentCustom1(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator1>::Type::iterator creatorIt = creators_custom1->find(type);
 	if(creatorIt == creators_custom1->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator1 creator = creatorIt->second;
 	return creator(entity, type, custom1);
@@ -192,7 +192,7 @@ Component* ComponentFactory::createComponentCustom2(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator2>::Type::iterator creatorIt = creators_custom2->find(type);
 	if(creatorIt == creators_custom2->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator2 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2);
@@ -205,7 +205,7 @@ Component* ComponentFactory::createComponentCustom3(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator3>::Type::iterator creatorIt = creators_custom3->find(type);
 	if(creatorIt == creators_custom3->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator3 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3);
@@ -218,7 +218,7 @@ Component* ComponentFactory::createComponentCustom4(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator4>::Type::iterator creatorIt = creators_custom4->find(type);
 	if(creatorIt == creators_custom4->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator4 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3, custom4);
@@ -231,7 +231,7 @@ Component* ComponentFactory::createComponentCustom5(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator5>::Type::iterator creatorIt = creators_custom5->find(type);
 	if(creatorIt == creators_custom5->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator5 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3, custom4, custom5);
@@ -244,7 +244,7 @@ Component* ComponentFactory::createComponentCustom6(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator6>::Type::iterator creatorIt = creators_custom6->find(type);
 	if(creatorIt == creators_custom6->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator6 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6);
@@ -257,7 +257,7 @@ Component* ComponentFactory::createComponentCustom7(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator7>::Type::iterator creatorIt = creators_custom7->find(type);
 	if(creatorIt == creators_custom7->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator7 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7);
@@ -270,7 +270,7 @@ Component* ComponentFactory::createComponentCustom8(Entity &entity, const T_Stri
 
 	T_Map<T_String, ComponentCreator8>::Type::iterator creatorIt = creators_custom8->find(type);
 	if(creatorIt == creators_custom8->end())
-		throw T_Exception(("Unable to create component " + type).c_str());
+		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator8 creator = creatorIt->second;
 	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7, custom8);
