@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Factotum::PropertyListData
+ * @class Totem::PropertyListData
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -30,7 +30,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -41,7 +41,7 @@
 #include "IPropertyList.h"
 #include "IPropertySerializer.h"
 
-namespace Factotum {
+namespace Totem {
 
 template<class T>
 class PropertyListData HAS_SIGNALSLOTS_INHERITANCE_TYPE
@@ -71,7 +71,7 @@ public:
 
 /**
  * @file
- * @class Factotum::PropertyListIndexValue
+ * @class Totem::PropertyListIndexValue
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -99,7 +99,7 @@ public:
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -178,7 +178,7 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
 
 /**
  * @file
- * @class Factotum::PropertyListIndexValueBool
+ * @class Totem::PropertyListIndexValueBool
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -206,7 +206,7 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -282,7 +282,7 @@ inline PropertyListIndexValueBool<T> &PropertyListIndexValueBool<T>::operator= (
 
 /**
  * @file
- * @class Factotum::PropertyList
+ * @class Totem::PropertyList
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -310,7 +310,7 @@ inline PropertyListIndexValueBool<T> &PropertyListIndexValueBool<T>::operator= (
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -621,4 +621,4 @@ inline PropertyListIndexValue<T> PropertyList<T>::operator [](const U32 &index)
 	return at(index);
 }
 
-} //namespace Factotum
+} //namespace Totem

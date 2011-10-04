@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Factotum::Entity
+ * @class Totem::Entity
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -30,7 +30,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -49,7 +49,7 @@
 #endif
 #include <DelegateHandler.h>
 
-namespace Factotum {
+namespace Totem {
 
 class Entity :	public ComponentHandler, 
 				public PropertyHandler, 
@@ -74,4 +74,4 @@ public:
 	virtual ~Entity() {}
 };
 
-} //namespace Factotum
+} //namespace Totem

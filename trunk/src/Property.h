@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Factotum::PropertyData
+ * @class Totem::PropertyData
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -30,7 +30,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -41,7 +41,7 @@
 #include "IProperty.h"
 #include "IPropertySerializer.h"
 
-namespace Factotum {
+namespace Totem {
 
 template<class T>
 class PropertyData HAS_SIGNALSLOTS_INHERITANCE_TYPE
@@ -63,7 +63,7 @@ public:
 
 /**
  * @file
- * @class Factotum::Property
+ * @class Totem::Property
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -91,7 +91,7 @@ public:
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -366,4 +366,4 @@ inline bool Property<T>::operator <(const T &rhs)
 	return (data->value < rhs);
 }
 
-} //namespace Factotum
+} //namespace Totem

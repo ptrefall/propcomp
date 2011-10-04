@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Factotum::EventHandler
+ * @class Totem::EventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -30,7 +30,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -41,7 +41,7 @@
 #include "types_config.h"
 #include "Property.h"
 
-namespace Factotum {
+namespace Totem {
 
 class Component;
 class ComponentFactory;
@@ -877,4 +877,4 @@ inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type
 		return it->second;
 }
 
-} //namespace Factotum
+} //namespace Totem

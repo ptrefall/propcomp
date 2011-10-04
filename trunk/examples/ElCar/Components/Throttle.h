@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -28,20 +28,20 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Throttle : public Factotum::Component
+	class Throttle : public Totem::Component
 	{
 	public:
 		COMPONENT_0(Throttle)
-		Throttle(Factotum::Entity &owner, const T_String &name);
+		Throttle(Totem::Entity &owner, const T_String &name);
 		virtual ~Throttle();
 
 	protected:
-		Factotum::Property<T_String> type_property;
-		Factotum::Property<F32> velocity_property;
-		Factotum::Property<F32> maxVelocity_property;
-		Factotum::Property<F32> engineForce_property;
-		Factotum::Property<F32> mass_property;
-		Factotum::Property<F32> engineEffect_property;
+		Totem::Property<T_String> type_property;
+		Totem::Property<F32> velocity_property;
+		Totem::Property<F32> maxVelocity_property;
+		Totem::Property<F32> engineForce_property;
+		Totem::Property<F32> mass_property;
+		Totem::Property<F32> engineEffect_property;
 
 		void onThrottleEvent();
 

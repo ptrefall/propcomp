@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -27,17 +27,17 @@ requirements or restrictions.
 
 namespace Components
 {
-	class EnergyDecharger : public Factotum::Component
+	class EnergyDecharger : public Totem::Component
 	{
 	public:
 		COMPONENT_0(EnergyDecharger)
-		EnergyDecharger(Factotum::Entity &owner, const T_String &name);
+		EnergyDecharger(Totem::Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 
 	protected:
-		Factotum::Property<F32> energy_property;
-		Factotum::Property<F32> minEnergy_property;
-		Factotum::Property<F32> maxEnergy_property;
+		Totem::Property<F32> energy_property;
+		Totem::Property<F32> minEnergy_property;
+		Totem::Property<F32> maxEnergy_property;
 
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onSpendEffectEvent(const F32 &effect);

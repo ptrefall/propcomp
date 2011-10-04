@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -27,16 +27,16 @@ requirements or restrictions.
 
 namespace Components
 {
-	class MultiTargeter : public Factotum::Component
+	class MultiTargeter : public Totem::Component
 	{
 	public:
 		COMPONENT_0(MultiTargeter)
-		MultiTargeter(Factotum::Entity &owner, const T_String &name);
+		MultiTargeter(Totem::Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 
 	protected:
-		Factotum::PropertyList<Factotum::Entity*> target_property_list;
+		Totem::PropertyList<Totem::Entity*> target_property_list;
 
-		void onTargetAdded(const U32 &index, Factotum::Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Totem::Entity * const &newValue);
 	};
 }

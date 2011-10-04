@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,14 +17,14 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
 #include "Transformable.h"
 
 using namespace Components;
-using namespace Factotum;
+using namespace Totem;
 
 Transformable::Transformable(Entity &owner, const T_String &name)
 : Component(owner, name)

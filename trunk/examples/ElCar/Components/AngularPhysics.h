@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -27,21 +27,21 @@ requirements or restrictions.
 
 namespace Components
 {
-	class AngularPhysics : public Factotum::Component
+	class AngularPhysics : public Totem::Component
 	{
 	public:
 		COMPONENT_0(AngularPhysics)
-		AngularPhysics(Factotum::Entity &owner, const T_String &name);
+		AngularPhysics(Totem::Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Factotum::Property<Factotum::Entity*> car_property;
-		Factotum::Property<F32> angularVelocity_property;
-		Factotum::Property<F32> dimension_property;
-		Factotum::Property<F32> friction_property;
-		Factotum::PropertyList<F32> forces_property_list;
+		Totem::Property<Totem::Entity*> car_property;
+		Totem::Property<F32> angularVelocity_property;
+		Totem::Property<F32> dimension_property;
+		Totem::Property<F32> friction_property;
+		Totem::PropertyList<F32> forces_property_list;
 
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onForceAngularAccelerationEvent(const F32 &force);

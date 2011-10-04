@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -28,21 +28,21 @@ requirements or restrictions.
 
 namespace Components
 {
-	class WheelMount : public Factotum::Component
+	class WheelMount : public Totem::Component
 	{
 	public:
 		COMPONENT_0(WheelMount)
-		WheelMount(Factotum::Entity &owner, const T_String &name);
+		WheelMount(Totem::Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Factotum::Property<T_String> type_property;
+		Totem::Property<T_String> type_property;
 
-		Factotum::PropertyList<Factotum::Entity*> wheels_property_list;
-		Factotum::Property<U32> activeWheelCount_property;
-		Factotum::Property<F32> velocity_property;
+		Totem::PropertyList<Totem::Entity*> wheels_property_list;
+		Totem::Property<U32> activeWheelCount_property;
+		Totem::Property<F32> velocity_property;
 
 #if USE_TEMPLATE_EVENT_HANDLER
 		void onAccelerateWheelsEvent(const F32 &force);

@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -27,19 +27,19 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Timer : public Factotum::Component
+	class Timer : public Totem::Component
 	{
 	public:
 		COMPONENT_0(Timer)
-		Timer(Factotum::Entity &owner, const T_String &name);
+		Timer(Totem::Entity &owner, const T_String &name);
 		virtual ~Timer();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Factotum::Property<bool> timeout_property;
-		Factotum::Property<U32> timeoutValue_property;
-		Factotum::Property<F32> tickInterval_property;
+		Totem::Property<bool> timeout_property;
+		Totem::Property<U32> timeoutValue_property;
+		Totem::Property<F32> tickInterval_property;
 		F32 time;
 		U32 ticks;
 	};

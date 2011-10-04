@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -27,22 +27,22 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Dynamo : public Factotum::Component
+	class Dynamo : public Totem::Component
 	{
 	public:
 		COMPONENT_0(Dynamo)
-		Dynamo(Factotum::Entity &owner, const T_String &name);
+		Dynamo(Totem::Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Factotum::Property<T_String> type_property;
-		Factotum::Property<T_String> name_property;
-		Factotum::Property<Factotum::Entity*> car_property;
-		Factotum::Property<F32> angularVelocity_property;
-		Factotum::Property<F32> generationFactor_property;
-		Factotum::Property<F32> dynamoEfficiency_property;
+		Totem::Property<T_String> type_property;
+		Totem::Property<T_String> name_property;
+		Totem::Property<Totem::Entity*> car_property;
+		Totem::Property<F32> angularVelocity_property;
+		Totem::Property<F32> generationFactor_property;
+		Totem::Property<F32> dynamoEfficiency_property;
 
 		T_HashedString addEffectEventId;
 	};

@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -28,28 +28,28 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Explosive : public Factotum::Component
+	class Explosive : public Totem::Component
 	{
 	public:
 		COMPONENT_0(Explosive)
-		Explosive(Factotum::Entity &owner, const T_String &name);
+		Explosive(Totem::Entity &owner, const T_String &name);
 		virtual ~Explosive();
 
 	protected:
-		Factotum::Property<T_String> type_property;
-		Factotum::Property<T_String> name_property;
-		Factotum::Property<bool> timeout_property;
-		Factotum::Property<F32> base_damage_property;
-		Factotum::Property<F32> blast_radius_property;
-		Factotum::Property<T_Vec3f> position_property;
+		Totem::Property<T_String> type_property;
+		Totem::Property<T_String> name_property;
+		Totem::Property<bool> timeout_property;
+		Totem::Property<F32> base_damage_property;
+		Totem::Property<F32> blast_radius_property;
+		Totem::Property<T_Vec3f> position_property;
 
-		Factotum::PropertyList<Factotum::Entity*> target_property_list;
+		Totem::PropertyList<Totem::Entity*> target_property_list;
 
 		//Property Slots
 		void onTimeoutChanged(const bool &oldValue, const bool &newValue);
 
 		//PropertyList Slots
-		void onTargetAdded(const U32 &index, Factotum::Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Totem::Entity * const &newValue);
 
 		//Event Ids
 		T_HashedString seekInRadiusEventId;

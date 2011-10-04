@@ -1,13 +1,13 @@
 #pragma once
 
 /**
- * @mainpage Factotum Entity Development Kit - a component based entity system using properties
+ * @mainpage Totem Entity Development Kit - a component based entity system using properties
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @section INTRODUCTION
- * Factotum is an Entity Development Kit designed from the idea of writing an intuitive 
+ * Totem is an Entity Development Kit designed from the idea of writing an intuitive 
  * API for Entity abilities and property definition through aggregation. An Entity 
  * consist of multiple components that defines it's abilities, while referencing 
  * necessary properties of the Entity required for the ability to function.
@@ -18,7 +18,7 @@
  * for how to 100% decouple this relationship between components and at the same time 
  * avoid duplication of properties begun.
  *
- * And so the Factotum EDK was born. Properties adds some extra logic on top 
+ * And so the Totem EDK was born. Properties adds some extra logic on top 
  * of the data they represent, like a valueChanged signal that function slots can be 
  * registered to. Thus several components can "react" when a property is changed in some 
  * component, or from outside the Entity system.
@@ -52,7 +52,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  */

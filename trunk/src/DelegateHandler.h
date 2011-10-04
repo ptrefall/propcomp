@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Factotum::DelegateHandler
+ * @class Totem::DelegateHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -30,7 +30,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -41,7 +41,7 @@
 #include "types_config.h"
 #include "Property.h"
 
-namespace Factotum {
+namespace Totem {
 
 class Component;
 class ComponentFactory;
@@ -727,4 +727,4 @@ inline typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Pa
 	return delegate->delegate;
 }
 
-} //namespace Factotum
+} //namespace Totem
