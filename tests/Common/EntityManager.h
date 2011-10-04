@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -25,7 +25,7 @@ requirements or restrictions.
 
 #include <types_config.h>
 
-namespace Factotum { class Entity; class ComponentFactory; }
+namespace Totem { class Entity; class ComponentFactory; }
 
 class EntityManager
 {
@@ -35,12 +35,12 @@ public:
 
 	void update(F32 deltaTime);
 
-	Factotum::Entity &create(Factotum::ComponentFactory &factory);
-	void erase(Factotum::Entity *Entity);
-	T_Vector<Factotum::Entity*>::Type &getEntities() { return entities; }
+	Totem::Entity &create(Totem::ComponentFactory &factory);
+	void erase(Totem::Entity *Entity);
+	T_Vector<Totem::Entity*>::Type &getEntities() { return entities; }
 
 protected:
-	T_Vector<Factotum::Entity*>::Type entities;
-	T_Vector<Factotum::Entity*>::Type pendingDelete;
+	T_Vector<Totem::Entity*>::Type entities;
+	T_Vector<Totem::Entity*>::Type pendingDelete;
 	T_EntityId nextEntityId;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -19,7 +19,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -31,66 +31,66 @@ requirements or restrictions.
 
 #include "../Common/Vector3.h"
 
-class CustomPropertySerializer : public Factotum::PropertySerializer
+class CustomPropertySerializer : public Totem::PropertySerializer
 {
 public: 
 	CustomPropertySerializer() {}
 	virtual ~CustomPropertySerializer() {}
 
-	virtual T_String toString(const Factotum::IProperty *const property)
+	virtual T_String toString(const Totem::IProperty *const property)
 	{
-		if(property->getId() == Factotum::IProperty::getTypeId<Vector3<F32>>())
+		if(property->getId() == Totem::IProperty::getTypeId<Vector3<F32>>())
 			return serializeVector3<F32>(property);
-		else if(property->getId() == Factotum::IProperty::getTypeId<Vector3<S32>>())
+		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<S32>>())
 			return serializeVector3<S32>(property);
-		else if(property->getId() == Factotum::IProperty::getTypeId<Vector3<U32>>())
+		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<U32>>())
 			return serializeVector3<U32>(property);
 		else
-			return Factotum::PropertySerializer::toString(property);
+			return Totem::PropertySerializer::toString(property);
 	}
 
-	virtual T_String toString(Factotum::IPropertyList *const propertyList)
+	virtual T_String toString(Totem::IPropertyList *const propertyList)
 	{
-		if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<F32>>())
+		if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<F32>>())
 			return serializeVector3<F32>(propertyList);
-		else if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<S32>>())
+		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<S32>>())
 			return serializeVector3<S32>(propertyList);
-		else if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<U32>>())
+		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<U32>>())
 			return serializeVector3<U32>(propertyList);
 		else
-			return Factotum::PropertySerializer::toString(propertyList);
+			return Totem::PropertySerializer::toString(propertyList);
 	}
 
-	virtual void fromString(Factotum::IProperty *const property, const T_String &serialized_property)
+	virtual void fromString(Totem::IProperty *const property, const T_String &serialized_property)
 	{
-		if(property->getId() == Factotum::IProperty::getTypeId<Vector3<F32>>())
+		if(property->getId() == Totem::IProperty::getTypeId<Vector3<F32>>())
 			deserializeVector3<F32>(property, serialized_property);
-		else if(property->getId() == Factotum::IProperty::getTypeId<Vector3<S32>>())
+		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<S32>>())
 			deserializeVector3<S32>(property, serialized_property);
-		else if(property->getId() == Factotum::IProperty::getTypeId<Vector3<U32>>())
+		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<U32>>())
 			deserializeVector3<U32>(property, serialized_property);
 		else
-			Factotum::PropertySerializer::fromString(property, serialized_property);
+			Totem::PropertySerializer::fromString(property, serialized_property);
 
 	}
 
-	virtual void fromString(Factotum::IPropertyList *const propertyList, const T_String &serialized_propertyList)
+	virtual void fromString(Totem::IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
-		if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<F32>>())
+		if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<F32>>())
 			deserializeVector3<F32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<S32>>())
+		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<S32>>())
 			deserializeVector3<S32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == Factotum::IPropertyList::getTypeId<Vector3<U32>>())
+		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<U32>>())
 			deserializeVector3<U32>(propertyList, serialized_propertyList);
 		else
-			Factotum::PropertySerializer::fromString(propertyList, serialized_propertyList);
+			Totem::PropertySerializer::fromString(propertyList, serialized_propertyList);
 	}
 
 private:
 	template<typename T>
-	T_String serializeVector3(const Factotum::IProperty *const property)
+	T_String serializeVector3(const Totem::IProperty *const property)
 	{	
-		const Factotum::Property<Vector3<T>> *const prop = static_cast<const Factotum::Property<Vector3<T>> *const>(property);
+		const Totem::Property<Vector3<T>> *const prop = static_cast<const Totem::Property<Vector3<T>> *const>(property);
 		std::stringstream stream;
 		stream << prop->get().x << " ";
 		stream << prop->get().y << " ";
@@ -99,9 +99,9 @@ private:
 	}
 
 	template<typename T>
-	T_String serializeVector3(Factotum::IPropertyList *const propertyList)
+	T_String serializeVector3(Totem::IPropertyList *const propertyList)
 	{	
-		Factotum::PropertyList<Vector3<T>> *const prop = static_cast<Factotum::PropertyList<Vector3<T>> *const>(propertyList);
+		Totem::PropertyList<Vector3<T>> *const prop = static_cast<Totem::PropertyList<Vector3<T>> *const>(propertyList);
 		std::stringstream stream;
 		stream << prop->size() << " ";
 		for(U32 i = 0; i < prop->size(); i++)
@@ -115,24 +115,24 @@ private:
 	}
 
 	template<typename T>
-	void deserializeVector3(Factotum::IProperty *const property, const T_String &serialized_property)
+	void deserializeVector3(Totem::IProperty *const property, const T_String &serialized_property)
 	{	
 		Vector3<T> value;
 		std::stringstream stream(serialized_property);
 		stream >> std::dec >> value.x >> value.y >> value.z;
 
-		Factotum::Property<Vector3<T>> *const prop = static_cast<Factotum::Property<Vector3<T>> *const>(property);
+		Totem::Property<Vector3<T>> *const prop = static_cast<Totem::Property<Vector3<T>> *const>(property);
 		prop->set(value);
 	}
 
 	template<typename T>
-	void deserializeVector3(Factotum::IPropertyList *const propertyList, const T_String &serialized_propertyList)
+	void deserializeVector3(Totem::IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{	
 		U32 size;
 		std::stringstream stream(serialized_propertyList);
 		stream >> std::dec >> size;
 
-		Factotum::PropertyList<Vector3<T>> *const prop = static_cast<Factotum::PropertyList<Vector3<T>> *const>(propertyList);
+		Totem::PropertyList<Vector3<T>> *const prop = static_cast<Totem::PropertyList<Vector3<T>> *const>(propertyList);
 		prop->resize(size);
 		Vector3<T> value;
 		for(U32 i = 0; i < size; i++)

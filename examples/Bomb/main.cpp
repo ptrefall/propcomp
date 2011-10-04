@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -35,7 +35,7 @@ requirements or restrictions.
 #include <stdio.h>
 #include <time.h>
 
-using namespace Factotum;
+using namespace Totem;
 
 void printStartup();
 void initFactory(ComponentFactory &factory);
@@ -98,7 +98,7 @@ void main()
 
 void printStartup()
 {
-	std::cout << "Thank you for downloading and testing out Factotum EDK!" << std::endl;
+	std::cout << "Thank you for downloading and testing out Totem EDK!" << std::endl;
 	std::cout << "In this test we'll demonstrate a ticking time-bomb \nthat explodes." << std::endl;
 	std::cout << "It's blast radius will impact three crates placed in the scene." << std::endl;
 	std::cout << "\n";

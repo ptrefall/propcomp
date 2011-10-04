@@ -27,7 +27,7 @@
  *
  * 3. This notice may not be removed or altered from any source distribution.
  * 
- * Note: Some of the libraries Factotum EDK may link to may have additional
+ * Note: Some of the libraries Totem EDK may link to may have additional
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
@@ -65,7 +65,7 @@
 
 /**
  * Std Vector has a special handling of vector<bool> that doesn't support referencing the
- * values of the list. Since we're using templates throughout Factotum, in order to treat
+ * values of the list. Since we're using templates throughout Totem, in order to treat
  * bool as a special case, we need to use RTTI in order to recognize the use of booleans.
  * The problem is that this forces RTTI on all types, and may slow down your performance.
  * When looking up the vector<bool> problem online, one solution that's often suggested,

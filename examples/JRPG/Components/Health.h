@@ -1,4 +1,4 @@
-/*Factotum EDK
+/*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
 This software is provided 'as-is', without any express or implied
@@ -17,7 +17,7 @@ freely, subject to the following restrictions:
    misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 
-Note: Some of the libraries Factotum EDK may link to may have additional
+Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
@@ -28,18 +28,18 @@ requirements or restrictions.
 
 namespace Components
 {
-	class Health : public Factotum::Component
+	class Health : public Totem::Component
 	{
 	public:
 		COMPONENT_1(Health, EntityManager)
-		Health(Factotum::Entity &owner, const T_String &name, EntityManager &entityMgr);
+		Health(Totem::Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~Health();
 
 	protected:
-		Factotum::Property<T_String> name_property;
-		Factotum::Property<bool> alive_property;
-		Factotum::Property<F32> health_property;
-		Factotum::Property<F32> maxhealth_property;
+		Totem::Property<T_String> name_property;
+		Totem::Property<bool> alive_property;
+		Totem::Property<F32> health_property;
+		Totem::Property<F32> maxhealth_property;
 
 		void onHealthChanged(const F32 &oldValue, const F32 &newValue);
 		void onAliveChanged(const bool &oldValue, const bool &newValue);

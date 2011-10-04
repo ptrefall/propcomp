@@ -15,28 +15,54 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 #
-# Note: Some of the libraries Factotum EDK may link to may have additional
+# Note: Some of the libraries Totem EDK may link to may have additional
 # requirements or restrictions.
 #
 ###
-# CMake system for Factotum EDK was contributed by Jacob 'jacmoe' Moen
+# CMake system for Totem EDK was contributed by Jacob 'jacmoe' Moen
 #
 ###
-
+#---------------------------------------------------------------
 cmake_minimum_required(VERSION 2.8.3)
-
-project(EntityEditor)
-
+#---------------------------------------------------------------
+project(ToolEntityEditor)
+#---------------------------------------------------------------
+set(UIC_UI
+	./ui/mainWindow.ui
+)
+SOURCE_GROUP("Ui Files" FILES ${UIC_UI})
+#---------------------------------------------------------------
+set(HDRS
+)
 set(SRCS
   ./main.cpp
 )
- 
-add_executable(EntityEditor ${SRCS})
-
-set_target_properties(EntityEditor PROPERTIES DEBUG_POSTFIX _d)
-set_target_properties(EntityEditor PROPERTIES FOLDER "Tools")
-
-
-target_link_libraries(EntityEditor
-  FactotumEDK
+#---------------------------------------------------------------
+find_package(OpenGL REQUIRED)
+find_package(Glew REQUIRED)
+find_package(Qt4 4.7.3 REQUIRED QtCore QtGui QtOpenGL)
+#---------------------------------------------------------------
+include_directories(${OPENGL_INCLUDE_PATH})
+include_directories(${GLEW_INCLUDE_PATH})
+include(${QT_USE_FILE})
+#---------------------------------------------------------------
+QT4_WRAP_CPP(MOCS ${GV_HDRS} ${CLIENT_HDRS} ${UI_HDRS})
+SOURCE_GROUP("Moc Files" FILES ${MOCS})
+#---------------------------------------------------------------
+QT4_WRAP_UI(UICS ${UIC_UI})
+SOURCE_GROUP("Uic Files" FILES ${UICS})
+#---------------------------------------------------------------
+add_executable(ToolEntityEditor 
+	${HDRS} ${SRCS}
+	${MOCS} ${UICS}
+)
+#---------------------------------------------------------------
+set_target_properties(ToolEntityEditor PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(ToolEntityEditor PROPERTIES FOLDER "Tools")
+#---------------------------------------------------------------
+target_link_libraries(ToolEntityEditor
+  ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARY}
+  ${QT_LIBRARIES}
+  TotemEDK
 )
