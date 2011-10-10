@@ -45,7 +45,7 @@ namespace Totem {
 
 class Component;
 class ComponentFactory;
-class EventHandler
+class EventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**

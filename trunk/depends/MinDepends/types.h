@@ -56,6 +56,7 @@
 //#undef NULL_PTR
 //#define NULL_PTR nullptr
 typedef std::string T_String;
+typedef double D32;
 typedef float F32;
 typedef int S32;
 typedef unsigned int U32;
