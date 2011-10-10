@@ -57,6 +57,8 @@ public:
 	T_String name;
 	/// Is the property read-only?
 	bool readOnly;
+	/// The serializer interface that knows how to convert this property's data to/from string.
+	IPropertySerializer *serializer;
 	/// Signal that's emitted when the value of the property change, returning the old and new value.
 	typename T_Signal_v2<const T&, const T&>::Type valueChanged;
 };
@@ -108,7 +110,6 @@ public:
 	 * Default Constructor, results in a Property with no data!
 	 */
 	Property()
-	: serializer(NULL_PTR)
 	{
 		id = getTypeId<T>(); //RTTI id
 	}
@@ -117,7 +118,7 @@ public:
 	 * Copy Constructor, points to same data via smart pointer
 	 */
 	Property(const Property& copy)
-	: data(copy.data), serializer(copy.serializer)
+	: data(copy.data)
 	{
 		id = getTypeId<T>(); //RTTI id
 	}
@@ -130,10 +131,11 @@ public:
 	 * @param readOnly Should the property be read only? (Defaults to false).
 	 */
 	Property(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
-	: data(new PropertyData<T>()), serializer(&serializer)
+	: data(new PropertyData<T>())
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
+		data->serializer = &serializer;
 		id = getTypeId<T>(); //RTTI id
 	}
 
@@ -196,12 +198,12 @@ public:
 	 * Call this function to serialize the value of the property into a string.
 	 * @return Returns the serialized string value of this property.
 	 */
-	virtual T_String toString() { return serializer->toString(this); }
+	virtual T_String toString() { return data->serializer->toString(this); }
 	/**
 	 * Call this function to deserialize a value from the string.
 	 * @param serialized_property The serialized string to deserialize.
 	 */
-	virtual void fromString(const T_String &serialized_property) { serializer->fromString(this, serialized_property); }
+	virtual void fromString(const T_String &serialized_property) { data->serializer->fromString(this, serialized_property); }
 
 	/**
 	 * Function that gives the outside access to the PropertyData's
@@ -258,8 +260,6 @@ public:
 private:
 	/// PropertyData of the Property is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyData<T> >::Type data;
-	/// The serializer interface that knows how to convert this property's data to/from string.
-	IPropertySerializer *serializer;
 };
 
 template<class T>
