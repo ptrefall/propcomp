@@ -82,6 +82,8 @@ public:
 			return serialize<U32>(property);
 		else if(property->getId() == IProperty::getTypeId<F32>())
 			return serialize<F32>(property);
+		else if(property->getId() == IProperty::getTypeId<D32>())
+			return serialize<D32>(property);
 
 		return "";
 	}
@@ -112,6 +114,8 @@ public:
 			return serialize<U32>(propertyList);
 		else if(propertyList->getId() == IPropertyList::getTypeId<F32>())
 			return serialize<F32>(propertyList);
+		else if(propertyList->getId() == IPropertyList::getTypeId<D32>())
+			return serialize<D32>(propertyList);
 
 		return "";
 	}
@@ -136,6 +140,8 @@ public:
 			deserialize<U32>(property, serialized_property);
 		else if(property->getId() == IProperty::getTypeId<F32>())
 			deserialize<F32>(property, serialized_property);
+		else if(property->getId() == IProperty::getTypeId<D32>())
+			deserialize<D32>(property, serialized_property);
 	}
 
 	/**
@@ -164,6 +170,8 @@ public:
 			deserialize<U32>(propertyList, serialized_propertyList);
 		else if(propertyList->getId() == IPropertyList::getTypeId<F32>())
 			deserialize<F32>(propertyList, serialized_propertyList);
+		else if(propertyList->getId() == IPropertyList::getTypeId<D32>())
+			deserialize<D32>(propertyList, serialized_propertyList);
 	}
 
 private:
