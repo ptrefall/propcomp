@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class Totem::EventHandler
+ * @class Totem::TemplateEventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief EventHandler base class using templates
+ * @brief TemplateEventHandler base class using templates
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -45,17 +45,17 @@ namespace Totem {
 
 class Component;
 class ComponentFactory;
-class EventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
+class TemplateEventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**
 	 * Constructor
 	 */
-	EventHandler() {}
+	TemplateEventHandler() {}
 	/**
 	 * Destructor
 	 */
-	virtual ~EventHandler() {}
+	virtual ~TemplateEventHandler() {}
 
 	//--------------------------------------------------------------
 
@@ -250,6 +250,8 @@ public:
 
 	//--------------------------------------------------------------
 
+	bool hasEvent(const T_HashedString &id, int num_params = -1);
+
 protected:
 
 	/**
@@ -336,29 +338,29 @@ protected:
 		/// Signal taking eight arguments
 		typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type signal;
 	};
-	/// Map of argument-less event signals held by EventHandler.
+	/// Map of argument-less event signals held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events0;
-	/// Map of event signals with one argument held by EventHandler.
+	/// Map of event signals with one argument held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events1;
-	/// Map of event signals with two arguments held by EventHandler.
+	/// Map of event signals with two arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events2;
-	/// Map of event signals with three arguments held by EventHandler.
+	/// Map of event signals with three arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events3;
-	/// Map of event signals with four arguments held by EventHandler.
+	/// Map of event signals with four arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events4;
-	/// Map of event signals with five arguments held by EventHandler.
+	/// Map of event signals with five arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events5;
-	/// Map of event signals with six arguments held by EventHandler.
+	/// Map of event signals with six arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events6;
-	/// Map of event signals with seven arguments held by EventHandler.
+	/// Map of event signals with seven arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events7;
-	/// Map of event signals with eight arguments held by EventHandler.
+	/// Map of event signals with eight arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events8;
 };
 
 //------------------------------------------------------
 
-inline void EventHandler::sendEvent0(const T_HashedString &type)
+inline void TemplateEventHandler::sendEvent0(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
@@ -368,7 +370,7 @@ inline void EventHandler::sendEvent0(const T_HashedString &type)
 }
 
 template<class T>
-inline void EventHandler::sendEvent1(const T_HashedString &type, const T &arg0)
+inline void TemplateEventHandler::sendEvent1(const T_HashedString &type, const T &arg0)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
@@ -385,7 +387,7 @@ inline void EventHandler::sendEvent1(const T_HashedString &type, const T &arg0)
 }
 
 template<class T, class U>
-inline void EventHandler::sendEvent2(const T_HashedString &type, const T &arg0, const U &arg1)
+inline void TemplateEventHandler::sendEvent2(const T_HashedString &type, const T &arg0, const U &arg1)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
@@ -402,7 +404,7 @@ inline void EventHandler::sendEvent2(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V>
-inline void EventHandler::sendEvent3(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2)
+inline void TemplateEventHandler::sendEvent3(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events3.find(type.getId());
 	if(it == events3.end())
@@ -419,7 +421,7 @@ inline void EventHandler::sendEvent3(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V, class W>
-inline void EventHandler::sendEvent4(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3)
+inline void TemplateEventHandler::sendEvent4(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events4.find(type.getId());
 	if(it == events4.end())
@@ -436,7 +438,7 @@ inline void EventHandler::sendEvent4(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V, class W, class X>
-inline void EventHandler::sendEvent5(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4)
+inline void TemplateEventHandler::sendEvent5(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events5.find(type.getId());
 	if(it == events5.end())
@@ -453,7 +455,7 @@ inline void EventHandler::sendEvent5(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V, class W, class X, class Y>
-inline void EventHandler::sendEvent6(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5)
+inline void TemplateEventHandler::sendEvent6(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
@@ -470,7 +472,7 @@ inline void EventHandler::sendEvent6(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z>
-inline void EventHandler::sendEvent7(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6)
+inline void TemplateEventHandler::sendEvent7(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events7.find(type.getId());
 	if(it == events7.end())
@@ -487,7 +489,7 @@ inline void EventHandler::sendEvent7(const T_HashedString &type, const T &arg0, 
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-inline void EventHandler::sendEvent8(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6, const S &arg7)
+inline void TemplateEventHandler::sendEvent8(const T_HashedString &type, const T &arg0, const U &arg1, const V &arg2, const W &arg3, const X &arg4, const Y &arg5, const Z &arg6, const S &arg7)
 {
 	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events8.find(type.getId());
 	if(it == events8.end())
@@ -505,7 +507,7 @@ inline void EventHandler::sendEvent8(const T_HashedString &type, const T &arg0, 
 
 //------------------------------------------------------------------
 
-inline T_Signal_v0<>::Type &EventHandler::registerToEvent0(const T_HashedString &type)
+inline T_Signal_v0<>::Type &TemplateEventHandler::registerToEvent0(const T_HashedString &type)
 {
 	EventSignal0 *signal = NULL_PTR;
 
@@ -524,7 +526,7 @@ inline T_Signal_v0<>::Type &EventHandler::registerToEvent0(const T_HashedString 
 }
 
 template<class T>
-inline typename T_Signal_v1<const T&>::Type &EventHandler::registerToEvent1(const T_HashedString &type)
+inline typename T_Signal_v1<const T&>::Type &TemplateEventHandler::registerToEvent1(const T_HashedString &type)
 {
 	EventSignal1<T> *signal = NULL_PTR;
 
@@ -549,7 +551,7 @@ inline typename T_Signal_v1<const T&>::Type &EventHandler::registerToEvent1(cons
 }
 
 template<class T, class U>
-inline typename T_Signal_v2<const T&, const U&>::Type &EventHandler::registerToEvent2(const T_HashedString &type)
+inline typename T_Signal_v2<const T&, const U&>::Type &TemplateEventHandler::registerToEvent2(const T_HashedString &type)
 {
 	EventSignal2<T,U> *signal = NULL_PTR;
 
@@ -574,7 +576,7 @@ inline typename T_Signal_v2<const T&, const U&>::Type &EventHandler::registerToE
 }
 
 template<class T, class U, class V>
-inline typename T_Signal_v3<const T&, const U&, const V&>::Type &EventHandler::registerToEvent3(const T_HashedString &type)
+inline typename T_Signal_v3<const T&, const U&, const V&>::Type &TemplateEventHandler::registerToEvent3(const T_HashedString &type)
 {
 	EventSignal3<T,U,V> *signal = NULL_PTR;
 
@@ -599,7 +601,7 @@ inline typename T_Signal_v3<const T&, const U&, const V&>::Type &EventHandler::r
 }
 
 template<class T, class U, class V, class W>
-inline typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type &EventHandler::registerToEvent4(const T_HashedString &type)
+inline typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type &TemplateEventHandler::registerToEvent4(const T_HashedString &type)
 {
 	EventSignal4<T,U,V,W> *signal = NULL_PTR;
 
@@ -624,7 +626,7 @@ inline typename T_Signal_v4<const T&, const U&, const V&, const W&>::Type &Event
 }
 
 template<class T, class U, class V, class W, class X>
-inline typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type &EventHandler::registerToEvent5(const T_HashedString &type)
+inline typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::Type &TemplateEventHandler::registerToEvent5(const T_HashedString &type)
 {
 	EventSignal5<T,U,V,W,X> *signal = NULL_PTR;
 
@@ -649,7 +651,7 @@ inline typename T_Signal_v5<const T&, const U&, const V&, const W&, const X&>::T
 }
 
 template<class T, class U, class V, class W, class X, class Y>
-inline typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type &EventHandler::registerToEvent6(const T_HashedString &type)
+inline typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, const Y&>::Type &TemplateEventHandler::registerToEvent6(const T_HashedString &type)
 {
 	EventSignal6<T,U,V,W,X,Y> *signal = NULL_PTR;
 
@@ -674,7 +676,7 @@ inline typename T_Signal_v6<const T&, const U&, const V&, const W&, const X&, co
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z>
-inline typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type &EventHandler::registerToEvent7(const T_HashedString &type)
+inline typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&>::Type &TemplateEventHandler::registerToEvent7(const T_HashedString &type)
 {
 	EventSignal7<T,U,V,W,X,Y,Z> *signal = NULL_PTR;
 
@@ -699,7 +701,7 @@ inline typename T_Signal_v7<const T&, const U&, const V&, const W&, const X&, co
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-inline typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type &EventHandler::registerToEvent8(const T_HashedString &type)
+inline typename T_Signal_v8<const T&, const U&, const V&, const W&, const X&, const Y&, const Z&, const S&>::Type &TemplateEventHandler::registerToEvent8(const T_HashedString &type)
 {
 	EventSignal8<T,U,V,W,X,Y,Z,S> *signal = NULL_PTR;
 

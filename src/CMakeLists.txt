@@ -70,6 +70,8 @@ set(SRCS
   ./ComponentFactory.cpp
   ./ComponentHandler.cpp
   ./DelegateHandler.cpp
+  ./TemplateEventHandler.cpp
+  ./AnyEventHandler.cpp
 )
  
 add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
