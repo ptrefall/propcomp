@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class Totem::EventHandler
+ * @class Totem::AnyEventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief EventHandler base class using Any
+ * @brief AnyEventHandler base class using Any
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -45,17 +45,17 @@ namespace Totem {
 
 class Component;
 class ComponentFactory;
-class EventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
+class AnyEventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**
 	 * Constructor
 	 */
-	EventHandler() {}
+	AnyEventHandler() {}
 	/**
 	 * Destructor
 	 */
-	virtual ~EventHandler() 
+	virtual ~AnyEventHandler() 
 	{
 		for(U32 i = 0; i < scheduledEvents.size(); i++)
 			delete scheduledEvents[i];
@@ -364,6 +364,8 @@ public:
 
 	//--------------------------------------------------------------
 
+	bool hasEvent(const T_HashedString &id, int num_params = -1);
+
 protected:
 	/// Map of argument-less event signals held by EventHandler.
 	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type events0;
@@ -411,7 +413,7 @@ protected:
 
 //------------------------------------------------------
 
-inline void EventHandler::sendEvent(const T_HashedString &type)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
@@ -420,7 +422,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type)
 	it->second.invoke();
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0)
 {
 	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
@@ -429,7 +431,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0)
 	it->second.invoke(arg0);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1)
 {
 	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
@@ -438,7 +440,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 	it->second.invoke(arg0, arg1);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2)
 {
 	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
 	if(it == events3.end())
@@ -447,7 +449,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 	it->second.invoke(arg0, arg1, arg2);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3)
 {
 	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
 	if(it == events4.end())
@@ -456,7 +458,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 	it->second.invoke(arg0, arg1, arg2, arg3);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4)
 {
 	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
 	if(it == events5.end())
@@ -465,7 +467,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 	it->second.invoke(arg0, arg1, arg2, arg3, arg4);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5)
 {
 	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
@@ -475,7 +477,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6)
 {
 	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
 	if(it == events7.end())
@@ -484,7 +486,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 	it->second.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 }
 
-inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7)
 {
 	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
 	if(it == events8.end())
@@ -495,7 +497,7 @@ inline void EventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_An
 
 //------------------------------------------------------
 
-inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
+inline void AnyEventHandler::updateScheduledEvents(const F32 &deltaTime)
 {
 	for(U32 i = 0; i < scheduledEvents.size(); i++)
 	{
@@ -533,7 +535,7 @@ inline void EventHandler::updateScheduledEvents(const F32 &deltaTime)
 	}
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -554,7 +556,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, const F32 &t
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -577,7 +579,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -602,7 +604,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -629,7 +631,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -658,7 +660,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -689,7 +691,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -722,7 +724,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -757,7 +759,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 	scheduledEvents.push_back(event);
 }
 
-inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time)
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time)
 {
 	//Check first if any instance of scheduled event that
 	//already excist is free for writing...
@@ -796,7 +798,7 @@ inline void EventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, 
 
 //------------------------------------------------------------------
 
-inline T_Signal_v0<>::Type &EventHandler::registerToEvent0(const T_HashedString &type)
+inline T_Signal_v0<>::Type &AnyEventHandler::registerToEvent0(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type::iterator it = events0.find(type.getId());
 	if(it == events0.end())
@@ -805,7 +807,7 @@ inline T_Signal_v0<>::Type &EventHandler::registerToEvent0(const T_HashedString 
 		return it->second;
 }
 
-inline T_Signal_v1<T_Any>::Type &EventHandler::registerToEvent1(const T_HashedString &type)
+inline T_Signal_v1<T_Any>::Type &AnyEventHandler::registerToEvent1(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
 	if(it == events1.end())
@@ -814,7 +816,7 @@ inline T_Signal_v1<T_Any>::Type &EventHandler::registerToEvent1(const T_HashedSt
 		return it->second;
 }
 
-inline T_Signal_v2<T_Any, T_Any>::Type &EventHandler::registerToEvent2(const T_HashedString &type)
+inline T_Signal_v2<T_Any, T_Any>::Type &AnyEventHandler::registerToEvent2(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
 	if(it == events2.end())
@@ -823,7 +825,7 @@ inline T_Signal_v2<T_Any, T_Any>::Type &EventHandler::registerToEvent2(const T_H
 		return it->second;
 }
 
-inline T_Signal_v3<T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent3(const T_HashedString &type)
+inline T_Signal_v3<T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent3(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
 	if(it == events3.end())
@@ -832,7 +834,7 @@ inline T_Signal_v3<T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent3(co
 		return it->second;
 }
 
-inline T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent4(const T_HashedString &type)
+inline T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent4(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
 	if(it == events4.end())
@@ -841,7 +843,7 @@ inline T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEv
 		return it->second;
 }
 
-inline T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent5(const T_HashedString &type)
+inline T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent5(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
 	if(it == events5.end())
@@ -850,7 +852,7 @@ inline T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::regis
 		return it->second;
 }
 
-inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent6(const T_HashedString &type)
+inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent6(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
@@ -859,7 +861,7 @@ inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler
 		return it->second;
 }
 
-inline T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent7(const T_HashedString &type)
+inline T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent7(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
 	if(it == events7.end())
@@ -868,7 +870,7 @@ inline T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &Event
 		return it->second;
 }
 
-inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &EventHandler::registerToEvent8(const T_HashedString &type)
+inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent8(const T_HashedString &type)
 {
 	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
 	if(it == events8.end())

@@ -54,7 +54,11 @@ namespace Totem {
 class Entity :	public ComponentHandler, 
 				public PropertyHandler, 
 				public PropertyListHandler, 
-				public EventHandler,
+#if USE_TEMPLATE_EVENT_HANDLER
+				public TemplateEventHandler,
+#elif USE_ANY_EVENT_HANDLER
+				public AnyEventHandler,
+#endif
 				public DelegateHandler
 {
 public:
