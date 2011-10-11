@@ -69,6 +69,7 @@ set(HDRS
 set(SRCS
   ./ComponentFactory.cpp
   ./ComponentHandler.cpp
+  ./DelegateHandler.cpp
 )
  
 add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
