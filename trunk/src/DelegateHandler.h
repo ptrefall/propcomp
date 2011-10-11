@@ -251,6 +251,11 @@ public:
 
 	//--------------------------------------------------------------
 
+	/**
+	 *
+	 */
+	bool hasFunction(const T_HashedString &id, int num_params = -1);
+
 protected:
 
 	/**
