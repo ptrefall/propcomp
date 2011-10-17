@@ -1,0 +1,14 @@
+#Property object in Totem EDK.
+
+= Introduction =
+
+Explain what a property is in the Totem EDK.
+
+
+= Details =
+
+Detail out the exact features of a property.
+
+= Examples =
+
+Give some simple examples of usage.
