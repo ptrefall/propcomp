@@ -57,7 +57,7 @@ void Explosive::onTimeoutChanged(const bool &/*oldValue*/, const bool &newValue)
 
 		//Affect all entities in blast radius
 #if USE_TEMPLATE_EVENT_HANDLER
-		owner.sendEvent1<F32>(seekInRadiusEventId, blast_radius_property.get());
+		owner.sendEvent1<const F32&>(seekInRadiusEventId, blast_radius_property.get());
 #elif USE_ANY_EVENT_HANDLER
 		owner.sendEvent(seekInRadiusEventId, T_Any(blast_radius_property.get()));
 #endif
@@ -83,7 +83,7 @@ void Explosive::onTargetAdded(const U32 &/*index*/, Entity * const &newValue)
 
 	F32 dmg = 200.0f * dmg_weight;
 #if USE_TEMPLATE_EVENT_HANDLER
-	newValue->sendEvent2<F32, T_String>(dmgEventId, dmg, name_property.get());
+	newValue->sendEvent2<const F32&, const T_String&>(dmgEventId, dmg, name_property.get());
 #elif USE_ANY_EVENT_HANDLER
 	newValue->sendEvent(dmgEventId, T_Any(dmg), T_Any(name_property.get()));
 #endif

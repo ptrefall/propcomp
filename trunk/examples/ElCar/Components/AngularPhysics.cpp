@@ -39,8 +39,8 @@ AngularPhysics::AngularPhysics(Entity &owner, const T_String &name)
 	forces_property_list = owner.addPropertyList<F32>("AngularForces");
 
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.registerToEvent1<F32>(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
-	owner.registerToEvent1<F32>(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
+	owner.registerToEvent1<const F32&>(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
+	owner.registerToEvent1<const F32&>(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
 #elif USE_ANY_EVENT_HANDLER
 	owner.registerToEvent1(forceAngularAccelerationEventId).connect(this, &AngularPhysics::onForceAngularAccelerationEvent);
 	owner.registerToEvent1(syncVelocityEventId).connect(this, &AngularPhysics::onSyncVelocityEvent);
