@@ -516,17 +516,17 @@ inline RetType DelegateHandler::call8(const T_HashedString &type, const Param1 &
 template<class RetType>
 inline typename T_Delegate_v0<RetType>::Type &DelegateHandler::registerFunction0(const T_HashedString &type)
 {
-	Delegate0 *delegate = NULL_PTR;
+	Delegate0<RetType> *delegate = NULL_PTR;
 
 	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates0.find(type.getId());
 	if(it == delegates0.end())
 	{
-		delegate = new Delegate0();
+		delegate = new Delegate0<RetType>();
 		delegates0[type.getId()] = delegate;
 	}
 	else
 	{
-		delegate = static_cast<Delegate0*, RetType>(it->second);
+		delegate = static_cast<Delegate0<RetType>*>(it->second);
 	}
 
 	return delegate->delegate;
