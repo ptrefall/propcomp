@@ -70,7 +70,14 @@ public:
 	 *
 	 * @return Returns the type of the component.
 	 */
-	T_String getType() const { return type; }
+	const T_String &getType() const { return type; }
+
+	/**
+	 * Get the entity that owns this component.
+	 *
+	 * @return Returns the entity that owns this component.
+	 */
+	Entity &getOwner() { return owner; }
 
 	/**
 	 * Optional virtual function that can be overloaded by
