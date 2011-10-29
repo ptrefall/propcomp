@@ -35,7 +35,7 @@ EnergyCharger::EnergyCharger(Entity &owner, const T_String &name)
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);
 
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.registerToEvent1<F32>(addEffectEventId).connect(this, &EnergyCharger::onAddEffectEvent);
+	owner.registerToEvent1<const F32&>(addEffectEventId).connect(this, &EnergyCharger::onAddEffectEvent);
 #elif USE_ANY_EVENT_HANDLER
 	owner.registerToEvent1(addEffectEventId).connect(this, &EnergyCharger::onAddEffectEvent);
 #endif

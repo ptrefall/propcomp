@@ -35,7 +35,7 @@ RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name, Enti
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
 
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.registerToEvent1<F32>(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
+	owner.registerToEvent1<const F32&>(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
 #elif USE_ANY_EVENT_HANDLER
 	owner.registerToEvent1(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
 #endif

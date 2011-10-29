@@ -38,7 +38,7 @@ WheelMount::WheelMount(Entity &owner, const T_String &name)
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
 
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.registerToEvent1<F32>(accelerateWheelsEventId).connect(this, &WheelMount::onAccelerateWheelsEvent);
+	owner.registerToEvent1<const F32&>(accelerateWheelsEventId).connect(this, &WheelMount::onAccelerateWheelsEvent);
 #elif USE_ANY_EVENT_HANDLER
 	owner.registerToEvent1(accelerateWheelsEventId).connect(this, &WheelMount::onAccelerateWheelsEvent);
 #endif
@@ -66,7 +66,7 @@ void WheelMount::update(const F32 &/*deltaTime*/)
 		for(U32 i = 0; i < wheels_property_list.size(); i++)
 		{
 #if USE_TEMPLATE_EVENT_HANDLER
-			wheels_property_list.get()[i]->sendEvent1<F32>(syncVelocityEventId, avgVelocity);
+			wheels_property_list.get()[i]->sendEvent1<const F32&>(syncVelocityEventId, avgVelocity);
 #elif USE_ANY_EVENT_HANDLER
 			wheels_property_list.get()[i]->sendEvent(syncVelocityEventId, T_Any(avgVelocity));
 #endif
@@ -87,7 +87,7 @@ void WheelMount::onAccelerateWheelsEvent(T_Any force_any)
 	for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
 	{
 #if USE_TEMPLATE_EVENT_HANDLER
-		wheels_property_list.get()[i]->sendEvent1<F32>(forceAngularAccelerationEventId, force);
+		wheels_property_list.get()[i]->sendEvent1<const F32&>(forceAngularAccelerationEventId, force);
 #elif USE_ANY_EVENT_HANDLER
 		wheels_property_list.get()[i]->sendEvent(forceAngularAccelerationEventId, force_any);
 #endif

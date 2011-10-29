@@ -53,7 +53,7 @@ void Throttle::onThrottleEvent()
 
 	//We spend some energy forcing the wheels to turn
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.sendEvent1<F32>(spendEffectEventId, engineEffect_property.get());
+	owner.sendEvent1<const F32&>(spendEffectEventId, engineEffect_property.get());
 #elif USE_ANY_EVENT_HANDLER
 	owner.sendEvent(spendEffectEventId, T_Any(engineEffect_property.get()));
 #endif
@@ -61,7 +61,7 @@ void Throttle::onThrottleEvent()
 		
 	//Throttling forces wheels to rotate by an acceleration
 #if USE_TEMPLATE_EVENT_HANDLER
-	owner.sendEvent1<F32>(accelerateWheelsEventId, engineForce_property.get());
+	owner.sendEvent1<const F32&>(accelerateWheelsEventId, engineForce_property.get());
 #elif USE_ANY_EVENT_HANDLER
 	owner.sendEvent(accelerateWheelsEventId, T_Any(engineForce_property.get()));
 #endif
