@@ -47,7 +47,7 @@ if(MSVC)
   endif()
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   # Update if necessary
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic -std=c++0x")
 endif()
 
 include_directories("${CMAKE_SOURCE_DIR}"
@@ -66,7 +66,7 @@ if(BUILD_EXAMPLE_PROJECTS)
 	add_subdirectory(examples)
 endif()
 
-set(BUILD_TOOL_PROJECTS TRUE CACHE BOOL "TRUE if you want to include tool projects with the generated solution, FALSE if not.")
+set(BUILD_TOOL_PROJECTS FALSE CACHE BOOL "TRUE if you want to include tool projects with the generated solution, FALSE if not.")
 if(BUILD_TOOL_PROJECTS)
 	add_subdirectory(tools)
 endif()
