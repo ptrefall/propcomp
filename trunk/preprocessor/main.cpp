@@ -19,6 +19,9 @@ struct pp_type
 
 int main(int argc, char **argv)
 {
-	std::vector<pp_type*> types;
-	init_preprocessor(types);
+	std::vector<pp_type*> basic_types;
+	init_basic_findreplace_strings(basic_types);
+	
+	std::vector<pp_type*> component_special_types;
+	init_component_replacements(component_special_types);
 }
