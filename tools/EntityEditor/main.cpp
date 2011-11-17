@@ -21,6 +21,12 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-void main()
+#include <QtGui>
+#include <QtOpenGL\qgl.h>
+
+int main(int argc, char **argv)
 {
+	QApplication app(argc, argv);
+	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+	app.exec();
 }

@@ -70,19 +70,19 @@ public:
 	 */
 	virtual T_String toString(const IProperty *const property)
 	{
-		if(property->getId() == IProperty::getTypeId<bool>())
+		if(property->getType() == IProperty::getType<bool>())
 			return serialize<bool>(property);
-		else if(property->getId() == IProperty::getTypeId<char>())
+		else if(property->getType() == IProperty::getType<char>())
 			return serialize<char>(property);
-		else if(property->getId() == IProperty::getTypeId<unsigned char>())
+		else if(property->getType() == IProperty::getType<unsigned char>())
 			return serialize<unsigned char>(property);
-		else if(property->getId() == IProperty::getTypeId<S32>())
+		else if(property->getType() == IProperty::getType<S32>())
 			return serialize<S32>(property);
-		else if(property->getId() == IProperty::getTypeId<U32>())
+		else if(property->getType() == IProperty::getType<U32>())
 			return serialize<U32>(property);
-		else if(property->getId() == IProperty::getTypeId<F32>())
+		else if(property->getType() == IProperty::getType<F32>())
 			return serialize<F32>(property);
-		else if(property->getId() == IProperty::getTypeId<D32>())
+		else if(property->getType() == IProperty::getType<D32>())
 			return serialize<D32>(property);
 
 		return "";
@@ -96,7 +96,7 @@ public:
 	 */
 	virtual T_String toString(IPropertyList *const propertyList)
 	{
-		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
+		if(propertyList->getType() == IPropertyList::getType<bool>())
 		{
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 			return serialize<bool>(propertyList);
@@ -104,17 +104,17 @@ public:
 			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
 #endif
 		}
-		else if(propertyList->getId() == IPropertyList::getTypeId<char>())
+		else if(propertyList->getType() == IPropertyList::getType<char>())
 			return serialize<char>(propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<unsigned char>())
+		else if(propertyList->getType() == IPropertyList::getType<unsigned char>())
 			return serialize<unsigned char>(propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<S32>())
+		else if(propertyList->getType() == IPropertyList::getType<S32>())
 			return serialize<S32>(propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<U32>())
+		else if(propertyList->getType() == IPropertyList::getType<U32>())
 			return serialize<U32>(propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<F32>())
+		else if(propertyList->getType() == IPropertyList::getType<F32>())
 			return serialize<F32>(propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<D32>())
+		else if(propertyList->getType() == IPropertyList::getType<D32>())
 			return serialize<D32>(propertyList);
 
 		return "";
@@ -128,19 +128,19 @@ public:
 	 */
 	virtual void fromString(IProperty *const property, const T_String &serialized_property)
 	{
-		if(property->getId() == IProperty::getTypeId<bool>())
+		if(property->getType() == IProperty::getType<bool>())
 			deserialize<bool>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<char>())
+		else if(property->getType() == IProperty::getType<char>())
 			deserialize<char>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<unsigned char>())
+		else if(property->getType() == IProperty::getType<unsigned char>())
 			deserialize<unsigned char>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<S32>())
+		else if(property->getType() == IProperty::getType<S32>())
 			deserialize<S32>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<U32>())
+		else if(property->getType() == IProperty::getType<U32>())
 			deserialize<U32>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<F32>())
+		else if(property->getType() == IProperty::getType<F32>())
 			deserialize<F32>(property, serialized_property);
-		else if(property->getId() == IProperty::getTypeId<D32>())
+		else if(property->getType() == IProperty::getType<D32>())
 			deserialize<D32>(property, serialized_property);
 	}
 
@@ -152,7 +152,7 @@ public:
 	 */
 	virtual void fromString(IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
-		if(propertyList->getId() == IPropertyList::getTypeId<bool>())
+		if(propertyList->getType() == IPropertyList::getType<bool>())
 		{
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 			deserialize<bool>(propertyList, serialized_propertyList);
@@ -160,17 +160,17 @@ public:
 			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
 #endif
 		}
-		else if(propertyList->getId() == IPropertyList::getTypeId<char>())
+		else if(propertyList->getType() == IPropertyList::getType<char>())
 			deserialize<char>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<unsigned char>())
+		else if(propertyList->getType() == IPropertyList::getType<unsigned char>())
 			deserialize<unsigned char>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<S32>())
+		else if(propertyList->getType() == IPropertyList::getType<S32>())
 			deserialize<S32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<U32>())
+		else if(propertyList->getType() == IPropertyList::getType<U32>())
 			deserialize<U32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<F32>())
+		else if(propertyList->getType() == IPropertyList::getType<F32>())
 			deserialize<F32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == IPropertyList::getTypeId<D32>())
+		else if(propertyList->getType() == IPropertyList::getType<D32>())
 			deserialize<D32>(propertyList, serialized_propertyList);
 	}
 

@@ -33,9 +33,11 @@ set(UIC_UI
 SOURCE_GROUP("Ui Files" FILES ${UIC_UI})
 #---------------------------------------------------------------
 set(HDRS
+	./MainWindow.h
 )
 set(SRCS
   ./main.cpp
+  ./MainWindow.cpp
 )
 #---------------------------------------------------------------
 find_package(OpenGL REQUIRED)
@@ -45,6 +47,8 @@ find_package(Qt4 4.7.3 REQUIRED QtCore QtGui QtOpenGL)
 include_directories(${OPENGL_INCLUDE_PATH})
 include_directories(${GLEW_INCLUDE_PATH})
 include(${QT_USE_FILE})
+include(./cmake/Config.cmake)
+CMP_QT_LIBRARIES_INSTALL_RULES("QtCore;QtGui;QtOpenGL" ${ToolEntityEditor_BINARY_DIR})
 #---------------------------------------------------------------
 QT4_WRAP_CPP(MOCS ${GV_HDRS} ${CLIENT_HDRS} ${UI_HDRS})
 SOURCE_GROUP("Moc Files" FILES ${MOCS})

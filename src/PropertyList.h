@@ -329,9 +329,9 @@ public:
 	PropertyList()
 	: serializer(NULL_PTR)
 	{
-		id = getTypeId<T>();
+		type = getType<T>();
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(id == getTypeId<bool>())
+		if(type == getType<bool>())
 		{
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 #else
@@ -347,9 +347,9 @@ public:
 	PropertyList(const PropertyList& copy)
 	: data(copy.data), serializer(copy.serializer)
 	{
-		id = getTypeId<T>();
+		type = getType<T>();
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(id == getTypeId<bool>())
+		if(type == getType<bool>())
 		{
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 #else
@@ -371,9 +371,9 @@ public:
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
-		id = getTypeId<T>();
+		type = getType<T>();
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(id == getTypeId<bool>())
+		if(type == getType<bool>())
 		{
 #if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
 #else
