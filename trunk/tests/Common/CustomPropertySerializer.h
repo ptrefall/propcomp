@@ -39,11 +39,11 @@ public:
 
 	virtual T_String toString(const Totem::IProperty *const property)
 	{
-		if(property->getId() == Totem::IProperty::getTypeId<Vector3<F32>>())
+		if(property->getType() == Totem::IProperty::getType<Vector3<F32>>())
 			return serializeVector3<F32>(property);
-		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<S32>>())
+		else if(property->getType() == Totem::IProperty::getType<Vector3<S32>>())
 			return serializeVector3<S32>(property);
-		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<U32>>())
+		else if(property->getType() == Totem::IProperty::getType<Vector3<U32>>())
 			return serializeVector3<U32>(property);
 		else
 			return Totem::PropertySerializer::toString(property);
@@ -51,11 +51,11 @@ public:
 
 	virtual T_String toString(Totem::IPropertyList *const propertyList)
 	{
-		if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<F32>>())
+		if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<F32>>())
 			return serializeVector3<F32>(propertyList);
-		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<S32>>())
+		else if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<S32>>())
 			return serializeVector3<S32>(propertyList);
-		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<U32>>())
+		else if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<U32>>())
 			return serializeVector3<U32>(propertyList);
 		else
 			return Totem::PropertySerializer::toString(propertyList);
@@ -63,11 +63,11 @@ public:
 
 	virtual void fromString(Totem::IProperty *const property, const T_String &serialized_property)
 	{
-		if(property->getId() == Totem::IProperty::getTypeId<Vector3<F32>>())
+		if(property->getType() == Totem::IProperty::getType<Vector3<F32>>())
 			deserializeVector3<F32>(property, serialized_property);
-		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<S32>>())
+		else if(property->getType() == Totem::IProperty::getType<Vector3<S32>>())
 			deserializeVector3<S32>(property, serialized_property);
-		else if(property->getId() == Totem::IProperty::getTypeId<Vector3<U32>>())
+		else if(property->getType() == Totem::IProperty::getType<Vector3<U32>>())
 			deserializeVector3<U32>(property, serialized_property);
 		else
 			Totem::PropertySerializer::fromString(property, serialized_property);
@@ -76,11 +76,11 @@ public:
 
 	virtual void fromString(Totem::IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
-		if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<F32>>())
+		if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<F32>>())
 			deserializeVector3<F32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<S32>>())
+		else if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<S32>>())
 			deserializeVector3<S32>(propertyList, serialized_propertyList);
-		else if(propertyList->getId() == Totem::IPropertyList::getTypeId<Vector3<U32>>())
+		else if(propertyList->getType() == Totem::IPropertyList::getType<Vector3<U32>>())
 			deserializeVector3<U32>(propertyList, serialized_propertyList);
 		else
 			Totem::PropertySerializer::fromString(propertyList, serialized_propertyList);

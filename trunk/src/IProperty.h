@@ -73,7 +73,7 @@ public:
 	 * @return Returns the PropertyTypeId associated with this PropertyType.
 	 */
 	template<typename PropertyType>
-	static T_PropertyTypeId getTypeId()
+	static T_PropertyTypeId getType()
 	{
 		static T_PropertyTypeId typeId(newPropertyTypeId());
 		return typeId;
@@ -85,7 +85,7 @@ public:
 	 * interface is made of.
 	 * @return Returns the PropertyTypeId associated with this property.
 	 */
-	const T_PropertyTypeId &getId() const { return id; }
+	const T_PropertyTypeId &getType() const { return type; }
 
 	/**
 	 * Call this function to serialize the value of the property into a string.
@@ -100,7 +100,7 @@ public:
 
 protected:
 	/// The type id associated with this specific property instance.
-	T_PropertyTypeId id;
+	T_PropertyTypeId type;
 	
 	/**
 	 * Simply returns a new PropertyTypeId every time it's called. Called from

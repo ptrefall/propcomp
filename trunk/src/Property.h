@@ -111,7 +111,7 @@ public:
 	 */
 	Property()
 	{
-		id = getTypeId<T>(); //RTTI id
+		type = getType<T>(); //RTTI id
 	}
 
 	/**
@@ -120,7 +120,7 @@ public:
 	Property(const Property& copy)
 	: data(copy.data)
 	{
-		id = getTypeId<T>(); //RTTI id
+		type = getType<T>(); //RTTI id
 	}
 
 	/**
@@ -136,7 +136,7 @@ public:
 		data->name = name;
 		data->readOnly = readOnly;
 		data->serializer = &serializer;
-		id = getTypeId<T>(); //RTTI id
+		type = getType<T>(); //RTTI id
 	}
 
 	/**
