@@ -73,7 +73,7 @@ struct T_Vector {
 };
 template< typename K, typename V >
 struct T_Map {
-	typedef std::tr1::unordered_map<K,V> Type;
+	typedef std::unordered_map<K,V> Type;
 };
 template< typename K, typename V >
 struct T_Pair {
@@ -188,7 +188,7 @@ struct T_Delegate_v8 {
 
 template < typename T >
 struct T_SharedPtr {
-	typedef std::tr1::shared_ptr<T> Type;
+	typedef std::shared_ptr<T> Type;
 };
 
 //--------------------------------------------

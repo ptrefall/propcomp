@@ -21,8 +21,10 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
+#include <Entity.h>
 #include <Component.h>
 #include <ComponentFactory.h>
+#include <PropertyList.h>
 
 #include <iostream>
 #include <stdio.h>

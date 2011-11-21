@@ -39,11 +39,11 @@
  */
 
 #include "types_config.h"
+#include "Component.h"
 
 namespace Totem {
 
 class Entity;
-class Component;
 class ComponentFactory;
 class ComponentHandler
 {

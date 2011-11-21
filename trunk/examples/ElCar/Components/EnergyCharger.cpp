@@ -22,6 +22,7 @@ requirements or restrictions.
 */
 
 #include "EnergyCharger.h"
+#include <Entity.h>
 
 #include <iostream>
 

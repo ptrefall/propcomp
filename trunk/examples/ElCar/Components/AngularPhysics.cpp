@@ -22,6 +22,7 @@ requirements or restrictions.
 */
 
 #include "AngularPhysics.h"
+#include <Entity.h>
 #include "../../Common/EntityManager.h"
 
 #include <iostream>

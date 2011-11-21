@@ -22,6 +22,7 @@ requirements or restrictions.
 */
 
 #include <ComponentFactory.h>
+#include <Entity.h>
 
 #include "../Common/EntityManager.h"
 #include "Components/Health.h"
