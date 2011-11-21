@@ -24,6 +24,7 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
+#include <PropertyList.h>
 #include "../../Common/EntityManager.h"
 #include "../../Common/Vector3.h"
 

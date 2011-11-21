@@ -24,6 +24,7 @@ requirements or restrictions.
 #pragma once
 
 #include <Component.h>
+#include <PropertyList.h>
 
 namespace Components
 {

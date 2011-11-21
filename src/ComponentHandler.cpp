@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "ComponentHandler.h"
-#include "Component.h"
 #include "ComponentFactory.h"
 #include "Entity.h"
 
