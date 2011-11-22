@@ -31,7 +31,7 @@ using namespace Components;
 using namespace Totem;
 
 WheelMount::WheelMount(Entity &owner, const T_String &name)
-: Component(owner, name), accelerateWheelsEventId("ACCELERATE_WHEELS"), syncVelocityEventId("SYNC_VELOCITY"), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION")
+: Component(name), owner(owner), accelerateWheelsEventId("ACCELERATE_WHEELS"), syncVelocityEventId("SYNC_VELOCITY"), forceAngularAccelerationEventId("FORCE_ANGULAR_ACCELERATION")
 {
 	type_property = owner.addProperty<T_String>("Type", "");
     wheels_property_list = owner.addPropertyList<Entity*>("Wheels");

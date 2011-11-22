@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 Explosive::Explosive(Entity &owner, const T_String &name)
-: Component(owner, name), seekInRadiusEventId("SEEK_IN_RADIUS"), dmgEventId("DMG")
+: Component(name), owner(owner), seekInRadiusEventId("SEEK_IN_RADIUS"), dmgEventId("DMG")
 {
 	type_property = owner.addProperty<T_String>("Type", "");
 	name_property = owner.addProperty<T_String>("Name", "");

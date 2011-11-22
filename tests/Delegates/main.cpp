@@ -38,9 +38,9 @@ void printReady();
 class ComponentA : public Component
 {
 public:
-	COMPONENT_0(ComponentA)
+	COMPONENT_0(Totem::Entity, ComponentA)
 	ComponentA(Entity &owner, const T_String &name)
-	: Component(owner, name), intricateAlgId("INTRICATE_ALG"), translateToNorwegianId("TRANSLATE_NOR")
+	: Component(name), owner(owner), intricateAlgId("INTRICATE_ALG"), translateToNorwegianId("TRANSLATE_NOR")
 	{
 		owner.registerFunction2<const F32 &, const F32 &, F32>(intricateAlgId).bind(this, &ComponentA::intricateAlgorithm);
 		owner.registerFunction1<const T_String &, T_String>(translateToNorwegianId).bind(this, &ComponentA::translateToNorwegian);
@@ -69,9 +69,9 @@ private:
 class ComponentB : public Component
 {
 public:
-	COMPONENT_0(ComponentB)
+	COMPONENT_0(Totem::Entity, ComponentB)
 	ComponentB(Entity &owner, const T_String &name)
-	: Component(owner, name), wordTranslatorId("WORD_TRANSLATOR"), translateToNorwegianId("TRANSLATE_NOR"), crazyFuncId("CRAZY_FUNC")
+	: Component(name), owner(owner), wordTranslatorId("WORD_TRANSLATOR"), translateToNorwegianId("TRANSLATE_NOR"), crazyFuncId("CRAZY_FUNC")
 	{
 		owner.registerFunction2<const T_String &, const T_String &, T_Void>(wordTranslatorId).bind(this, &ComponentB::wordTranslator);
 		owner.registerFunction8<U32, S32, F32, U32, S32, F32, F32, const T_String &, F32>(crazyFuncId).bind(this, &ComponentB::crazyFunction);
@@ -98,7 +98,7 @@ private:
 	T_HashedString wordTranslatorId, translateToNorwegianId, crazyFuncId;
 };
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -127,6 +127,7 @@ void main()
 	test.call2<const T_String &, const T_String &, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Bye", "Norwegian");
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()

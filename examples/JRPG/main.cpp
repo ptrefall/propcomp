@@ -21,6 +21,7 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-void main()
+int main()
 {
+	return 0;
 }

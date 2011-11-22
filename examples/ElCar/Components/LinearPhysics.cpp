@@ -31,7 +31,7 @@ using namespace Components;
 using namespace Totem;
 
 LinearPhysics::LinearPhysics(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(name), owner(owner)
 {
 	type_property = owner.addProperty<T_String>("Type", "");
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);

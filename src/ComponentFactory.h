@@ -74,7 +74,7 @@ public:
 	 * @param Entity Reference to the Entity that will own this component instance.
 	 * @param type The type identifier assigned to this component instance.
 	 */
-	typedef Component*(* ComponentCreator)(Entity &entity, const T_String &type);
+	typedef Component*(* ComponentCreator)(T_Any &owner, const T_String &type);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -86,7 +86,7 @@ public:
 	 * @param type The type identifier assigned to this component instance.
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator1)(Entity &entity, const T_String &type, T_Any &custom1);
+	typedef Component*(* ComponentCreator1)(T_Any &owner, const T_String &type, T_Any &custom1);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -99,7 +99,7 @@ public:
 	 * @param custom1 The first custom parameter injected into the component constructor
 	 * @param custom2 The second custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator2)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2);
+	typedef Component*(* ComponentCreator2)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -113,7 +113,7 @@ public:
 	 * @param custom2 The second custom parameter injected into the component constructor
 	 * @param custom3 The third custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator3)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
+	typedef Component*(* ComponentCreator3)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -128,7 +128,7 @@ public:
 	 * @param custom3 The third custom parameter injected into the component constructor
 	 * @param custom4 The fourth custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator4)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
+	typedef Component*(* ComponentCreator4)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -144,7 +144,7 @@ public:
 	 * @param custom4 The fourth custom parameter injected into the component constructor
 	 * @param custom5 The fifth custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator5)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
+	typedef Component*(* ComponentCreator5)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -161,7 +161,7 @@ public:
 	 * @param custom5 The fifth custom parameter injected into the component constructor
 	 * @param custom6 The sixth custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator6)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
+	typedef Component*(* ComponentCreator6)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -179,7 +179,7 @@ public:
 	 * @param custom6 The sixth custom parameter injected into the component constructor
 	 * @param custom7 The seventh custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator7)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7);
+	typedef Component*(* ComponentCreator7)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7);
 
 	/**
 	 * Function pointer definition, forces a component implementation to provide
@@ -198,7 +198,7 @@ public:
 	 * @param custom7 The seventh custom parameter injected into the component constructor
 	 * @param custom8 The eight custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator8)(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8);
+	typedef Component*(* ComponentCreator8)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8);
 
 	//--------------------------------------------------------------------------------
 
@@ -291,7 +291,7 @@ public:
 	 * @param entity The owner of the component instance.
 	 * @param type The registered component type identifier associated with the component.
 	 */
-	Component* createComponent(Entity &entity, const T_String &type);
+	Component* createComponent(T_Any &owner, const T_String &type);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -300,7 +300,7 @@ public:
 	 * @param type The registered component type identifier associated with the component.
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom1(Entity &entity, const T_String &type, T_Any &custom1);
+	Component* createComponentCustom1(T_Any &owner, const T_String &type, T_Any &custom1);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -310,7 +310,7 @@ public:
 	 * @param custom1 The first custom parameter passed into component constructor.
 	 * @param custom2 The second custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom2(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2);
+	Component* createComponentCustom2(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -321,7 +321,7 @@ public:
 	 * @param custom2 The second custom parameter passed into component constructor.
 	 * @param custom3 The third custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom3(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
+	Component* createComponentCustom3(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -333,7 +333,7 @@ public:
 	 * @param custom3 The third custom parameter passed into component constructor.
 	 * @param custom4 The fourth custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom4(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
+	Component* createComponentCustom4(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -346,7 +346,7 @@ public:
 	 * @param custom4 The fourth custom parameter passed into component constructor.
 	 * @param custom5 The fifth custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom5(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
+	Component* createComponentCustom5(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -360,7 +360,7 @@ public:
 	 * @param custom5 The fifth custom parameter passed into component constructor.
 	 * @param custom6 The sixth custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom6(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
+	Component* createComponentCustom6(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -375,7 +375,7 @@ public:
 	 * @param custom6 The sixth custom parameter passed into component constructor.
 	 * @param custom7 The seventh custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom7(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7);
+	Component* createComponentCustom7(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7);
 
 	/**
 	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
@@ -391,7 +391,7 @@ public:
 	 * @param custom7 The seventh custom parameter passed into component constructor.
 	 * @param custom8 The eighth custom parameter passed into component constructor.
 	 */
-	Component* createComponentCustom8(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8);
+	Component* createComponentCustom8(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8);
 
 private:
 	/// The container of component creator function pointers registered to the factory, each associated with a string key.

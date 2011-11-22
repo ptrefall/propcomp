@@ -38,7 +38,7 @@ using namespace Totem;
 void printStartup();
 void printReady(const T_String &msg);
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -139,6 +139,7 @@ void main()
 	std::cout << std::endl;
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()

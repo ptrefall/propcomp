@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 EnergyCharger::EnergyCharger(Entity &owner, const T_String &name)
-: Component(owner, name), addEffectEventId("ADD_EFFECT")
+: Component(name), owner(owner), addEffectEventId("ADD_EFFECT")
 {
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	maxEnergy_property = owner.addProperty<F32>("MaxEnergy", 100.0f);

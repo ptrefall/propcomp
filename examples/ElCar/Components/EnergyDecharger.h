@@ -30,7 +30,7 @@ namespace Components
 	class EnergyDecharger : public Totem::Component
 	{
 	public:
-		COMPONENT_0(EnergyDecharger)
+		COMPONENT_0(Totem::Entity, EnergyDecharger)
 		EnergyDecharger(Totem::Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 

@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr)
-: Component(owner, name), entityMgr(entityMgr), seekInRadiusEventId("SEEK_IN_RADIUS")
+: Component(name), owner(owner), entityMgr(entityMgr), seekInRadiusEventId("SEEK_IN_RADIUS")
 {
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));

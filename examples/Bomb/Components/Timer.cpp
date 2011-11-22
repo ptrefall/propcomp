@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 Timer::Timer(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(name), owner(owner)
 {
     timeout_property = owner.addProperty<bool>("Timeout", false);
 	timeoutValue_property = owner.addProperty<U32>("TimeoutValue", 5);

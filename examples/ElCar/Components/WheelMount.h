@@ -32,7 +32,7 @@ namespace Components
 	class WheelMount : public Totem::Component
 	{
 	public:
-		COMPONENT_0(WheelMount)
+		COMPONENT_0(Totem::Entity, WheelMount)
 		WheelMount(Totem::Entity &owner, const T_String &name);
 		virtual ~WheelMount();
 		

@@ -31,7 +31,7 @@ namespace Components
 	class LinearPhysics : public Totem::Component
 	{
 	public:
-		COMPONENT_0(LinearPhysics)
+		COMPONENT_0(Totem::Entity, LinearPhysics)
 		LinearPhysics(Totem::Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 

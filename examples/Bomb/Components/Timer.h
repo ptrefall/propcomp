@@ -30,7 +30,7 @@ namespace Components
 	class Timer : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Timer)
+		COMPONENT_0(Totem::Entity, Timer)
 		Timer(Totem::Entity &owner, const T_String &name);
 		virtual ~Timer();
 

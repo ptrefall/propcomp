@@ -31,7 +31,7 @@ namespace Components
 	class MultiTargeter : public Totem::Component
 	{
 	public:
-		COMPONENT_0(MultiTargeter)
+		COMPONENT_0(Totem::Entity, MultiTargeter)
 		MultiTargeter(Totem::Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 

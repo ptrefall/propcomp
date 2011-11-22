@@ -159,7 +159,7 @@ void ComponentFactory::registerComponentCustom8(const T_String& type, ComponentC
 
 //-----------------------------------------------------------------------------
 
-Component* ComponentFactory::createComponent(Entity &entity, const T_String& type)
+Component* ComponentFactory::createComponent(T_Any &owner, const T_String &type)
 {
 	if(creators == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -169,10 +169,10 @@ Component* ComponentFactory::createComponent(Entity &entity, const T_String& typ
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator creator = creatorIt->second;
-	return creator(entity, type);
+	return creator(owner, type);
 }
 
-Component* ComponentFactory::createComponentCustom1(Entity &entity, const T_String &type, T_Any &custom1)
+Component* ComponentFactory::createComponentCustom1(T_Any &owner, const T_String &type, T_Any &custom1)
 {
 	if(creators_custom1 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -182,10 +182,10 @@ Component* ComponentFactory::createComponentCustom1(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator1 creator = creatorIt->second;
-	return creator(entity, type, custom1);
+	return creator(owner, type, custom1);
 }
 
-Component* ComponentFactory::createComponentCustom2(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2)
+Component* ComponentFactory::createComponentCustom2(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2)
 {
 	if(creators_custom2 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -195,10 +195,10 @@ Component* ComponentFactory::createComponentCustom2(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator2 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2);
+	return creator(owner, type, custom1, custom2);
 }
 
-Component* ComponentFactory::createComponentCustom3(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3)
+Component* ComponentFactory::createComponentCustom3(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3)
 {
 	if(creators_custom3 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -208,10 +208,10 @@ Component* ComponentFactory::createComponentCustom3(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator3 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3);
+	return creator(owner, type, custom1, custom2, custom3);
 }
 
-Component* ComponentFactory::createComponentCustom4(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4)
+Component* ComponentFactory::createComponentCustom4(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4)
 {
 	if(creators_custom4 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -221,10 +221,10 @@ Component* ComponentFactory::createComponentCustom4(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator4 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3, custom4);
+	return creator(owner, type, custom1, custom2, custom3, custom4);
 }
 
-Component* ComponentFactory::createComponentCustom5(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5)
+Component* ComponentFactory::createComponentCustom5(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5)
 {
 	if(creators_custom5 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -234,10 +234,10 @@ Component* ComponentFactory::createComponentCustom5(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator5 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3, custom4, custom5);
+	return creator(owner, type, custom1, custom2, custom3, custom4, custom5);
 }
 
-Component* ComponentFactory::createComponentCustom6(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6)
+Component* ComponentFactory::createComponentCustom6(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6)
 {
 	if(creators_custom6 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -247,10 +247,10 @@ Component* ComponentFactory::createComponentCustom6(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator6 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6);
+	return creator(owner, type, custom1, custom2, custom3, custom4, custom5, custom6);
 }
 
-Component* ComponentFactory::createComponentCustom7(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7)
+Component* ComponentFactory::createComponentCustom7(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7)
 {
 	if(creators_custom7 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -260,10 +260,10 @@ Component* ComponentFactory::createComponentCustom7(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator7 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7);
+	return creator(owner, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7);
 }
 
-Component* ComponentFactory::createComponentCustom8(Entity &entity, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8)
+Component* ComponentFactory::createComponentCustom8(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8)
 {
 	if(creators_custom8 == NULL_PTR)
 		throw T_Exception(("Unable to create component " + type).c_str());
@@ -273,6 +273,6 @@ Component* ComponentFactory::createComponentCustom8(Entity &entity, const T_Stri
 		throw T_Exception(("Unable to create component " + type + ", make sure type specified is correct, and that the number of custom parameters are identical to those at registration!").c_str());
 	
 	ComponentCreator8 creator = creatorIt->second;
-	return creator(entity, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7, custom8);
+	return creator(owner, type, custom1, custom2, custom3, custom4, custom5, custom6, custom7, custom8);
 }
 

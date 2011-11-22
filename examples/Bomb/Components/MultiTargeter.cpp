@@ -31,7 +31,7 @@ using namespace Components;
 using namespace Totem;
 
 MultiTargeter::MultiTargeter(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(name), owner(owner)
 {
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 

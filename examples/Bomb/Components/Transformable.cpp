@@ -28,7 +28,7 @@ using namespace Components;
 using namespace Totem;
 
 Transformable::Transformable(Entity &owner, const T_String &name)
-: Component(owner, name)
+: Component(name), owner(owner)
 {
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
 }

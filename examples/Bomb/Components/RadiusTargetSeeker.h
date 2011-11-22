@@ -33,7 +33,7 @@ namespace Components
 	class RadiusTargetSeeker : public Totem::Component
 	{
 	public:
-		COMPONENT_1(RadiusTargetSeeker, EntityManager)
+		COMPONENT_1(Totem::Entity, RadiusTargetSeeker, EntityManager)
 		RadiusTargetSeeker(Totem::Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~RadiusTargetSeeker();
 

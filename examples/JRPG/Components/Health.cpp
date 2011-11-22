@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 Health::Health(Entity &owner, const T_String &name, EntityManager &entityMgr)
-: Component(owner, name), entityMgr(entityMgr), dmgEventId("DMG")//, applyDmgId("APPLY_DMG")
+: Component(name), owner(owner), entityMgr(entityMgr), dmgEventId("DMG")//, applyDmgId("APPLY_DMG")
 {
 	name_property = owner.addProperty<T_String>("Name", "");
     alive_property = owner.addProperty<bool>("Alive", true);
