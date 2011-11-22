@@ -31,7 +31,7 @@ using namespace Components;
 using namespace Totem;
 
 Dynamo::Dynamo(Entity &owner, const T_String &name)
-: Component(owner, name), addEffectEventId("ADD_EFFECT")
+: Component(name), owner(owner), addEffectEventId("ADD_EFFECT")
 {
 	type_property = owner.addProperty<T_String>("Type", "");
 	name_property = owner.addProperty<T_String>("Name", "");

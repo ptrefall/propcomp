@@ -31,7 +31,7 @@ namespace Components
 	class AngularPhysics : public Totem::Component
 	{
 	public:
-		COMPONENT_0(AngularPhysics)
+		COMPONENT_0(Totem::Entity, AngularPhysics)
 		AngularPhysics(Totem::Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 

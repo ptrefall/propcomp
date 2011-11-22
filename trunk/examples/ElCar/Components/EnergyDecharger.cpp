@@ -31,7 +31,7 @@ using namespace Components;
 using namespace Totem;
 
 EnergyDecharger::EnergyDecharger(Entity &owner, const T_String &name)
-: Component(owner, name), spendEffectEventId("SPEND_EFFECT")
+: Component(name), owner(owner), spendEffectEventId("SPEND_EFFECT")
 {
 	energy_property = owner.addProperty<F32>("Energy", 100.0f);
 	minEnergy_property = owner.addProperty<F32>("MinEnergy", 0.0f);

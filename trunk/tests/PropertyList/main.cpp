@@ -39,9 +39,9 @@ void printReady();
 class ComponentA : public Component
 {
 public:
-	COMPONENT_0(ComponentA)
+	COMPONENT_0(Totem::Entity, ComponentA)
 	ComponentA(Entity &owner, const T_String &name)
-	: Component(owner, name)
+	: Component(name), owner(owner)
 	{
 		f32_property_list = owner.addPropertyList<F32>("F32List");
 		f32_property_list.valueAdded().connect(this, &ComponentA::onValueAdded);
@@ -64,9 +64,9 @@ private:
 class ComponentB : public Component
 {
 public:
-	COMPONENT_0(ComponentB)
+	COMPONENT_0(Totem::Entity, ComponentB)
 	ComponentB(Entity &owner, const T_String &name)
-	: Component(owner, name)
+	: Component(name), owner(owner)
 	{
 		f32_property_list = owner.addPropertyList<F32>("F32List");
 		f32_property_list.valueChanged().connect(this, &ComponentB::onValueChanged);
@@ -87,7 +87,7 @@ private:
 	PropertyList<F32> f32_property_list;
 };
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -114,7 +114,7 @@ void main()
 	{
 		std::cout << "Couldn't find property list F32List for Entity!" << std::endl;
 		system("pause");
-		return;
+		return -1;
 	}
 
 	PropertyList<F32> f32List = test.getPropertyList<F32>("F32List");
@@ -141,6 +141,7 @@ void main()
 		std::cout << "F32List is empty!" << std::endl;
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()

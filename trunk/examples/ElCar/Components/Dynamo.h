@@ -30,7 +30,7 @@ namespace Components
 	class Dynamo : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Dynamo)
+		COMPONENT_0(Totem::Entity, Dynamo)
 		Dynamo(Totem::Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 

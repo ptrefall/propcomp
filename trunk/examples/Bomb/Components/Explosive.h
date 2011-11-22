@@ -32,7 +32,7 @@ namespace Components
 	class Explosive : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Explosive)
+		COMPONENT_0(Totem::Entity, Explosive)
 		Explosive(Totem::Entity &owner, const T_String &name);
 		virtual ~Explosive();
 

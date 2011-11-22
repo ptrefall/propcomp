@@ -34,12 +34,12 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The base component class simply holds the means to build components on top of it.
- * It has a type identifier used to associate with what type of component it is, and
+ * The base ComponentType class simply holds the means to build ComponentTypes on top of it.
+ * It has a type identifier used to associate with what type of ComponentType it is, and
  * a reference to the Entity that owns it.
  *
  * It also holds two virtual functions, update and onEvent, that can optionally be
- * overloaded by each component implementation.
+ * overloaded by each ComponentType implementation.
  *
  * Note that the constructor takes an optional HAS_SIGNALSLOTS_INHERITANCE_TYPE. This is
  * a pre-processor type specified via types_config.h, and allows a user to specify the
@@ -56,8 +56,6 @@
 
 namespace Totem {
 
-class Entity;
-
 class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
@@ -67,22 +65,15 @@ public:
 	virtual ~Component() {}
 
 	/**
-	 * Get the type that defines this component.
+	 * Get the type that defines this ComponentType.
 	 *
-	 * @return Returns the type of the component.
+	 * @return Returns the type of the ComponentType.
 	 */
 	const T_String &getType() const { return type; }
 
 	/**
-	 * Get the entity that owns this component.
-	 *
-	 * @return Returns the entity that owns this component.
-	 */
-	Entity &getOwner() { return owner; }
-
-	/**
 	 * Optional virtual function that can be overloaded by
-	 * component implementations. Update is typically called
+	 * ComponentType implementations. Update is typically called
 	 * at least once per frame, and is channeled via the Entity.
 	 *
 	 */
@@ -94,21 +85,19 @@ public:
 		if(this == &rhs)
 			return *this;
 
-		throw T_Exception("Assignment operation between components are not supported!");
+		throw T_Exception("Assignment operation between ComponentTypes are not supported!");
 	}
 
 protected:
 	/**
 	 * Protected Constructor
 	 *
-	 * @param owner Reference to the Entity that owns this component.
-	 * @param type The type-name assigned to this component from it's implementation.
+	 * @param owner Reference to the Entity that owns this ComponentType.
+	 * @param type The type-name assigned to this ComponentType from it's implementation.
 	 */
-	Component(Entity &owner, const T_String &type) : owner(owner), type(type) {};
+	Component(const T_String &type) : type(type) {};
 
-	/// The Entity that owns this component.
-	Entity &owner;
-	/// The type identifier for this component.
+	/// The type identifier for this ComponentType.
     T_String type;
 };
 
@@ -116,239 +105,308 @@ protected:
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  */
-#define COMPONENT_0(component) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name) { return new component(owner, name); } \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponent(component::Type(), &component::Create); }
+#define COMPONENT_0(EntityType, ComponentType) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				return new ComponentType(*entity, name); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponent(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_1(component, Custom_type1) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1) \
+#define COMPONENT_1(EntityType, ComponentType, Custom_type1) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *custom = NULL_PTR; \
 				try { \
 					custom = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
-				return new component(owner, name, *custom); \
+				return new ComponentType(*entity, name, *custom); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom1(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom1(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_2(component, Custom_type1, Custom_type2) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
+#define COMPONENT_2(EntityType, ComponentType, Custom_type1, Custom_type2) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB); \
+				return new ComponentType(*entity, name, *customA, *customB); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom2(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom2(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
  /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_3(component, Custom_type1, Custom_type2, Custom_type3) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
+#define COMPONENT_3(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom3(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom3(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_4(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
+#define COMPONENT_4(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC, *customD); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom4(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom4(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_5(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
+#define COMPONENT_5(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC, *customD, *customE); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom5(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom5(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
@@ -356,63 +414,73 @@ protected:
  * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_6(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
+#define COMPONENT_6(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE, *customF); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom6(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom6(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
@@ -421,69 +489,79 @@ protected:
  * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type7 The seventh custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_7(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7) \
+#define COMPONENT_7(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
 				Custom_type7 *customG = NULL_PTR; \
 				try { \
 					customG = custom7.cast<Custom_type7*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
+					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom7(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom7(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\
 
 /**
  * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
- * to the component implementation that calls it. It simplifies adding new components, and
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
  * is here for convenience. Nothing is stopping the user to overlook this macro and implement
  * these three classes on their own.
  *
- * @param component The ComponentImplementation class, for instance Health
+ * @param ComponentType The ComponentImplementation class, for instance Health
  * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
@@ -493,64 +571,74 @@ protected:
  * @param Custom_type7 The seventh custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  * @param Custom_type8 The eight custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
  */
-#define COMPONENT_8(component, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7, Custom_type8) \
-			static T_String Type() { return T_String(#component); } \
-			static Totem::Component *Create(Totem::Entity &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8) \
+#define COMPONENT_8(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6, Custom_type7, Custom_type8) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6, T_Any &custom7, T_Any &custom8) \
 			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
 				Custom_type1 *customA = NULL_PTR; \
 				try { \
 					customA = custom1.cast<Custom_type1*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
 				} \
 				Custom_type2 *customB = NULL_PTR; \
 				try { \
 					customB = custom2.cast<Custom_type2*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
 				} \
 				Custom_type3 *customC = NULL_PTR; \
 				try { \
 					customC = custom3.cast<Custom_type3*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
 				} \
 				Custom_type4 *customD = NULL_PTR; \
 				try { \
 					customD = custom4.cast<Custom_type4*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
 				} \
 				Custom_type5 *customE = NULL_PTR; \
 				try { \
 					customE = custom5.cast<Custom_type5*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
 				} \
 				Custom_type6 *customF = NULL_PTR; \
 				try { \
 					customF = custom6.cast<Custom_type6*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
 				} \
 				Custom_type7 *customG = NULL_PTR; \
 				try { \
 					customG = custom7.cast<Custom_type7*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
+					throw T_Exception(("Type of custom7 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type7)).c_str()); \
 				} \
 				Custom_type8 *customH = NULL_PTR; \
 				try { \
 					customH = custom8.cast<Custom_type8*>(); \
 				}catch(T_BadAnyCast) { \
-					throw T_Exception(("Type of custom8 was bad when calling " + T_String(#component) + "::Create, expected " + T_String(#Custom_type8)).c_str()); \
+					throw T_Exception(("Type of custom8 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type8)).c_str()); \
 				} \
-				return new component(owner, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE, *customF, *customG, *customH); \
 			} \
-			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom8(component::Type(), &component::Create); } \
-			component &operator= (const component &rhs) \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom8(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
 			{ \
 				if(this == &rhs) \
 					return *this; \
-				throw T_Exception("Assignment operation between components are not supported!"); \
-			}
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+			EntityType &getOwner() { return owner; } \
+		protected: \
+			EntityType &owner; \
+\

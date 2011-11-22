@@ -40,11 +40,11 @@
 
 #include "types_config.h"
 #include "Component.h"
+#include "ComponentFactory.h"
 
 namespace Totem {
 
-class Entity;
-class ComponentFactory;
+template<class EntityType>
 class ComponentHandler
 {
 public:
@@ -53,16 +53,19 @@ public:
 	 *
 	 * @param componentFactory The componentFactory instance from which this ComponentHandler will instanciate components.
 	 */
-	ComponentHandler(ComponentFactory& componentFactory);
+	ComponentHandler(EntityType &thisAsEntity, ComponentFactory& componentFactory)
+		: thisAsEntity(thisAsEntity), componentFactory(componentFactory)
+	{
+	}
 	/**
 	 * Destructor
 	 */
-	virtual ~ComponentHandler();
-
-	/**
-	 * Convert the component handler to an entity.
-	 */
-	Entity &toEntity();
+	virtual ~ComponentHandler()
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+			delete components[i];
+		components.clear();
+	}
 
 	//--------------------------------------------------------------
 
@@ -82,7 +85,22 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T>
-	Component &addComponent(const T_String& type, T &custom1);
+	Component &addComponent(const T_String& type, T &custom1)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		Component* component = componentFactory.createComponentCustom1(entity, type, any);
+		components.push_back(component);
+		return *component;
+	}
+
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -93,7 +111,22 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		Component* component = componentFactory.createComponentCustom2(entity, type, any, any2);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -105,7 +138,23 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		Component* component = componentFactory.createComponentCustom3(entity, type, any, any2, any3);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -118,7 +167,24 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V, class W>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		T_Any any4 = &custom4;
+		Component* component = componentFactory.createComponentCustom4(entity, type, any, any2, any3, any4);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -132,7 +198,25 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V, class W, class X>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		T_Any any4 = &custom4;
+		T_Any any5 = &custom5;
+		Component* component = componentFactory.createComponentCustom5(entity, type, any, any2, any3, any4, any5);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -147,7 +231,26 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V, class W, class X, class Y>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		T_Any any4 = &custom4;
+		T_Any any5 = &custom5;
+		T_Any any6 = &custom6;
+		Component* component = componentFactory.createComponentCustom6(entity, type, any, any2, any3, any4, any5, any6);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -163,7 +266,27 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V, class W, class X, class Y, class Z>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		T_Any any4 = &custom4;
+		T_Any any5 = &custom5;
+		T_Any any6 = &custom6;
+		T_Any any7 = &custom7;
+		Component* component = componentFactory.createComponentCustom7(entity, type, any, any2, any3, any4, any5, any6, any7);
+		components.push_back(component);
+		return *component;
+	}
 
 	/**
 	 * Add a component of specified type to this ComponentHandler with custom parameters.
@@ -180,7 +303,28 @@ public:
 	 * @return Returns a reference to the component that was added to the ComponentHandler.
 	 */
 	template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8);
+	Component &addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			Component &component = *components[i];
+			if(component.getType() == type)
+				return component;
+		}
+
+		T_Any entity = &thisAsEntity;
+		T_Any any = &custom1;
+		T_Any any2 = &custom2;
+		T_Any any3 = &custom3;
+		T_Any any4 = &custom4;
+		T_Any any5 = &custom5;
+		T_Any any6 = &custom6;
+		T_Any any7 = &custom7;
+		T_Any any8 = &custom8;
+		Component* component = componentFactory.createComponentCustom8(entity, type, any, any2, any3, any4, any5, any6, any7, any8);
+		components.push_back(component);
+		return *component;
+	}
 
 	//--------------------------------------------------------------
 	
@@ -227,14 +371,76 @@ protected:
 
 	//--------------------------------------------------------------
 
+	/// Reference to the entity implementation that inherits this ComponentHandler.
+	EntityType &thisAsEntity;
+
 	/// Reference to the component factory responsible for instancing components for this ComponentHandler.
 	ComponentFactory& componentFactory;
 };
 
 //------------------------------------------------------
 
-template<class T>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1)
+template<class EntityType>
+Component &ComponentHandler<EntityType>::addComponent(const T_String& type)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component &component = *components[i];
+		if(component.getType() == type)
+			return component;
+	}
+	T_Any entity = &thisAsEntity;
+	Component* component = componentFactory.createComponent(entity, type);
+	components.push_back(component);
+	return *component;
+}
+
+template<class EntityType>
+bool ComponentHandler<EntityType>::hasComponent(const T_String& type)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component *component = components[i];
+		if(component->getType() == type)
+			return true;
+	}
+	return false;
+}
+
+template<class EntityType>
+Component &ComponentHandler<EntityType>::getComponent(const T_String& type)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+	{
+		Component *component = components[i];
+		if(component->getType() == type)
+		{
+			return *component;
+		}
+	}
+	throw T_Exception(("Unable to get component " + type).c_str());
+}
+
+template<class EntityType>
+void ComponentHandler<EntityType>::updateComponents(const F32 &deltaTime)
+{
+	for(unsigned int i = 0; i < components.size(); i++)
+		components[i]->update(deltaTime);
+}
+
+template<class EntityType>
+ComponentHandler<EntityType> &ComponentHandler<EntityType>::operator= (const ComponentHandler<EntityType> &rhs)
+{
+	if(this == &rhs)
+		return *this;
+
+	throw T_Exception("Assignment operation between ComponentHandlers are not supported!");
+}
+
+//------------------------------------------------------
+
+/*template<class T>
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -250,7 +456,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -267,7 +473,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -285,7 +491,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V, class W>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -304,7 +510,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V, class W, class X>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -324,7 +530,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V, class W, class X, class Y>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -345,7 +551,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -367,7 +573,7 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 }
 
 template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-inline Component &ComponentHandler::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8)
+inline Component &ComponentHandler<EntityType>::addComponent(const T_String& type, T &custom1, U &custom2, V &custom3, W &custom4, X &custom5, Y &custom6, Z &custom7, S &custom8)
 {
 	for(unsigned int i = 0; i < components.size(); i++)
 	{
@@ -387,6 +593,6 @@ inline Component &ComponentHandler::addComponent(const T_String& type, T &custom
 	Component* component = componentFactory.createComponentCustom8(toEntity(), type, any, any2, any3, any4, any5, any6, any7, any8);
 	components.push_back(component);
 	return *component;
-}
+}*/
 
 } //namespace Totem

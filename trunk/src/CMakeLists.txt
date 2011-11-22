@@ -68,7 +68,6 @@ set(HDRS
 
 set(SRCS
   ./ComponentFactory.cpp
-  ./ComponentHandler.cpp
   ./DelegateHandler.cpp
   ./TemplateEventHandler.cpp
   ./AnyEventHandler.cpp

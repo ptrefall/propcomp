@@ -83,7 +83,7 @@ struct T_Pair {
 //--------------------------------------------
 
 //Exception handling
-typedef std::exception T_Exception;
+typedef std::runtime_error T_Exception;
 
 //--------------------------------------------
 

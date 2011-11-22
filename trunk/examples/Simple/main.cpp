@@ -41,9 +41,9 @@ void wait(int ms);
 class Voice : public Component
 {
 public:
-	COMPONENT_0(Voice)
+	COMPONENT_0(Totem::Entity, Voice)
 	Voice(Entity &owner, const T_String &name)
-	: Component(owner, name), speakEventId("SPEAK")
+	: Component(name), owner(owner), speakEventId("SPEAK")
 	{
 		type_property = owner.addProperty<T_String>("Type", "");
 		hello_property = owner.addProperty<T_String>("HelloWords", "Hello!");
@@ -101,9 +101,9 @@ private:
 class Targeter : public Component
 {
 public:
-	COMPONENT_0(Targeter)
+	COMPONENT_0(Totem::Entity, Targeter)
 	Targeter(Entity &owner, const T_String &name)
-	: Component(owner, name)
+	: Component(name), owner(owner)
 	{
 		type_property = owner.addProperty<T_String>("Type", "");
 		name_property = owner.addProperty<T_String>("Name", "");
@@ -128,9 +128,9 @@ private:
 class CustomParamsHolder : public Component
 {
 public:
-	COMPONENT_8(CustomParamsHolder, int, int, int, int, int, int, int, int)
+	COMPONENT_8(Totem::Entity, CustomParamsHolder, int, int, int, int, int, int, int, int)
 	CustomParamsHolder(Entity &owner, const T_String &name, int &a, int &b, int &c, int &d, int &e, int &f, int &g, int &h)
-	: Component(owner, name), a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h)
+	: Component(name), owner(owner), a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h)
 	{
 		std::cout << "CustomParamsHolder: " << a << " " << b << " " << c << " " << d << " " << e << " " << f << " " << g << " " << h << std::endl;
 	}
@@ -138,7 +138,7 @@ public:
 	int a,b,c,d,e,f,g,h;
 };
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -191,6 +191,7 @@ void main()
 	wait(1000);
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()

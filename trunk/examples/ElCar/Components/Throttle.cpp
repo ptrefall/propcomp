@@ -30,7 +30,7 @@ using namespace Components;
 using namespace Totem;
 
 Throttle::Throttle(Entity &owner, const T_String &name)
-: Component(owner, name), throttleEventId("THROTTLE"), spendEffectEventId("SPEND_EFFECT"), accelerateWheelsEventId("ACCELERATE_WHEELS")
+: Component(name), owner(owner), throttleEventId("THROTTLE"), spendEffectEventId("SPEND_EFFECT"), accelerateWheelsEventId("ACCELERATE_WHEELS")
 {
 	type_property = owner.addProperty<T_String>("Type", "");
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);

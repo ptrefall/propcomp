@@ -46,7 +46,7 @@ void printReady();
 void printResult(Entity &entity);
 void wait(int ms);
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -95,6 +95,7 @@ void main()
 	printResult(crateC);
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()

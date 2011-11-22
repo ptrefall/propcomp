@@ -31,7 +31,7 @@ namespace Components
 	class Throttle : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Throttle)
+		COMPONENT_0(Totem::Entity, Throttle)
 		Throttle(Totem::Entity &owner, const T_String &name);
 		virtual ~Throttle();
 

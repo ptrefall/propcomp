@@ -31,7 +31,7 @@ namespace Components
 	class Transformable : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Transformable)
+		COMPONENT_0(Totem::Entity, Transformable)
 		Transformable(Totem::Entity &owner, const T_String &name);
 		virtual ~Transformable();
 

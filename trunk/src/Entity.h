@@ -51,7 +51,7 @@
 
 namespace Totem {
 
-class Entity :	public ComponentHandler, 
+class Entity :	public ComponentHandler<Entity>, 
 				public PropertyHandler, 
 				public PropertyListHandler, 
 #if USE_TEMPLATE_EVENT_HANDLER
@@ -64,13 +64,15 @@ class Entity :	public ComponentHandler,
 public:
 	/// Constructor
 	Entity(ComponentFactory &factory)
-		: ComponentHandler(factory)
+#pragma warning(suppress: 4355)
+		: ComponentHandler(*this, factory)
 	{
 	}
 
 	/// Constructor
 	Entity(ComponentFactory &factory, IPropertySerializer *serializer)
-		: ComponentHandler(factory), PropertyHandler(serializer), PropertyListHandler(serializer)
+#pragma warning(suppress: 4355)
+		: ComponentHandler(*this, factory), PropertyHandler(serializer), PropertyListHandler(serializer)
 	{
 	}
 

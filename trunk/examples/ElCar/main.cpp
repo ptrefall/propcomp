@@ -47,7 +47,7 @@ void defineWheel(Entity &wheel, const T_String &name);
 void printReady();
 void wait(int ms);
 
-void main()
+int main()
 {
 	//Print out some startup text
 	printStartup();
@@ -82,6 +82,7 @@ void main()
 	}
 
 	system("pause");
+	return 0;
 }
 
 void printStartup()
