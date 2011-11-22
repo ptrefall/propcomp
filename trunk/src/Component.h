@@ -130,9 +130,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -169,9 +169,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -215,9 +215,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
  /**
@@ -268,9 +268,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -328,9 +328,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -395,9 +395,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -469,9 +469,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -550,9 +550,9 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
 
 /**
@@ -638,7 +638,7 @@ protected:
 					return *this; \
 				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
 			} \
-			EntityType &getOwner() { return owner; } \
 		protected: \
 			EntityType &owner; \
+		public: \
 \
