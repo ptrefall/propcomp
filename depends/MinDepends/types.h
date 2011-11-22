@@ -202,7 +202,7 @@ public:
 	T_HashedString(const T_String &str)
 	{
 		this->str = str;
-		this->hashId = (T_HashedStringType)stdext::hash_value(str.c_str());
+		this->hashId = (T_HashedStringType)std::hash_value(str.c_str());
 		//this->hashId = str;
 	}
 
