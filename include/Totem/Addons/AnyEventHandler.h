@@ -38,10 +38,11 @@
  * 
  */
 
-#include "types_config.h"
-#include "Property.h"
+#include <Totem/types_config.h>
+#include <Totem/Property.h>
 
 namespace Totem {
+namespace Addon {
 
 class Component;
 class ComponentFactory;
@@ -879,4 +880,5 @@ inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type
 		return it->second;
 }
 
+} //namespace Addon
 } //namespace Totem

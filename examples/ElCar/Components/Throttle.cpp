@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "Throttle.h"
-#include <Entity.h>
 
 #include <iostream>
 

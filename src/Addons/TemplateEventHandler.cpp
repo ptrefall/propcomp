@@ -1,6 +1,7 @@
-#include "TemplateEventHandler.h"
+#include <Totem/Addons/TemplateEventHandler.h>
 
 using namespace Totem;
+using namespace Addon;
 
 bool TemplateEventHandler::hasEvent(const T_HashedString &id, int num_params)
 {

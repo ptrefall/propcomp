@@ -23,21 +23,22 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
-#include <PropertyList.h>
+#include <Totem/Component.h>
+#include <Totem/PropertyList.h>
+#include "../../Common/Entity.h"
 
 namespace Components
 {
 	class MultiTargeter : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, MultiTargeter)
-		MultiTargeter(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, MultiTargeter)
+		MultiTargeter(Entity &owner, const T_String &name);
 		virtual ~MultiTargeter();
 
 	protected:
-		Totem::PropertyList<Totem::Entity*> target_property_list;
+		Totem::PropertyList<Entity*> target_property_list;
 
-		void onTargetAdded(const U32 &index, Totem::Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Entity * const &newValue);
 	};
 }

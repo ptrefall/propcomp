@@ -23,7 +23,7 @@ requirements or restrictions.
 
 #pragma once
 
-#include <types_config.h>
+#include <Totem/types_config.h>
 #include <cmath>
 
 template<typename T>

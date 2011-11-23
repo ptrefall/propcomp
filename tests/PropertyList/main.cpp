@@ -21,10 +21,10 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <Entity.h>
-#include <Component.h>
-#include <ComponentFactory.h>
-#include <PropertyList.h>
+#include "../Common/Entity.h"
+#include <Totem/Component.h>
+#include <Totem/ComponentFactory.h>
+#include <Totem/PropertyList.h>
 
 #include <iostream>
 #include <stdio.h>
@@ -39,7 +39,7 @@ void printReady();
 class ComponentA : public Component
 {
 public:
-	COMPONENT_0(Totem::Entity, ComponentA)
+	COMPONENT_0(Entity, ComponentA)
 	ComponentA(Entity &owner, const T_String &name)
 	: Component(name), owner(owner)
 	{
@@ -64,7 +64,7 @@ private:
 class ComponentB : public Component
 {
 public:
-	COMPONENT_0(Totem::Entity, ComponentB)
+	COMPONENT_0(Entity, ComponentB)
 	ComponentB(Entity &owner, const T_String &name)
 	: Component(name), owner(owner)
 	{

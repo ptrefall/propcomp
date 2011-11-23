@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "LinearPhysics.h"
-#include <Entity.h>
 #include "../../Common/EntityManager.h"
 
 #include <iostream>

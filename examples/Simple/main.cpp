@@ -21,9 +21,9 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <Entity.h>
-#include <Component.h>
-#include <ComponentFactory.h>
+#include "../Common/Entity.h"
+#include <Totem/Component.h>
+#include <Totem/ComponentFactory.h>
 
 #include <iostream>
 #include <stdio.h>
@@ -41,7 +41,7 @@ void wait(int ms);
 class Voice : public Component
 {
 public:
-	COMPONENT_0(Totem::Entity, Voice)
+	COMPONENT_0(Entity, Voice)
 	Voice(Entity &owner, const T_String &name)
 	: Component(name), owner(owner), speakEventId("SPEAK")
 	{
@@ -101,7 +101,7 @@ private:
 class Targeter : public Component
 {
 public:
-	COMPONENT_0(Totem::Entity, Targeter)
+	COMPONENT_0(Entity, Targeter)
 	Targeter(Entity &owner, const T_String &name)
 	: Component(name), owner(owner)
 	{
@@ -128,7 +128,7 @@ private:
 class CustomParamsHolder : public Component
 {
 public:
-	COMPONENT_8(Totem::Entity, CustomParamsHolder, int, int, int, int, int, int, int, int)
+	COMPONENT_8(Entity, CustomParamsHolder, int, int, int, int, int, int, int, int)
 	CustomParamsHolder(Entity &owner, const T_String &name, int &a, int &b, int &c, int &d, int &e, int &f, int &g, int &h)
 	: Component(name), owner(owner), a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h)
 	{

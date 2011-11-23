@@ -1,6 +1,7 @@
-#include "AnyEventHandler.h"
+#include <Totem/Addons/AnyEventHandler.h>
 
 using namespace Totem;
+using namespace Addon;
 
 bool AnyEventHandler::hasEvent(const T_HashedString &id, int num_params)
 {

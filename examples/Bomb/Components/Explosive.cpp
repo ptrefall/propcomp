@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "Explosive.h"
-#include <Entity.h>
 
 #include <iostream>
 

@@ -1,3 +1,5 @@
+#pragma once
+
 /*Totem EDK
 Copyright (c) 2009 Pål Trefall and Kenneth Gangstø
 
@@ -21,38 +23,33 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#pragma once
+#include <Totem/ComponentHandler.h>
+#include <Totem/PropertyHandler.h>
+#include <Totem/PropertyListHandler.h>
+#include <Totem/Addons/TemplateEventHandler.h>
+#include <Totem/Addons/DelegateHandler.h>
 
-#include <Totem/Component.h>
-#include <Totem/PropertyList.h>
-#include "../../Common/Entity.h"
-#include "../../Common/Vector3.h"
-
-namespace Components
+class Entity :	public Totem::ComponentHandler<Entity>, 
+				public Totem::PropertyHandler, 
+				public Totem::PropertyListHandler, 
+				public Totem::Addon::TemplateEventHandler,
+				public Totem::Addon::DelegateHandler
 {
-	class WheelMount : public Totem::Component
+public:
+	/// Constructor
+	Entity(Totem::ComponentFactory &factory)
+#pragma warning(suppress: 4355)
+		: Totem::ComponentHandler<Entity>(*this, factory)
 	{
-	public:
-		COMPONENT_0(Entity, WheelMount)
-		WheelMount(Entity &owner, const T_String &name);
-		virtual ~WheelMount();
-		
-		virtual void update(const F32 &deltaTime);
+	}
 
-	protected:
-		Totem::Property<T_String> type_property;
+	/// Constructor
+	Entity(Totem::ComponentFactory &factory, Totem::IPropertySerializer *serializer)
+#pragma warning(suppress: 4355)
+		: Totem::ComponentHandler<Entity>(*this, factory), Totem::PropertyHandler(serializer), Totem::PropertyListHandler(serializer)
+	{
+	}
 
-		Totem::PropertyList<Entity*> wheels_property_list;
-		Totem::Property<U32> activeWheelCount_property;
-		Totem::Property<F32> velocity_property;
-
-#if USE_TEMPLATE_EVENT_HANDLER
-		void onAccelerateWheelsEvent(const F32 &force);
-#elif USE_ANY_EVENT_HANDLER
-		void onAccelerateWheelsEvent(T_Any force);
-#endif
-		T_HashedString accelerateWheelsEventId;
-		T_HashedString syncVelocityEventId;
-		T_HashedString forceAngularAccelerationEventId;
-	};
-}
+	/// Destructor
+	virtual ~Entity() {}
+};

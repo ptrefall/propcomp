@@ -23,10 +23,11 @@ requirements or restrictions.
 
 #pragma once
 
-#include <types_config.h>
+#include <Totem/types_config.h>
 
-namespace Totem { class Entity; class ComponentFactory; }
+namespace Totem { class ComponentFactory; }
 
+class Entity;
 class EntityManager
 {
 public:
@@ -35,12 +36,12 @@ public:
 
 	void update(F32 deltaTime);
 
-	Totem::Entity &create(Totem::ComponentFactory &factory);
-	void erase(Totem::Entity *Entity);
-	T_Vector<Totem::Entity*>::Type &getEntities() { return entities; }
+	Entity &create(Totem::ComponentFactory &factory);
+	void erase(Entity *Entity);
+	T_Vector<Entity*>::Type &getEntities() { return entities; }
 
 protected:
-	T_Vector<Totem::Entity*>::Type entities;
-	T_Vector<Totem::Entity*>::Type pendingDelete;
+	T_Vector<Entity*>::Type entities;
+	T_Vector<Entity*>::Type pendingDelete;
 	T_EntityId nextEntityId;
 };

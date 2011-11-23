@@ -21,8 +21,8 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <ComponentFactory.h>
-#include <Entity.h>
+#include <Totem/ComponentFactory.h>
+#include "../Common/Entity.h"
 
 #include "../Common/EntityManager.h"
 #include "Components/Health.h"

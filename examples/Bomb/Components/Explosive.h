@@ -23,8 +23,9 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
-#include <PropertyList.h>
+#include <Totem/Component.h>
+#include <Totem/PropertyList.h>
+#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -32,8 +33,8 @@ namespace Components
 	class Explosive : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, Explosive)
-		Explosive(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, Explosive)
+		Explosive(Entity &owner, const T_String &name);
 		virtual ~Explosive();
 
 	protected:
@@ -44,13 +45,13 @@ namespace Components
 		Totem::Property<F32> blast_radius_property;
 		Totem::Property<T_Vec3f> position_property;
 
-		Totem::PropertyList<Totem::Entity*> target_property_list;
+		Totem::PropertyList<Entity*> target_property_list;
 
 		//Property Slots
 		void onTimeoutChanged(const bool &oldValue, const bool &newValue);
 
 		//PropertyList Slots
-		void onTargetAdded(const U32 &index, Totem::Entity * const &newValue);
+		void onTargetAdded(const U32 &index, Entity * const &newValue);
 
 		//Event Ids
 		T_HashedString seekInRadiusEventId;

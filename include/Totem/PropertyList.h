@@ -38,8 +38,8 @@
  * 
  */
 
-#include "IPropertyList.h"
-#include "IPropertySerializer.h"
+#include <Totem/IPropertyList.h>
+#include <Totem/IPropertySerializer.h>
 
 namespace Totem {
 

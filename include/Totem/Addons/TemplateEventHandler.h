@@ -38,10 +38,11 @@
  * 
  */
 
-#include "types_config.h"
-#include "Property.h"
+#include <Totem/types_config.h>
+#include <Totem/Property.h>
 
 namespace Totem {
+namespace Addon {
 
 class Component;
 class ComponentFactory;
@@ -725,4 +726,5 @@ inline typename T_Signal_v8<T, U, V, W, X, Y, Z, S>::Type &TemplateEventHandler:
 	return signal->signal;
 }
 
+} //namespace Addon
 } //namespace Totem

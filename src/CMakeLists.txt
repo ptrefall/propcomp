@@ -48,23 +48,23 @@ set(Boost_HDRS
 SOURCE_GROUP("Header Files\\Types\\Boost" FILES ${Boost_HDRS})
 
 set(HDRS
-  ./Entity.h
-  ./Component.h
-  ./ComponentFactory.h
-  ./ComponentHandler.h
-  ./IProperty.h
-  ./Property.h
-  ./PropertyHandler.h
-  ./IPropertySerializer.h
-  ./PropertySerializer.h
-  ./IPropertyList.h
-  ./PropertyList.h
-  ./PropertyListHandler.h
-  ./TemplateEventHandler.h
-  ./AnyEventHandler.h
-  ./DelegateHandler.h
-  ./types_config.h
-  ./mainpage.h
+  #../include/Totem/Entity.h
+  ../include/Totem/Component.h
+  ../include/Totem/ComponentFactory.h
+  ../include/Totem/ComponentHandler.h
+  ../include/Totem/IProperty.h
+  ../include/Totem/Property.h
+  ../include/Totem/PropertyHandler.h
+  ../include/Totem/IPropertySerializer.h
+  ../include/Totem/PropertySerializer.h
+  ../include/Totem/IPropertyList.h
+  ../include/Totem/PropertyList.h
+  ../include/Totem/PropertyListHandler.h
+  #./TemplateEventHandler.h
+  #./AnyEventHandler.h
+  #./DelegateHandler.h
+  ../include/Totem/types_config.h
+  ../include/Totem/mainpage.h
 )
 
 set(MinDepends_SRCS
@@ -74,9 +74,9 @@ SOURCE_GROUP("Source Files\\Types\\MinDepends" FILES ${MinDepends_SRCS})
 
 set(SRCS
   ./ComponentFactory.cpp
-  ./DelegateHandler.cpp
-  ./TemplateEventHandler.cpp
-  ./AnyEventHandler.cpp
+  #./DelegateHandler.cpp
+  #./TemplateEventHandler.cpp
+  #./AnyEventHandler.cpp
 )
  
 add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${MinDepends_SRCS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})

@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "RadiusTargetSeeker.h"
-#include <Entity.h>
 
 #include <iostream>
 
