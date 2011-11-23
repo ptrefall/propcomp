@@ -201,15 +201,18 @@ class T_HashedString
 {
 public:
 	T_HashedString(const T_String &str)
+		: hashId(0), str(T_String())
 	{
 		this->str = str;
 		//this->hashId = (T_HashedStringType)std::hash_value(str.c_str());
 		//this->hashId = str;
-		MurmurHash3_x86_128(static_cast<const void*>(str.c_str()), str.length(), 1234, (void*)&this->hashId);
+		MurmurHash3_x86_32(str.c_str(), str.length(), 1234, &this->hashId);
 	}
 
 	~T_HashedString()
 	{
+		str = T_String();
+		hashId = 0;
 	}
 
 	const T_HashedStringType &getId() const { return hashId; }
