@@ -1,11 +1,18 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * Revisit serializer interface and the handling internal in properties.
- * Add preprocessor for 3rd party libraries.
- * Fix hashing for linux (add bundled min-depend on MurmurHash3?).
- * Write Entity Editor tool.
- * Write XML loader example.
- * Write unit tests for all features of Totem EDK.
- * Write stress tests for all features of Totem EDK.
- * Write simple game example.
+ * 1) Move event and delegate handling out from core-Totem (and Entity)
+   * Move it into TotemEvent? split src into src_totem, src_totem_event ?
+   * Create new Entity (GameObject?) type for examples that uses totem core and events
+ * 1) Revisit serializer interface and the handling internal in properties.
+ * 1) Add preprocessor for 3rd party libraries.
+   * ClanLib
+   * Boost
+ * 1) Fix hashing for linux (add bundled min-depend on MurmurHash3?).
+ * 2) Write Documentation
+ * 3) Write XML loader example.
+ * 4) Write XML property state saving example.
+ * 5) Write stress tests for all features of Totem EDK.
+ * 6) Write unit tests for all features of Totem EDK.
+ * 7) Write simple game example.
+ * 8) Write Entity Editor tool.
