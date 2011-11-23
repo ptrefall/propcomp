@@ -4,3 +4,4 @@
 
 = Fixed =
  * 1) T_HashString destructor crashes after Murmur hashing was added.
+   * Fix: Changed from 128bit to 32bit hashing.
