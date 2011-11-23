@@ -1,4 +1,4 @@
 #summary Known Bugs in Totem EDK
 
 = Issues =
- * 1) T_HashString destructor crashes
+ * 1) T_HashString destructor crashes after Murmur hashing was added.
