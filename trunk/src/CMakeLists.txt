@@ -33,6 +33,7 @@ set(MinDepends_HDRS
 	../depends/MinDepends/cdiggins_any.h
 	../depends/MinDepends/FastDelegate.h
 	../depends/MinDepends/FastDelegateBind.h
+	../depends/MinDepends/MurmurHash3.h
 )
 SOURCE_GROUP("Header Files\\Types\\MinDepends" FILES ${MinDepends_HDRS})
 
@@ -66,6 +67,11 @@ set(HDRS
   ./mainpage.h
 )
 
+set(MinDepends_SRCS
+	../depends/MinDepends/MurmurHash3.cpp
+)
+SOURCE_GROUP("Source Files\\Types\\MinDepends" FILES ${MinDepends_SRCS})
+
 set(SRCS
   ./ComponentFactory.cpp
   ./DelegateHandler.cpp
@@ -73,6 +79,6 @@ set(SRCS
   ./AnyEventHandler.cpp
 )
  
-add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
+add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${MinDepends_SRCS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
 
 set_target_properties(TotemEDK PROPERTIES DEBUG_POSTFIX _d)
