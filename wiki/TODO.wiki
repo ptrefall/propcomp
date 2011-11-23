@@ -1,0 +1,11 @@
+#summary Tasks left to do for Totem EDK
+
+= Tasks =
+ * Revisit serializer interface and the handling internal in properties.
+ * Add preprocessor for 3rd party libraries.
+ * Fix hashing for linux (add bundled min-depend on MurmurHash3?).
+ * Write Entity Editor tool.
+ * Write XML loader example.
+ * Write unit tests for all features of Totem EDK.
+ * Write stress tests for all features of Totem EDK.
+ * Write simple game example.
