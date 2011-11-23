@@ -49,10 +49,10 @@
  * 
  */
 
-#include "types_config.h"
+#include <Totem/types_config.h>
 
-#include "Property.h"
-#include "ComponentFactory.h"
+#include <Totem/Property.h>
+#include <Totem/ComponentFactory.h>
 
 namespace Totem {
 

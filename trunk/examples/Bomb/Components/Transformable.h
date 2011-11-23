@@ -23,7 +23,8 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
+#include <Totem/Component.h>
+#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -31,8 +32,8 @@ namespace Components
 	class Transformable : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, Transformable)
-		Transformable(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, Transformable)
+		Transformable(Entity &owner, const T_String &name);
 		virtual ~Transformable();
 
 	protected:

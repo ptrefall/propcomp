@@ -1,6 +1,7 @@
-#include "DelegateHandler.h"
+#include <Totem/Addons/DelegateHandler.h>
 
 using namespace Totem;
+using namespace Addon;
 
 bool DelegateHandler::hasFunction(const T_HashedString &id, int num_params)
 {

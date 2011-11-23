@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "Timer.h"
-#include <Entity.h>
 
 #include <iostream>
 

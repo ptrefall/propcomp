@@ -23,15 +23,16 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
+#include <Totem/Component.h>
+#include "../../Common/Entity.h"
 
 namespace Components
 {
 	class Dynamo : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, Dynamo)
-		Dynamo(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, Dynamo)
+		Dynamo(Entity &owner, const T_String &name);
 		virtual ~Dynamo();
 
 		virtual void update(const F32 &deltaTime);
@@ -39,7 +40,7 @@ namespace Components
 	protected:
 		Totem::Property<T_String> type_property;
 		Totem::Property<T_String> name_property;
-		Totem::Property<Totem::Entity*> car_property;
+		Totem::Property<Entity*> car_property;
 		Totem::Property<F32> angularVelocity_property;
 		Totem::Property<F32> generationFactor_property;
 		Totem::Property<F32> dynamoEfficiency_property;

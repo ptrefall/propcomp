@@ -38,10 +38,11 @@
  * 
  */
 
-#include "types_config.h"
-#include "Property.h"
+#include <Totem/types_config.h>
+#include <Totem/Property.h>
 
 namespace Totem {
+namespace Addon {
 
 class Component;
 class ComponentFactory;
@@ -732,4 +733,5 @@ inline typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Pa
 	return delegate->delegate;
 }
 
+} //namespace Addon
 } //namespace Totem

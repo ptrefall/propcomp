@@ -23,22 +23,23 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
-#include <PropertyList.h>
+#include <Totem/Component.h>
+#include <Totem/PropertyList.h>
+#include "../../Common/Entity.h"
 
 namespace Components
 {
 	class AngularPhysics : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, AngularPhysics)
-		AngularPhysics(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, AngularPhysics)
+		AngularPhysics(Entity &owner, const T_String &name);
 		virtual ~AngularPhysics();
 
 		virtual void update(const F32 &deltaTime);
 
 	protected:
-		Totem::Property<Totem::Entity*> car_property;
+		Totem::Property<Entity*> car_property;
 		Totem::Property<F32> angularVelocity_property;
 		Totem::Property<F32> dimension_property;
 		Totem::Property<F32> friction_property;

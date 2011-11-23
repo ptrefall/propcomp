@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "Health.h"
-#include <Entity.h>
 
 #include <iostream>
 

@@ -23,10 +23,10 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include "types_config.h"
-#include "PropertySerializer.h"
-#include "IProperty.h"
-#include "Property.h"
+#include <Totem/types_config.h>
+#include <Totem/PropertySerializer.h>
+#include <Totem/IProperty.h>
+#include <Totem/Property.h>
 #include <sstream>
 
 #include "../Common/Vector3.h"

@@ -23,15 +23,16 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
+#include <Totem/Component.h>
+#include "../../Common/Entity.h"
 
 namespace Components
 {
 	class EnergyDecharger : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, EnergyDecharger)
-		EnergyDecharger(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, EnergyDecharger)
+		EnergyDecharger(Entity &owner, const T_String &name);
 		virtual ~EnergyDecharger();
 
 	protected:

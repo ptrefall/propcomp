@@ -23,7 +23,8 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
+#include <Totem/Component.h>
+#include "../../Common/Entity.h"
 #include "../../Common/Vector3.h"
 
 namespace Components
@@ -31,8 +32,8 @@ namespace Components
 	class LinearPhysics : public Totem::Component
 	{
 	public:
-		COMPONENT_0(Totem::Entity, LinearPhysics)
-		LinearPhysics(Totem::Entity &owner, const T_String &name);
+		COMPONENT_0(Entity, LinearPhysics)
+		LinearPhysics(Entity &owner, const T_String &name);
 		virtual ~LinearPhysics();
 
 		virtual void update(const F32 &deltaTime);

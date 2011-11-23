@@ -23,8 +23,9 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
-#include <PropertyList.h>
+#include <Totem/Component.h>
+#include <Totem/PropertyList.h>
+#include "../../Common/Entity.h"
 #include "../../Common/EntityManager.h"
 #include "../../Common/Vector3.h"
 
@@ -33,12 +34,12 @@ namespace Components
 	class RadiusTargetSeeker : public Totem::Component
 	{
 	public:
-		COMPONENT_1(Totem::Entity, RadiusTargetSeeker, EntityManager)
-		RadiusTargetSeeker(Totem::Entity &owner, const T_String &name, EntityManager &entityMgr);
+		COMPONENT_1(Entity, RadiusTargetSeeker, EntityManager)
+		RadiusTargetSeeker(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~RadiusTargetSeeker();
 
 	protected:
-		Totem::PropertyList<Totem::Entity*> target_property_list;
+		Totem::PropertyList<Entity*> target_property_list;
 		Totem::Property<T_Vec3f> position_property;
 
 #if USE_TEMPLATE_EVENT_HANDLER

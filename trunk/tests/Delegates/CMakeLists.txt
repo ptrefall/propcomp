@@ -27,11 +27,19 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(TestDelegates)
 
+set(HDRS
+  ../../include/Totem/Addons/TemplateEventHandler.h
+  ../../include/Totem/Addons/DelegateHandler.h
+  ../Common/Entity.h
+)
+
 set(SRCS
   ./main.cpp
+  ../../src/Addons/TemplateEventHandler.cpp
+  ../../src/Addons/DelegateHandler.cpp
 )
  
-add_executable(TestDelegates ${SRCS})
+add_executable(TestDelegates ${SRCS} ${HDRS})
 
 set_target_properties(TestDelegates PROPERTIES DEBUG_POSTFIX _d)
 set_target_properties(TestDelegates PROPERTIES FOLDER "Tests")

@@ -21,9 +21,9 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include "types_config.h"
-#include "ComponentFactory.h"
-#include "Component.h"
+#include <Totem/types_config.h>
+#include <Totem/ComponentFactory.h>
+#include <Totem/Component.h>
 
 using namespace Totem;
 

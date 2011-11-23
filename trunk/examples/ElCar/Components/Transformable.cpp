@@ -22,7 +22,6 @@ requirements or restrictions.
 */
 
 #include "Transformable.h"
-#include <Entity.h>
 
 using namespace Components;
 using namespace Totem;

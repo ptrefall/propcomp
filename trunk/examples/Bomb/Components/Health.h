@@ -23,7 +23,8 @@ requirements or restrictions.
 
 #pragma once
 
-#include <Component.h>
+#include <Totem/Component.h>
+#include "../../Common/Entity.h"
 #include "../../Common/EntityManager.h"
 
 namespace Components
@@ -31,8 +32,8 @@ namespace Components
 	class Health : public Totem::Component
 	{
 	public:
-		COMPONENT_1(Totem::Entity, Health, EntityManager)
-		Health(Totem::Entity &owner, const T_String &name, EntityManager &entityMgr);
+		COMPONENT_1(Entity, Health, EntityManager)
+		Health(Entity &owner, const T_String &name, EntityManager &entityMgr);
 		virtual ~Health();
 
 	protected:

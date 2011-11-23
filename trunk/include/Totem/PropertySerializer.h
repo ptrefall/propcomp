@@ -39,12 +39,12 @@
  * 
  */
 
-#include "types_config.h"
-#include "IPropertySerializer.h"
-#include "IProperty.h"
-#include "Property.h"
-#include "IPropertyList.h"
-#include "PropertyList.h"
+#include <Totem/types_config.h>
+#include <Totem/IPropertySerializer.h>
+#include <Totem/IProperty.h>
+#include <Totem/Property.h>
+#include <Totem/IPropertyList.h>
+#include <Totem/PropertyList.h>
 #include <sstream>
 
 namespace Totem {

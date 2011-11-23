@@ -39,7 +39,7 @@
  * 
  */
 
-#include "types_config.h"
+#include <Totem/types_config.h>
 
 namespace Totem {
 

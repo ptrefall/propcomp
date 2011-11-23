@@ -28,12 +28,17 @@ cmake_minimum_required(VERSION 2.8.3)
 project(TestSerialization)
 
 set(HDRS
+  ../../include/Totem/Addons/TemplateEventHandler.h
+  ../../include/Totem/Addons/DelegateHandler.h
+  ../Common/Entity.h
   ../Common/CustomPropertySerializer.h
   ../Common/Vector3.h
 )
 
 set(SRCS
   ./main.cpp
+  ../../src/Addons/TemplateEventHandler.cpp
+  ../../src/Addons/DelegateHandler.cpp
 )
  
 add_executable(TestSerialization ${HDRS} ${SRCS})
