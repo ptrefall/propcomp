@@ -43,6 +43,7 @@
 #include "cdiggins_any.h"
 #include "FastDelegate.h"
 #include "FastDelegateBind.h"
+#include "MurmurHash3.h"
 
 //Sigslot.h requires that PropertyData and Component inherit from
 //sigslot::has_slots<>, thus "overload" this preprocessed definition.
@@ -202,8 +203,13 @@ public:
 	T_HashedString(const T_String &str)
 	{
 		this->str = str;
-		this->hashId = (T_HashedStringType)std::hash_value(str.c_str());
+		//this->hashId = (T_HashedStringType)std::hash_value(str.c_str());
 		//this->hashId = str;
+		MurmurHash3_x86_128(static_cast<const void*>(str.c_str()), str.length(), 1234, (void*)&this->hashId);
+	}
+
+	~T_HashedString()
+	{
 	}
 
 	const T_HashedStringType &getId() const { return hashId; }
