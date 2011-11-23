@@ -8,6 +8,7 @@
    * !ClanLib
    * Boost
    * Minimal Dependencies
+ * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 4) Write Documentation
  * 5) Write XML loader example.
  * 6) Write XML property state saving example.
