@@ -2,8 +2,8 @@
 
 = Tasks =
  * 1) Move event and delegate handling out from core-Totem (and Entity)
-   * Move it into TotemEvent library ? split src into src_totem, src_totem_event ? What about any versus template, scheduling ?
-   * Create new Entity (GameObject ?) type for examples that uses totem core and events
+   * Move it into !TotemEvent library ? split src into src_totem, src_totem_event ? What about any versus template, scheduling ?
+   * Create new Entity (!GameObject?) type for examples that uses totem core and events
  * 1) Revisit serializer interface and the handling internal in properties.
  * 1) Add preprocessor for 3rd party libraries.
    * ClanLib
