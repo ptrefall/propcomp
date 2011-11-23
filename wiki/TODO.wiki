@@ -6,7 +6,7 @@
    * Create new Entity (!GameObject?) type for examples that uses totem core and events
  * 1) Revisit serializer interface and the handling internal in properties.
  * 1) Add preprocessor for 3rd party libraries.
-   * ClanLib
+   * !ClanLib
    * Boost
  * 1) Fix hashing for linux (add bundled min-depend on MurmurHash3?).
  * 2) Write Documentation
