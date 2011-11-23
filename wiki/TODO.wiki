@@ -1,11 +1,7 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Move event and delegate handling out from core-Totem (and Entity)
-   * Move it into !TotemEvent library ? split src into src_totem, src_totem_event ? What about any versus template, scheduling ?
-   * Create new Entity type (!GameObject, !TotemExamples::Entity?) for examples that uses totem core and events
  * 1) Remove v7 and v8 editions of template classes
- * 1) Fix hashing for linux (add bundled min-depend on !MurmurHash3).
  * 1) Remove special bool handling
  * 2) Revisit serializer interface and the handling internal in properties.
  * 3) Add preprocessor for 3rd party libraries.
@@ -19,3 +15,9 @@
  * 8) Write unit tests for all features of Totem EDK.
  * 9) Write simple game example.
  * 10) Write Entity Editor tool.
+
+= Recently Fixed TODOs =
+ * 1) Move event and delegate handling out from core-Totem (and Entity)
+   * Move it into !TotemEvent library ? split src into src_totem, src_totem_event ? What about any versus template, scheduling ?
+   * Create new Entity type (!GameObject, !TotemExamples::Entity?) for examples that uses totem core and events
+ * 1) Fix hashing for linux (add bundled min-depend on !MurmurHash3).
