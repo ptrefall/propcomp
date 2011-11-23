@@ -10,6 +10,7 @@
    * Boost
    * Minimal Dependencies
  * 1) Fix hashing for linux (add bundled min-depend on !MurmurHash3).
+ * 1) Remove special bool handling
  * 2) Write Documentation
  * 3) Write XML loader example.
  * 4) Write XML property state saving example.
