@@ -36,42 +36,76 @@
 #include <ClanLib/core.h>
 #include <vector>
 #include <map>
+#include <unordered_map>
+#include "cdiggins_any.h"
+#include "FastDelegate.h"
+#include "FastDelegateBind.h"
 
-//Base types
-typedef CL_String T_String;
-typedef float F32;
+typedef cdiggins::any T_Any;
+typedef cdiggins::anyimpl::bad_any_cast T_BadAnyCast;
+typedef unsigned int T_HashedStringType;
 
-//Container types
-template< typename T >
-struct T_Vector {
-	typedef std::vector<T> Type;
-};
-template< typename K, typename V >
-struct T_Map {
-	typedef std::map<K,V> Type;
-};
-
-//Event handling
-struct sEvent
+class T_HashedString
 {
-};
-typedef sEvent T_Event;
+public:
+	T_HashedString(const CL_String &str)
+	{
+		this->str = str;
+		//this->hashId = (T_HashedStringType)stdext::hash_value(str.c_str());
+		this->hashId = 0;
+	}
+	const T_HashedStringType &getId() const { return hashId; }
+	const CL_String &getStr() const { return str; }
 
-//Exception handling
-typedef CL_Exception T_Exception;
-
-//Signal handling
-template< typename T >
-struct T_Signal_v1 {
-	typedef CL_Signal_v1<T> Type;
-};
-
-template<typename T,typename U>
-struct T_Signal_v2 {
-   typedef CL_Signal_v2<T,U> Type;
+private:
+	T_HashedStringType hashId;
+	CL_String str;
 };
 
-template < typename T >
-struct T_SharedPtr {
-	typedef CL_SharedPtr<T> Type;
+//Delegate handling
+typedef const void *T_Void;
+
+template<class RetType=T_Void>
+struct T_Delegate_v0 {
+	typedef fastdelegate::FastDelegate0<RetType> Type;
+};
+
+template<class Param1, class RetType=T_Void>
+struct T_Delegate_v1 {
+	typedef fastdelegate::FastDelegate1<Param1, RetType> Type;
+};
+
+template<class Param1, class Param2, class RetType=T_Void>
+struct T_Delegate_v2 {
+	typedef fastdelegate::FastDelegate2<Param1, Param2, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class RetType=T_Void>
+struct T_Delegate_v3 {
+	typedef fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class RetType=T_Void>
+struct T_Delegate_v4 {
+	typedef fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType=T_Void>
+struct T_Delegate_v5 {
+	typedef fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType=T_Void>
+struct T_Delegate_v6 {
+	typedef fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType=T_Void>
+struct T_Delegate_v7 {
+	typedef fastdelegate::FastDelegate7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType> Type;
+};
+
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType=T_Void>
+struct T_Delegate_v8 {
+	typedef fastdelegate::FastDelegate8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType> Type;
 };
