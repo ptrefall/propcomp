@@ -8,7 +8,7 @@
  * 1) Add preprocessor for 3rd party libraries.
    * !ClanLib
    * Boost
- * 1) Fix hashing for linux (add bundled min-depend on MurmurHash3?).
+ * 1) Fix hashing for linux (add bundled min-depend on !MurmurHash3).
  * 2) Write Documentation
  * 3) Write XML loader example.
  * 4) Write XML property state saving example.
