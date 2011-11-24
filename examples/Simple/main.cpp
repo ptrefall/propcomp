@@ -50,11 +50,7 @@ public:
 		bye_property = owner.addProperty<T_String>("ByeWords", "Bye!");
 		target_property = owner.addProperty<Entity*>("Target", NULL_PTR);
 
-#if USE_TEMPLATE_EVENT_HANDLER
 		owner.registerToEvent1<const T_String&>(speakEventId).connect(this, &Voice::onSpeakEvent);
-#elif USE_ANY_EVENT_HANDLER
-		owner.registerToEvent1(speakEventId).connect(this, &Voice::onSpeakEvent);
-#endif
 
 	}
 	virtual ~Voice() {}
@@ -66,14 +62,8 @@ private:
 	Property<Entity*> target_property;
 	T_HashedString speakEventId;
 
-#if USE_TEMPLATE_EVENT_HANDLER
 	void onSpeakEvent(const T_String &what)
 	{
-#elif USE_ANY_EVENT_HANDLER
-	void onSpeakEvent(T_Any what_any)
-	{
-		const T_String &what = what_any.cast<T_String>();
-#endif
 		const T_String &owner_name = owner.getProperty<T_String>("Name").get();
 		if(target_property.get() == NULL_PTR)
 		{
@@ -164,30 +154,14 @@ int main()
 
 	T_HashedString speakEventId("SPEAK");
 
-#if USE_TEMPLATE_EVENT_HANDLER
 	man.sendEvent1<const T_String&>(speakEventId, "HELLO");
-#elif USE_ANY_EVENT_HANDLER
-	man.sendEvent(speakEventId, T_Any(T_String("HELLO")));
-#endif
 	wait(1000);
-#if USE_TEMPLATE_EVENT_HANDLER
 	dog.sendEvent1<const T_String&>(speakEventId, "HELLO");
-#elif USE_ANY_EVENT_HANDLER
-	dog.sendEvent(speakEventId, T_Any(T_String("HELLO")));
-#endif
 	wait(1000);
 
-#if USE_TEMPLATE_EVENT_HANDLER
 	man.sendEvent1<const T_String&>(speakEventId, "BYE");
-#elif USE_ANY_EVENT_HANDLER
-	man.sendEvent(speakEventId, T_Any(T_String("BYE")));
-#endif
 	wait(1000);
-#if USE_TEMPLATE_EVENT_HANDLER
 	dog.sendEvent1<const T_String&>(speakEventId, "BYE");
-#elif USE_ANY_EVENT_HANDLER
-	dog.sendEvent(speakEventId, T_Any(T_String("BYE")));
-#endif
 	wait(1000);
 
 	system("pause");

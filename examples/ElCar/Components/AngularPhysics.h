@@ -45,13 +45,8 @@ namespace Components
 		Totem::Property<F32> friction_property;
 		Totem::PropertyList<F32> forces_property_list;
 
-#if USE_TEMPLATE_EVENT_HANDLER
 		void onForceAngularAccelerationEvent(const F32 &force);
 		void onSyncVelocityEvent(const F32 &velocity);
-#elif USE_ANY_EVENT_HANDLER
-		void onForceAngularAccelerationEvent(T_Any force);
-		void onSyncVelocityEvent(T_Any velocity);
-#endif
 
 		T_HashedString forceAngularAccelerationEventId;
 		T_HashedString syncVelocityEventId;

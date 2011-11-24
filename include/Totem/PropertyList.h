@@ -129,10 +129,7 @@ public:
 	 *
 	 * @return Returns the real value of the PropertyListValue.
 	 */
-#pragma warning(push)
-#pragma warning(disable:4172)
 	const T &get() const { return data->value[index]; }
-#pragma warning(pop)
 
 	/// Set's property list value's data to rhs' shared pointer data.
 	void set(const T& rhs);
@@ -174,110 +171,6 @@ inline PropertyListIndexValue<T> &PropertyListIndexValue<T>::operator= (const Pr
 		return *this;
 
 	throw T_Exception("Assignment operation between property list index values are not supported!");
-}
-
-/**
- * @file
- * @class Totem::PropertyListIndexValueBool
- *
- * @author Pål Trefall
- * @author Kenneth Gangstø
- *
- * @version 2.0
- *
- * @brief Property List Index Value Bool, returned by list to allow changing an index in the list safely. Need to handle booleans as special case...
- *
- * @section LICENSE
- * This software is provided 'as-is', without any express or implied
- * warranty.  In no event will the authors be held liable for any damages
- * arising from the use of this software.
- * 
- * Permission is granted to anyone to use this software for any purpose,
- * including commercial applications, and to alter it and redistribute it
- * freely, subject to the following restrictions:
- * 
- * 1. The origin of this software must not be misrepresented; you must not
- *    claim that you wrote the original software. If you use this software
- *    in a product, an acknowledgment in the product documentation would be
- *    appreciated but is not required.
- *
- * 2. Altered source versions must be plainly marked as such, and must not be
- *    misrepresented as being the original software.
- *
- * 3. This notice may not be removed or altered from any source distribution.
- * 
- * Note: Some of the libraries Totem EDK may link to may have additional
- * requirements or restrictions.
- * 
- * @section DESCRIPTION
- * PropertyListIndexValueBool
- * 
- */
-
-template<class T>
-class PropertyListIndexValueBool
-{
-public:
-	/**
-	 * Constructor
-	 */
-	PropertyListIndexValueBool(typename T_SharedPtr< PropertyListData<T> >::Type data, const U32 &index)
-		: data(data), index(index)
-	{
-	}
-	
-	/**
-	 * Destructor
-	 */
-	~PropertyListIndexValueBool() {}
-
-	/**
-	 * Returns the real value of the PropertyListValue
-	 *
-	 * @return Returns the real value of the PropertyListValue.
-	 */
-	const T get() const { return data->value[index]; }
-
-	/// Set's property list value's data to rhs' shared pointer data.
-	void set(const T& rhs);
-
-	/// Set's property list value's data to rhs' shared pointer data.
-	void operator= (const T& rhs);
-
-	/// Provide an assignment operator to leviate level W4 warning
-	PropertyListIndexValueBool &operator= (const PropertyListIndexValueBool &rhs);
-
-	/// Instead of propertyListValue.get() this operator exist for convenience.
-	operator const T () const { return get(); }
-
-private:
-	/// PropertyListData of the Property list is stored inside a shared pointer.
-	typename T_SharedPtr< PropertyListData<T> >::Type data;
-	/// The index in the Property list's data value that this PropertyListIndexValueBool represent.
-	const U32 &index;
-};
-
-template<class T>
-inline void PropertyListIndexValueBool<T>::set(const T &rhs)
-{
-	T oldValue = data->value[index];
-	data->value[index] = rhs;
-	data->valueChanged.invoke(index, oldValue, data->value[index]);
-}
-
-template<class T>
-inline void PropertyListIndexValueBool<T>::operator =(const T &rhs)
-{
-	set(rhs);
-}
-
-template<class T>
-inline PropertyListIndexValueBool<T> &PropertyListIndexValueBool<T>::operator= (const PropertyListIndexValueBool<T> &rhs)
-{
-	if(this == &rhs)
-		return *this;
-
-	throw T_Exception("Assignment operation between property list index value bools are not supported!");
 }
 
 /**
@@ -330,15 +223,6 @@ public:
 	: serializer(NULL_PTR)
 	{
 		type = getType<T>();
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(type == getType<bool>())
-		{
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
-#else
-			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
-#endif
-		}
-#endif
 	}
 
 	/**
@@ -348,15 +232,6 @@ public:
 	: data(copy.data), serializer(copy.serializer)
 	{
 		type = getType<T>();
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(type == getType<bool>())
-		{
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
-#else
-			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
-#endif
-		}
-#endif
 	}
 
 	/**
@@ -372,15 +247,6 @@ public:
 		data->name = name;
 		data->readOnly = readOnly;
 		type = getType<T>();
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK
-		if(type == getType<bool>())
-		{
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
-#else
-			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
-#endif
-		}
-#endif
 	}
 
 	/**
@@ -499,22 +365,6 @@ public:
 			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
 
 		return PropertyListIndexValue<T>(this->data, index);
-	}
-
-	/**
-	 * Get the value of list at given index when list is of type bool.
-	 * Due to how some list implementations treat booleans, for the case of 
-	 * the PropertyListIndexValue, this had to be treated as a special case
-	 * (see get() methods for reference).
-	 *
-	 * @param index Index in the list for which value is returned
-	 */
-	PropertyListIndexValueBool<T> at_bool(const U32 &index) 
-	{ 
-		if(index >= data->value.size())
-			throw T_Exception(("Index was out of bounds for property list " + data->name).c_str());
-
-		return PropertyListIndexValueBool<T>(this->data, index);
 	}
 
 	/**

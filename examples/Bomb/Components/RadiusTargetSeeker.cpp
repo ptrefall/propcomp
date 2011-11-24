@@ -34,25 +34,15 @@ RadiusTargetSeeker::RadiusTargetSeeker(Entity &owner, const T_String &name, Enti
     target_property_list = owner.addPropertyList<Entity*>("Targets");
 	position_property = owner.addProperty<T_Vec3f>("Position", T_Vec3f(0.0f, 0.0f, 0.0f));
 
-#if USE_TEMPLATE_EVENT_HANDLER
 	owner.registerToEvent1<const F32&>(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
-#elif USE_ANY_EVENT_HANDLER
-	owner.registerToEvent1(seekInRadiusEventId).connect(this, &RadiusTargetSeeker::onSeekInRadiusEvent);
-#endif
 }
 
 RadiusTargetSeeker::~RadiusTargetSeeker()
 {
 }
 
-#if USE_TEMPLATE_EVENT_HANDLER
 void RadiusTargetSeeker::onSeekInRadiusEvent(const F32 &radius)
 {
-#elif USE_ANY_EVENT_HANDLER
-void RadiusTargetSeeker::onSeekInRadiusEvent(T_Any radius_any)
-{
-	const F32 &radius = radius_any.cast<F32>();
-#endif
 	//Perform some algorithm
 	for(U32 i = 0; i < entityMgr.getEntities().size(); i++)
 	{
