@@ -45,14 +45,23 @@ typedef cdiggins::any T_Any;
 typedef cdiggins::anyimpl::bad_any_cast T_BadAnyCast;
 typedef unsigned int T_HashedStringType;
 
+template<>
+class std::hash<CL_String> : std::hash<const CL_String::char_type*>
+{
+public:
+	size_t operator()(const CL_String& keyval) const
+	{	
+		return std::hash<const CL_String::char_type*>::operator()(keyval.c_str());
+	}
+};
+
 class T_HashedString
 {
 public:
 	T_HashedString(const CL_String &str)
 	{
 		this->str = str;
-		//this->hashId = (T_HashedStringType)stdext::hash_value(str.c_str());
-		this->hashId = 0;
+		this->hashId = std::hash<CL_String>()(str);
 	}
 	const T_HashedStringType &getId() const { return hashId; }
 	const CL_String &getStr() const { return str; }
