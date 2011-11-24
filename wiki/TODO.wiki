@@ -2,6 +2,7 @@
 
 = Tasks =
  * 1) Remove special bool handling
+ * 1) Add group description to properties
  * 2) Revisit serializer interface and the handling internal in properties.
  * 3) Add preprocessor for 3rd party libraries.
    * !ClanLib
