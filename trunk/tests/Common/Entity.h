@@ -31,8 +31,8 @@ requirements or restrictions.
 
 class Entity 
 	:	public Totem::ComponentHandler<Entity>, 
-		public Totem::PropertyHandler, 
-		public Totem::PropertyListHandler, 
+		public Totem::PropertyHandler<>, 
+		public Totem::PropertyListHandler<>, 
 		public Totem::Addon::TemplateEventHandler,
 		public Totem::Addon::DelegateHandler
 {

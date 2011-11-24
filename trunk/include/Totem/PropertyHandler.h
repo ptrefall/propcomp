@@ -42,6 +42,7 @@
 
 namespace Totem {
 
+template<class UserData = void*>
 class PropertyHandler
 {
 public:
@@ -82,7 +83,65 @@ public:
 	 * @param readOnly Flag this property as read-only if it should only be read. Defaults to false.
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyHandler.
 	 */
-	template<class T>Property<T> addProperty(const T_String& name, const T &defaultValue, bool readOnly = false);
+	template<class T>Property<T> addProperty(const T_String& name, const T &defaultValue, bool readOnly = false)
+	{
+		T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
+		if(it != properties.end())
+		{
+			Property<T>* property;
+	#ifdef _DEBUG
+			property = dynamic_cast< Property<T>* >(it->second);
+			if(!property)
+				throw T_Exception(("Property " + name + " already exists, but with another type!").c_str());
+	#else
+			property = static_cast< Property<T>* >(it->second);
+	#endif
+			return *property;
+		}
+
+		Property<T> *property = new Property<T>(name, readOnly);
+		property->set(defaultValue, true);
+		properties[property->getName()] = property;
+
+		//return *property;
+		return getProperty<T>(name);
+	}
+
+	/**
+	 * Add a property of specified type T and name to this PropertyHandler with a default value and userdata of type UserData.
+	 * If readOnly is specified to true, one can only change the property by
+	 * directly calling property.set(value, forced=true), all other pipes, like
+	 * via operators, will throw an exception.
+	 *
+	 * @param name The name of the property used to store and associate the property in the PropertyHandler.
+	 * @param defaultValue The initial value this property should be set to when added to the PropertyHandler.
+	 * @param userData The userdata is of type specified for the PropertyHandler's class template, and provides optional userdata description of the property.
+	 * @param readOnly Flag this property as read-only if it should only be read. Defaults to false.
+	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyHandler.
+	 */
+	template<class T>Property<T> addProperty(const T_String& name, const T &defaultValue, const UserData &userData, bool readOnly = false)
+	{
+		T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
+		if(it != properties.end())
+		{
+			Property<T>* property;
+	#ifdef _DEBUG
+			property = dynamic_cast< Property<T>* >(it->second);
+			if(!property)
+				throw T_Exception(("Property " + name + " already exists, but with another type!").c_str());
+	#else
+			property = static_cast< Property<T>* >(it->second);
+	#endif
+			return *property;
+		}
+
+		Property<T> *property = new Property<T>(name, readOnly);
+		property->set(defaultValue, true);
+		properties[property->getName()] = property;
+
+		//return *property;
+		return getProperty<T>(name);
+	}
 
 	/**
 	 * Add a property interface to this PropertyHandler.
@@ -98,7 +157,24 @@ public:
 	 * @param name The name of the property.
 	 * @return Returns a shared_ptr (pimpl) reference to the property.
 	 */
-	template<class T>Property<T> getProperty(const T_String& name);
+	template<class T>Property<T> getProperty(const T_String& name)
+	{
+		T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
+		if(it != properties.end())
+		{
+			Property<T>* property;
+	#ifdef _DEBUG
+			property = dynamic_cast< Property<T>* >(it->second);
+			if(!property)
+				throw T_Exception(("Tried to get property " + name + ", but the type was wrong!").c_str());
+	#else
+			property = static_cast< Property<T>* >(it->second);
+	#endif
+			return *property;
+		}
+		else
+			throw T_Exception(("Unable to get property " + name).c_str());
+	}
 
 	/**
 	 * Get a property interface pointer to a property of specified name from the PropertyHandler.
@@ -166,7 +242,8 @@ protected:
 
 //------------------------------------------------------
 
-inline bool PropertyHandler::hasProperty(const T_String& name)
+template<class UserData>
+inline bool PropertyHandler<UserData>::hasProperty(const T_String& name)
 {
 	if(properties.empty())
 		return false;
@@ -178,59 +255,16 @@ inline bool PropertyHandler::hasProperty(const T_String& name)
 		return false;
 }
 
-inline void PropertyHandler::addProperty(IProperty *property)
+template<class UserData>
+inline void PropertyHandler<UserData>::addProperty(IProperty *property)
 {
 	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(property->getName());
 	if(it == properties.end())
 		properties[property->getName()] = property;
 }
 
-template<class T>
-inline Property<T> PropertyHandler::addProperty(const T_String& name, const T &defaultValue, bool readOnly)
-{
-	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
-	if(it != properties.end())
-	{
-		Property<T>* property;
-#ifdef _DEBUG
-		property = dynamic_cast< Property<T>* >(it->second);
-		if(!property)
-			throw T_Exception(("Property " + name + " already exists, but with another type!").c_str());
-#else
-		property = static_cast< Property<T>* >(it->second);
-#endif
-		return *property;
-	}
-
-	Property<T> *property = new Property<T>(name, readOnly);
-	property->set(defaultValue, true);
-	properties[property->getName()] = property;
-
-	//return *property;
-	return getProperty<T>(name);
-}
-
-template<class T>
-inline Property<T> PropertyHandler::getProperty(const T_String& name)
-{
-	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
-	if(it != properties.end())
-	{
-		Property<T>* property;
-#ifdef _DEBUG
-		property = dynamic_cast< Property<T>* >(it->second);
-		if(!property)
-			throw T_Exception(("Tried to get property " + name + ", but the type was wrong!").c_str());
-#else
-		property = static_cast< Property<T>* >(it->second);
-#endif
-		return *property;
-	}
-	else
-		throw T_Exception(("Unable to get property " + name).c_str());
-}
-
-inline IProperty *PropertyHandler::getIProperty(const T_String& name)
+template<class UserData>
+inline IProperty *PropertyHandler<UserData>::getIProperty(const T_String& name)
 {
 	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
 	if(it != properties.end())
@@ -239,7 +273,8 @@ inline IProperty *PropertyHandler::getIProperty(const T_String& name)
 		throw T_Exception(("Unable to get property " + name).c_str());
 }
 
-inline void PropertyHandler::removeProperty(const T_String& name, bool postponeDelete)
+template<class UserData>
+inline void PropertyHandler<UserData>::removeProperty(const T_String& name, bool postponeDelete)
 {
 	T_Map<T_String, IProperty*>::Type::iterator it = properties.find(name);
 	if(it != properties.end())
@@ -253,7 +288,8 @@ inline void PropertyHandler::removeProperty(const T_String& name, bool postponeD
 	}
 }
 
-inline void PropertyHandler::removeAllProperties()
+template<class UserData>
+inline void PropertyHandler<UserData>::removeAllProperties()
 {
 	T_Map<T_String, IProperty*>::Type::iterator it;
 	for(it = properties.begin(); it != properties.end(); ++it)
@@ -265,12 +301,14 @@ inline void PropertyHandler::removeAllProperties()
 	clearDeletedProperties();
 }
 
-inline void PropertyHandler::updateProperties()
+template<class UserData>
+inline void PropertyHandler<UserData>::updateProperties()
 {
 	clearDeletedProperties();
 }
 
-inline void PropertyHandler::clearDeletedProperties()
+template<class UserData>
+inline void PropertyHandler<UserData>::clearDeletedProperties()
 {
 	for(unsigned int i = 0; i < deletedProperties.size(); i++)
 		delete deletedProperties[i];
