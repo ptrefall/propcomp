@@ -44,13 +44,6 @@ public:
 	{
 	}
 
-	/// Constructor
-	Entity(Totem::ComponentFactory &factory, Totem::IPropertySerializer *serializer)
-#pragma warning(suppress: 4355)
-		: Totem::ComponentHandler<Entity>(*this, factory), Totem::PropertyHandler(serializer), Totem::PropertyListHandler(serializer)
-	{
-	}
-
 	/// Destructor
 	virtual ~Entity() {}
 };

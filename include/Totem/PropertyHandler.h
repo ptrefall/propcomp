@@ -39,8 +39,6 @@
  */
 
 #include <Totem/Property.h>
-#include <Totem/IPropertySerializer.h>
-#include <Totem/PropertySerializer.h>
 
 namespace Totem {
 
@@ -51,15 +49,7 @@ public:
 	 * Constructor
 	 *
 	 */
-	PropertyHandler() : serializer(new PropertySerializer()), external_serializer(false) {}
-
-	/**
-	 * Constructor
-	 *
-	 * @param serializer Optional to provide a custom property serializer
-	 *
-	 */
-	PropertyHandler(IPropertySerializer *serializer) : serializer(serializer), external_serializer(true) {}
+	PropertyHandler() {}
 
 	/**
 	 * Destructor
@@ -67,9 +57,6 @@ public:
 	virtual ~PropertyHandler()
 	{
 		removeAllProperties();
-
-		if(external_serializer == false)
-			delete serializer;
 	}
 
 	//--------------------------------------------------------------
@@ -175,10 +162,6 @@ protected:
 	T_Map<T_String, IProperty*>::Type properties;
 	/// The list of all properties pending deletion in this PropertyHandler.
 	T_Vector<IProperty*>::Type deletedProperties;
-	/// The serializer interface that knows how to convert this property handler's properties to/from string.
-	IPropertySerializer *serializer;
-	/// Was this serializer defined internally in the handler (default), or externally? Only delete internally defined serializers in destructor.
-	bool external_serializer;
 };
 
 //------------------------------------------------------
@@ -219,7 +202,7 @@ inline Property<T> PropertyHandler::addProperty(const T_String& name, const T &d
 		return *property;
 	}
 
-	Property<T> *property = new Property<T>(name, *serializer, readOnly);
+	Property<T> *property = new Property<T>(name, readOnly);
 	property->set(defaultValue, true);
 	properties[property->getName()] = property;
 

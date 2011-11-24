@@ -43,6 +43,7 @@
 
 namespace Totem {
 
+class IPropertySerializer;
 class IProperty
 {
 public: 
@@ -89,14 +90,16 @@ public:
 
 	/**
 	 * Call this function to serialize the value of the property into a string.
+	 * @param serializer The serializer to use for serialization.
 	 * @return Returns the serialized string value of this property.
 	 */
-	virtual T_String toString() = 0;
+	virtual T_String toString(IPropertySerializer &serializer) = 0;
 	/**
 	 * Call this function to deserialize a value from the string.
 	 * @param serialized_property The serialized string to deserialize.
+	 * @param serializer The serializer to use for deserialization.
 	 */
-	virtual void fromString(const T_String &serialized_property) = 0;
+	virtual void fromString(const T_String &serialized_property, IPropertySerializer &serializer) = 0;
 
 protected:
 	/// The type id associated with this specific property instance.

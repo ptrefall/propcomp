@@ -45,28 +45,16 @@ int main()
 
 	//Create factory and register components
 	ComponentFactory factory;
-	
-	CustomPropertySerializer serializer;
-	Entity entity = Entity(factory, &serializer); //<-- push in "custom" serializer
+	PropertySerializer serializer;
+	CustomPropertySerializer custom_serializer;
+
+	Entity entity = Entity(factory); //<-- push in "custom" serializer
 	Property<Vector3<F32>> testVec3f = entity.addProperty<Vector3<F32>>("TestVec3f", Vector3<F32>(1.1f, 2.22f, 3.333f));
 	Property<bool> testBool = entity.addProperty<bool>("TestBool", true);
 	Property<S32> testInt = entity.addProperty<S32>("TestInt", -10);
 	PropertyList<Vector3<S32>> testVec3iList = entity.addPropertyList<Vector3<S32>>("TestVec3iList");
 	testVec3iList.push_back(Vector3<S32>(1,2,3));
 	testVec3iList.push_back(Vector3<S32>(-1,-2,-3));
-
-	//This should fail unless USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND is enabled in types_config.h
-	try
-	{
-		PropertyList<bool> testBoolList = entity.addPropertyList<bool>("TestBoolList");
-		testBoolList.push_back(true);
-	}
-	catch(T_Exception &e)
-	{
-		std::cout << "This exception is supposed to happen unless you enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND, so don't panic!" << std::endl;
-		std::cout << "std::vector<bool> handling exception: " << e.what() << std::endl;
-	}
-
 	
 	Entity entity2 = Entity(factory); //<-- instanciate "default" serializer
 	Property<U32> testUInt = entity2.addProperty<U32>("TestUInt", 20);
@@ -96,13 +84,13 @@ int main()
 
 	printReady("Serialized values:");
 
-	T_String strVec3f = testVec3f.toString();
-	T_String strBool = testBool.toString();
-	T_String strInt = testInt.toString();
-	T_String strUInt = testUInt.toString();
-	T_String strFloat = testFloat.toString();
-	T_String strVec3iList = testVec3iList.toString();
-	T_String strFloatList = testFloatList.toString();
+	T_String strVec3f = testVec3f.toString(custom_serializer);
+	T_String strBool = testBool.toString(custom_serializer);
+	T_String strInt = testInt.toString(custom_serializer);
+	T_String strUInt = testUInt.toString(serializer);
+	T_String strFloat = testFloat.toString(serializer);
+	T_String strVec3iList = testVec3iList.toString(custom_serializer);
+	T_String strFloatList = testFloatList.toString(serializer);
 
 	std::cout << "Vec3f: " << strVec3f.c_str() << std::endl;
 	std::cout << "Bool: " << strBool.c_str() << std::endl;
@@ -114,13 +102,13 @@ int main()
 
 	printReady("Deserialized values:");
 
-	testVec3f.fromString(strVec3f);
-	testBool.fromString(strBool);
-	testInt.fromString(strInt);
-	testUInt.fromString(strUInt);
-	testFloat.fromString(strFloat);
-	testVec3iList.fromString(strVec3iList);
-	testFloatList.fromString(strFloatList);
+	testVec3f.fromString(strVec3f, custom_serializer);
+	testBool.fromString(strBool, custom_serializer);
+	testInt.fromString(strInt, custom_serializer);
+	testUInt.fromString(strUInt, serializer);
+	testFloat.fromString(strFloat, serializer);
+	testVec3iList.fromString(strVec3iList, custom_serializer);
+	testFloatList.fromString(strFloatList, serializer);
 
 	std::cout << "Vec3f: " << testVec3f.get().x << " " << testVec3f.get().y << " " << testVec3f.get().z << std::endl;
 	std::cout << "Bool: " << testBool.get() << std::endl;

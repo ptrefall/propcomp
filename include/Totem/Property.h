@@ -57,8 +57,6 @@ public:
 	T_String name;
 	/// Is the property read-only?
 	bool readOnly;
-	/// The serializer interface that knows how to convert this property's data to/from string.
-	IPropertySerializer *serializer;
 	/// Signal that's emitted when the value of the property change, returning the old and new value.
 	typename T_Signal_v2<const T&, const T&>::Type valueChanged;
 };
@@ -127,15 +125,13 @@ public:
 	 * Constructor
 	 *
 	 * @param name Name of the property.
-	 * @param serializer Reference to the class that can convert this property to/from string
 	 * @param readOnly Should the property be read only? (Defaults to false).
 	 */
-	Property(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
+	Property(const T_String &name, bool readOnly = false)
 	: data(new PropertyData<T>())
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
-		data->serializer = &serializer;
 		type = getType<T>(); //RTTI id
 	}
 
@@ -196,14 +192,16 @@ public:
 
 	/**
 	 * Call this function to serialize the value of the property into a string.
+	 * @param serializer The serializer to use for serialization.
 	 * @return Returns the serialized string value of this property.
 	 */
-	virtual T_String toString() { return data->serializer->toString(this); }
+	virtual T_String toString(IPropertySerializer &serializer) { return serializer.toString(this); }
 	/**
 	 * Call this function to deserialize a value from the string.
 	 * @param serialized_property The serialized string to deserialize.
+	 * @param serializer The serializer to use for deserialization.
 	 */
-	virtual void fromString(const T_String &serialized_property) { data->serializer->fromString(this, serialized_property); }
+	virtual void fromString(const T_String &serialized_property, IPropertySerializer &serializer) { serializer.fromString(this, serialized_property); }
 
 	/**
 	 * Function that gives the outside access to the PropertyData's
