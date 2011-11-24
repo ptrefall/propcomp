@@ -34,11 +34,23 @@ if (CMAKE_BUILD_TYPE STREQUAL "")
 endif ()
  
 set(CMAKE_DEBUG_POSTFIX "_d")
-if(MSVC)
-	set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif(MSVC)
+
+# define an option for choosing between static and dynamic C runtime
+set(STATIC_STD_LIBS TRUE CACHE BOOL "TRUE to statically link to the standard libraries, FALSE to use them as DLLs")
 
 if(MSVC)
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+  
+  if(STATIC_STD_LIBS)
+	foreach(flag
+	  CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+	  CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+	  if(${flag} MATCHES "/MD")
+		string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+	  endif()
+	endforeach()
+  endif()
+  
   # Force to always compile with W4
   if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
     string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
