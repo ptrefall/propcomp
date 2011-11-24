@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Remove special bool handling
  * 1) Add group description to properties
  * 2) Revisit serializer interface and the handling internal in properties.
  * 3) Add preprocessor for 3rd party libraries.
@@ -23,3 +22,5 @@
    * Create new Entity type (!GameObject, !TotemExamples::Entity?) for examples that uses totem core and events
  * 1) Fix hashing for linux (add bundled min-depend on !MurmurHash3).
  * 1) Remove v7 and v8 editions of template classes
+ * 1) Remove special bool handling
+ * 1) Remove template and any event handler defines and checks in example code + types_config.h
