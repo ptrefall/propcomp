@@ -61,22 +61,6 @@ bool TemplateEventHandler::hasEvent(const T_HashedString &id, int num_params)
 		else
 			return false;
 	}
-	else if(num_params == 7)
-	{
-		T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events7.find(id.getId());
-		if(it != events7.end())
-			return true;
-		else
-			return false;
-	}
-	else if(num_params == 8)
-	{
-		T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events8.find(id.getId());
-		if(it != events8.end())
-			return true;
-		else
-			return false;
-	}
 	else
 	{
 		T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events0.find(id.getId());
@@ -99,12 +83,6 @@ bool TemplateEventHandler::hasEvent(const T_HashedString &id, int num_params)
 			return true;
 		it = events6.find(id.getId());
 		if(it != events6.end())
-			return true;
-		it = events7.find(id.getId());
-		if(it != events7.end())
-			return true;
-		it = events8.find(id.getId());
-		if(it != events8.end())
 			return true;
 
 		return false;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Totem::DelegateHandler
+ * @class Totem::Addon::DelegateHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -137,36 +137,6 @@ public:
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
 	RetType call6(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6);
 
-	/**
-	 * Calls all slots registered to the delegate signal of type holding seven parameters.
-	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
-	 * @param param4 Fourth parameter of type Param4.
-	 * @param param5 Fifth parameter of type Param5.
-	 * @param param6 Sixth parameter of type Param6.
-	 * @param param7 Seventh parameter of type Param7.
-	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
-	RetType call7(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7);
-
-	/**
-	 * Calls all slots registered to the delegate signal of type holding eight parameters.
-	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
-	 * @param param4 Fourth parameter of type Param4.
-	 * @param param5 Fifth parameter of type Param5.
-	 * @param param6 Sixth parameter of type Param6.
-	 * @param param7 Seventh parameter of type Param7.
-	 * @param param8 Eight parameter of type Param8.
-	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
-	RetType call8(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7, const Param8 &param8);
 	//--------------------------------------------------------------
 
 	/**
@@ -231,24 +201,6 @@ public:
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
 	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &registerFunction6(const T_HashedString &type);
-
-	/**
-	 * Register a slot to the delegate signal of type holding seven parameters.
-	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires seven parameters in the slot.
-	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
-	typename T_Delegate_v7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType>::Type &registerFunction7(const T_HashedString &type);
-
-	/**
-	 * Register a slot to the delegate signal of type holding eight parameters.
-	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires eight parameters in the slot.
-	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
-	typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType>::Type &registerFunction8(const T_HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -328,22 +280,7 @@ protected:
 		/// Delegate taking six parameters
 		typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type delegate;
 	};
-	/// Delegate holding a delegate that requires seven parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
-	class Delegate7 : public IDelegate
-	{
-	public:
-		/// Delegate taking seven parameters
-		typename T_Delegate_v7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires eight parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
-	class Delegate8 : public IDelegate
-	{
-	public:
-		/// Delegate taking eight parameters
-		typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType>::Type delegate;
-	};
+	
 	/// Map of parameter-less delegate delegates held by DelegateHandler.
 	T_Map<T_HashedStringType, IDelegate*>::Type delegates0;
 	/// Map of delegate delegates with one parameter held by DelegateHandler.
@@ -358,10 +295,6 @@ protected:
 	T_Map<T_HashedStringType, IDelegate*>::Type delegates5;
 	/// Map of delegate delegates with six parameters held by DelegateHandler.
 	T_Map<T_HashedStringType, IDelegate*>::Type delegates6;
-	/// Map of delegate delegates with seven parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates7;
-	/// Map of delegate delegates with eight parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates8;
 };
 
 //------------------------------------------------------
@@ -475,40 +408,6 @@ inline RetType DelegateHandler::call6(const T_HashedString &type, const Param1 &
 	return delegate->delegate(param1, param2, param3, param4, param5, param6);
 #else
 	return static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5, param6);
-#endif
-}
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
-inline RetType DelegateHandler::call7(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7)
-{
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates7.find(type.getId());
-	if(it == delegates7.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates7 registry!").c_str());
-
-#ifdef _DEBUG
-	Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType> *delegate = dynamic_cast<Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3, param4, param5, param6, param7);
-#else
-	return static_cast<Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5, param6, param7);
-#endif
-}
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
-inline RetType DelegateHandler::call8(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6, const Param7 &param7, const Param8 &param8)
-{
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates8.find(type.getId());
-	if(it == delegates8.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates8 registry!").c_str());
-
-#ifdef _DEBUG
-	Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType> *delegate = dynamic_cast<Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3, param4, param5, param6, param7, param8);
-#else
-	return static_cast<Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5, param6, param7, param8);
 #endif
 }
 
@@ -677,56 +576,6 @@ inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, Re
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		delegate = static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
-}
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType>
-inline typename T_Delegate_v7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType>::Type &DelegateHandler::registerFunction7(const T_HashedString &type)
-{
-	Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates7.find(type.getId());
-	if(it == delegates7.end())
-	{
-		delegate = new Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType>();
-		delegates7[type.getId()] = delegate;
-	}
-	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate7<Param1,Param2,Param3,Param4,Param5,Param6,Param7, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
-}
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType>
-inline typename T_Delegate_v8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType>::Type &DelegateHandler::registerFunction8(const T_HashedString &type)
-{
-	Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates8.find(type.getId());
-	if(it == delegates8.end())
-	{
-		delegate = new Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType>();
-		delegates8[type.getId()] = delegate;
-	}
-	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate8<Param1,Param2,Param3,Param4,Param5,Param6,Param7,Param8, RetType>*>(it->second);
 #endif
 	}
 

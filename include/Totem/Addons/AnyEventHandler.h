@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Totem::AnyEventHandler
+ * @class Totem::Addon::AnyEventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -134,35 +134,6 @@ public:
 	 */
 	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5);
 
-	/**
-	 * Calls all slots registered to the event signal of type holding seven arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T.
-	 * @param arg1 Second argument of type U.
-	 * @param arg2 Third argument of type V.
-	 * @param arg3 Fourth argument of type W.
-	 * @param arg4 Fifth argument of type X.
-	 * @param arg5 Sixth argument of type Y.
-	 * @param arg6 Seventh argument of type Z.
-	 */
-	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6);
-
-	/**
-	 * Calls all slots registered to the event signal of type holding eight arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T.
-	 * @param arg1 Second argument of type U.
-	 * @param arg2 Third argument of type V.
-	 * @param arg3 Fourth argument of type W.
-	 * @param arg4 Fifth argument of type X.
-	 * @param arg5 Sixth argument of type Y.
-	 * @param arg6 Seventh argument of type Z.
-	 * @param arg7 Eight argument of type S.
-	 */
-	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7);
-
 	//--------------------------------------------------------------
 
 	/**
@@ -256,39 +227,6 @@ public:
 	 */
 	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time);
 
-	/**
-	 * Schedule an event that after X seconds will call all slots 
-	 * registered to the event signal of type holding seven arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T_Any.
-	 * @param arg1 Second argument of type T_Any.
-	 * @param arg2 Third argument of type T_Any.
-	 * @param arg3 Fourth argument of type T_Any.
-	 * @param arg4 Fifth argument of type T_Any.
-	 * @param arg5 Sixth argument of type T_Any.
-	 * @param arg6 Seventh argument of type T_Any.
-	 * @param time The time in seconds this event should be delayed by
-	 */
-	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time);
-
-	/**
-	 * Schedule an event that after X seconds will call all slots 
-	 * registered to the event signal of type holding eight arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T_Any.
-	 * @param arg1 Second argument of type T_Any.
-	 * @param arg2 Third argument of type T_Any.
-	 * @param arg3 Fourth argument of type T_Any.
-	 * @param arg4 Fifth argument of type T_Any.
-	 * @param arg5 Sixth argument of type T_Any.
-	 * @param arg6 Seventh argument of type T_Any.
-	 * @param arg7 Eight argument of type T_Any.
-	 * @param time The time in seconds this event should be delayed by
-	 */
-	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time);
-
 	//--------------------------------------------------------------
 
 	/**
@@ -347,22 +285,6 @@ public:
 	 */
 	T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent6(const T_HashedString &type);
 
-	/**
-	 * Register a slot to the event signal of type holding seven arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @return A signal that requires seven arguments in the slot.
-	 */
-	T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent7(const T_HashedString &type);
-
-	/**
-	 * Register a slot to the event signal of type holding eight arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @return A signal that requires eight arguments in the slot.
-	 */
-	T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent8(const T_HashedString &type);
-
 	//--------------------------------------------------------------
 
 	bool hasEvent(const T_HashedString &id, int num_params = -1);
@@ -382,10 +304,6 @@ protected:
 	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events5;
 	/// Map of event signals with six arguments held by EventHandler.
 	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events6;
-	/// Map of event signals with seven arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events7;
-	/// Map of event signals with eight arguments held by EventHandler.
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events8;
 
 	//--------------------------------------------------------
 
@@ -478,24 +396,6 @@ inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T
 
 }
 
-inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6)
-{
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
-	if(it == events7.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events7 registry!").c_str());
-
-	it->second.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-}
-
-inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7)
-{
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
-	if(it == events8.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events8 registry!").c_str());
-
-	it->second.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-}
-
 //------------------------------------------------------
 
 inline void AnyEventHandler::updateScheduledEvents(const F32 &deltaTime)
@@ -523,10 +423,6 @@ inline void AnyEventHandler::updateScheduledEvents(const F32 &deltaTime)
 				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4]);
 			else if(event->arguments.size() == 6)
 				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4], event->arguments[5]);
-			else if(event->arguments.size() == 7)
-				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4], event->arguments[5], event->arguments[6]);
-			else if(event->arguments.size() == 8)
-				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4], event->arguments[5], event->arguments[6], event->arguments[7]);
 
 			event->empty = true;
 			scheduledEvents[i] = scheduledEvents.back();
@@ -725,78 +621,6 @@ inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg
 	scheduledEvents.push_back(event);
 }
 
-inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, const F32 &time)
-{
-	//Check first if any instance of scheduled event that
-	//already excist is free for writing...
-	for(U32 i = 0; i < scheduledEvents.size(); i++)
-	{
-		ScheduledEvent *event = scheduledEvents[i];
-		if(event->empty)
-		{
-			event->empty = false;
-			event->type = type;
-			event->time = time;
-			event->arguments.clear();
-			event->arguments.push_back(arg0);
-			event->arguments.push_back(arg1);
-			event->arguments.push_back(arg2);
-			event->arguments.push_back(arg3);
-			event->arguments.push_back(arg4);
-			event->arguments.push_back(arg5);
-			event->arguments.push_back(arg6);
-			return;
-		}
-	}
-
-	ScheduledEvent *event = new ScheduledEvent(type, time);
-	event->arguments.push_back(arg0);
-	event->arguments.push_back(arg1);
-	event->arguments.push_back(arg2);
-	event->arguments.push_back(arg3);
-	event->arguments.push_back(arg4);
-	event->arguments.push_back(arg5);
-	event->arguments.push_back(arg6);
-	scheduledEvents.push_back(event);
-}
-
-inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, T_Any arg6, T_Any arg7, const F32 &time)
-{
-	//Check first if any instance of scheduled event that
-	//already excist is free for writing...
-	for(U32 i = 0; i < scheduledEvents.size(); i++)
-	{
-		ScheduledEvent *event = scheduledEvents[i];
-		if(event->empty)
-		{
-			event->empty = false;
-			event->type = type;
-			event->time = time;
-			event->arguments.clear();
-			event->arguments.push_back(arg0);
-			event->arguments.push_back(arg1);
-			event->arguments.push_back(arg2);
-			event->arguments.push_back(arg3);
-			event->arguments.push_back(arg4);
-			event->arguments.push_back(arg5);
-			event->arguments.push_back(arg6);
-			event->arguments.push_back(arg7);
-			return;
-		}
-	}
-
-	ScheduledEvent *event = new ScheduledEvent(type, time);
-	event->arguments.push_back(arg0);
-	event->arguments.push_back(arg1);
-	event->arguments.push_back(arg2);
-	event->arguments.push_back(arg3);
-	event->arguments.push_back(arg4);
-	event->arguments.push_back(arg5);
-	event->arguments.push_back(arg6);
-	event->arguments.push_back(arg7);
-	scheduledEvents.push_back(event);
-}
-
 //------------------------------------------------------------------
 
 inline T_Signal_v0<>::Type &AnyEventHandler::registerToEvent0(const T_HashedString &type)
@@ -858,24 +682,6 @@ inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHand
 	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
 	if(it == events6.end())
 		return events6[type.getId()] = T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
-	else
-		return it->second;
-}
-
-inline T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent7(const T_HashedString &type)
-{
-	T_Map<T_HashedStringType, T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events7.find(type.getId());
-	if(it == events7.end())
-		return events7[type.getId()] = T_Signal_v7<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
-	else
-		return it->second;
-}
-
-inline T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent8(const T_HashedString &type)
-{
-	T_Map<T_HashedStringType, T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events8.find(type.getId());
-	if(it == events8.end())
-		return events8[type.getId()] = T_Signal_v8<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
 		return it->second;
 }

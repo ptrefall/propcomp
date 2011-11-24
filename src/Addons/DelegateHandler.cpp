@@ -61,22 +61,6 @@ bool DelegateHandler::hasFunction(const T_HashedString &id, int num_params)
 		else
 			return false;
 	}
-	else if(num_params == 7)
-	{
-		T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates7.find(id.getId());
-		if(it != delegates7.end())
-			return true;
-		else
-			return false;
-	}
-	else if(num_params == 8)
-	{
-		T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates8.find(id.getId());
-		if(it != delegates8.end())
-			return true;
-		else
-			return false;
-	}
 	else
 	{
 		T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates0.find(id.getId());
@@ -99,12 +83,6 @@ bool DelegateHandler::hasFunction(const T_HashedString &id, int num_params)
 			return true;
 		it = delegates6.find(id.getId());
 		if(it != delegates6.end())
-			return true;
-		it = delegates7.find(id.getId());
-		if(it != delegates7.end())
-			return true;
-		it = delegates8.find(id.getId());
-		if(it != delegates8.end())
 			return true;
 
 		return false;
