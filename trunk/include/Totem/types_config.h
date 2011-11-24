@@ -60,10 +60,10 @@
 
 //And include the defined types.h
 //-------------------------------------------------------------------
-#ifdef USE_MINIMAL_DEPENDS_TYPES
+#if defined(USE_MINIMAL_DEPENDS_TYPES)
 #include "../depends/MinDepends/types.h"
-#elif USE_BOOST_TYPES
+#elif defined(USE_BOOST_TYPES)
 #include "../depends/Boost/types.h"
-#elif USE_CLANLIB_TYPES
+#elif defined(USE_CLANLIB_TYPES)
 #include "../depends/ClanLib/types.h"
 #endif
