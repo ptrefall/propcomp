@@ -140,5 +140,5 @@ void printStartup()
 void printReady(const T_String &msg)
 {
 	system("pause");
-	std::cout << "\n" << msg << "\n";
+	std::cout << "\n" << msg.c_str() << "\n";
 }
