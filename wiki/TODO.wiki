@@ -23,4 +23,5 @@
  * 1) Remove special bool handling
  * 1) Remove template and any event handler defines and checks in example code + types_config.h
  * 2) Revisit serializer interface and the handling internal in properties.
+ * 1) Add option in cmake to set the project's runtime library to static, not the default DLL (at least in visual studio).
  * 1) Add group description to properties
