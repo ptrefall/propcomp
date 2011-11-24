@@ -45,6 +45,31 @@ ComponentFactory::~ComponentFactory()
 		creators_custom1->clear();
 		delete creators_custom1;
 	}
+	if(creators_custom2)
+	{
+		creators_custom2->clear();
+		delete creators_custom2;
+	}
+	if(creators_custom3)
+	{
+		creators_custom3->clear();
+		delete creators_custom3;
+	}
+	if(creators_custom4)
+	{
+		creators_custom4->clear();
+		delete creators_custom4;
+	}
+	if(creators_custom5)
+	{
+		creators_custom5->clear();
+		delete creators_custom5;
+	}
+	if(creators_custom6)
+	{
+		creators_custom6->clear();
+		delete creators_custom6;
+	}
 }
 
 //-----------------------------------------------------------------------------

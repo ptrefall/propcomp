@@ -220,7 +220,6 @@ public:
 	 * Default Constructor, results in a PropertyList with no data!
 	 */
 	PropertyList()
-	: serializer(NULL_PTR)
 	{
 		type = getType<T>();
 	}
@@ -229,7 +228,7 @@ public:
 	 * Copy Constructor
 	 */
 	PropertyList(const PropertyList& copy)
-	: data(copy.data), serializer(copy.serializer)
+	: data(copy.data)
 	{
 		type = getType<T>();
 	}
@@ -238,11 +237,10 @@ public:
 	 * Constructor
 	 *
 	 * @param name Name of the property list.
-	 * @param serializer The serializer that can convert this property list to/from string
 	 * @param readOnly Should the property list be read only? (Defaults to false).
 	 */
-	PropertyList(const T_String &name, IPropertySerializer &serializer, bool readOnly = false)
-	: data(new PropertyListData<T>()), serializer(&serializer)
+	PropertyList(const T_String &name, bool readOnly = false)
+	: data(new PropertyListData<T>())
 	{	
 		data->name = name;
 		data->readOnly = readOnly;
@@ -397,14 +395,16 @@ public:
 
 	/**
 	 * Call this function to serialize the value of the property list into a string.
+	 * @param serializer The serializer to use for serialization.
 	 * @return Returns the serialized string value of this property list.
 	 */
-	virtual T_String toString() { return serializer->toString(this); }
+	virtual T_String toString(IPropertySerializer &serializer) { return serializer.toString(this); }
 	/**
 	 * Call this function to deserialize a value from the string.
 	 * @param serialized_propertyList The serialized string to deserialize.
+	 * @param serializer The serializer to use for deserialization.
 	 */
-	virtual void fromString(const T_String &serialized_propertyList) { serializer->fromString(this, serialized_propertyList); }
+	virtual void fromString(const T_String &serialized_propertyList, IPropertySerializer &serializer) { serializer.fromString(this, serialized_propertyList); }
 
 	/**
 	 * Function that gives the outside access to the PropertyListData's
@@ -454,8 +454,6 @@ public:
 private:
 	/// PropertyListData of the Property list is stored inside a shared pointer.
 	typename T_SharedPtr< PropertyListData<T> >::Type data;
-	/// The serializer interface that knows how to convert this property list's data to/from string.
-	IPropertySerializer *serializer;
 };
 
 template<class T>
