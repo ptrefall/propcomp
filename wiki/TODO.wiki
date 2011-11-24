@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Add group description to properties
  * 3) Add preprocessor for 3rd party libraries.
    * !ClanLib
    * Boost
@@ -24,3 +23,4 @@
  * 1) Remove special bool handling
  * 1) Remove template and any event handler defines and checks in example code + types_config.h
  * 2) Revisit serializer interface and the handling internal in properties.
+ * 1) Add group description to properties
