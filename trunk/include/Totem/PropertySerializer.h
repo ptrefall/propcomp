@@ -96,15 +96,9 @@ public:
 	 */
 	virtual T_String toString(IPropertyList *const propertyList)
 	{
-		if(propertyList->getType() == IPropertyList::getType<bool>())
-		{
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+		/*if(propertyList->getType() == IPropertyList::getType<bool>())
 			return serialize<bool>(propertyList);
-#else
-			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
-#endif
-		}
-		else if(propertyList->getType() == IPropertyList::getType<char>())
+		else*/ if(propertyList->getType() == IPropertyList::getType<char>())
 			return serialize<char>(propertyList);
 		else if(propertyList->getType() == IPropertyList::getType<unsigned char>())
 			return serialize<unsigned char>(propertyList);
@@ -152,15 +146,9 @@ public:
 	 */
 	virtual void fromString(IPropertyList *const propertyList, const T_String &serialized_propertyList)
 	{
-		if(propertyList->getType() == IPropertyList::getType<bool>())
-		{
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
+		/*if(propertyList->getType() == IPropertyList::getType<bool>())
 			deserialize<bool>(propertyList, serialized_propertyList);
-#else
-			throw T_Exception("Enable USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND in types_config.h in order to use bool with PropertyList, but read the comment thoroughly!");
-#endif
-		}
-		else if(propertyList->getType() == IPropertyList::getType<char>())
+		else*/ if(propertyList->getType() == IPropertyList::getType<char>())
 			deserialize<char>(propertyList, serialized_propertyList);
 		else if(propertyList->getType() == IPropertyList::getType<unsigned char>())
 			deserialize<unsigned char>(propertyList, serialized_propertyList);
@@ -203,16 +191,7 @@ private:
 		std::stringstream stream;
 		stream << prop->size() << " ";
 		for(U32 i = 0; i < prop->size(); i++)
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
-		{
-			if(prop->getId() == IPropertyList::getTypeId<bool>())
-				stream << prop->at_bool(i).get() << " ";
-			else
-				stream << prop->at(i).get() << " ";
-		}
-#else
 			stream << prop->at(i).get() << " ";
-#endif
 		return stream.str();
 	}
 
@@ -252,22 +231,8 @@ private:
 		for(U32 i = 0; i < size; i++)
 		{
 			stream >> value;
-#if USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND
-			if(prop->getId() == IPropertyList::getTypeId<bool>())
-			{
-				PropertyListIndexValueBool<T> index = prop->at_bool(i);
-				index.set(value);
-			}
-			else
-			{
-				PropertyListIndexValue<T> index = prop->at(i);
-				index.set(value);
-			}
-			
-#else
 			PropertyListIndexValue<T> index = prop->at(i);
 			index.set(value);
-#endif
 		}
 	}
 };

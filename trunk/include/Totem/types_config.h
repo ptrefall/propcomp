@@ -51,44 +51,6 @@
  */
 #define NULL_PTR 0x0
 
-/**
- * The Template-based event handler uses templates to send typesafe arguments with an event.
- */
-#define USE_TEMPLATE_EVENT_HANDLER 1
-#ifndef USE_TEMPLATE_EVENT_HANDLER
-/**
- * The Any-based event handler uses the Any type to send typesafe arguments with an event.
- * This implementation also supports scheduled events seamlessly.
- */
-#define USE_ANY_EVENT_HANDLER 1
-#endif
-
-/**
- * Std Vector has a special handling of vector<bool> that doesn't support referencing the
- * values of the list. Since we're using templates throughout Totem, in order to treat
- * bool as a special case, we need to use RTTI in order to recognize the use of booleans.
- * The problem is that this forces RTTI on all types, and may slow down your performance.
- * When looking up the vector<bool> problem online, one solution that's often suggested,
- * is to store bools as unsigned chars, and manualy cast to bool upon usage.
- * The reason why this affects PropertyList, is because of how the PropertyListIndexValue
- * works, which has a const T &get() const { return data->value[index]; } method. This works
- * for all cases except for bool, which has to be handled as a special case of
- * const bool get() const { return data->value[index]; }. If you're NOT using bool with
- * PropertyList, you can leave this define as 0, and no RTTI will toll your execution.
- */
-#define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND 0
-
-/**
- * When enabled, the PropertyList class will perform an internal RTTI on its type id, to
- * check whether it's a bool, and if bool, it will throw an exception if
- * USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_WORKAROUND was NOT enabled/0. This is a safeguard to
- * prevent unaware users from using bool with PropertyList, and to make them aware of the
- * problem related to use of bool with std::vector, and how it can impact PropertyList.
- * Disable this/0 if you understand the problem and won't get caught by it, as it does add
- * an RTTI for each time a new PropertyList is constructed.
- */
-#define USE_PROPERTY_LIST_BOOL_VECTOR_RTTI_INTERNAL_TYPE_CHECK 1
-
 //And here we define each type, only one should be defined
 //-------------------------------------------------------------------
 /// Define this if the system should use the minimal dependency types

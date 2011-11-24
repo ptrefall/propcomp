@@ -40,11 +40,7 @@ namespace Components
 		Totem::Property<F32> minEnergy_property;
 		Totem::Property<F32> maxEnergy_property;
 
-#if USE_TEMPLATE_EVENT_HANDLER
 		void onSpendEffectEvent(const F32 &effect);
-#elif USE_ANY_EVENT_HANDLER
-		void onSpendEffectEvent(T_Any effect);
-#endif
 
 		T_HashedString spendEffectEventId;
 	};

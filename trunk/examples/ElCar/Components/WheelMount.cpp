@@ -37,11 +37,7 @@ WheelMount::WheelMount(Entity &owner, const T_String &name)
 	activeWheelCount_property = owner.addProperty<U32>("ActiveWheelCount", 2); //Two wheels can accelerate by throttling by default
 	velocity_property = owner.addProperty<F32>("Velocity", 0.0f);
 
-#if USE_TEMPLATE_EVENT_HANDLER
 	owner.registerToEvent1<const F32&>(accelerateWheelsEventId).connect(this, &WheelMount::onAccelerateWheelsEvent);
-#elif USE_ANY_EVENT_HANDLER
-	owner.registerToEvent1(accelerateWheelsEventId).connect(this, &WheelMount::onAccelerateWheelsEvent);
-#endif
 }
 
 WheelMount::~WheelMount()
@@ -65,31 +61,16 @@ void WheelMount::update(const F32 &/*deltaTime*/)
 	{
 		for(U32 i = 0; i < wheels_property_list.size(); i++)
 		{
-#if USE_TEMPLATE_EVENT_HANDLER
 			wheels_property_list.get()[i]->sendEvent1<const F32&>(syncVelocityEventId, avgVelocity);
-#elif USE_ANY_EVENT_HANDLER
-			wheels_property_list.get()[i]->sendEvent(syncVelocityEventId, T_Any(avgVelocity));
-#endif
-			
 		}
 	}
 }
 
-#if USE_TEMPLATE_EVENT_HANDLER
 void WheelMount::onAccelerateWheelsEvent(const F32 &force)
 {
-#elif USE_ANY_EVENT_HANDLER
-void WheelMount::onAccelerateWheelsEvent(T_Any force_any)
-{
-	//const F32 &force = force_any.cast<F32>();
-#endif
 	//Force wheels to spin
 	for(U32 i = 0; i < wheels_property_list.size() && i < activeWheelCount_property.get(); i++)
 	{
-#if USE_TEMPLATE_EVENT_HANDLER
 		wheels_property_list.get()[i]->sendEvent1<const F32&>(forceAngularAccelerationEventId, force);
-#elif USE_ANY_EVENT_HANDLER
-		wheels_property_list.get()[i]->sendEvent(forceAngularAccelerationEventId, force_any);
-#endif
 	}
 }
