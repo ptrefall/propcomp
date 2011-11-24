@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @class Totem::TemplateEventHandler
+ * @class Totem::Addon::TemplateEventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
@@ -136,37 +136,6 @@ public:
 	template<class T, class U, class V, class W, class X, class Y> 
 	void sendEvent6(const T_HashedString &type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
 
-	/**
-	 * Calls all slots registered to the event signal of type holding seven arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T.
-	 * @param arg1 Second argument of type U.
-	 * @param arg2 Third argument of type V.
-	 * @param arg3 Fourth argument of type W.
-	 * @param arg4 Fifth argument of type X.
-	 * @param arg5 Sixth argument of type Y.
-	 * @param arg6 Seventh argument of type Z.
-	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z> 
-	void sendEvent7(const T_HashedString &type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
-
-	/**
-	 * Calls all slots registered to the event signal of type holding eight arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @param arg0 First argument of type T.
-	 * @param arg1 Second argument of type U.
-	 * @param arg2 Third argument of type V.
-	 * @param arg3 Fourth argument of type W.
-	 * @param arg4 Fifth argument of type X.
-	 * @param arg5 Sixth argument of type Y.
-	 * @param arg6 Seventh argument of type Z.
-	 * @param arg7 Eight argument of type S.
-	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S> 
-	void sendEvent8(const T_HashedString &type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6, S arg7);
-
 	//--------------------------------------------------------------
 
 	/**
@@ -230,24 +199,6 @@ public:
 	 */
 	template<class T, class U, class V, class W, class X, class Y>
 	typename T_Signal_v6<T, U, V, W, X, Y>::Type &registerToEvent6(const T_HashedString &type);
-
-	/**
-	 * Register a slot to the event signal of type holding seven arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @return A signal that requires seven arguments in the slot.
-	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z>
-	typename T_Signal_v7<T, U, V, W, X, Y, Z>::Type &registerToEvent7(const T_HashedString &type);
-
-	/**
-	 * Register a slot to the event signal of type holding eight arguments.
-	 *
-	 * @param type The hashed type string id of the event.
-	 * @return A signal that requires eight arguments in the slot.
-	 */
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-	typename T_Signal_v8<T, U, V, W, X, Y, Z, S>::Type &registerToEvent8(const T_HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -323,22 +274,7 @@ protected:
 		/// Signal taking six arguments
 		typename T_Signal_v6<T, U, V, W, X, Y>::Type signal;
 	};
-	/// Event holding a signal that requires seven arguments.
-	template<class T, class U, class V, class W, class X, class Y, class Z> 
-	class EventSignal7 : public IEventSignal
-	{
-	public:
-		/// Signal taking seven arguments
-		typename T_Signal_v7<T, U, V, W, X, Y, Z>::Type signal;
-	};
-	/// Event holding a signal that requires eight arguments.
-	template<class T, class U, class V, class W, class X, class Y, class Z, class S> 
-	class EventSignal8 : public IEventSignal
-	{
-	public:
-		/// Signal taking eight arguments
-		typename T_Signal_v8<T, U, V, W, X, Y, Z, S>::Type signal;
-	};
+
 	/// Map of argument-less event signals held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events0;
 	/// Map of event signals with one argument held by TemplateEventHandler.
@@ -353,10 +289,6 @@ protected:
 	T_Map<T_HashedStringType, IEventSignal*>::Type events5;
 	/// Map of event signals with six arguments held by TemplateEventHandler.
 	T_Map<T_HashedStringType, IEventSignal*>::Type events6;
-	/// Map of event signals with seven arguments held by TemplateEventHandler.
-	T_Map<T_HashedStringType, IEventSignal*>::Type events7;
-	/// Map of event signals with eight arguments held by TemplateEventHandler.
-	T_Map<T_HashedStringType, IEventSignal*>::Type events8;
 };
 
 //------------------------------------------------------
@@ -469,40 +401,6 @@ inline void TemplateEventHandler::sendEvent6(const T_HashedString &type, T arg0,
 	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
 #else
 	static_cast<EventSignal6<T,U,V,W,X,Y>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
-#endif
-}
-
-template<class T, class U, class V, class W, class X, class Y, class Z>
-inline void TemplateEventHandler::sendEvent7(const T_HashedString &type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
-{
-	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events7.find(type.getId());
-	if(it == events7.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events7 registry!").c_str());
-
-#ifdef _DEBUG
-	EventSignal7<T,U,V,W,X,Y,Z> *signal = dynamic_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-#else
-	static_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-#endif
-}
-
-template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-inline void TemplateEventHandler::sendEvent8(const T_HashedString &type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6, S arg7)
-{
-	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events8.find(type.getId());
-	if(it == events8.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events8 registry!").c_str());
-
-#ifdef _DEBUG
-	EventSignal8<T,U,V,W,X,Y,Z,S> *signal = dynamic_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-#else
-	static_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 #endif
 }
 
@@ -670,56 +568,6 @@ inline typename T_Signal_v6<T, U, V, W, X, Y>::Type &TemplateEventHandler::regis
 			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = static_cast<EventSignal6<T,U,V,W,X,Y>*>(it->second);
-#endif
-	}
-
-	return signal->signal;
-}
-
-template<class T, class U, class V, class W, class X, class Y, class Z>
-inline typename T_Signal_v7<T, U, V, W, X, Y, Z>::Type &TemplateEventHandler::registerToEvent7(const T_HashedString &type)
-{
-	EventSignal7<T,U,V,W,X,Y,Z> *signal = NULL_PTR;
-
-	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events7.find(type.getId());
-	if(it == events7.end())
-	{
-		signal = new EventSignal7<T,U,V,W,X,Y,Z>();
-		events7[type.getId()] = signal;
-	}
-	else
-	{
-#ifdef _DEBUG
-		signal = dynamic_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-#else
-		signal = static_cast<EventSignal7<T,U,V,W,X,Y,Z>*>(it->second);
-#endif
-	}
-
-	return signal->signal;
-}
-
-template<class T, class U, class V, class W, class X, class Y, class Z, class S>
-inline typename T_Signal_v8<T, U, V, W, X, Y, Z, S>::Type &TemplateEventHandler::registerToEvent8(const T_HashedString &type)
-{
-	EventSignal8<T,U,V,W,X,Y,Z,S> *signal = NULL_PTR;
-
-	T_Map<T_HashedStringType, IEventSignal*>::Type::iterator it = events8.find(type.getId());
-	if(it == events8.end())
-	{
-		signal = new EventSignal8<T,U,V,W,X,Y,Z,S>();
-		events8[type.getId()] = signal;
-	}
-	else
-	{
-#ifdef _DEBUG
-		signal = dynamic_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
-#else
-		signal = static_cast<EventSignal8<T,U,V,W,X,Y,Z,S>*>(it->second);
 #endif
 	}
 

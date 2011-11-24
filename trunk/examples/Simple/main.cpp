@@ -128,14 +128,14 @@ private:
 class CustomParamsHolder : public Component
 {
 public:
-	COMPONENT_8(Entity, CustomParamsHolder, int, int, int, int, int, int, int, int)
-	CustomParamsHolder(Entity &owner, const T_String &name, int &a, int &b, int &c, int &d, int &e, int &f, int &g, int &h)
-	: Component(name), owner(owner), a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h)
+	COMPONENT_6(Entity, CustomParamsHolder, int, int, int, int, int, int)
+	CustomParamsHolder(Entity &owner, const T_String &name, int &a, int &b, int &c, int &d, int &e, int &f)
+	: Component(name), owner(owner), a(a), b(b), c(c), d(d), e(e), f(f)
 	{
-		std::cout << "CustomParamsHolder: " << a << " " << b << " " << c << " " << d << " " << e << " " << f << " " << g << " " << h << std::endl;
+		std::cout << "CustomParamsHolder: " << a << " " << b << " " << c << " " << d << " " << e << " " << f << std::endl;
 	}
 	virtual ~CustomParamsHolder() {}
-	int a,b,c,d,e,f,g,h;
+	int a,b,c,d,e,f;
 };
 
 int main()
@@ -154,8 +154,8 @@ int main()
 	defineMan(man, "James");
 
 	Entity custom_test = Entity(factory); //, 2, "CustomTest");
-	int a = 0; int b = 1; int c = 2; int d = 3; int e = 4; int f = 5; int g = 6; int h = 7;
-	custom_test.addComponent<int,int,int,int,int,int,int,int>("CustomParamsHolder", a,b,c,d,e,f,g,h);
+	int a = 0; int b = 1; int c = 2; int d = 3; int e = 4; int f = 5;
+	custom_test.addComponent<int,int,int,int,int,int>("CustomParamsHolder", a,b,c,d,e,f);
 
 	printReady();
 

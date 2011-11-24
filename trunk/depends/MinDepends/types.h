@@ -125,16 +125,6 @@ struct T_Signal_v6 {
    typedef sigslot::signal6<T,U,V,W,X,Y,sigslot::single_threaded> Type;
 };
 
-template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z>
-struct T_Signal_v7 {
-   typedef sigslot::signal7<T,U,V,W,X,Y,Z,sigslot::single_threaded> Type;
-};
-
-template<typename T,typename U, typename V, typename W, typename X, typename Y, typename Z, typename S>
-struct T_Signal_v8 {
-   typedef sigslot::signal8<T,U,V,W,X,Y,Z,S,sigslot::single_threaded> Type;
-};
-
 //--------------------------------------------
 
 //Delegate handling
@@ -173,16 +163,6 @@ struct T_Delegate_v5 {
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType=T_Void>
 struct T_Delegate_v6 {
 	typedef fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> Type;
-};
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class RetType=T_Void>
-struct T_Delegate_v7 {
-	typedef fastdelegate::FastDelegate7<Param1, Param2, Param3, Param4, Param5, Param6, Param7, RetType> Type;
-};
-
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class Param7, class Param8, class RetType=T_Void>
-struct T_Delegate_v8 {
-	typedef fastdelegate::FastDelegate8<Param1, Param2, Param3, Param4, Param5, Param6, Param7, Param8, RetType> Type;
 };
 
 //--------------------------------------------

@@ -74,7 +74,7 @@ public:
 	: Component(name), owner(owner), wordTranslatorId("WORD_TRANSLATOR"), translateToNorwegianId("TRANSLATE_NOR"), crazyFuncId("CRAZY_FUNC")
 	{
 		owner.registerFunction2<const T_String &, const T_String &, T_Void>(wordTranslatorId).bind(this, &ComponentB::wordTranslator);
-		owner.registerFunction8<U32, S32, F32, U32, S32, F32, F32, const T_String &, F32>(crazyFuncId).bind(this, &ComponentB::crazyFunction);
+		owner.registerFunction6<U32, S32, F32, U32, S32, const T_String &, F32>(crazyFuncId).bind(this, &ComponentB::crazyFunction);
 	}
 	virtual ~ComponentB() {}
 
@@ -89,10 +89,10 @@ private:
 		return NULL_PTR;
 	}
 
-	F32 crazyFunction(U32 param1, S32 param2, F32 param3, U32 param4, S32 param5, F32 param6, F32 param7, const T_String &param8)
+	F32 crazyFunction(U32 param1, S32 param2, F32 param3, U32 param4, S32 param5, const T_String &param6)
 	{
-		std::cout << "Crazy Function called with eight parameter being " << param8.c_str() << std::endl;
-		return ((F32)param1 + (F32)param2 + param3 + (F32)param4 - (F32)param5 - param6) * (1.0f/param7);
+		std::cout << "Crazy Function called with eight parameter being " << param6.c_str() << std::endl;
+		return ((F32)param1 + (F32)param2 + param3 + (F32)param4 - (F32)param5 );
 	}
 
 	T_HashedString wordTranslatorId, translateToNorwegianId, crazyFuncId;
@@ -120,7 +120,7 @@ int main()
 	F32 value = test.call2<const F32 &, const F32 &, F32>(T_HashedString("INTRICATE_ALG"), 2.0f, 4.0f);
 	std::cout << "Result: " << value << std::endl << std::endl;
 
-	value = test.call8<U32, S32, F32, U32, S32, F32, F32, const T_String &, F32>(T_HashedString("CRAZY_FUNC"), 2, 1, 4.0f, 8, -2, 10.0f, -2.0f, "This is crazy!");
+	value = test.call6<U32, S32, F32, U32, S32, const T_String &, F32>(T_HashedString("CRAZY_FUNC"), 2, 1, 4.0f, 8, -2, "This is crazy!");
 	std::cout << "Result: " << value << std::endl << std::endl;
 
 	test.call2<const T_String &, const T_String &, T_Void>(T_HashedString("WORD_TRANSLATOR"), "Hello", "Norwegian");
