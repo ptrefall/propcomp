@@ -67,32 +67,32 @@ struct T_Delegate_v0 {
 	typedef CL_Callback_0<RetType> Type;
 };
 
-template<class RetType, class Param1>
+template<class Param1, class RetType>
 struct T_Delegate_v1 {
 	typedef CL_Callback_1<RetType, Param1> Type;
 };
 
-template<class RetType, class Param1, class Param2>
+template<class Param1, class Param2, class RetType>
 struct T_Delegate_v2 {
 	typedef CL_Callback_2<RetType, Param1, Param2> Type;
 };
 
-template<class RetType, class Param1, class Param2, class Param3>
+template<class Param1, class Param2, class Param3, class RetType>
 struct T_Delegate_v3 {
 	typedef CL_Callback_3<RetType, Param1, Param2, Param3> Type;
 };
 
-template<class RetType, class Param1, class Param2, class Param3, class Param4>
+template<class Param1, class Param2, class Param3, class Param4, class RetType>
 struct T_Delegate_v4 {
 	typedef CL_Callback_4<RetType, Param1, Param2, Param3, Param4> Type;
 };
 
-template<class RetType, class Param1, class Param2, class Param3, class Param4, class Param5>
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
 struct T_Delegate_v5 {
 	typedef CL_Callback_5<RetType, Param1, Param2, Param3, Param4, Param5> Type;
 };
 
-template<class RetType, class Param1, class Param2, class Param3, class Param4, class Param5, class Param6>
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
 struct T_Delegate_v6 {
 	typedef CL_Callback_6<RetType, Param1, Param2, Param3, Param4, Param5, Param6> Type;
 };

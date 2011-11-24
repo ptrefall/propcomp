@@ -23,6 +23,7 @@ find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp"
 find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's/typename T_Pair\(.*\)::Type/std::pair\1/g' {} \;
 find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's/T_Pair\(.*\)::Type/std::pair\1/g' {} \;
 find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's/.bind(/.set(/g' {} \;
-# find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's/->delegate(/->invoke(/g' {} \;
+find ../../src ../../include ../../examples ../../tests -type f \( -name "*.cpp" -o -name "*.h" \) -exec sed -i 's/delegate->delegate(/delegate->delegate.invoke(/g' {} \;
+
 
 mv ../../include/Totem/types_config.h.old ../../include/Totem/types_config.h
