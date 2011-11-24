@@ -96,6 +96,7 @@ public:
 	#else
 			property = static_cast< Property<T>* >(it->second);
 	#endif
+			sign_propertyAdded.invoke(property->getInterface());
 			return *property;
 		}
 
@@ -104,6 +105,7 @@ public:
 		properties[property->getName()] = property;
 
 		//return *property;
+		sign_propertyAdded.invoke(property->getInterface());
 		return getProperty<T>(name);
 	}
 
@@ -132,6 +134,7 @@ public:
 	#else
 			property = static_cast< Property<T>* >(it->second);
 	#endif
+			sign_propertyWithUserDataAdded.invoke(property->getInterface(), userData);
 			return *property;
 		}
 
@@ -140,6 +143,7 @@ public:
 		properties[property->getName()] = property;
 
 		//return *property;
+		sign_propertyWithUserDataAdded.invoke(property->getInterface(), userData);
 		return getProperty<T>(name);
 	}
 
@@ -233,11 +237,35 @@ public:
 		throw T_Exception("Assignment operation between PropertyHandler are not supported!");
 	}
 
+	//--------------------------------------------------------------
+
+	/**
+	 * Function that gives the outside access to the PropertyHandler's
+	 * propertyAdded signal. It's through this function call we can
+	 * register slots to the propertyAdded signal.
+	 *
+	 * @return Returns the propertyAdded signal of this property handler.
+	 */
+	typename T_Signal_v1<IProperty*>::Type &propertyAdded() { return sign_propertyAdded; }
+
+	/**
+	 * Function that gives the outside access to the PropertyHandler's
+	 * propertyWithUserDataAdded signal. It's through this function call we can
+	 * register slots to the propertyWithUserDataAdded signal.
+	 *
+	 * @return Returns the propertyWithUserDataAdded signal of this property handler.
+	 */
+	typename T_Signal_v2<IProperty*, const UserData&>::Type &propertyWithUserDataAdded() { return sign_propertyWithUserDataAdded; }
+
 protected:
 	/// The map of all properties owned by this PropertyHandler.
 	T_Map<T_String, IProperty*>::Type properties;
 	/// The list of all properties pending deletion in this PropertyHandler.
 	T_Vector<IProperty*>::Type deletedProperties;
+	/// Signal that's emitted when a property with NO userdata is added to the property handler.
+	typename T_Signal_v1<IProperty*>::Type sign_propertyAdded;
+	/// Signal that's emitted when a property with userdata is added to the property handler.
+	typename T_Signal_v2<IProperty*, const UserData&>::Type sign_propertyWithUserDataAdded;
 };
 
 //------------------------------------------------------
