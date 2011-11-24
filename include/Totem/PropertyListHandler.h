@@ -42,6 +42,7 @@
 
 namespace Totem {
 
+template<class UserData = void*>
 class PropertyListHandler
 {
 public:
@@ -81,7 +82,62 @@ public:
 	 * @param readOnly Flag this property list as read-only if it should only be read. Defaults to false.
 	 * @return Returns a shared_ptr (pimpl) reference to the property list that was added to the PropertyListHandler.
 	 */
-	template<class T>PropertyList<T> addPropertyList(const T_String& name, bool readOnly = false);
+	template<class T>PropertyList<T> addPropertyList(const T_String& name, bool readOnly = false)
+	{
+		T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
+		if(it != propertyLists.end())
+		{
+			PropertyList<T>* propertyList;
+	#ifdef _DEBUG
+			propertyList = dynamic_cast< PropertyList<T>* >(it->second);
+			if(!propertyList)
+				throw T_Exception(("PropertyList " + name + " already exists, but with another type!").c_str());
+	#else
+			propertyList = static_cast< PropertyList<T>* >(it->second);
+	#endif
+			return *propertyList;
+		}
+
+		PropertyList<T> *propertyList = new PropertyList<T>(name, readOnly);
+		propertyLists[propertyList->getName()] = propertyList;
+
+		//return *propertyList;
+		return getPropertyList<T>(name);
+	}
+
+	/**
+	 * Add a property list of specified type T and name to this PropertyListHandler.
+	 * If readOnly is specified to true, one can only change the property list by
+	 * directly calling propertyList.push_back(value, forced=true), all other pipes, like
+	 * via operators, will throw an exception.
+	 *
+	 * @param name The name of the property list used to store and associate the property list in the PropertyListHandler.
+	 * @param userData The userdata is of type specified for the PropertyListHandler's class template, and provides optional userdata description of the propertyList.
+	 * @param readOnly Flag this property list as read-only if it should only be read. Defaults to false.
+	 * @return Returns a shared_ptr (pimpl) reference to the property list that was added to the PropertyListHandler.
+	 */
+	template<class T>PropertyList<T> addPropertyList(const T_String& name, const UserData &userData, bool readOnly = false)
+	{
+		T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
+		if(it != propertyLists.end())
+		{
+			PropertyList<T>* propertyList;
+	#ifdef _DEBUG
+			propertyList = dynamic_cast< PropertyList<T>* >(it->second);
+			if(!propertyList)
+				throw T_Exception(("PropertyList " + name + " already exists, but with another type!").c_str());
+	#else
+			propertyList = static_cast< PropertyList<T>* >(it->second);
+	#endif
+			return *propertyList;
+		}
+
+		PropertyList<T> *propertyList = new PropertyList<T>(name, readOnly);
+		propertyLists[propertyList->getName()] = propertyList;
+
+		//return *propertyList;
+		return getPropertyList<T>(name);
+	}
 
 	/**
 	 * Add a property list interface to this PropertyListHandler.
@@ -97,7 +153,24 @@ public:
 	 * @param name The name of the property list.
 	 * @return Returns a shared_ptr (pimpl) reference to the property list.
 	 */
-	template<class T>PropertyList<T> getPropertyList(const T_String& name);
+	template<class T>PropertyList<T> getPropertyList(const T_String& name)
+	{
+		T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
+		if(it != propertyLists.end())
+		{
+			PropertyList<T>* propertyList;
+	#ifdef _DEBUG
+			propertyList = dynamic_cast< PropertyList<T>* >(it->second);
+			if(!propertyList)
+				throw T_Exception(("Tried to get property list " + name + ", but the type was wrong!").c_str());
+	#else
+			propertyList = static_cast< PropertyList<T>* >(it->second);
+	#endif
+			return *propertyList;
+		}
+		else
+			throw T_Exception(("Unable to get property list " + name).c_str());
+	}
 
 	/**
 	 * Get a property list interface pointer to a property list of specified name from the PropertyListHandler.
@@ -165,7 +238,8 @@ protected:
 
 //------------------------------------------------------
 
-inline bool PropertyListHandler::hasPropertyList(const T_String& name)
+template<class UserData>
+inline bool PropertyListHandler<UserData>::hasPropertyList(const T_String& name)
 {
 	if(propertyLists.empty())
 		return false;
@@ -177,58 +251,16 @@ inline bool PropertyListHandler::hasPropertyList(const T_String& name)
 		return false;
 }
 
-inline void PropertyListHandler::addPropertyList(IPropertyList *propertyList)
+template<class UserData>
+inline void PropertyListHandler<UserData>::addPropertyList(IPropertyList *propertyList)
 {
 	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(propertyList->getName());
 	if(it == propertyLists.end())
 		propertyLists[propertyList->getName()] = propertyList;
 }
 
-template<class T>
-inline PropertyList<T> PropertyListHandler::addPropertyList(const T_String& name, bool readOnly)
-{
-	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
-	if(it != propertyLists.end())
-	{
-		PropertyList<T>* propertyList;
-#ifdef _DEBUG
-		propertyList = dynamic_cast< PropertyList<T>* >(it->second);
-		if(!propertyList)
-			throw T_Exception(("PropertyList " + name + " already exists, but with another type!").c_str());
-#else
-		propertyList = static_cast< PropertyList<T>* >(it->second);
-#endif
-		return *propertyList;
-	}
-
-	PropertyList<T> *propertyList = new PropertyList<T>(name, readOnly);
-	propertyLists[propertyList->getName()] = propertyList;
-
-	//return *propertyList;
-	return getPropertyList<T>(name);
-}
-
-template<class T>
-inline PropertyList<T> PropertyListHandler::getPropertyList(const T_String& name)
-{
-	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
-	if(it != propertyLists.end())
-	{
-		PropertyList<T>* propertyList;
-#ifdef _DEBUG
-		propertyList = dynamic_cast< PropertyList<T>* >(it->second);
-		if(!propertyList)
-			throw T_Exception(("Tried to get property list " + name + ", but the type was wrong!").c_str());
-#else
-		propertyList = static_cast< PropertyList<T>* >(it->second);
-#endif
-		return *propertyList;
-	}
-	else
-		throw T_Exception(("Unable to get property list " + name).c_str());
-}
-
-inline IPropertyList *PropertyListHandler::getIPropertyList(const T_String& name)
+template<class UserData>
+inline IPropertyList *PropertyListHandler<UserData>::getIPropertyList(const T_String& name)
 {
 	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
 	if(it != propertyLists.end())
@@ -237,7 +269,8 @@ inline IPropertyList *PropertyListHandler::getIPropertyList(const T_String& name
 		throw T_Exception(("Unable to get property list " + name).c_str());
 }
 
-inline void PropertyListHandler::removePropertyList(const T_String& name, bool postponeDelete)
+template<class UserData>
+inline void PropertyListHandler<UserData>::removePropertyList(const T_String& name, bool postponeDelete)
 {
 	T_Map<T_String, IPropertyList*>::Type::iterator it = propertyLists.find(name);
 	if(it != propertyLists.end())
@@ -251,7 +284,8 @@ inline void PropertyListHandler::removePropertyList(const T_String& name, bool p
 	}
 }
 
-inline void PropertyListHandler::removeAllPropertyLists()
+template<class UserData>
+inline void PropertyListHandler<UserData>::removeAllPropertyLists()
 {
 	T_Map<T_String, IPropertyList*>::Type::iterator it;
 	for(it = propertyLists.begin(); it != propertyLists.end(); ++it)
@@ -263,12 +297,14 @@ inline void PropertyListHandler::removeAllPropertyLists()
 	clearDeletedPropertyLists();
 }
 
-inline void PropertyListHandler::updatePropertyLists()
+template<class UserData>
+inline void PropertyListHandler<UserData>::updatePropertyLists()
 {
 	clearDeletedPropertyLists();
 }
 
-inline void PropertyListHandler::clearDeletedPropertyLists()
+template<class UserData>
+inline void PropertyListHandler<UserData>::clearDeletedPropertyLists()
 {
 	for(unsigned int i = 0; i < deletedPropertyLists.size(); i++)
 		delete deletedPropertyLists[i];
