@@ -4,12 +4,19 @@
  * 3) Add preprocessor for 3rd party libraries.
    * !ClanLib
    * Boost
-   * Minimal Dependencies
+   * Standard (Minimal Dependencies)
+
+   * Get rid of types_config.h
+   * Remove preprocessor console app
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
- * 4) Write Documentation
- * 5) Write XML loader example.
- * 6) Write XML property state saving example.
+ * 4) Write XML loader example.
+ * 5) Write XML property state saving example.
+ * 6) Write Documentation
+   * Frontpage 
+     * Updated description and feature list
+     * Easier examples
+   * Docs/Wiki
  * 7) Write stress tests for all features of Totem EDK.
  * 8) Write unit tests for all features of Totem EDK.
  * 9) Write simple game example.
