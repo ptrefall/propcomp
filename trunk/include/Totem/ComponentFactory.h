@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class Totem::ComponentFactory
+ * @class Totem::Component
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief Component Factory class
+ * @brief Component base class
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -34,293 +34,441 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The component factory has the job of holding a register of component types and the means
- * to instanciate those registered component types.
+ * The base ComponentType class simply holds the means to build ComponentTypes on top of it.
+ * It has a type identifier used to associate with what type of ComponentType it is, and
+ * a reference to the Entity that owns it.
  *
- * It holds a function pointer definition ComponentCreator, that each component implementation
- * must adhere to in order to register a component type to the factory.
- * 
- * There's nothing in the design that stops the user from having multiple factory instances
- * active, and use it as a way to organize components, but an Entity- and a component-instance
- * will only associate with a single component factory instance.
+ * It also holds two virtual functions, update and onEvent, that can optionally be
+ * overloaded by each ComponentType implementation.
+ *
+ * Note that the constructor takes an optional HAS_SIGNALSLOTS_INHERITANCE_TYPE. This is
+ * a pre-processor type specified via types_config.h, and allows a user to specify the
+ * exact requirement of the signal/slot system in use (Some implementations do require
+ * that a class holding slots inherit from some class). Look at MinDepends/types.h for
+ * an example of this.
  * 
  */
 
 #include <Totem/types_config.h>
 
+#include <Totem/Property.h>
+#include <Totem/ComponentFactory.h>
+
 namespace Totem {
 
-class Component;
-class ComponentFactory
+class Component HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**
-	 * Constructor
-	 */
-	ComponentFactory();
-
-	/**
 	 * Destructor
 	 */
-	~ComponentFactory();
+	virtual ~Component() {}
 
 	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
+	 * Get the type that defines this ComponentType.
 	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
+	 * @return Returns the type of the ComponentType.
 	 */
-	typedef Component*(* ComponentCreator)(T_Any &owner, const T_String &type);
+	const T_String &getType() const { return type; }
 
 	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
+	 * Optional virtual function that can be overloaded by
+	 * ComponentType implementations. Update is typically called
+	 * at least once per frame, and is channeled via the Entity.
 	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
 	 */
-	typedef Component*(* ComponentCreator1)(T_Any &owner, const T_String &type, T_Any &custom1);
+    virtual void update(const F32 &/*deltaTime*/) {};
 
+	/// Provide an assignment operator to leviate level W4 warning
+	Component &operator= (const Component &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		throw T_Exception("Assignment operation between ComponentTypes are not supported!");
+	}
+
+protected:
 	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
+	 * Protected Constructor
 	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
-	 * @param custom2 The second custom parameter injected into the component constructor
+	 * @param owner Reference to the Entity that owns this ComponentType.
+	 * @param type The type-name assigned to this ComponentType from it's implementation.
 	 */
-	typedef Component*(* ComponentCreator2)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2);
+	Component(const T_String &type) : type(type) {};
 
-	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
-	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
-	 * @param custom2 The second custom parameter injected into the component constructor
-	 * @param custom3 The third custom parameter injected into the component constructor
-	 */
-	typedef Component*(* ComponentCreator3)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
-
-	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
-	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
-	 * @param custom2 The second custom parameter injected into the component constructor
-	 * @param custom3 The third custom parameter injected into the component constructor
-	 * @param custom4 The fourth custom parameter injected into the component constructor
-	 */
-	typedef Component*(* ComponentCreator4)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
-
-	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
-	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
-	 * @param custom2 The second custom parameter injected into the component constructor
-	 * @param custom3 The third custom parameter injected into the component constructor
-	 * @param custom4 The fourth custom parameter injected into the component constructor
-	 * @param custom5 The fifth custom parameter injected into the component constructor
-	 */
-	typedef Component*(* ComponentCreator5)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
-
-	/**
-	 * Function pointer definition, forces a component implementation to provide
-	 * a function that supports the format. Meant for a component implementation
-	 * to instanciate itself within it's function, and then provide it, along with
-	 * a type identifier, to the component factory for registration.
-	 *
-	 * @param Entity Reference to the Entity that will own this component instance.
-	 * @param type The type identifier assigned to this component instance.
-	 * @param custom1 The first custom parameter injected into the component constructor
-	 * @param custom2 The second custom parameter injected into the component constructor
-	 * @param custom3 The third custom parameter injected into the component constructor
-	 * @param custom4 The fourth custom parameter injected into the component constructor
-	 * @param custom5 The fifth custom parameter injected into the component constructor
-	 * @param custom6 The sixth custom parameter injected into the component constructor
-	 */
-	typedef Component*(* ComponentCreator6)(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
-
-	//--------------------------------------------------------------------------------
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponent(const T_String &type, ComponentCreator functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom1(const T_String &type, ComponentCreator1 functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom2(const T_String &type, ComponentCreator2 functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom3(const T_String &type, ComponentCreator3 functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom4(const T_String &type, ComponentCreator4 functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom5(const T_String &type, ComponentCreator5 functor);
-
-	/**
-	 * Registers a component with the factory. This has to be done before the component
-	 * can be instanciated.
-	 *
-	 * @param type The identifier assigned to this component type.
-	 * @param functor The function pointer to the component's create function.
-	 */
-    void registerComponentCustom6(const T_String &type, ComponentCreator6 functor);
-
-	//--------------------------------------------------------------------------------
-
-	/**
-	 * Create an instance of a component of type, owned by Entity.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 */
-	Component* createComponent(T_Any &owner, const T_String &type);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom1(T_Any &owner, const T_String &type, T_Any &custom1);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 * @param custom2 The second custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom2(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 * @param custom2 The second custom parameter passed into component constructor.
-	 * @param custom3 The third custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom3(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 * @param custom2 The second custom parameter passed into component constructor.
-	 * @param custom3 The third custom parameter passed into component constructor.
-	 * @param custom4 The fourth custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom4(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 * @param custom2 The second custom parameter passed into component constructor.
-	 * @param custom3 The third custom parameter passed into component constructor.
-	 * @param custom4 The fourth custom parameter passed into component constructor.
-	 * @param custom5 The fifth custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom5(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5);
-
-	/**
-	 * Create an instance of a component of type, owned by Entity, that takes custom parameters.
-	 *
-	 * @param entity The owner of the component instance.
-	 * @param type The registered component type identifier associated with the component.
-	 * @param custom1 The first custom parameter passed into component constructor.
-	 * @param custom2 The second custom parameter passed into component constructor.
-	 * @param custom3 The third custom parameter passed into component constructor.
-	 * @param custom4 The fourth custom parameter passed into component constructor.
-	 * @param custom5 The fifth custom parameter passed into component constructor.
-	 * @param custom6 The sixth custom parameter passed into component constructor.
-	 */
-	Component* createComponentCustom6(T_Any &owner, const T_String &type, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6);
-
-private:
-	/// The container of component creator function pointers registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator>::Type* creators;
-	/// The container of component creator function pointers that take one custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator1>::Type* creators_custom1;
-	/// The container of component creator function pointers that take two custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator2>::Type* creators_custom2;
-	/// The container of component creator function pointers that take three custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator3>::Type* creators_custom3;
-	/// The container of component creator function pointers that take four custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator4>::Type* creators_custom4;
-	/// The container of component creator function pointers that take five custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator5>::Type* creators_custom5;
-	/// The container of component creator function pointers that take six custom parameter registered to the factory, each associated with a string key.
-	T_Map<T_String, ComponentCreator6>::Type* creators_custom6;
+	/// The type identifier for this ComponentType.
+    T_String type;
 };
 
 } //namespace Totem
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ */
+#define COMPONENT_0(EntityType, ComponentType) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				return new ComponentType(*entity, name); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponent(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_1(EntityType, ComponentType, Custom_type1) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *custom = NULL_PTR; \
+				try { \
+					custom = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *custom); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom1(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_2(EntityType, ComponentType, Custom_type1, Custom_type2) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *customA, *customB); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom2(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+ /**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_3(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *customA, *customB, *customC); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom3(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_4(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom4(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_5(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom5(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public: \
+\
+
+/**
+ * This preprocessor macro simply adds a Type(), Create() and RegisterToFactory function 
+ * to the ComponentType implementation that calls it. It simplifies adding new ComponentTypes, and
+ * is here for convenience. Nothing is stopping the user to overlook this macro and implement
+ * these three classes on their own.
+ *
+ * @param ComponentType The ComponentImplementation class, for instance Health
+ * @param Custom_type1 The first custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type2 The second custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type3 The third custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type4 The fourth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type5 The fifth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ * @param Custom_type6 The sixth custom type passed into the macro, requires that the ComponentImplementation has a constructor that takes this type as custom parameter.
+ */
+#define COMPONENT_6(EntityType, ComponentType, Custom_type1, Custom_type2, Custom_type3, Custom_type4, Custom_type5, Custom_type6) \
+			static T_String Type() { return T_String(#ComponentType); } \
+			static Totem::Component *Create(T_Any &owner, const T_String &name, T_Any &custom1, T_Any &custom2, T_Any &custom3, T_Any &custom4, T_Any &custom5, T_Any &custom6) \
+			{ \
+				EntityType *entity = NULL_PTR; \
+				try { \
+					entity = owner.cast<EntityType*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of owner was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#EntityType)).c_str()); \
+				} \
+				Custom_type1 *customA = NULL_PTR; \
+				try { \
+					customA = custom1.cast<Custom_type1*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom1 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type1)).c_str()); \
+				} \
+				Custom_type2 *customB = NULL_PTR; \
+				try { \
+					customB = custom2.cast<Custom_type2*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom2 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type2)).c_str()); \
+				} \
+				Custom_type3 *customC = NULL_PTR; \
+				try { \
+					customC = custom3.cast<Custom_type3*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom3 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type3)).c_str()); \
+				} \
+				Custom_type4 *customD = NULL_PTR; \
+				try { \
+					customD = custom4.cast<Custom_type4*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom4 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type4)).c_str()); \
+				} \
+				Custom_type5 *customE = NULL_PTR; \
+				try { \
+					customE = custom5.cast<Custom_type5*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom5 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type5)).c_str()); \
+				} \
+				Custom_type6 *customF = NULL_PTR; \
+				try { \
+					customF = custom6.cast<Custom_type6*>(); \
+				}catch(T_BadAnyCast) { \
+					throw T_Exception(("Type of custom6 was bad when calling " + T_String(#ComponentType) + "::Create, expected " + T_String(#Custom_type6)).c_str()); \
+				} \
+				return new ComponentType(*entity, name, *customA, *customB, *customC, *customD, *customE, *customF); \
+			} \
+			static void RegisterToFactory(Totem::ComponentFactory &factory) { factory.registerComponentCustom6(ComponentType::Type(), &ComponentType::Create); } \
+			ComponentType &operator= (const ComponentType &rhs) \
+			{ \
+				if(this == &rhs) \
+					return *this; \
+				throw T_Exception("Assignment operation between ComponentTypes are not supported!"); \
+			} \
+		protected: \
+			EntityType &owner; \
+		public:

@@ -67,8 +67,6 @@ include_directories("${CMAKE_SOURCE_DIR}"
   "${CMAKE_SOURCE_DIR}/include"
 )
 
-add_subdirectory(src)
-
 set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
 if(BUILD_TEST_PROJECTS)
 	add_subdirectory(tests)
@@ -82,4 +80,14 @@ endif()
 set(BUILD_TOOL_PROJECTS FALSE CACHE BOOL "TRUE if you want to include tool projects with the generated solution, FALSE if not.")
 if(BUILD_TOOL_PROJECTS)
 	add_subdirectory(tools)
+endif()
+
+set(TOTEM_WITHOUT_PREPROCESSING TRUE CACHE BOOL "TRUE if you want Totem EDK's codebase without any preprocessing , FALSE if not.")
+if(TOTEM_WITHOUT_PREPROCESSING)
+	add_subdirectory(src)
+endif()
+
+set(PREPROCESS_TOTEM_FOR_CLANLIB FALSE CACHE BOOL "TRUE if you want to preprocess Totem EDK's codebase with ClanLib 3rdparty bindings, FALSE if not.")
+if(PREPROCESS_TOTEM_FOR_CLANLIB)
+	add_subdirectory(depends/ClanLib)
 endif()
