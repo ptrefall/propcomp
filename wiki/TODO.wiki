@@ -6,8 +6,10 @@
    * Boost
    * Standard (Minimal Dependencies)
 
+ * 3) Remove unused stuff
    * Get rid of types_config.h
    * Remove preprocessor console app
+   * Remove .sh based preprocessor
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 4) Write XML loader example.
