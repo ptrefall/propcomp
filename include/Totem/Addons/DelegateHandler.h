@@ -2,18 +2,18 @@
 
 /**
  * @file
- * @class Totem::Addon::DelegateHandler
+ * @class Totem::Addon::AnyEventHandler
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief DelegateHandler base class
+ * @brief AnyEventHandler base class using Any
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
- * warranty.  In no delegate will the authors be held liable for any damages
+ * warranty.  In no event will the authors be held liable for any damages
  * arising from the use of this software.
  * 
  * Permission is granted to anyone to use this software for any purpose,
@@ -34,7 +34,7 @@
  * requirements or restrictions.
  * 
  * @section DESCRIPTION
- * The delegate handler.
+ * The event handler using Any.
  * 
  */
 
@@ -46,540 +46,644 @@ namespace Addon {
 
 class Component;
 class ComponentFactory;
-class DelegateHandler
+class AnyEventHandler HAS_SIGNALSLOTS_INHERITANCE_TYPE
 {
 public:
 	/**
 	 * Constructor
 	 */
-	DelegateHandler() {}
+	AnyEventHandler() {}
 	/**
 	 * Destructor
 	 */
-	virtual ~DelegateHandler() {}
+	virtual ~AnyEventHandler() 
+	{
+		for(U32 i = 0; i < scheduledEvents.size(); i++)
+			delete scheduledEvents[i];
+	}
 
 	//--------------------------------------------------------------
 
 	/**
-	 * Calls all slots registered to the parameter-less delegate signal of type.
+	 * Calls all slots registered to the argument-less event signal of type.
 	 *
-	 * @param type The hashed type string id of the delegate.
+	 * @param type The hashed type string id of the event.
 	 */
-	template<class RetType>
-	RetType call0(const T_HashedString &type);
+	void sendEvent(const T_HashedString &type);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding one parameter.
+	 * Calls all slots registered to the event signal of type holding one argument.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
 	 */
-	template<class Param1, class RetType>
-	RetType call1(const T_HashedString &type, const Param1 &param1);
+	void sendEvent(const T_HashedString &type, T_Any arg0);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding two parameters.
+	 * Calls all slots registered to the event signal of type holding two arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
 	 */
-	template<class Param1, class Param2, class RetType>
-	RetType call2(const T_HashedString &type, const Param1 &param1, const Param2 &param2);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding three parameters.
+	 * Calls all slots registered to the event signal of type holding three arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
+	 * @param arg2 Third argument of type V.
 	 */
-	template<class Param1, class Param2, class Param3, class RetType>
-	RetType call3(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding four parameters.
+	 * Calls all slots registered to the event signal of type holding four arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
-	 * @param param4 Fourth parameter of type Param4.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
+	 * @param arg2 Third argument of type V.
+	 * @param arg3 Fourth argument of type W.
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	RetType call4(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding five parameters.
+	 * Calls all slots registered to the event signal of type holding five arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
-	 * @param param4 Fourth parameter of type Param4.
-	 * @param param5 Fifth parameter of type Param5.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
+	 * @param arg2 Third argument of type V.
+	 * @param arg3 Fourth argument of type W.
+	 * @param arg4 Fifth argument of type X.
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	RetType call5(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4);
 
 	/**
-	 * Calls all slots registered to the delegate signal of type holding six parameters.
+	 * Calls all slots registered to the event signal of type holding six arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @param param1 First parameter of type Param1.
-	 * @param param2 Second parameter of type Param2.
-	 * @param param3 Third parameter of type Param3.
-	 * @param param4 Fourth parameter of type Param4.
-	 * @param param5 Fifth parameter of type Param5.
-	 * @param param6 Sixth parameter of type Param6.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T.
+	 * @param arg1 Second argument of type U.
+	 * @param arg2 Third argument of type V.
+	 * @param arg3 Fourth argument of type W.
+	 * @param arg4 Fifth argument of type X.
+	 * @param arg5 Sixth argument of type Y.
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	RetType call6(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6);
+	void sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5);
 
 	//--------------------------------------------------------------
 
 	/**
-	 * Register a slot to the delegate signal of type holding two parameters.
+	 * Call update function on all the scheduled events pending in this EventHandler.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires no parameters in the slot.
+	 * @param deltaTime  Should be the time elapsed since update was called last time.
 	 */
-	template<class RetType>
-	typename T_Delegate_v0<RetType>::Type &registerFunction0(const T_HashedString &type);
+	void updateScheduledEvents(const F32 &deltaTime);
 
 	/**
-	 * Register a slot to the delegate signal of type holding one parameter.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the argument-less event signal of type.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires one parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class RetType>
-	typename T_Delegate_v1<Param1, RetType>::Type &registerFunction1(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, const F32 &time);
 
 	/**
-	 * Register a slot to the delegate signal of type holding two parameters.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding one argument.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires two parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class Param2, class RetType>
-	typename T_Delegate_v2<Param1, Param2, RetType>::Type &registerFunction2(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time);
 
 	/**
-	 * Register a slot to the delegate signal of type holding three parameters.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding two arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires three parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param arg1 Second argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class Param2, class Param3, class RetType>
-	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &registerFunction3(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time);
 
 	/**
-	 * Register a slot to the delegate signal of type holding four parameters.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding three arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires four parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param arg1 Second argument of type T_Any.
+	 * @param arg2 Third argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &registerFunction4(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time);
 
 	/**
-	 * Register a slot to the delegate signal of type holding five parameters.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding four arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires five parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param arg1 Second argument of type T_Any.
+	 * @param arg2 Third argument of type T_Any.
+	 * @param arg3 Fourth argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &registerFunction5(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time);
 
 	/**
-	 * Register a slot to the delegate signal of type holding six parameters.
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding five arguments.
 	 *
-	 * @param type The hashed type string id of the delegate.
-	 * @return A signal that requires six parameters in the slot.
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param arg1 Second argument of type T_Any.
+	 * @param arg2 Third argument of type T_Any.
+	 * @param arg3 Fourth argument of type T_Any.
+	 * @param arg4 Fifth argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
 	 */
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &registerFunction6(const T_HashedString &type);
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time);
+
+	/**
+	 * Schedule an event that after X seconds will call all slots 
+	 * registered to the event signal of type holding six arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @param arg0 First argument of type T_Any.
+	 * @param arg1 Second argument of type T_Any.
+	 * @param arg2 Third argument of type T_Any.
+	 * @param arg3 Fourth argument of type T_Any.
+	 * @param arg4 Fifth argument of type T_Any.
+	 * @param arg5 Sixth argument of type T_Any.
+	 * @param time The time in seconds this event should be delayed by
+	 */
+	void scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time);
 
 	//--------------------------------------------------------------
 
 	/**
+	 * Register a slot to the event signal of type holding two arguments.
 	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires no arguments in the slot.
 	 */
-	bool hasFunction(const T_HashedString &id, int num_params = -1);
+	T_Signal_v0<>::Type &registerToEvent0(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding one argument.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires one arguments in the slot.
+	 */
+	T_Signal_v1<T_Any>::Type &registerToEvent1(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding two arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires two arguments in the slot.
+	 */
+	T_Signal_v2<T_Any, T_Any>::Type &registerToEvent2(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding three arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires three arguments in the slot.
+	 */
+	T_Signal_v3<T_Any, T_Any, T_Any>::Type &registerToEvent3(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding four arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires four arguments in the slot.
+	 */
+	T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent4(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding five arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires five arguments in the slot.
+	 */
+	T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent5(const T_HashedString &type);
+
+	/**
+	 * Register a slot to the event signal of type holding six arguments.
+	 *
+	 * @param type The hashed type string id of the event.
+	 * @return A signal that requires six arguments in the slot.
+	 */
+	T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &registerToEvent6(const T_HashedString &type);
+
+	//--------------------------------------------------------------
+
+	bool hasEvent(const T_HashedString &id, int num_params = -1);
 
 protected:
+	/// Map of argument-less event signals held by EventHandler.
+	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type events0;
+	/// Map of event signals with one argument held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type events1;
+	/// Map of event signals with two arguments held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type events2;
+	/// Map of event signals with three arguments held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type events3;
+	/// Map of event signals with four arguments held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type events4;
+	/// Map of event signals with five arguments held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events5;
+	/// Map of event signals with six arguments held by EventHandler.
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type events6;
 
-	/**
-	 * In order to support multiple different types registered into the delegate maps
-	 * we need to store them as interfaces, else we can only store one specific type
-	 * into the map (must specify value of template classes).
-	 */
-	class IDelegate
+	//--------------------------------------------------------
+
+	/// Scheduled event base class definition
+	class ScheduledEvent 
 	{
 	public:
-		/// Constructor.
-		IDelegate() {}
-		/// Destructor.
-		virtual ~IDelegate() {}
+		/// A flag that says whether this instance is free so we can write a new scheduled event to it.
+		bool empty;
+		/// Type of the scheduled event
+		T_HashedString type;
+		/// The exact time this event should be invoked
+		F32 time;
+		/// List of any arguments
+		T_Vector<T_Any>::Type arguments;
+
+		/// The constructor takes all parameters in structure in, with empty defaulting to false on construction.
+		ScheduledEvent(const T_HashedString &type, const F32 &time, const bool &empty = false) 
+			: type(type), time(time), empty(empty) //Leave option for pooling these at construction, thus empty can be set as true via constructor
+		{}
 	};
-	/// Delegate holding an parameter-less delegate.
-	template<class RetType> 
-	class Delegate0 : public IDelegate
-	{
-	public:
-		/// Delegate taking no parameters
-		typename T_Delegate_v0<RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires a single parameter.
-	template<class Param1, class RetType> 
-	class Delegate1 : public IDelegate
-	{
-	public:
-		/// Delegate taking one parameters
-		typename T_Delegate_v1<Param1, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires two parameters.
-	template<class Param1, class Param2, class RetType> 
-	class Delegate2 : public IDelegate
-	{
-	public:
-		/// Delegate taking two parameters
-		typename T_Delegate_v2<Param1, Param2, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires three parameters.
-	template<class Param1, class Param2, class Param3, class RetType>
-	class Delegate3 : public IDelegate
-	{
-	public:
-		/// Delegate taking three parameters
-		typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires four parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	class Delegate4 : public IDelegate
-	{
-	public:
-		/// Delegate taking four parameters
-		typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires five parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	class Delegate5 : public IDelegate
-	{
-	public:
-		/// Delegate taking five parameters
-		typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires six parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	class Delegate6 : public IDelegate
-	{
-	public:
-		/// Delegate taking six parameters
-		typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type delegate;
-	};
-	
-	/// Map of parameter-less delegate delegates held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates0;
-	/// Map of delegate delegates with one parameter held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates1;
-	/// Map of delegate delegates with two parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates2;
-	/// Map of delegate delegates with three parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates3;
-	/// Map of delegate delegates with four parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates4;
-	/// Map of delegate delegates with five parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates5;
-	/// Map of delegate delegates with six parameters held by DelegateHandler.
-	T_Map<T_HashedStringType, IDelegate*>::Type delegates6;
+
+	/// List of argument-less, scheduled event signals held by EventHandler.
+	T_Vector<ScheduledEvent*>::Type scheduledEvents;
 };
 
 //------------------------------------------------------
 
-template<class RetType>
-inline RetType DelegateHandler::call0(const T_HashedString &type)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates0.find(type.getId());
-	if(it == delegates0.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates0 registry!").c_str());
+	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type::iterator it = events0.find(type.getId());
+	if(it == events0.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
 
-	return static_cast<Delegate0<RetType>*>(it->second)->delegate();
+	it->second.invoke();
 }
 
-template<class Param1, class RetType>
-inline RetType DelegateHandler::call1(const T_HashedString &type, const Param1 &param1)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates1.find(type.getId());
-	if(it == delegates1.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates1 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
+	if(it == events1.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate1<Param1, RetType> *delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
-	return delegate->delegate(param1);
-#else
-	return static_cast<Delegate1<Param1, RetType>*>(it->second)->delegate(param1);
-#endif
+	it->second.invoke(arg0);
 }
 
-template<class Param1, class Param2, class RetType>
-inline RetType DelegateHandler::call2(const T_HashedString &type, const Param1 &param1, const Param2 &param2)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates2.find(type.getId());
-	if(it == delegates2.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates2 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
+	if(it == events2.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate2<Param1,Param2, RetType> *delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2);
-#else
-	return static_cast<Delegate2<Param1,Param2, RetType>*>(it->second)->delegate(param1, param2);
-#endif
+	it->second.invoke(arg0, arg1);
 }
 
-template<class Param1, class Param2, class Param3, class RetType>
-inline RetType DelegateHandler::call3(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates3.find(type.getId());
-	if(it == delegates3.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates3 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
+	if(it == events3.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate3<Param1,Param2,Param3, RetType> *delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3);
-#else
-	return static_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second)->delegate(param1, param2, param3);
-#endif
+	it->second.invoke(arg0, arg1, arg2);
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline RetType DelegateHandler::call4(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates4.find(type.getId());
-	if(it == delegates4.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates4 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
+	if(it == events4.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate4<Param1,Param2,Param3,Param4, RetType> *delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3, param4);
-#else
-	return static_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second)->delegate(param1, param2, param3, param4);
-#endif
+	it->second.invoke(arg0, arg1, arg2, arg3);
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline RetType DelegateHandler::call5(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates5.find(type.getId());
-	if(it == delegates5.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates5 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
+	if(it == events5.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate5<Param1,Param2,Param3,Param4,Param5, RetType> *delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3, param4, param5);
-#else
-	return static_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5);
-#endif
+	it->second.invoke(arg0, arg1, arg2, arg3, arg4);
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline RetType DelegateHandler::call6(const T_HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
+inline void AnyEventHandler::sendEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5)
 {
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates6.find(type.getId());
-	if(it == delegates6.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates6 registry!").c_str());
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
+	if(it == events6.end())
+		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
 
-#ifdef _DEBUG
-	Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType> *delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-	return delegate->delegate(param1, param2, param3, param4, param5, param6);
-#else
-	return static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5, param6);
-#endif
+	it->second.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+
+}
+
+//------------------------------------------------------
+
+inline void AnyEventHandler::updateScheduledEvents(const F32 &deltaTime)
+{
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+			continue;
+
+		event->time -= deltaTime;
+		if(event->time <= 0.0f)
+		{
+			if(event->arguments.empty())
+				this->sendEvent(event->type);
+			else if(event->arguments.size() == 1)
+				this->sendEvent(event->type, event->arguments[0]);
+			else if(event->arguments.size() == 2)
+				this->sendEvent(event->type, event->arguments[0], event->arguments[1]);
+			else if(event->arguments.size() == 3)
+				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2]);
+			else if(event->arguments.size() == 4)
+				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3]);
+			else if(event->arguments.size() == 5)
+				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4]);
+			else if(event->arguments.size() == 6)
+				this->sendEvent(event->type, event->arguments[0], event->arguments[1], event->arguments[2], event->arguments[3], event->arguments[4], event->arguments[5]);
+
+			event->empty = true;
+			scheduledEvents[i] = scheduledEvents.back();
+			scheduledEvents.pop_back();
+			i--;
+		}
+	}
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			event->arguments.push_back(arg1);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	event->arguments.push_back(arg1);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			event->arguments.push_back(arg1);
+			event->arguments.push_back(arg2);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	event->arguments.push_back(arg1);
+	event->arguments.push_back(arg2);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			event->arguments.push_back(arg1);
+			event->arguments.push_back(arg2);
+			event->arguments.push_back(arg3);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	event->arguments.push_back(arg1);
+	event->arguments.push_back(arg2);
+	event->arguments.push_back(arg3);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			event->arguments.push_back(arg1);
+			event->arguments.push_back(arg2);
+			event->arguments.push_back(arg3);
+			event->arguments.push_back(arg4);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	event->arguments.push_back(arg1);
+	event->arguments.push_back(arg2);
+	event->arguments.push_back(arg3);
+	event->arguments.push_back(arg4);
+	scheduledEvents.push_back(event);
+}
+
+inline void AnyEventHandler::scheduleEvent(const T_HashedString &type, T_Any arg0, T_Any arg1, T_Any arg2, T_Any arg3, T_Any arg4, T_Any arg5, const F32 &time)
+{
+	//Check first if any instance of scheduled event that
+	//already excist is free for writing...
+	for(U32 i = 0; i < scheduledEvents.size(); i++)
+	{
+		ScheduledEvent *event = scheduledEvents[i];
+		if(event->empty)
+		{
+			event->empty = false;
+			event->type = type;
+			event->time = time;
+			event->arguments.clear();
+			event->arguments.push_back(arg0);
+			event->arguments.push_back(arg1);
+			event->arguments.push_back(arg2);
+			event->arguments.push_back(arg3);
+			event->arguments.push_back(arg4);
+			event->arguments.push_back(arg5);
+			return;
+		}
+	}
+
+	ScheduledEvent *event = new ScheduledEvent(type, time);
+	event->arguments.push_back(arg0);
+	event->arguments.push_back(arg1);
+	event->arguments.push_back(arg2);
+	event->arguments.push_back(arg3);
+	event->arguments.push_back(arg4);
+	event->arguments.push_back(arg5);
+	scheduledEvents.push_back(event);
 }
 
 //------------------------------------------------------------------
 
-template<class RetType>
-inline typename T_Delegate_v0<RetType>::Type &DelegateHandler::registerFunction0(const T_HashedString &type)
+inline T_Signal_v0<>::Type &AnyEventHandler::registerToEvent0(const T_HashedString &type)
 {
-	Delegate0<RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates0.find(type.getId());
-	if(it == delegates0.end())
-	{
-		delegate = new Delegate0<RetType>();
-		delegates0[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, typename T_Signal_v0<>::Type>::Type::iterator it = events0.find(type.getId());
+	if(it == events0.end())
+		return events0[type.getId()] = T_Signal_v0<>::Type();
 	else
-	{
-		delegate = static_cast<Delegate0<RetType>*>(it->second);
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class RetType>
-inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateHandler::registerFunction1(const T_HashedString &type)
+inline T_Signal_v1<T_Any>::Type &AnyEventHandler::registerToEvent1(const T_HashedString &type)
 {
-	Delegate1<Param1, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates1.find(type.getId());
-	if(it == delegates1.end())
-	{
-		delegate = new Delegate1<Param1, RetType>();
-		delegates1[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v1<T_Any>::Type>::Type::iterator it = events1.find(type.getId());
+	if(it == events1.end())
+		return events1[type.getId()] = T_Signal_v1<T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
-#else
-		delegate = static_cast<Delegate1<Param1, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class Param2, class RetType>
-inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateHandler::registerFunction2(const T_HashedString &type)
+inline T_Signal_v2<T_Any, T_Any>::Type &AnyEventHandler::registerToEvent2(const T_HashedString &type)
 {
-	Delegate2<Param1,Param2, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates2.find(type.getId());
-	if(it == delegates2.end())
-	{
-		delegate = new Delegate2<Param1,Param2, RetType>();
-		delegates2[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v2<T_Any, T_Any>::Type>::Type::iterator it = events2.find(type.getId());
+	if(it == events2.end())
+		return events2[type.getId()] = T_Signal_v2<T_Any, T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class Param2, class Param3, class RetType>
-inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateHandler::registerFunction3(const T_HashedString &type)
+inline T_Signal_v3<T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent3(const T_HashedString &type)
 {
-	Delegate3<Param1,Param2,Param3, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates3.find(type.getId());
-	if(it == delegates3.end())
-	{
-		delegate = new Delegate3<Param1,Param2,Param3, RetType>();
-		delegates3[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v3<T_Any, T_Any, T_Any>::Type>::Type::iterator it = events3.find(type.getId());
+	if(it == events3.end())
+		return events3[type.getId()] = T_Signal_v3<T_Any, T_Any, T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &DelegateHandler::registerFunction4(const T_HashedString &type)
+inline T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent4(const T_HashedString &type)
 {
-	Delegate4<Param1,Param2,Param3,Param4, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates4.find(type.getId());
-	if(it == delegates4.end())
-	{
-		delegate = new Delegate4<Param1,Param2,Param3,Param4, RetType>();
-		delegates4[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events4.find(type.getId());
+	if(it == events4.end())
+		return events4[type.getId()] = T_Signal_v4<T_Any, T_Any, T_Any, T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &DelegateHandler::registerFunction5(const T_HashedString &type)
+inline T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent5(const T_HashedString &type)
 {
-	Delegate5<Param1,Param2,Param3,Param4,Param5, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates5.find(type.getId());
-	if(it == delegates5.end())
-	{
-		delegate = new Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>();
-		delegates5[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events5.find(type.getId());
+	if(it == events5.end())
+		return events5[type.getId()] = T_Signal_v5<T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
-template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &DelegateHandler::registerFunction6(const T_HashedString &type)
+inline T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type &AnyEventHandler::registerToEvent6(const T_HashedString &type)
 {
-	Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType> *delegate = NULL_PTR;
-
-	T_Map<T_HashedStringType, IDelegate*>::Type::iterator it = delegates6.find(type.getId());
-	if(it == delegates6.end())
-	{
-		delegate = new Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>();
-		delegates6[type.getId()] = delegate;
-	}
+	T_Map<T_HashedStringType, T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type>::Type::iterator it = events6.find(type.getId());
+	if(it == events6.end())
+		return events6[type.getId()] = T_Signal_v6<T_Any, T_Any, T_Any, T_Any, T_Any, T_Any>::Type();
 	else
-	{
-#ifdef _DEBUG
-		delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
-		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
-#else
-		delegate = static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
-#endif
-	}
-
-	return delegate->delegate;
+		return it->second;
 }
 
 } //namespace Addon
