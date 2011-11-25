@@ -5,7 +5,6 @@
    * !ClanLib
    * Boost
    * Standard (Minimal Dependencies)
-
  * 3) Remove unused stuff
    * Get rid of types_config.h
    * Remove preprocessor console app
