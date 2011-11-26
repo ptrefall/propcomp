@@ -219,14 +219,30 @@ if(MSVC)
 	#configure_file(${totem_hdr_addon_files_abs_path} ${tcp_hdr_addon_files} COPYONLY)
 	message(STATUS "----------------------------------------------")
 	
-	add_custom_command(	OUTPUT "${tcp_src_files}"
-						COMMAND ${SED_EXECUTABLE} -i s/T_String/CL_String/g  ${tcp_src_files}
-						COMMENT "Preprocessing Totem EDK Strings for ClanLib"
-	)
-	add_custom_command(	OUTPUT "${tcp_hdr_files}"
-						COMMAND ${SED_EXECUTABLE} -i s/T_String/CL_String/g  ${tcp_hdr_files}
-						COMMENT "Preprocessing Totem EDK Strings for ClanLib"
-	)
+	set(output_files ${tcp_src_files} ${tcp_hdr_files})
+	
+	#foreach(output ${output_files})
+	#	add_custom_command(	OUTPUT "${output}"
+	#						COMMAND ${SED_EXECUTABLE} -i s/T_String/CL_String/g  ${output}
+	#						COMMENT "Preprocessing Totem EDK Strings for ClanLib"
+	#	)
+	#endforeach()
+
+	function(do_sed find_replace comment)
+		foreach(output ${output_files})
+			add_custom_command(	OUTPUT "${output}"
+								COMMAND ${SED_EXECUTABLE} -i ${find_replace} ${output}
+								COMMENT ${comment}
+			)
+		endforeach()
+	endfunction(do_sed)
+	
+	do_sed(s/T_String/CL_String/g "Preprocessing Totem EDK Strings for ClanLib")
+	#do_sed(s/D32/double/g "Preprocessing Totem EDK Double for ClanLib")
+	#do_sed(s/F32/float/g "Preprocessing Totem EDK Float for ClanLib")
+	#do_sed(s/S32/int/g "Preprocessing Totem EDK Integer for ClanLib")
+	#do_sed("s/U32/unsigned int/g" "Preprocessing Totem EDK Unsigned Integer for ClanLib")
+	
 #Else, add linux support
 else()
 	#find GNU Sed
