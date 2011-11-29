@@ -11,6 +11,7 @@
    * Remove .sh based preprocessor
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
+ * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
  * 4) Write XML loader example.
  * 5) Write XML property state saving example.
  * 6) Write script language integration example.
