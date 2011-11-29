@@ -23,7 +23,26 @@
 #
 ###
 
-FIND_PATH(SED_DIR bin/sed.h
-      D:/Development/3rdParty/sed/sed-4.2.1
-    )
+#FIND_PATH(SED_DIR bin/sed.h
+#      D:/Development/3rdParty/sed/sed-4.2.1
+#    )
+INCLUDE(FindCygwin)
+FIND_PROGRAM(SED_EXECUTABLE
+	NAMES
+		sed
+	PATHS
+		${CYGWIN_INSTALL_PATH}/bin
+		/bin
+		/usr/bin
+		/usr/local/bin
+		/sbin
+		D:/Development/3rdParty/sed/sed-4.2.1
+)
+
+# handle the QUIETLY and REQUIRED arguments and set SED_FOUND to TRUE if
+# all listed variables are TRUE
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(SED DEFAULT_MSG SED_EXECUTABLE)
+
+MARK_AS_ADVANCED(SED_EXECUTABLE)
 	
