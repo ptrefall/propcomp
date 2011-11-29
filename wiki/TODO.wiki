@@ -13,15 +13,16 @@
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 4) Write XML loader example.
  * 5) Write XML property state saving example.
- * 6) Write Documentation
+ * 6) Write script language integration example.
+ * 7) Write Documentation
    * Frontpage 
      * Updated description and feature list
      * Easier examples
    * Docs/Wiki
- * 7) Write stress tests for all features of Totem EDK.
- * 8) Write unit tests for all features of Totem EDK.
- * 9) Write simple game example.
- * 10) Write Entity Editor tool.
+ * 8) Write stress tests for all features of Totem EDK.
+ * 9) Write unit tests for all features of Totem EDK.
+ * 10) Write simple game example.
+ * 11) Write Entity Editor tool.
 
 = Recently Fixed TODOs =
  * 1) Move event and delegate handling out from core-Totem (and Entity)
