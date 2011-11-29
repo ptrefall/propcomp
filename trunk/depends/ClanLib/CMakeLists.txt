@@ -227,17 +227,65 @@ if(MSVC)
 	#						COMMENT "Preprocessing Totem EDK Strings for ClanLib"
 	#	)
 	#endforeach()
+	
+	#Define sed find/replace strings
+	set(SED_CMD00 s/T_String/CL_String/g)
+	set(SED_CMD01 s/D32/double/g)
+	set(SED_CMD02 s/F32/float/g)
+	set(SED_CMD03 s/S32/int/g)
+	set(SED_CMD04 "s/U32/unsigned int/g")
+	set(SED_CMD05 "s/T_PropertyTypeId/unsigned int/g")
+	set(SED_CMD06 "s/T_EntityId/unsigned long/g")
+	set(SED_CMD07 "s/T_Exception/CL_Exception/g")
+	set(SED_CMD08 "s/HAS_SIGNALSLOTS_INHERITANCE_TYPE//g")
+	set(SED_CMD09 "s/NULL_PTR/nullptr/g")
+	set(SED_CMD10 "s/typename T_Signal_v0<>::Type/CL_Signal_v0/g")
+	#set(SED_CMD11 "s/typename T_Signal_v\(.*\)::Type/CL_Signal_v\1/g")
+	set(SED_CMD12 "s/T_Signal_v\\(.*\\)::Type/CL_Signal_v\\1/g")
+	set(SED_CMD13 "s/typename T_SharedPtr\\(.*\\)::Type/CL_SharedPtr\\1/g")
+	set(SED_CMD14 "s/T_SharedPtr\\(.*\\)::Type/CL_SharedPtr\\1/g")
+	set(SED_CMD15 "s/typename T_Vector\\(.*\\)::Type/std::vector\\1/g")
+	set(SED_CMD17 "s/T_Vector\\(.*\\)::Type/std::vector\\1/g")
+	set(SED_CMD16 "s/typename T_Map\\(.*\\)::Type/std::unordered_map\\1/g")
+	set(SED_CMD17 "s/T_Map\\(.*\\)::Type/std::unordered_map\\1/g")
+	set(SED_CMD18 "s/typename T_Pair\\(.*\\)::Type/std::pair\\1/g")
+	set(SED_CMD19 "s/T_Pair\\(.*\\)::Type/std::pair\\1/g")
+	set(SED_CMD20 "s/.bind(/.set(/g")
+	set(SED_CMD21 "s/delegate->delegate(/delegate->delegate.invoke(/g")
+	#set(SED_CMD22 "")
 
-	function(do_sed find_replace comment)
+	function(do_sed comment)
 		foreach(output ${output_files})
 			add_custom_command(	OUTPUT "${output}"
-								COMMAND ${SED_EXECUTABLE} -i ${find_replace} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD00} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD01} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD02} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD03} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD04} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD05} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD06} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD07} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD08} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD09} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD10} ${output}
+								#COMMAND ${SED_EXECUTABLE} -i ${SED_CMD11} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD12} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD13} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD14} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD15} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD16} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD17} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD18} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD19} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD20} ${output}
+								COMMAND ${SED_EXECUTABLE} -i ${SED_CMD21} ${output}
+								#COMMAND ${SED_EXECUTABLE} -i ${SED_CMD22} ${output}
 								COMMENT ${comment}
 			)
-		endforeach()
+		endforeach(output ${output_files})
 	endfunction(do_sed)
 	
-	do_sed(s/T_String/CL_String/g "Preprocessing Totem EDK Strings for ClanLib")
+	do_sed("Preprocessing Totem EDK for ClanLib")
 	#do_sed(s/D32/double/g "Preprocessing Totem EDK Double for ClanLib")
 	#do_sed(s/F32/float/g "Preprocessing Totem EDK Float for ClanLib")
 	#do_sed(s/S32/int/g "Preprocessing Totem EDK Integer for ClanLib")
