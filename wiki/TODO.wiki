@@ -9,6 +9,7 @@
    * Get rid of types_config.h
    * Remove preprocessor console app
    * Remove .sh based preprocessor
+ * 3) Fix includes to not use global includes within own files
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
