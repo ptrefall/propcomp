@@ -62,11 +62,6 @@ elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic -std=c++0x")
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}"
-  "${CMAKE_SOURCE_DIR}/src"
-  "${CMAKE_SOURCE_DIR}/include"
-)
-
 set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
 if(BUILD_TEST_PROJECTS)
 	add_subdirectory(tests)
@@ -84,10 +79,18 @@ endif()
 
 set(TOTEM_WITHOUT_PREPROCESSING TRUE CACHE BOOL "TRUE if you want Totem EDK's codebase without any preprocessing , FALSE if not.")
 if(TOTEM_WITHOUT_PREPROCESSING)
+	include_directories("${CMAKE_SOURCE_DIR}"
+	  "${CMAKE_SOURCE_DIR}/src"
+	  "${CMAKE_SOURCE_DIR}/include"
+	)
 	add_subdirectory(src)
 endif()
 
 set(PREPROCESS_TOTEM_FOR_CLANLIB FALSE CACHE BOOL "TRUE if you want to preprocess Totem EDK's codebase with ClanLib 3rdparty bindings, FALSE if not.")
 if(PREPROCESS_TOTEM_FOR_CLANLIB)
+	include_directories("${CMAKE_SOURCE_DIR}"
+	  "${CMAKE_SOURCE_DIR}/editions/clanlib/src"
+	  "${CMAKE_SOURCE_DIR}/editions/clanlib/include"
+	)
 	add_subdirectory(depends/ClanLib)
 endif()
