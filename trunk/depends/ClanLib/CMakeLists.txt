@@ -288,7 +288,14 @@ endfunction(do_sed)
 
 do_sed("Preprocessing Totem EDK for ClanLib")
 
+find_package(ClanLib REQUIRED)
+include_directories(${CL_INCLUDE_PATH})
+
 add_library(TotemEDK_ClanLib STATIC ${tcp_src_files} ${tcp_hdr_files})
 
 set_target_properties(TotemEDK_ClanLib PROPERTIES DEBUG_POSTFIX _d)
 set_target_properties(TotemEDK_ClanLib PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries(TotemEDK_ClanLib
+  debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
+)

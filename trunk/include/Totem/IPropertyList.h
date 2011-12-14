@@ -92,7 +92,7 @@ public:
 	 * @param serializer The serializer to use for serialization.
 	 * @return Returns the serialized string value of this property list.
 	 */
-	virtual T_String toString(IPropertySerializer &serializer) = 0;
+	virtual T_String toString(IPropertySerializer &serializer) const = 0;
 	/**
 	 * Call this function to deserialize a value from the string.
 	 * @param serialized_propertyList The serialized string to deserialize.
