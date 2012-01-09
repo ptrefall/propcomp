@@ -38,6 +38,9 @@ set(CMAKE_DEBUG_POSTFIX "_d")
 # define an option for choosing between static and dynamic C runtime
 set(STATIC_STD_LIBS TRUE CACHE BOOL "TRUE to statically link to the standard libraries, FALSE to use them as DLLs")
 
+#define an option for choosing between uniform and multi-byte character sets
+set(UNIFORM_CHARACTER_SET FALSE CACHE BOOL "TRUE to build project with uniform character set, FALSE to build project with multi-byte character set.")
+
 if(MSVC)
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
   
@@ -49,6 +52,10 @@ if(MSVC)
 		string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
 	  endif()
 	endforeach()
+  endif()
+  
+  if(UNIFORM_CHARACTER_SET)
+	add_definitions(-DUNICODE -D_UNICODE)
   endif()
   
   # Force to always compile with W4
