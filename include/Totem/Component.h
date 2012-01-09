@@ -49,7 +49,7 @@
  * 
  */
 
-#include "types_config.h"
+#include "config.h"
 
 #include "Property.h"
 #include "ComponentFactory.h"

@@ -38,7 +38,7 @@
  * 
  */
 
-#include "types_config.h"
+#include "config.h"
 #include "Component.h"
 #include "ComponentFactory.h"
 
