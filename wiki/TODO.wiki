@@ -11,7 +11,6 @@
    * Remove .sh based preprocessor
  * 3) !ClanLib preprocessor - signal connect() needs to store it in a Slot/!SlotContainer (example and tests)
  * 3) Fix includes to not use global includes within own files (In Progress)
- * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
  * 4) Write XML loader example.
@@ -28,6 +27,7 @@
  * 11) Write Entity Editor tool.
 
 = Recently Fixed TODOs =
+ * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Add option in CMake for building project with Unicode Character Set.
  * 2) Rename the "forced" parameter in set function of Property to override_readonly, and add another parameter named invoke_value_changed. Last parameter should default to true and dictate whether the valueChanged signal is called or not.
  * 1) Move event and delegate handling out from core-Totem (and Entity)
