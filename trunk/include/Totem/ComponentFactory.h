@@ -46,7 +46,7 @@
  * 
  */
 
-#include <Totem/types_config.h>
+#include "types_config.h"
 
 namespace Totem {
 
