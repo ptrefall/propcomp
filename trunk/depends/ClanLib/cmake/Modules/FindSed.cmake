@@ -36,6 +36,7 @@ FIND_PROGRAM(SED_EXECUTABLE
 		/usr/bin
 		/usr/local/bin
 		/sbin
+		D:/Development/3rdParty/sed/sed-3.62
 		D:/Development/3rdParty/sed/sed-4.2.1
 )
 

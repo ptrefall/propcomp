@@ -39,7 +39,7 @@
  * 
  */
 
-#include "types_config.h"
+#include "config.h"
 #include "IPropertySerializer.h"
 #include "IProperty.h"
 #include "Property.h"
