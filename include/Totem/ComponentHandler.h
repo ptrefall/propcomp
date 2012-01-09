@@ -38,9 +38,9 @@
  * 
  */
 
-#include <Totem/types_config.h>
-#include <Totem/Component.h>
-#include <Totem/ComponentFactory.h>
+#include "types_config.h"
+#include "Component.h"
+#include "ComponentFactory.h"
 
 namespace Totem {
 

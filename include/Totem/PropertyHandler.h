@@ -38,7 +38,7 @@
  * 
  */
 
-#include <Totem/Property.h>
+#include "Property.h"
 
 namespace Totem {
 
