@@ -75,4 +75,4 @@ set(SRCS
  
 add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
 
-set_target_properties(TotemEDK PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TotemEDK PROPERTIES DEBUG_POSTFIX -debug)
