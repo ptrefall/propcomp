@@ -10,7 +10,7 @@
    * Remove preprocessor console app
    * Remove .sh based preprocessor
  * 3) !ClanLib preprocessor - signal connect() needs to store it in a Slot/!SlotContainer (example and tests)
- * 3) Fix includes to not use global includes within own files
+ * 3) Fix includes to not use global includes within own files (In Progress)
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
