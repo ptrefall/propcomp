@@ -164,20 +164,6 @@ message(STATUS "Header Files to editions/standard/include/Totem/Addons/ ${tcp_hd
 message(STATUS "C++11/Standard Config File to editions/standard/include/Totem/ ${tcp_standard_config_file}")
 message(STATUS " ")
 
-#Define where to locate FindSed.cmake
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-
-#find Sed for Windows
-#http://gnuwin32.sourceforge.net/packages/sed.htm
-#or for linux
-#gnu sed
-
-find_package(Sed REQUIRED)
-find_program(SED_EXECUTABLE sed PATHS ${SED_DIR}/bin/)
-if(NOT SED_EXECUTABLE)
-   message(SEND_ERROR "Could not find Sed for Windows!")
-endif()
-
 message(STATUS "Copy files to ${TOTEM_FOR_STANDARD_OUTPUT_DIR}:")
 message(STATUS "----------------------------------------------")
 
@@ -282,7 +268,7 @@ function(do_replace comment)
 	foreach(output ${output_files})
 		FILE(READ "${output}" contents)
 		
-		STRING(REPLACE "T_String" 							"CL_String" 					contents "${contents}")
+		STRING(REPLACE "T_String" 							"std::string" 					contents "${contents}")
 		STRING(REPLACE "D32" 								"double" 						contents "${contents}")
 		STRING(REPLACE "F32" 								"float" 						contents "${contents}")
 		STRING(REPLACE "S32" 								"int" 							contents "${contents}")
@@ -290,17 +276,22 @@ function(do_replace comment)
 		
 		STRING(REPLACE "T_PropertyTypeId" 					"unsigned int" 					contents "${contents}")
 		STRING(REPLACE "T_EntityId" 						"unsigned long" 				contents "${contents}")
-		STRING(REPLACE "T_Exception" 						"CL_Exception" 					contents "${contents}")
-		STRING(REPLACE "HAS_SIGNALSLOTS_INHERITANCE_TYPE" 	"" 								contents "${contents}")
+		STRING(REPLACE "T_Exception" 						"std::runtime_error" 			contents "${contents}")
+		STRING(REPLACE "HAS_SIGNALSLOTS_INHERITANCE_TYPE" 	": public sigslot::has_slots<>" contents "${contents}")
 		STRING(REPLACE "NULL_PTR" 							"nullptr" 						contents "${contents}")
-		STRING(REPLACE "typename T_Signal_v0<>::Type" 		"CL_Signal_v0" 					contents "${contents}")
-		STRING(REPLACE ".bind(" 							".set("							contents "${contents}")
-		STRING(REPLACE "delegate->delegate(" 				"delegate->delegate.invoke(" 	contents "${contents}")
+		STRING(REPLACE "typename T_Signal_v0<>::Type" 		"sigslot::signal0" 				contents "${contents}")
+		STRING(REPLACE "T_Signal_v0<>::Type" 				"sigslot::signal0" 				contents "${contents}")
+		STRING(REPLACE "typename T_Delegate_v0" 			"fastdelegate::FastDelegate0" 	contents "${contents}")
+		STRING(REPLACE "T_Delegate_v0" 						"fastdelegate::FastDelegate0" 	contents "${contents}")
+		#STRING(REPLACE ".bind(" 							".set("							contents "${contents}")
+		#STRING(REPLACE "delegate->delegate(" 				"delegate->delegate.invoke(" 	contents "${contents}")
+		STRING(REPLACE "T_Any" 								"cdiggins::any" 				contents "${contents}")
+		STRING(REPLACE "T_BadAnyCast" 						"cdiggins::anyimpl::bad_any_cast" contents "${contents}")
 		
 		STRING(REPLACE "typename T_Map" 					"std::unordered_map" 			contents "${contents}")
 		STRING(REPLACE "T_Map" 								"std::unordered_map" 			contents "${contents}")
-		STRING(REPLACE "typename T_SharedPtr" 				"CL_SharedPtr" 					contents "${contents}")
-		STRING(REPLACE "T_SharedPtr" 						"CL_SharedPtr" 					contents "${contents}")
+		STRING(REPLACE "typename T_SharedPtr" 				"std::shared_ptr" 				contents "${contents}")
+		STRING(REPLACE "T_SharedPtr" 						"std::shared_ptr" 				contents "${contents}")
 		STRING(REPLACE "typename T_Vector" 					"std::vector" 					contents "${contents}")
 		STRING(REPLACE "T_Vector" 							"std::vector" 					contents "${contents}")
 		STRING(REPLACE "typename T_Pair" 					"std::pair" 					contents "${contents}")
@@ -308,8 +299,10 @@ function(do_replace comment)
 		STRING(REPLACE "::Type" 							"" 								contents "${contents}")
 		STRING(REPLACE ";" 									"\;" 							contents "${contents}")
 		
-		STRING(REGEX REPLACE "typename T_Signal_v(.)"		"CL_Signal_v\\1"				contents "${contents}")
-		STRING(REGEX REPLACE "T_Signal_v(.)"				"CL_Signal_v\\1"				contents "${contents}")
+		STRING(REGEX REPLACE "typename T_Signal_v(.)"		"sigslot::signal\\1"			contents "${contents}")
+		STRING(REGEX REPLACE "T_Signal_v(.)"				"sigslot::signal\\1"			contents "${contents}")
+		STRING(REGEX REPLACE "typename T_Delegate_v(.)"		"fastdelegate::FastDelegate\\1"	contents "${contents}")
+		STRING(REGEX REPLACE "T_Delegate_v(.)"				"fastdelegate::FastDelegate\\1"	contents "${contents}")
 		
 		#message(STATUS " ")
 		#message(STATUS "Content of ${output}:\n${contents}")
@@ -324,14 +317,7 @@ do_replace("Preprocessing Totem EDK for C++11/Standard")
 message(STATUS "Preprocessing Totem EDK for C++11/Standard is FINISHED!")
 message(STATUS "See editions/standard/ for list of all files.")
 
-#find_package(ClanLib REQUIRED)
-include_directories(${CL_INCLUDE_PATH})
-
 add_library(TotemEDK_Standard STATIC ${tcp_src_files} ${tcp_hdr_files} ${tcp_standard_config_file})
 
-set_target_properties(TotemEDK_Standard PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TotemEDK_Standard PROPERTIES DEBUG_POSTFIX -debug)
 set_target_properties(TotemEDK_Standard PROPERTIES LINKER_LANGUAGE CXX)
-
-target_link_libraries(TotemEDK_Standard
-  #debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
-)

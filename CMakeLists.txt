@@ -103,3 +103,12 @@ if(PREPROCESS_TOTEM_FOR_CLANLIB)
 	)
 	add_subdirectory(depends/ClanLib)
 endif()
+
+set(PREPROCESS_TOTEM_FOR_STANDARD FALSE CACHE BOOL "TRUE if you want to preprocess Totem EDK's codebase with C++11/Standard bindings, FALSE if not.")
+if(PREPROCESS_TOTEM_FOR_STANDARD)
+	include_directories("${CMAKE_SOURCE_DIR}"
+	  "${CMAKE_SOURCE_DIR}/editions/standard/src"
+	  "${CMAKE_SOURCE_DIR}/editions/standard/include"
+	)
+	add_subdirectory(depends/Standard)
+endif()

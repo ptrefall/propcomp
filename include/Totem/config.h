@@ -57,16 +57,16 @@
 #include <exception>
 #include <memory>
 #include <functional>
-#include "../depends/MinDepends/sigslot.h"
-#include "../depends/MinDepends/cdiggins_any.h"
-#include "../depends/MinDepends/FastDelegate.h"
-#include "../depends/MinDepends/FastDelegateBind.h"
+#include "../depends/Standard/sigslot.h"
+#include "../depends/Standard/cdiggins_any.h"
+#include "../depends/Standard/FastDelegate.h"
+#include "../depends/Standard/FastDelegateBind.h"
 
 //Sigslot.h requires that PropertyData and Component inherit from
 //sigslot::has_slots<>, thus "overload" this preprocessed definition.
 //-------------------------------------------------------------------
 #undef HAS_SIGNALSLOTS_INHERITANCE_TYPE
-#define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots<sigslot::single_threaded>
+#define HAS_SIGNALSLOTS_INHERITANCE_TYPE : public sigslot::has_slots</*sigslot::single_threaded*/>
 
 //--------------------------------------------
 
@@ -109,37 +109,37 @@ typedef std::runtime_error T_Exception;
 class NoTemplate {};
 template<class T = NoTemplate>
 struct T_Signal_v0 {
-	typedef sigslot::signal0<sigslot::single_threaded> Type;
+	typedef sigslot::signal0</*sigslot::single_threaded*/> Type;
 };
 
 template< typename T >
 struct T_Signal_v1 {
-	typedef sigslot::signal1<T,sigslot::single_threaded> Type;
+	typedef sigslot::signal1<T/*,sigslot::single_threaded*/> Type;
 };
 
 template<typename T,typename U>
 struct T_Signal_v2 {
-   typedef sigslot::signal2<T,U,sigslot::single_threaded> Type;
+   typedef sigslot::signal2<T,U/*,sigslot::single_threaded*/> Type;
 };
 
 template<typename T,typename U, typename V>
 struct T_Signal_v3 {
-   typedef sigslot::signal3<T,U,V,sigslot::single_threaded> Type;
+   typedef sigslot::signal3<T,U,V/*,sigslot::single_threaded*/> Type;
 };
 
 template<typename T,typename U, typename V, typename W>
 struct T_Signal_v4 {
-   typedef sigslot::signal4<T,U,V,W,sigslot::single_threaded> Type;
+   typedef sigslot::signal4<T,U,V,W/*,sigslot::single_threaded*/> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X>
 struct T_Signal_v5 {
-   typedef sigslot::signal5<T,U,V,W,X,sigslot::single_threaded> Type;
+   typedef sigslot::signal5<T,U,V,W,X/*,sigslot::single_threaded*/> Type;
 };
 
 template<typename T,typename U, typename V, typename W, typename X, typename Y>
 struct T_Signal_v6 {
-   typedef sigslot::signal6<T,U,V,W,X,Y,sigslot::single_threaded> Type;
+   typedef sigslot::signal6<T,U,V,W,X,Y/*,sigslot::single_threaded*/> Type;
 };
 
 //--------------------------------------------
