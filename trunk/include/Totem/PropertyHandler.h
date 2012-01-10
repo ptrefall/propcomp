@@ -75,7 +75,7 @@ public:
 	/**
 	 * Add a property of specified type T and name to this PropertyHandler with a default value.
 	 * If readOnly is specified to true, one can only change the property by
-	 * directly calling property.set(value, ..., override_readonly=true), all other pipes, like
+	 * directly calling property.set(value, ..., overrideReadonly=true), all other pipes, like
 	 * via operators, will throw an exception.
 	 *
 	 * @param name The name of the property used to store and associate the property in the PropertyHandler.
@@ -112,7 +112,7 @@ public:
 	/**
 	 * Add a property of specified type T and name to this PropertyHandler with a default value and userdata of type UserData.
 	 * If readOnly is specified to true, one can only change the property by
-	 * directly calling property.set(value, ..., override_readonly=true), all other pipes, like
+	 * directly calling property.set(value, ..., overrideReadonly=true), all other pipes, like
 	 * via operators, will throw an exception.
 	 *
 	 * @param name The name of the property used to store and associate the property in the PropertyHandler.
