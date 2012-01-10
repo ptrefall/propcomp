@@ -1,6 +1,8 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 3) Write preprocessor into more manageable code.
+ * 3) Make preprocessor run on tests and examples.
  * 3) !ClanLib preprocessor - signal connect() needs to store it in a Slot/!SlotContainer (example and tests)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
