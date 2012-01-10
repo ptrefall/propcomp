@@ -27,24 +27,14 @@ cmake_minimum_required(VERSION 2.8)
  
 project(TotemEDK)
 
-set(MinDepends_HDRS
-	../depends/MinDepends/types.h
-	../depends/MinDepends/sigslot.h
-	../depends/MinDepends/cdiggins_any.h
-	../depends/MinDepends/FastDelegate.h
-	../depends/MinDepends/FastDelegateBind.h
+set(Standard_HDRS
+	#../depends/Standard/config.h
+	../depends/Standard/sigslot.h
+	../depends/Standard/cdiggins_any.h
+	../depends/Standard/FastDelegate.h
+	../depends/Standard/FastDelegateBind.h
 )
-SOURCE_GROUP("Header Files\\Types\\MinDepends" FILES ${MinDepends_HDRS})
-
-set(ClanLib_HDRS
-	../depends/ClanLib/types.h
-)
-SOURCE_GROUP("Header Files\\Types\\ClanLib" FILES ${ClanLib_HDRS})
-
-set(Boost_HDRS
-	../depends/Boost/types.h
-)
-SOURCE_GROUP("Header Files\\Types\\Boost" FILES ${Boost_HDRS})
+SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(HDRS
   #../include/Totem/Entity.h
@@ -62,7 +52,7 @@ set(HDRS
   #./TemplateEventHandler.h
   #./AnyEventHandler.h
   #./DelegateHandler.h
-  ../include/Totem/types_config.h
+  ../include/Totem/config.h
   ../include/Totem/mainpage.h
 )
 
@@ -73,6 +63,6 @@ set(SRCS
   #./AnyEventHandler.cpp
 )
  
-add_library(TotemEDK STATIC  ${MinDepends_HDRS} ${ClanLib_HDRS} ${Boost_HDRS} ${HDRS} ${SRCS})
+add_library(TotemEDK STATIC  ${Standard_HDRS} ${HDRS} ${SRCS})
 
 set_target_properties(TotemEDK PROPERTIES DEBUG_POSTFIX -debug)

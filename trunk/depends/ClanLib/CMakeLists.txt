@@ -164,20 +164,7 @@ message(STATUS "Header Files to editions/clanlib/include/Totem/Addons/ ${tcp_hdr
 message(STATUS "ClanLib Config File to editions/clanlib/include/Totem/ ${tcp_clanlib_config_file}")
 message(STATUS " ")
 
-#Define where to locate FindSed.cmake
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-
-#find Sed for Windows
-#http://gnuwin32.sourceforge.net/packages/sed.htm
-#or for linux
-#gnu sed
-
-find_package(Sed REQUIRED)
-find_program(SED_EXECUTABLE sed PATHS ${SED_DIR}/bin/)
-if(NOT SED_EXECUTABLE)
-   message(SEND_ERROR "Could not find Sed for Windows!")
-endif()
-
 message(STATUS "Copy files to ${TOTEM_FOR_CLANLIB_OUTPUT_DIR}:")
 message(STATUS "----------------------------------------------")
 
@@ -296,6 +283,8 @@ function(do_replace comment)
 		STRING(REPLACE "typename T_Signal_v0<>::Type" 		"CL_Signal_v0" 					contents "${contents}")
 		STRING(REPLACE ".bind(" 							".set("							contents "${contents}")
 		STRING(REPLACE "delegate->delegate(" 				"delegate->delegate.invoke(" 	contents "${contents}")
+		STRING(REPLACE "T_Any" 								"cdiggins::any" 				contents "${contents}")
+		STRING(REPLACE "T_BadAnyCast" 						"cdiggins::anyimpl::bad_any_cast" contents "${contents}")
 		
 		STRING(REPLACE "typename T_Map" 					"std::unordered_map" 			contents "${contents}")
 		STRING(REPLACE "T_Map" 								"std::unordered_map" 			contents "${contents}")
@@ -329,7 +318,7 @@ include_directories(${CL_INCLUDE_PATH})
 
 add_library(TotemEDK_ClanLib STATIC ${tcp_src_files} ${tcp_hdr_files} ${tcp_clanlib_config_file})
 
-set_target_properties(TotemEDK_ClanLib PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TotemEDK_ClanLib PROPERTIES DEBUG_POSTFIX -debug)
 set_target_properties(TotemEDK_ClanLib PROPERTIES LINKER_LANGUAGE CXX)
 
 target_link_libraries(TotemEDK_ClanLib
