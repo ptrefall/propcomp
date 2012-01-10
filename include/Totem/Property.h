@@ -146,12 +146,12 @@ public:
 	 * can only be bypassed by passing in forced = true.
 	 *
 	 * @param value The new value of the property.
-	 * @param invoke_value_changed Setting this value to false will prevent the valueChanged signal from being invoked. Defaults to true.
-	 * @param override_readonly If this property is read-only, setting this parameter to true will override the read-only rule. Defaults to false.
+	 * @param invokeValueChanged Setting this value to false will prevent the valueChanged signal from being invoked. Defaults to true.
+	 * @param overrideReadonly If this property is read-only, setting this parameter to true will override the read-only rule. Defaults to false.
 	 */
-	void set(const T& value, bool invoke_value_changed = true, bool override_readonly = false) 
+	void set(const T& value, bool invokeValueChanged = true, bool overrideReadonly = false) 
 	{ 
-		if(data->readOnly && !override_readonly)
+		if(data->readOnly && !overrideReadonly)
 			throw T_Exception(("Property " + data->name + " is read-only!").c_str());
 
 		if(data->value != value)
@@ -159,7 +159,7 @@ public:
 			T oldValue = data->value;
 			data->value = value; 
 
-			if(invoke_value_changed)
+			if(invokeValueChanged)
 				data->valueChanged.invoke(oldValue, value);
 		}
 	}
