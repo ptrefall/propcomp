@@ -1,10 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 3) Add preprocessor for 3rd party libraries.
-   * !ClanLib
-   * Boost
-   * Standard (Minimal Dependencies)
  * 3) Remove unused stuff
    * Get rid of types_config.h
    * Remove preprocessor console app
@@ -28,6 +24,10 @@
  * 11) Write Entity Editor tool.
 
 = Recently Fixed TODOs =
+ * 3) Add preprocessor for 3rd party libraries.
+   * !ClanLib
+   * Boost (We won't support Boost just yet...)
+   * Standard (Minimal Dependencies)
  * 3) Add post-build step that copies compiled .lib into lib/ folder.
  * 3) Add option in CMake for building project with Unicode Character Set.
  * 2) Rename the "forced" parameter in set function of Property to override_readonly, and add another parameter named invoke_value_changed. Last parameter should default to true and dictate whether the valueChanged signal is called or not.
