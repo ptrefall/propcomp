@@ -2,7 +2,6 @@
 
 = Tasks =
  * 3) !ClanLib preprocessor - signal connect() needs to store it in a Slot/!SlotContainer (example and tests)
- * 3) Fix includes to not use global includes within own files (In Progress)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
  * 3) Build doxygen and make sure everything builds fine.
@@ -19,7 +18,8 @@
  * 10) Write simple game example.
  * 11) Write Entity Editor tool.
 
-= Recently Fixed TODOs =
+= Fixed TODOs =
+ * 3) Fix includes to not use global includes within own files
  * 3) Remove unused stuff
    * Get rid of types_config.h
    * Remove preprocessor console app
