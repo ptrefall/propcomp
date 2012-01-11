@@ -6,6 +6,7 @@
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
  * 3) Build doxygen and make sure everything builds fine.
+ * 4) Write unit tests for all features of Totem EDK.
  * 4) Write XML loader example.
  * 5) Write XML property state saving example.
  * 6) Write script language integration example.
@@ -15,7 +16,6 @@
      * Easier examples
    * Docs/Wiki
  * 8) Write stress tests for all features of Totem EDK.
- * 9) Write unit tests for all features of Totem EDK.
  * 10) Write simple game example.
  * 11) Write Entity Editor tool.
 
