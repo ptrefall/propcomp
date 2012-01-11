@@ -71,6 +71,8 @@ elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-long-long -pedantic -std=c++0x")
 endif()
 
+include(${CMAKE_SOURCE_DIR}/cmake/preprocessor.cmake)
+
 set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
 if(BUILD_TEST_PROJECTS)
 	add_subdirectory(tests)
