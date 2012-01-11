@@ -26,7 +26,7 @@
 #-----------------------------
 # DEFINE PATHS TO TOTEM FILES
 #-----------------------------
-function(define_totem_paths package)
+macro(define_totem_paths package)
 	set(TOTEM_SRCS ${TotemEDK_SOURCE_DIR}/src)
 	set(TOTEM_HDRS ${TotemEDK_SOURCE_DIR}/include/Totem)
 	set(TOTEM_SRCS_ADDONS ${TotemEDK_SOURCE_DIR}/src/Addons)
@@ -39,12 +39,12 @@ function(define_totem_paths package)
 	message(STATUS "Path to Totem include/Totem/Addons/: ${TOTEM_HDRS_ADDONS}")
 	message(STATUS "Path to ${package} configuration headers for Totem: ${TOTEM_CONFIG_HDRS}")
 	message(STATUS " ")
-endfunction(define_totem_paths)
+endmacro(define_totem_paths)
 
 #-------------------------------
 # EXTRACT TOTEM FILES FROM DISK
 #-------------------------------
-function(extract_files package)
+macro(extract_files package)
 	file(GLOB totem_src_files_abs_path ${TOTEM_SRCS}/*.cpp)
 	file(GLOB totem_hdr_files_abs_path ${TOTEM_HDRS}/*.h)
 	file(GLOB totem_src_addon_files_abs_path ${TOTEM_SRCS_ADDONS}/*.cpp)
@@ -56,12 +56,12 @@ function(extract_files package)
 	message(STATUS "Header Files in include/Totem/Addons/ ${totem_hdr_addon_files_abs_path}")
 	message(STATUS "${package} configuration headers for Totem in depends/${package}/ ${totem_config_hdrs_abs_path}")
 	message(STATUS " ")
-endfunction(extract_files)
+endmacro(extract_files)
 
 #---------------------------------
 # DEFINE OUTPUT DESTINATION PATHS
 #---------------------------------
-function(define_output_paths package)
+macro(define_output_paths package)
 	set(PACKAGE_PATH_NAME "${package}")
 	set(PACKAGE_OUTPUT_DIR ${TotemEDK_SOURCE_DIR}/editions/${PACKAGE_PATH_NAME})
 	set(PACKAGE_SRCS_DIR ${PACKAGE_OUTPUT_DIR}/src)
@@ -76,12 +76,12 @@ function(define_output_paths package)
 	message(STATUS "Output Path to Totem ${package} include/Totem/Addons/: ${PACKAGE_HDRS_ADDONS_DIR}")
 	message(STATUS "Output Path to Totem ${package} include/Totem/: ${PACKAGE_CONFIG_HDRS_DIR}")
 	message(STATUS " ")
-endfunction(define_output_paths)
+endmacro(define_output_paths)
 
 #--------------------------------------------------------
 # SPLIT EXTRACTED TOTEM FILE PATH STRINGS INTO FILENAMES
 #--------------------------------------------------------
-function(split_into_filenames package)
+macro(split_into_filenames package)
 	set(totem_src_files)
 	set(totem_hdr_files)
 	set(totem_hdr_ignore_files)
@@ -140,17 +140,17 @@ function(split_into_filenames package)
 		message(STATUS "- ${filename}")
 	ENDFOREACH(f ${ARGN})
 	message(STATUS " ")
-endfunction(split_into_filenames)
+endmacro(split_into_filenames)
 
 #---------------------------------
 # DEFINE ABSOLUTE PATH FOR OUTPUT
 #---------------------------------
-function(define_output_abs_paths package)
-	set(package_src_files)
-	set(package_hdr_files)
+macro(define_output_abs_paths package)
+	set(package_src_files PARENT_SCOPE)
+	set(package_hdr_files PARENT_SCOPE)	
 	set(package_src_addon_files)
 	set(package_hdr_addon_files)
-	set(package_config_hdr_files)
+	set(package_config_hdr_files PARENT_SCOPE)
 	foreach(f ${totem_src_files})
 		set(package_src_files ${package_src_files} ${PACKAGE_SRCS_DIR}/${f})
 	endforeach()
@@ -173,12 +173,12 @@ function(define_output_abs_paths package)
 	message(STATUS "Header Files to editions/${package}/include/Totem/Addons/ ${package_hdr_addon_files}")
 	message(STATUS "${package} Configuration Headers to editions/${package}/include/Totem/ ${package_config_hdr_files}")
 	message(STATUS " ")
-endfunction(define_output_abs_paths)
+endmacro(define_output_abs_paths)
 
 #---------------------------------
 # COPY TOTEM FILES TO OUTPUT DIR
 #---------------------------------
-function(copy_totem_to_output package)
+macro(copy_totem_to_output package)
 	set(list_count)
 	set(list_index 0)
 	list(LENGTH package_src_files list_count)
@@ -245,7 +245,7 @@ function(copy_totem_to_output package)
 	set(list_index 0)
 	list(LENGTH package_config_hdr_files list_count)
 	foreach(input ${totem_config_hdrs_abs_path})
-		list(GET package_clanlib_config_file ${list_index} output)
+		list(GET package_config_hdr_files ${list_index} output)
 		message(STATUS "Evaluating index ${list_index}/${list_count}: ${output}")
 		MATH(EXPR list_index "${list_index}+1")
 		
@@ -254,7 +254,74 @@ function(copy_totem_to_output package)
 	message(STATUS "----------------------------------------------")
 	
 	set(output_files ${package_src_files} ${package_hdr_files})
-endfunction(copy_totem_to_output)
+endmacro(copy_totem_to_output)
+
+#-------------------------------
+# RUN FIND/REPLACE ON ALL FILES
+#-------------------------------
+macro(run_find_replace_on_output_files)
+	foreach(output ${output_files})
+		#Read the file
+		FILE(READ "${output}" contents)
+		
+		#Replace all strings matching find with replace
+		set(list_count)
+		set(list_index 0)
+		list(LENGTH list_replace list_count)
+		foreach(find ${list_find})
+			list(GET list_replace ${list_index} replace)
+			message(STATUS "${list_index}/${list_count}: ${output}: ${find} -> ${replace}")
+			MATH(EXPR list_index "${list_index}+1")
+			STRING(REPLACE "${find}" "${replace}" contents "${contents}")
+		endforeach(find ${list_find})
+		
+		#Replace all strings matching find with replace using regex
+		set(list_count)
+		set(list_index 0)
+		list(LENGTH list_replace_regex list_count)
+		foreach(find ${list_find_regex})
+			list(GET list_replace_regex ${list_index} replace)
+			message(STATUS "${list_index}/${list_count}: ${output}: ${find} -> ${replace}")
+			MATH(EXPR list_index "${list_index}+1")
+			STRING(REGEX REPLACE "${find}" "${replace}" contents "${contents}")
+		endforeach(find ${list_find_regex})
+		
+		#Overwrite the file with new contents
+		FILE(WRITE ${output} ${contents})
+	endforeach(output ${output_files})
+endmacro(run_find_replace_on_output_files)
+
+####################################
+#----------------------------------#
+# EMPTY THE PREPROCESSOR PAIR LIST #
+#----------------------------------#
+####################################
+macro(empty_preprocess_pair_list)
+	set(list_find)
+	set(list_find_regex)
+	set(list_replace)
+	set(list_replace_regex)
+endmacro(empty_preprocess_pair_list)
+
+#########################################
+#---------------------------------------#
+# ADD FIND/REPLACE PAIR TO PREPROCESSOR #
+#---------------------------------------#
+#########################################
+macro(add_preprocess_pair find replace)
+	set(list_find 	 ${list_find} 	 ${find})
+	set(list_replace ${list_replace} ${replace})
+endmacro(add_preprocess_pair)
+
+###############################################
+#---------------------------------------------#
+# ADD FIND/REPLACE REGEX PAIR TO PREPROCESSOR #
+#---------------------------------------------#
+###############################################
+macro(add_preprocess_pair_regex find replace)
+	set(list_find_regex 	${list_find_regex} 	  ${find})
+	set(list_replace_regex 	${list_replace_regex} ${replace})
+endmacro(add_preprocess_pair_regex)
 
 ############################
 #--------------------------#
@@ -270,6 +337,7 @@ function(preprocess_totem package)
 	split_into_filenames(${package})
 	define_output_abs_paths(${package})
 	copy_totem_to_output(${package})
+	run_find_replace_on_output_files()
 	#---------------------------------------------------------------------
 	message(STATUS "Preprocessing Totem EDK for ${package} is FINISHED!")
 	message(STATUS "See editions/${package}/ for list of all files.")
