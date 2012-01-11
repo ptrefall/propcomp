@@ -16,8 +16,8 @@
      * Easier examples
    * Docs/Wiki
  * 8) Write stress tests for all features of Totem EDK.
- * 10) Write simple game example.
- * 11) Write Entity Editor tool.
+ * 9) Write simple game example.
+ * 10) Write Entity Editor tool.
 
 = Fixed TODOs =
  * 3) Write preprocessor into more manageable code.
