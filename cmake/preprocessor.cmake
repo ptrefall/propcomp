@@ -146,11 +146,11 @@ endmacro(split_into_filenames)
 # DEFINE ABSOLUTE PATH FOR OUTPUT
 #---------------------------------
 macro(define_output_abs_paths package)
-	set(package_src_files PARENT_SCOPE)
-	set(package_hdr_files PARENT_SCOPE)	
+	set(package_src_files)
+	set(package_hdr_files)	
 	set(package_src_addon_files)
 	set(package_hdr_addon_files)
-	set(package_config_hdr_files PARENT_SCOPE)
+	set(package_config_hdr_files)
 	foreach(f ${totem_src_files})
 		set(package_src_files ${package_src_files} ${PACKAGE_SRCS_DIR}/${f})
 	endforeach()
@@ -286,6 +286,8 @@ macro(run_find_replace_on_output_files)
 			STRING(REGEX REPLACE "${find}" "${replace}" contents "${contents}")
 		endforeach(find ${list_find_regex})
 		
+		STRING(REPLACE ";" "\\;" contents "${contents}")
+		
 		#Overwrite the file with new contents
 		FILE(WRITE ${output} ${contents})
 	endforeach(output ${output_files})
@@ -328,7 +330,7 @@ endmacro(add_preprocess_pair_regex)
 # PREPROCESS MAIN FUNCTION #
 #--------------------------#
 ############################
-function(preprocess_totem package)
+macro(preprocess_totem package)
 	message(STATUS "Preprocessing Totem EDK for ${package}")
 	#---------------------------------------------------------------------
 	define_totem_paths(${package})
@@ -341,4 +343,4 @@ function(preprocess_totem package)
 	#---------------------------------------------------------------------
 	message(STATUS "Preprocessing Totem EDK for ${package} is FINISHED!")
 	message(STATUS "See editions/${package}/ for list of all files.")
-endfunction(preprocess_totem)
+endmacro(preprocess_totem)

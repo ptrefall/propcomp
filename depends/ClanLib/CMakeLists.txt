@@ -55,7 +55,6 @@ add_preprocess_pair("T_Vector" 							"std::vector")
 add_preprocess_pair("typename T_Pair" 					"std::pair")
 add_preprocess_pair("T_Pair" 							"std::pair")
 add_preprocess_pair("::Type" 							" ")
-add_preprocess_pair(";" 								"\;")
 
 add_preprocess_pair_regex("typename T_Signal_v(.)"		"CL_Signal_v\\\\1")
 add_preprocess_pair_regex("T_Signal_v(.)"				"CL_Signal_v\\\\1")
