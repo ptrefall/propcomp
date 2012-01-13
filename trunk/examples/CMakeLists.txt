@@ -23,6 +23,8 @@
 #
 ###
 
+include_directories(${TotemEDK_SOURCE_DIR}/include)
+
 add_subdirectory(Bomb)
 add_subdirectory(Simple)
 add_subdirectory(ElCar)

@@ -73,6 +73,11 @@ endif()
 
 include(${CMAKE_SOURCE_DIR}/cmake/preprocessor.cmake)
 
+set(BUILD_SYNTAX_EXPERIMENT_PROJECTS TRUE CACHE BOOL "TRUE if you want to include syntax experiment projects with the generated solution, FALSE if not.")
+if(BUILD_SYNTAX_EXPERIMENT_PROJECTS)
+	add_subdirectory(syntax_experiments)
+endif()
+
 set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
 if(BUILD_TEST_PROJECTS)
 	add_subdirectory(tests)
