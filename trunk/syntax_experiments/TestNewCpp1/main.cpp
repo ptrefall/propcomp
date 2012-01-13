@@ -60,67 +60,27 @@ Component::~Component()
 
 /////////////////////////////////////////////////////
 //
-class ComponentFactory
-{
-public:
-	ComponentFactory() {}
-	
-	template<class ComponenType>
-	auto create() -> decltype(ComponenType::Create())
-	{
-		auto component = ComponenType::Create();
-		return component;
-	}
-
-	template<class ComponenType, class CustomParam0>
-	auto create() -> decltype(ComponenType::Create())
-	{
-		auto component = ComponenType::Create();
-		return component;
-	}
-};
-//
-/////////////////////////////////////////////////////////
-
-
-
-
-
-/////////////////////////////////////////////////////
-//
 class ComponentHandler
 {
 public:
-	ComponentHandler(ComponentFactory &factory) : factory(factory) {}
-	
-	/*auto addComponent(const std::string &type) -> std::shared_ptr<Component>
-	{
-		auto compFuncIt = components.find(type);
-		if(compFuncIt == components.end())
-			throw std::runtime_error("Component type not found!");
-		const unsigned int &typeId = compFuncIt->second;
-		if(typeId == Component::getTypeId<TestComp>())
-			return TestComp::Create();
-
-		throw std::runtime_error("Component type not found!");
-	}*/
-
-	template<class ComponenType>
-	auto addComponent() -> decltype(ComponentType::Create())
+	template<class ComponentType>
+	std::shared_ptr<ComponentType> addComponent()
 	{
 		auto component = ComponentType::Create();
+		components.push_back(component);
 		return component;
 	}
 
 	template<class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> addComponent1(CustomParam0 param0)
+	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0)
 	{
 		auto component = ComponentType::Create<CustomParam0>(param0);
+		components.push_back(component);
 		return component;
 	}
-private:
-	ComponentFactory &factory;
-	//std::unordered_map<std::string, unsigned int> components;
+
+protected:
+	std::vector<std::shared_ptr<Component>> components;
 };
 //
 /////////////////////////////////////////////////////////
@@ -144,15 +104,15 @@ public:
 class TestComp : public Component
 {
 public:
-	TestComp(TestSystem &sys) : Component(Type()), sys(sys) { typeId = Component::getTypeId<TestComp>(); }
+	TestComp(std::shared_ptr<TestSystem> sys) : Component(Type()), sys(sys) { typeId = Component::getTypeId<TestComp>(); }
 	static std::string Type() { return "Test"; }
 	template<class CustomParam0>
 	static std::shared_ptr<TestComp> Create(CustomParam0 param0) { return std::make_shared<TestComp>(param0); }
 
-	void test() { sys.test(); }
+	void test() { sys->test(); }
 
 private:
-	TestSystem &sys;
+	std::shared_ptr<TestSystem> sys;
 };
 //
 /////////////////////////////////////////////////////////
@@ -164,10 +124,9 @@ private:
 //
 void main()
 {
-	ComponentFactory factory;
-	ComponentHandler entity(factory);
-	TestSystem sys;
-	auto testComp = entity.addComponent1<TestComp, TestSystem&>(sys);
+	std::shared_ptr<ComponentHandler> entity = std::make_shared<ComponentHandler>();
+	std::shared_ptr<TestSystem> sys = std::make_shared<TestSystem>();
+	auto testComp = entity->addComponent<TestComp, std::shared_ptr<TestSystem>>(sys);
 	testComp->test();
 	system("pause");
 }
