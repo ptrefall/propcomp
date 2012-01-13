@@ -23,28 +23,6 @@
 #
 ###
 
-cmake_minimum_required(VERSION 2.8.3)
-
-project(ExampleSimple)
-
-set(HDRS
-  ../../include/Totem/Addons/TemplateEventHandler.h
-  ../../include/Totem/Addons/DelegateHandler.h
-  ../Common/Entity.h
-)
-
-set(SRCS
-  ./main.cpp
-  ../../src/Addons/TemplateEventHandler.cpp
-  ../../src/Addons/DelegateHandler.cpp
-)
+cmake_minimum_required(VERSION 2.8)
  
-add_executable(ExampleSimple ${SRCS} ${HDRS})
-
-set_target_properties(ExampleSimple PROPERTIES DEBUG_POSTFIX -debug)
-set_target_properties(ExampleSimple PROPERTIES FOLDER "Examples")
-
-
-target_link_libraries(ExampleSimple
-  TotemEDK
-)
+add_subdirectory(TestNewCpp1)

@@ -128,6 +128,27 @@ public:
 	int a,b,c,d,e,f;
 };
 
+struct TestData
+{
+	int i;
+	int u;
+	TestData(int i, int u) : i(i), u(u) {}
+};
+
+class TestCompCopy : public Component
+{
+public:
+	COMPONENT_1(Entity, TestCompCopy, TestData&);
+	TestCompCopy(Entity &owner, const T_String &name, TestData &data)
+	: Component(name), owner(owner), data(data)
+	{
+		data.i = 5;
+		std::cout << "TestCompCopy: " << data.i << " " << data.u << std::endl;
+	}
+	virtual ~TestCompCopy() {}
+	TestData &data;
+};
+
 int main()
 {
 	//Print out some startup text
@@ -186,6 +207,7 @@ void initFactory(ComponentFactory &factory)
 	Voice::RegisterToFactory(factory);
 	Targeter::RegisterToFactory(factory);
 	CustomParamsHolder::RegisterToFactory(factory);
+	TestCompCopy::RegisterToFactory(factory);
 }
 
 void defineDog(Entity &dog, const T_String &name)
@@ -199,6 +221,10 @@ void defineDog(Entity &dog, const T_String &name)
 
 	dog.addComponent("Voice");
 	dog.addComponent("Targeter");
+	TestData *test = new TestData(2,3);
+	dog.addComponent<TestData&>("TestCompCopy", *test);
+	std::cout << "TestCompCopy: " << test->i << " " << test->u << std::endl;
+
 
 	dog.getProperty<T_String>("Type") = "Dog";
 	dog.getProperty<T_String>("Name") = name;

@@ -23,28 +23,25 @@
 #
 ###
 
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8)
+ 
+project(TestNewCpp1)
 
-project(ExampleSimple)
+set(Standard_HDRS
+	../../depends/Standard/sigslot.h
+	../../depends/Standard/cdiggins_any.h
+	../../depends/Standard/FastDelegate.h
+	../../depends/Standard/FastDelegateBind.h
+)
+SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(HDRS
-  ../../include/Totem/Addons/TemplateEventHandler.h
-  ../../include/Totem/Addons/DelegateHandler.h
-  ../Common/Entity.h
 )
 
 set(SRCS
   ./main.cpp
-  ../../src/Addons/TemplateEventHandler.cpp
-  ../../src/Addons/DelegateHandler.cpp
 )
  
-add_executable(ExampleSimple ${SRCS} ${HDRS})
+add_executable(TestNewCpp1 ${Standard_HDRS} ${HDRS} ${SRCS})
 
-set_target_properties(ExampleSimple PROPERTIES DEBUG_POSTFIX -debug)
-set_target_properties(ExampleSimple PROPERTIES FOLDER "Examples")
-
-
-target_link_libraries(ExampleSimple
-  TotemEDK
-)
+set_target_properties(TestNewCpp1 PROPERTIES DEBUG_POSTFIX -debug)
