@@ -3,7 +3,7 @@
 = Tasks =
  * 1) addComponent shouldn't force user into passing references for custom params!
    * Turns out that the current Any implementation using templates won't work, which again points back to the fact that macros are a bad idea for intuitive syntax, which kind of is key to a 3rd party library like Totem...
-   * Look at refactoring/rewriting the ComponentFactory and base Component classes using C++11 features to achieve a more streamlined and intuitive implementation.
+   * Look at refactoring/rewriting the ComponentHandler, ComponentFactory and base Component classes using C++11 features to achieve a more streamlined and intuitive implementation.
  * 2) Consider refactoring property system into supporting both SharedProperties, that's owned by the Entity, and Properties that's local to each component. This would open up the possibility to add multiple instances of the same type of component to an entity as well, which would lead to more flexibility and a more intuitive approach to the programming of Totem, perhaps.
  * 2) Consider writing ComponentFactory as an interface, who's overloaded implementation might support pooling.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
