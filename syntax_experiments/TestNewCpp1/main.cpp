@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <functional>
+#include <memory>
 
 /////////////////////////////////////////////////////
 //
@@ -12,8 +13,15 @@ class Component
 public:
 	Component(const std::string &type);
 	virtual ~Component();
+
 protected:
 	std::string type;
+
+	template<class ComponentType>
+	static std::shared_ptr<ComponentType> InternalCreate()
+	{
+		return std::make_shared<ComponentType>();
+	}
 };
 
 Component::Component(const std::string &type)
@@ -38,20 +46,12 @@ class ComponentFactory
 public:
 	ComponentFactory() {}
 	
-	template<class LambdaType>
-	void reg(const std::string &type, LambdaType lambda)
+	template<class T>
+	auto create() -> decltype(T::Create())
 	{
-		functors[type] = lambda;
-	}
-	
-	auto create(const std::string &type) -> decltype(functors[type](type))
-	{
-		auto component = functors[type](type);
+		auto component = T::Create();
 		return component;
 	}
-	
-private:
-	std::unordered_map<std::string, std::function> functors;
 };
 //
 /////////////////////////////////////////////////////////
@@ -67,9 +67,10 @@ class ComponentHandler
 public:
 	ComponentHandler(ComponentFactory &factory) : factory(factory) {}
 	
-	auto addComponent(const std::string &type) -> decltype(factory.create(type))
+	template<class T>
+	auto addComponent() -> decltype(T::Create())
 	{
-		auto component = factory.create(type);
+		auto component = T::Create();
 		return component;
 	}
 private:
@@ -79,7 +80,11 @@ private:
 /////////////////////////////////////////////////////////
 
 
-
+/////////////////////////////////////////////////
+//
+// USER SPECIFIC CODE FOLLOWING THIS COMMENT
+//
+/////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////
@@ -87,19 +92,17 @@ private:
 class TestSystem
 {
 public:
-	void test() { std::cout << "Testing!" std::endl; }
+	void test() { std::cout << "Testing!" << std::endl; }
 };
 
 class TestComp : public Component
 {
 public:
-	TestComp(const std::string &type/*, TestSystem &sys*/) /*: sys(sys)*/ { /*sys.test();*/ }
-	static std::string getType() { return "Test"; }
-	static auto getCreate() -> decltype(create) { return create; }
-	
-private:
-	//TestSystem &sys;
-	static auto create = [](const std::string &type) { return std::make_shared<TestComp>(type); } //return shared_ptr... thus no longer needed  to manage new/delete...
+	TestComp() : Component(Type()) {}
+	static std::string Type() { return "Test"; }
+	static auto Create() -> decltype(Component::InternalCreate<TestComp>()) { return Component::InternalCreate<TestComp>(); }
+
+	void test() { std::cout << "Testing!" << std::endl; }
 };
 //
 /////////////////////////////////////////////////////////
@@ -112,9 +115,10 @@ private:
 void main()
 {
 	ComponentFactory factory;
-	factory.reg<decltype(TestComp::getCreate())>(TestComp::getType(), TestComp::getCreate());
 	ComponentHandler entity(factory);
-	auto testComp = entity.addComponent("Test"); //Should return actual TestComp type directly, not Component... 
+	auto testComp = entity.addComponent<TestComp>();
+	testComp->test();
+	system("pause");
 }
 //
 /////////////////////////////////////////////////////////
