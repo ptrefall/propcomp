@@ -39,6 +39,7 @@ set(HDRS
   ./Component.h
   ./ComponentHandler.h
   ./ComponentFactory.h
+  ./PoolComponentFactory.h
   ./TestSystem.h
   ./TestComponent.h
 )
@@ -48,6 +49,7 @@ set(SRCS
   ./Component.cpp
   ./ComponentHandler.cpp
   ./ComponentFactory.cpp
+  ./PoolComponentFactory.cpp
   ./TestSystem.cpp
   ./TestComponent.cpp
 )

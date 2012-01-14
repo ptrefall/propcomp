@@ -10,6 +10,7 @@ class TestComponent : public Component
 public:
 	TestComponent(TestSystemPtr sys);
 	static std::string Type() { return "Test"; }
+	void reset(TestSystemPtr sys);
 
 	void test();
 

@@ -2,20 +2,18 @@
 //
 #pragma once
 
-#include "ComponentFactory.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
 
 class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
-class ComponentHandler;
-typedef std::shared_ptr<ComponentHandler> ComponentHandlerPtr;
 
+template<class ComponentFactoryTypePtr>
 class ComponentHandler
 {
 public:
-	ComponentHandler(ComponentFactoryPtr factory);
+	ComponentHandler(ComponentFactoryTypePtr factory) : factory(factory) {}
 
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
@@ -34,7 +32,7 @@ public:
 	}
 
 protected:
-	ComponentFactoryPtr factory;
+	ComponentFactoryTypePtr factory;
 	std::vector<ComponentPtr> components;
 };
 //
