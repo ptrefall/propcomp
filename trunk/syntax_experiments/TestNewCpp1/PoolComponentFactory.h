@@ -15,18 +15,10 @@ typedef std::shared_ptr<PoolComponentFactory> PoolComponentFactoryPtr;
 class PoolComponentFactory
 {
 public:
-	unsigned int getTypeId(const std::string &type);
-
-	template<class ComponentType>
-	void registerTypeId()
-	{
-		internalRegisterTypeId(ComponentType::Type(), Component::getTypeId<ComponentType>());
-	}
-
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> create()
 	{
-		auto component_type_pool_it = pools.find(Component::getTypeId<ComponentType>());
+		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
 			throw std::runtime_error("Couldn't find component pool!");
 
@@ -46,7 +38,7 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> create(CustomParam0 param0)
 	{
-		auto component_type_pool_it = pools.find(Component::getTypeId<ComponentType>());
+		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
 			throw std::runtime_error("Couldn't find component pool!");
 
@@ -72,7 +64,7 @@ public:
 		std::for_each(0, count, [](){
 			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>()));
 		});
-		pools[Component::getTypeId<ComponentType>()] = component_type_pool;
+		pools[ComponentType::Type()] = component_type_pool;
 	}
 
 	template<class ComponentType, class CustomParam0>
@@ -81,13 +73,11 @@ public:
 		std::vector<std::pair<bool, ComponentPtr>> component_type_pool;
 		for (unsigned int i = 0; i < count; i++)
 			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>(param0)));
-		pools[Component::getTypeId<ComponentType>()] = component_type_pool;
+		pools[ComponentType::Type()] = component_type_pool;
 	}
 
 protected:
-	void internalRegisterTypeId(const std::string &type, unsigned int typeId);
-	std::unordered_map<std::string, unsigned int> component_type_ids;
-	std::unordered_map<unsigned int, std::vector<std::pair<bool, ComponentPtr>>> pools;
+	std::unordered_map<std::string, std::vector<std::pair<bool, ComponentPtr>>> pools;
 };
 //
 /////////////////////////////////////////////////////////

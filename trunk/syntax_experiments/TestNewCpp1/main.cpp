@@ -13,7 +13,6 @@ void main()
 
 	//Set up the component factory
 	PoolComponentFactoryPtr factory = std::make_shared<PoolComponentFactory>();
-	factory->registerTypeId<TestComponent>();
 	factory->pool<TestComponent, TestSystemPtr>(2, nullptr);
 
 	//Then we make a new entity definition
@@ -25,7 +24,7 @@ void main()
 
 	//We iterate over serialized components and add one by one to the entity
 	std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const std::string &component_type){
-		if(factory->getTypeId(component_type) == Component::getTypeId<TestComponent>())
+		if(component_type == TestComponent::Type())
 		{
 			auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys);
 			testComp->test();

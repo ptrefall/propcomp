@@ -15,14 +15,6 @@ typedef std::shared_ptr<ComponentFactory> ComponentFactoryPtr;
 class ComponentFactory
 {
 public:
-	unsigned int getTypeId(const std::string &type);
-
-	template<class ComponentType>
-	void registerTypeId()
-	{
-		internalRegisterTypeId(ComponentType::Type(), Component::getTypeId<ComponentType>());
-	}
-
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> create()
 	{
@@ -36,8 +28,6 @@ public:
 	}
 
 protected:
-	void internalRegisterTypeId(const std::string &type, unsigned int typeId);
-	std::unordered_map<std::string, unsigned int> component_type_ids;
 };
 //
 /////////////////////////////////////////////////////////
