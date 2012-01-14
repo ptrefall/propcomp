@@ -1,6 +1,6 @@
 #include "ComponentFactory.h"
 
-void ComponentFactory::registerTypeId(const std::string &type, unsigned int typeId)
+void ComponentFactory::internalRegisterTypeId(const std::string &type, unsigned int typeId)
 {
 	component_type_ids[type] = typeId;
 }

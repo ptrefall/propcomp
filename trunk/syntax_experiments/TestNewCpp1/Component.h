@@ -29,18 +29,6 @@ protected:
 		static unsigned int nextId(0);
 		return nextId++;
 	}
-
-	template<class ComponentType>
-	static ComponentPtr InternalCreate()
-	{
-		return std::make_shared<ComponentType>();
-	}
-
-	template<class ComponentType, class CustomParam0>
-	static ComponentPtr InternalCreate(CustomParam0 param0)
-	{
-		return std::make_shared<ComponentType>(param0);
-	}
 };
 //
 /////////////////////////////////////////////////////////
