@@ -38,6 +38,7 @@ SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 set(HDRS
   ./Component.h
   ./ComponentHandler.h
+  ./ComponentFactory.h
   ./TestSystem.h
   ./TestComponent.h
 )
@@ -46,6 +47,7 @@ set(SRCS
   ./main.cpp
   ./Component.cpp
   ./ComponentHandler.cpp
+  ./ComponentFactory.cpp
   ./TestSystem.cpp
   ./TestComponent.cpp
 )
