@@ -1,6 +1,7 @@
 
 #include "ComponentHandler.h"
 #include "PoolComponentFactory.h"
+#include "ComponentFactory.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include <memory>
@@ -11,12 +12,19 @@ void main()
 	//We initialize some systems/managers for the engine here...
 	TestSystemPtr sys = std::make_shared<TestSystem>();
 
-	//Set up the component factory
-	PoolComponentFactoryPtr factory = std::make_shared<PoolComponentFactory>();
-	factory->pool<TestComponent, TestSystemPtr>(2, nullptr);
+	//Set up the component factory that pools resources
+	PoolComponentFactoryPtr pool_factory = std::make_shared<PoolComponentFactory>();
+	pool_factory->pool<TestComponent, TestSystemPtr>(2, nullptr);
 
-	//Then we make a new entity definition
-	std::shared_ptr<ComponentHandler<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentHandler<PoolComponentFactoryPtr>>(factory);
+	//Set up an ordinary component factory
+	ComponentFactoryPtr factory = std::make_shared<ComponentFactory>();
+
+
+	//Then we make a new entity definition that uses pooled component factory
+	std::shared_ptr<ComponentHandler<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentHandler<PoolComponentFactoryPtr>>(pool_factory);
+
+	//And another entity that uses an ordinary component factory
+	std::shared_ptr<ComponentHandler<ComponentFactoryPtr>> entity2 = std::make_shared<ComponentHandler<ComponentFactoryPtr>>(factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;
@@ -28,6 +36,9 @@ void main()
 		{
 			auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys);
 			testComp->test();
+
+			auto testComp2 = entity2->addComponent<TestComponent, TestSystemPtr>(sys);
+			testComp2->test();
 		}
 	});
 	system("pause");
