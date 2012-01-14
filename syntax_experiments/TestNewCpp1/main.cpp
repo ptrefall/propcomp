@@ -19,7 +19,7 @@ void main()
 	loaded_component_types.push_back("Test");
 
 	//We iterate over serialized components and add one by one to the entity
-	std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const std::string component_type){
+	std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const std::string &component_type){
 		if(entity->getTypeId(component_type) == Component::getTypeId<TestComponent>())
 		{
 			auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys);
