@@ -4,12 +4,16 @@
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 class Component;
 
 class ComponentHandler
 {
 public:
+	void registerTypeId(const std::string &type, unsigned int typeId);
+	unsigned int getTypeId(const std::string &type);
+
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
 	{
@@ -28,6 +32,7 @@ public:
 
 protected:
 	std::vector<std::shared_ptr<Component>> components;
+	std::unordered_map<std::string, unsigned int> component_type_ids;
 };
 //
 /////////////////////////////////////////////////////////
