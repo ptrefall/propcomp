@@ -36,10 +36,18 @@ set(Standard_HDRS
 SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(HDRS
+  ./Component.h
+  ./ComponentHandler.h
+  ./TestSystem.h
+  ./TestComponent.h
 )
 
 set(SRCS
   ./main.cpp
+  ./Component.cpp
+  ./ComponentHandler.cpp
+  ./TestSystem.cpp
+  ./TestComponent.cpp
 )
  
 add_executable(TestNewCpp1 ${Standard_HDRS} ${HDRS} ${SRCS})
