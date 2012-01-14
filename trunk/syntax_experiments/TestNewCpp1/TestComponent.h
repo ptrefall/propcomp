@@ -3,11 +3,12 @@
 #include "Component.h"
 
 class TestSystem;
+typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
 class TestComponent : public Component
 {
 public:
-	TestComponent(std::shared_ptr<TestSystem> sys);
+	TestComponent(TestSystemPtr sys);
 	static std::string Type() { return "Test"; }
 	
 	template<class CustomParam0>
@@ -16,5 +17,5 @@ public:
 	void test();
 
 private:
-	std::shared_ptr<TestSystem> sys;
+	TestSystemPtr sys;
 };
