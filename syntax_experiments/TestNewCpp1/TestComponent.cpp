@@ -1,7 +1,7 @@
 #include "TestComponent.h"
 #include "TestSystem.h"
 
-TestComponent::TestComponent(std::shared_ptr<TestSystem> sys) 
+TestComponent::TestComponent(TestSystemPtr sys) 
 : Component(Type()), sys(sys) 
 { 
 	typeId = Component::getTypeId<TestComponent>(); 

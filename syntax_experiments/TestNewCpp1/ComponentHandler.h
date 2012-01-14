@@ -7,6 +7,9 @@
 #include <unordered_map>
 
 class Component;
+typedef std::shared_ptr<Component> ComponentPtr;
+class ComponentHandler;
+typedef std::shared_ptr<ComponentHandler> ComponentHandlerPtr;
 
 class ComponentHandler
 {
@@ -31,7 +34,7 @@ public:
 	}
 
 protected:
-	std::vector<std::shared_ptr<Component>> components;
+	std::vector<ComponentPtr> components;
 	std::unordered_map<std::string, unsigned int> component_type_ids;
 };
 //
