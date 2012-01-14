@@ -14,7 +14,7 @@ void main()
 	//Set up the component factory
 	PoolComponentFactoryPtr factory = std::make_shared<PoolComponentFactory>();
 	factory->registerTypeId<TestComponent>();
-	factory->pool<TestComponent, TestSystemPtr>(2, sys);
+	factory->pool<TestComponent, TestSystemPtr>(2, nullptr);
 
 	//Then we make a new entity definition
 	std::shared_ptr<ComponentHandler<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentHandler<PoolComponentFactoryPtr>>(factory);
