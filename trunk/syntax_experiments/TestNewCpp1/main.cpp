@@ -1,6 +1,6 @@
 
 #include "ComponentHandler.h"
-#include "ComponentFactory.h"
+#include "PoolComponentFactory.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include <memory>
@@ -12,11 +12,12 @@ void main()
 	TestSystemPtr sys = std::make_shared<TestSystem>();
 
 	//Set up the component factory
-	ComponentFactoryPtr factory = std::make_shared<ComponentFactory>();
+	PoolComponentFactoryPtr factory = std::make_shared<PoolComponentFactory>();
 	factory->registerTypeId<TestComponent>();
+	factory->pool<TestComponent, TestSystemPtr>(2, sys);
 
 	//Then we make a new entity definition
-	ComponentHandlerPtr entity = std::make_shared<ComponentHandler>(factory);
+	std::shared_ptr<ComponentHandler<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentHandler<PoolComponentFactoryPtr>>(factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;

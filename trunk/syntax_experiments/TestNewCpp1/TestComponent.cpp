@@ -7,6 +7,11 @@ TestComponent::TestComponent(TestSystemPtr sys)
 	typeId = Component::getTypeId<TestComponent>(); 
 }
 
+void TestComponent::reset(TestSystemPtr sys)
+{
+	this->sys = sys;
+}
+
 void TestComponent::test() 
 { 
 	sys->test(); 
