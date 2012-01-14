@@ -14,9 +14,6 @@ typedef std::shared_ptr<ComponentHandler> ComponentHandlerPtr;
 class ComponentHandler
 {
 public:
-	void registerTypeId(const std::string &type, unsigned int typeId);
-	unsigned int getTypeId(const std::string &type);
-
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
 	{
@@ -35,7 +32,6 @@ public:
 
 protected:
 	std::vector<ComponentPtr> components;
-	std::unordered_map<std::string, unsigned int> component_type_ids;
 };
 //
 /////////////////////////////////////////////////////////
