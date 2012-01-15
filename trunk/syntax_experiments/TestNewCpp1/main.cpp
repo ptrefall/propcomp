@@ -1,5 +1,5 @@
 
-#include "ComponentHandler.h"
+#include "ComponentContainer.h"
 #include "PoolComponentFactory.h"
 #include "ComponentFactory.h"
 #include "TestSystem.h"
@@ -21,10 +21,10 @@ void main()
 
 
 	//Then we make a new entity definition that uses pooled component factory
-	std::shared_ptr<ComponentHandler<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentHandler<PoolComponentFactoryPtr>>(pool_factory);
+	std::shared_ptr<ComponentContainer<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentContainer<PoolComponentFactoryPtr>>(pool_factory);
 
 	//And another entity that uses an ordinary component factory
-	std::shared_ptr<ComponentHandler<ComponentFactoryPtr>> entity2 = std::make_shared<ComponentHandler<ComponentFactoryPtr>>(factory);
+	std::shared_ptr<ComponentContainer<ComponentFactoryPtr>> entity2 = std::make_shared<ComponentContainer<ComponentFactoryPtr>>(factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;

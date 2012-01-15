@@ -10,10 +10,10 @@ class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
 
 template<class ComponentFactoryTypePtr>
-class ComponentHandler
+class ComponentContainer
 {
 public:
-	ComponentHandler(ComponentFactoryTypePtr factory) : factory(factory) {}
+	ComponentContainer(ComponentFactoryTypePtr factory) : factory(factory) {}
 
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
