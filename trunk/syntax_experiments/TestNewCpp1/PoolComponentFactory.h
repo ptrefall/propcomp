@@ -27,7 +27,7 @@ public:
 			if(component_in_pool.first == true)
 				continue;
 
-			std::shared_ptr<ComponentType> component = (std::shared_ptr<ComponentType>)component_in_pool.second;
+			std::shared_ptr<ComponentType> component = std::static_pointer_cast<ComponentType>(component_in_pool.second);
 			component->reset();
 			return component;
 		});
@@ -48,7 +48,7 @@ public:
 			std::pair<bool, ComponentPtr> &component_in_pool = component_type_pool[i];
 			if(component_in_pool.first != true)
 			{
-				std::shared_ptr<ComponentType> component = std::shared_ptr<ComponentType>(dynamic_cast<ComponentType*>(component_in_pool.second.get()));
+				std::shared_ptr<ComponentType> component = std::static_pointer_cast<ComponentType>(component_in_pool.second);
 				component->reset(param0);
 				return component;
 			}
