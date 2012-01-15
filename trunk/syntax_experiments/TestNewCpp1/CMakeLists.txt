@@ -40,6 +40,7 @@ set(HDRS
   ./ComponentContainer.h
   ./ComponentFactory.h
   ./PoolComponentFactory.h
+  ./IProperty.h
   ./SharedProperty.h
   ./SharedPropertyContainer.h
   ./Property.h
