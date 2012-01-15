@@ -40,6 +40,10 @@ set(HDRS
   ./ComponentContainer.h
   ./ComponentFactory.h
   ./PoolComponentFactory.h
+  ./SharedProperty.h
+  ./SharedPropertyContainer.h
+  ./Property.h
+  ./PropertyContainer.h
   ./TestSystem.h
   ./TestComponent.h
 )
@@ -50,6 +54,10 @@ set(SRCS
   ./ComponentContainer.cpp
   ./ComponentFactory.cpp
   ./PoolComponentFactory.cpp
+  ./SharedProperty.cpp
+  ./SharedPropertyContainer.cpp
+  ./Property.cpp
+  ./PropertyContainer.cpp
   ./TestSystem.cpp
   ./TestComponent.cpp
 )
