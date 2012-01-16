@@ -1,11 +1,12 @@
 
 #include "ComponentContainer.h"
 #include "PoolComponentFactory.h"
-#include "ComponentFactory.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
+#include "Entity.h"
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 void main()
 {
@@ -14,17 +15,9 @@ void main()
 
 	//Set up the component factory that pools resources
 	PoolComponentFactoryPtr pool_factory = std::make_shared<PoolComponentFactory>();
-	pool_factory->pool<TestComponent, TestSystemPtr>(2, nullptr);
+	pool_factory->pool<Entity, TestComponent, TestSystemPtr>(2, nullptr, nullptr);
 
-	//Set up an ordinary component factory
-	ComponentFactoryPtr factory = std::make_shared<ComponentFactory>();
-
-
-	//Then we make a new entity definition that uses pooled component factory
-	std::shared_ptr<ComponentContainer<PoolComponentFactoryPtr>> entity = std::make_shared<ComponentContainer<PoolComponentFactoryPtr>>(pool_factory);
-
-	//And another entity that uses an ordinary component factory
-	std::shared_ptr<ComponentContainer<ComponentFactoryPtr>> entity2 = std::make_shared<ComponentContainer<ComponentFactoryPtr>>(factory);
+	std::shared_ptr<Entity> entity = std::make_shared<Entity>(pool_factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;
@@ -36,9 +29,10 @@ void main()
 		{
 			auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys);
 			testComp->test();
-
-			auto testComp2 = entity2->addComponent<TestComponent, TestSystemPtr>(sys);
-			testComp2->test();
+			std::shared_ptr<Property<std::string>> test_prop = testComp->getProperty<std::string>("TestProp");
+			std::cout << test_prop->get().c_str() << std::endl;
+			std::shared_ptr<SharedProperty<std::string>> test_shared_prop = entity->getSharedProperty<std::string>("TestSharedProp");
+			std::cout << test_shared_prop->get().c_str() << std::endl;
 		}
 	});
 	system("pause");

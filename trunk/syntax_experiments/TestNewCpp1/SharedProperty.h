@@ -8,7 +8,7 @@ template<class PropertyType>
 class SharedPropertyData
 {
 public:
-	SharedPropertyType value;
+	PropertyType value;
 	unsigned int type;
 	std::string name;
 	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
@@ -20,11 +20,11 @@ class SharedProperty : public IProperty
 public:
 	SharedProperty() {}
 	SharedProperty(const SharedProperty &copy)
-		: data(copy.data);
+		: data(copy.data)
 	{
 	}
 	SharedProperty(const std::string &name)
-		: data(std::make_shared<SharedPropertyData<PropertyType>>());
+		: data(std::make_shared<SharedPropertyData<PropertyType>>())
 	{
 		data->type = IProperty::getType<PropertyType>();
 		data->name = name;
@@ -34,7 +34,7 @@ public:
 	{ 
 		if(data->value != value)
 		{
-			SharedPropertyType oldValue = data->value;
+			PropertyType oldValue = data->value;
 			data->value = value; 
 
 			if(invokeValueChanged)
@@ -50,7 +50,7 @@ public:
 	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
 	/// Set's property's data to rhs' shared pointer data.
-	/*SharedProperty<PropertyType> operator= (const SharedProperty<PropertyType>& rhs);
+	SharedProperty<PropertyType> operator= (const SharedProperty<PropertyType>& rhs);
 	/// Set's property's data to rhs' value.
 	SharedProperty<PropertyType> operator= (const PropertyType& rhs);
 
@@ -87,7 +87,7 @@ public:
 	/// Check whether the data value of rhs is greater than property's data value
 	bool operator< (const SharedProperty<PropertyType>& rhs);
 	/// Check whether the value of rhs is greater than property's data value
-	bool operator< (const PropertyType& rhs);*/
+	bool operator< (const PropertyType& rhs);
 
 	/// Instead of property.get() this operator exist for convenience.
 	operator const PropertyType &() const { return data->value; }
@@ -95,3 +95,107 @@ public:
 private:
 	std::shared_ptr<SharedPropertyData<PropertyType>> data;
 };
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator =(const SharedProperty<PropertyType> &rhs)
+{
+	data = rhs.data;
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator =(const PropertyType &rhs)
+{
+	set(rhs);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator +=(const SharedProperty<PropertyType> &rhs)
+{
+	set(data->value + rhs.data->value);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator +=(const PropertyType &rhs)
+{
+	set(data->value + rhs);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator -=(const SharedProperty<PropertyType> &rhs)
+{
+	set(data->value - rhs.data->value);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator -=(const PropertyType &rhs)
+{
+	set(data->value - rhs);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator *=(const SharedProperty<PropertyType> &rhs)
+{
+	set(data->value * rhs.data->value);
+	return *this;
+}
+
+template<class PropertyType>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator *=(const PropertyType &rhs)
+{
+	set(data->value * rhs);
+	return *this;
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator ==(const SharedProperty<PropertyType> &rhs)
+{
+	return data == rhs.data;
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator ==(const PropertyType &rhs)
+{
+	return (data->value == rhs);
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator !=(const SharedProperty<PropertyType> &rhs)
+{
+	return data != rhs.data;
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator !=(const PropertyType &rhs)
+{
+	return (data->value != rhs);
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator >(const SharedProperty<PropertyType> &rhs)
+{
+	return (data->value > rhs.data->value);
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator >(const PropertyType &rhs)
+{
+	return (data->value > rhs);
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator <(const SharedProperty<PropertyType> &rhs)
+{
+	return (data->value < rhs.data->value);
+}
+
+template<class PropertyType>
+inline bool SharedProperty<PropertyType>::operator <(const PropertyType &rhs)
+{
+	return (data->value < rhs);
+}
