@@ -10,9 +10,9 @@ public:
 	virtual bool isNull() const = 0;
 
 	template<typename PropertyType>
-	static T_PropertyTypeId getType()
+	static unsigned int getType()
 	{
-		static T_PropertyTypeId typeId(newPropertyTypeId());
+		static unsigned int typeId(newPropertyTypeId());
 		return typeId;
 	}
 

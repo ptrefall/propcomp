@@ -45,6 +45,7 @@ set(HDRS
   ./SharedPropertyContainer.h
   ./Property.h
   ./PropertyContainer.h
+  ./Entity.h
   ./TestSystem.h
   ./TestComponent.h
 )

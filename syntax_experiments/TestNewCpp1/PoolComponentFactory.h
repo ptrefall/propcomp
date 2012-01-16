@@ -15,8 +15,8 @@ typedef std::shared_ptr<PoolComponentFactory> PoolComponentFactoryPtr;
 class PoolComponentFactory
 {
 public:
-	template<class ComponentType>
-	std::shared_ptr<ComponentType> create()
+	template<class EntityType, class ComponentType>
+	std::shared_ptr<ComponentType> create(EntityType *entity)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
@@ -28,15 +28,15 @@ public:
 				continue;
 
 			std::shared_ptr<ComponentType> component = std::static_pointer_cast<ComponentType>(component_in_pool.second);
-			component->reset();
+			component->reset(entity);
 			return component;
 		});
 
 		throw std::runtime_error("Couldn't find component in pool!");
 	}
 
-	template<class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> create(CustomParam0 param0)
+	template<class EntityType, class ComponentType, class CustomParam0>
+	std::shared_ptr<ComponentType> create(EntityType *entity, CustomParam0 param0)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
@@ -49,7 +49,7 @@ public:
 			if(component_in_pool.first != true)
 			{
 				std::shared_ptr<ComponentType> component = std::static_pointer_cast<ComponentType>(component_in_pool.second);
-				component->reset(param0);
+				component->reset(entity, param0);
 				return component;
 			}
 		};
@@ -57,22 +57,22 @@ public:
 		throw std::runtime_error("Couldn't find component in pool!");
 	}
 
-	template<class ComponentType>
-	void pool(const unsigned int &count)
+	template<class EntityType, class ComponentType>
+	void pool(const unsigned int &count, EntityType *entity)
 	{
 		std::vector<std::pair<bool, ComponentPtr>> component_type_pool;
 		std::for_each(0, count, [](){
-			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>()));
+			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>(entity)));
 		});
 		pools[ComponentType::Type()] = component_type_pool;
 	}
 
-	template<class ComponentType, class CustomParam0>
-	void pool(const unsigned int &count, CustomParam0 param0)
+	template<class EntityType, class ComponentType, class CustomParam0>
+	void pool(const unsigned int &count, EntityType *entity, CustomParam0 param0)
 	{
 		std::vector<std::pair<bool, ComponentPtr>> component_type_pool;
 		for (unsigned int i = 0; i < count; i++)
-			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>(param0)));
+			component_type_pool.push_back(std::pair<bool, ComponentPtr>(false, std::make_shared<ComponentType>(entity, param0)));
 		pools[ComponentType::Type()] = component_type_pool;
 	}
 
