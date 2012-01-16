@@ -29,9 +29,9 @@ void main()
 		{
 			auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys);
 			testComp->test();
-			std::shared_ptr<Property<std::string>> test_prop = testComp->getProperty<std::string>("TestProp");
+			auto test_prop = testComp->getProperty<std::string>("TestProp");
 			std::cout << test_prop->get().c_str() << std::endl;
-			std::shared_ptr<SharedProperty<std::string>> test_shared_prop = entity->getSharedProperty<std::string>("TestSharedProp");
+			auto test_shared_prop = entity->getSharedProperty<std::string>("TestSharedProp");
 			std::cout << test_shared_prop->get().c_str() << std::endl;
 		}
 	});
