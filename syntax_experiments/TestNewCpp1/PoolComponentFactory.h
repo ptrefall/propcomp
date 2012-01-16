@@ -13,11 +13,18 @@ class PoolComponentFactory;
 typedef std::shared_ptr<PoolComponentFactory> PoolComponentFactoryPtr;
 class Entity;
 
+enum ComponentFactoryCreateType
+{
+	CFCT_GET_FROM_POOL = 1,
+	CFCT_GET_FROM_POOL_OR_CREATE,
+	CFCT_CREATE
+};
+
 class PoolComponentFactory
 {
 public:
 	template<class ComponentType>
-	std::shared_ptr<ComponentType> create(Entity *entity)
+	std::shared_ptr<ComponentType> create(Entity *entity, unsigned int optionalParam)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
@@ -37,7 +44,7 @@ public:
 	}
 
 	template<class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> create(Entity *entity, CustomParam0 param0)
+	std::shared_ptr<ComponentType> create(Entity *entity, CustomParam0 param0, unsigned int optionalParam)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
