@@ -21,6 +21,6 @@ private:
 	Entity *owner;
 	TestSystemPtr sys;
 
-	std::shared_ptr<Property<std::string>> test_prop;
-	std::shared_ptr<SharedProperty<std::string>> test_shared_prop;
+	Property<std::string> test_prop;
+	SharedProperty<std::string> test_shared_prop;
 };

@@ -48,7 +48,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the SharedPropertyContainer.
 	 */
 	template<class T>
-	std::shared_ptr<SharedProperty<T>> addSharedProperty(const std::string& name, const T &defaultValue)
+	SharedProperty<T> addSharedProperty(const std::string& name, const T &defaultValue)
 	{
 		auto it = shared_properties.find(name);
 		if(it != shared_properties.end())
@@ -62,7 +62,7 @@ public:
 			property = std::static_pointer_cast< SharedProperty<T> >(it->second);
 	#endif
 			sign_sharedPropertyAdded.invoke(it->second);
-			return property;
+			return *property.get();
 		}
 
 		std::shared_ptr< SharedProperty<T> > property = std::make_shared< SharedProperty<T> >(name);
@@ -72,7 +72,7 @@ public:
 		//return *property;
 		sign_sharedPropertyAdded.invoke(std::static_pointer_cast<IProperty>(property));
 		//return getProperty<T>(name);
-		return property;
+		return *property.get();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the SharedPropertyContainer.
 	 */
 	template<class T>
-	std::shared_ptr<SharedProperty<T>> addSharedProperty(const std::string& name, const T &defaultValue, const UserData &userData)
+	SharedProperty<T> addSharedProperty(const std::string& name, const T &defaultValue, const UserData &userData)
 	{
 		auto it = shared_properties.find(name);
 		if(it != shared_properties.end())
@@ -102,7 +102,7 @@ public:
 			property = std::static_pointer_cast< SharedProperty<T> >(it->second);
 	#endif
 			sign_sharedPropertyWithUserDataAdded.invoke(it->second, userData);
-			return *property;
+			return *property.get();
 		}
 
 		std::shared_ptr< SharedProperty<T> > property = std::make_shared< SharedProperty<T> >(name);
@@ -112,7 +112,7 @@ public:
 		//return *property;
 		sign_sharedPropertyWithUserDataAdded.invoke(std::static_pointer_cast<IProperty>(property), userData);
 		//return getProperty<T>(name);
-		return property;
+		return *property.get();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property.
 	 */
 	template<class T>
-	std::shared_ptr<SharedProperty<T>> getSharedProperty(const std::string& name)
+	SharedProperty<T> getSharedProperty(const std::string& name)
 	{
 		auto it = shared_properties.find(name);
 		if(it != shared_properties.end())
@@ -143,7 +143,7 @@ public:
 	#else
 			property = std::static_pointer_cast< SharedProperty<T> >(it->second);
 	#endif
-			return property;
+			return *property.get();
 		}
 		else
 			throw std::runtime_error(("Unable to get property " + name).c_str());
