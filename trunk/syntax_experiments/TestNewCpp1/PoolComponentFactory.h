@@ -11,12 +11,13 @@ class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
 class PoolComponentFactory;
 typedef std::shared_ptr<PoolComponentFactory> PoolComponentFactoryPtr;
+class Entity;
 
 class PoolComponentFactory
 {
 public:
-	template<class EntityType, class ComponentType>
-	std::shared_ptr<ComponentType> create(EntityType *entity)
+	template<class ComponentType>
+	std::shared_ptr<ComponentType> create(Entity *entity)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
@@ -35,8 +36,8 @@ public:
 		throw std::runtime_error("Couldn't find component in pool!");
 	}
 
-	template<class EntityType, class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> create(EntityType *entity, CustomParam0 param0)
+	template<class ComponentType, class CustomParam0>
+	std::shared_ptr<ComponentType> create(Entity *entity, CustomParam0 param0)
 	{
 		auto component_type_pool_it = pools.find(ComponentType::Type());
 		if(component_type_pool_it == pools.end())
@@ -57,8 +58,8 @@ public:
 		throw std::runtime_error("Couldn't find component in pool!");
 	}
 
-	template<class EntityType, class ComponentType>
-	void pool(const unsigned int &count, EntityType *entity)
+	template<class ComponentType>
+	void pool(const unsigned int &count, Entity *entity)
 	{
 		std::vector<std::pair<bool, ComponentPtr>> component_type_pool;
 		std::for_each(0, count, [](){
@@ -67,8 +68,8 @@ public:
 		pools[ComponentType::Type()] = component_type_pool;
 	}
 
-	template<class EntityType, class ComponentType, class CustomParam0>
-	void pool(const unsigned int &count, EntityType *entity, CustomParam0 param0)
+	template<class ComponentType, class CustomParam0>
+	void pool(const unsigned int &count, Entity *entity, CustomParam0 param0)
 	{
 		std::vector<std::pair<bool, ComponentPtr>> component_type_pool;
 		for (unsigned int i = 0; i < count; i++)

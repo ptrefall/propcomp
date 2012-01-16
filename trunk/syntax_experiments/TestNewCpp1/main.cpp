@@ -15,7 +15,7 @@ void main()
 
 	//Set up the component factory that pools resources
 	PoolComponentFactoryPtr pool_factory = std::make_shared<PoolComponentFactory>();
-	pool_factory->pool<Entity, TestComponent, TestSystemPtr>(2, nullptr, nullptr);
+	pool_factory->pool<TestComponent, TestSystemPtr>(2, nullptr, nullptr);
 
 	EntityPtr entity = std::make_shared<Entity>(pool_factory);
 
