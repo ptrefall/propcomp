@@ -17,6 +17,7 @@ public:
 	void test();
 
 private:
+	void OnSharedPropChanged(const std::string &old_value, const std::string &new_value);
 	Entity *owner;
 	TestSystemPtr sys;
 
