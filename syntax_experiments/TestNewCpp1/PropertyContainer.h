@@ -48,7 +48,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyContainer.
 	 */
 	template<class T>
-	std::shared_ptr<Property<T>> addProperty(const std::string& name, const T &defaultValue)
+	Property<T> addProperty(const std::string& name, const T &defaultValue)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -62,7 +62,7 @@ public:
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
 			sign_propertyAdded.invoke(it->second);
-			return property;
+			return *property.get();
 		}
 
 		std::shared_ptr< Property<T> > property = std::make_shared< Property<T> >(name);
@@ -72,7 +72,7 @@ public:
 		//return *property;
 		sign_propertyAdded.invoke(std::static_pointer_cast<IProperty>(property));
 		//return getProperty<T>(name);
-		return property;
+		return *property.get();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyContainer.
 	 */
 	template<class T>
-	std::shared_ptr<Property<T>> addProperty(const std::string& name, const T &defaultValue, const UserData &userData)
+	Property<T> addProperty(const std::string& name, const T &defaultValue, const UserData &userData)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -102,7 +102,7 @@ public:
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
 			sign_propertyWithUserDataAdded.invoke(it->second, userData);
-			return *property;
+			return *property.get();
 		}
 
 		std::shared_ptr< Property<T> > property = std::make_shared< Property<T> >(name);
@@ -112,7 +112,7 @@ public:
 		//return *property;
 		sign_propertyWithUserDataAdded.invoke(std::static_pointer_cast<IProperty>(property), userData);
 		//return getProperty<T>(name);
-		return property;
+		return *property.get();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property.
 	 */
 	template<class T>
-	std::shared_ptr<Property<T>> getProperty(const std::string& name)
+	Property<T> getProperty(const std::string& name)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -143,7 +143,7 @@ public:
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
-			return property;
+			return *property.get();
 		}
 		else
 			throw std::runtime_error(("Unable to get property " + name).c_str());

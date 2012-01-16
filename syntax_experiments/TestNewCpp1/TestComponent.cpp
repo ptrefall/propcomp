@@ -14,7 +14,7 @@ void TestComponent::reset(Entity *owner, TestSystemPtr sys)
 
 	test_prop = addProperty<std::string>("TestProp", "Testing Property");
 	test_shared_prop = owner->addSharedProperty<std::string>("TestSharedProp", "Testing Shared Property");
-	test_shared_prop->valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
+	test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
 }
 
 void TestComponent::test() 
