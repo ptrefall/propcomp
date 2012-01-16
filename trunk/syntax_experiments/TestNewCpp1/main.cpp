@@ -17,7 +17,7 @@ void main()
 	PoolComponentFactoryPtr pool_factory = std::make_shared<PoolComponentFactory>();
 	pool_factory->pool<Entity, TestComponent, TestSystemPtr>(2, nullptr, nullptr);
 
-	std::shared_ptr<Entity> entity = std::make_shared<Entity>(pool_factory);
+	EntityPtr entity = std::make_shared<Entity>(pool_factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;
