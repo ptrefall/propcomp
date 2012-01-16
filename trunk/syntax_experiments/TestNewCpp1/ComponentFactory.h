@@ -11,18 +11,19 @@ class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
 class ComponentFactory;
 typedef std::shared_ptr<ComponentFactory> ComponentFactoryPtr;
+class Entity;
 
 class ComponentFactory
 {
 public:
-	template<class EntityType, class ComponentType>
-	std::shared_ptr<ComponentType> create(EntityType *entity)
+	template<class ComponentType>
+	std::shared_ptr<ComponentType> create(Entity *entity, unsigned int optionalParam)
 	{
 		return std::make_shared<ComponentType>(entity);
 	}
 
-	template<class EntityType, class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> create(EntityType *entity, CustomParam0 param0)
+	template<class ComponentType, class CustomParam0>
+	std::shared_ptr<ComponentType> create(Entity *entity, CustomParam0 param0, unsigned int optionalParam)
 	{
 		return std::make_shared<ComponentType>(entity, param0);
 	}
