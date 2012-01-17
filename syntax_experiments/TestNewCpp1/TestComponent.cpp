@@ -3,7 +3,7 @@
 #include <iostream>
 
 TestComponent::TestComponent(Entity *owner, TestSystemPtr sys) 
-: Component(Type()), owner(owner), sys(sys) 
+: Totem::Component(Type()), owner(owner), sys(sys) 
 {
 	if(owner && sys)
 		reset(owner, sys);

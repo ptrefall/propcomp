@@ -7,11 +7,11 @@
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : public ComponentContainer<Entity, PoolComponentFactoryPtr>, public SharedPropertyContainer<>
+class Entity : public Totem::ComponentContainer<Entity, PoolComponentFactoryPtr>, public Totem::SharedPropertyContainer<>
 {
 public:
 	Entity(PoolComponentFactoryPtr factory)
-		: ComponentContainer<Entity, PoolComponentFactoryPtr>(this, factory), SharedPropertyContainer<>()
+		: Totem::ComponentContainer<Entity, PoolComponentFactoryPtr>(this, factory), Totem::SharedPropertyContainer<>()
 	{
 	}
 };

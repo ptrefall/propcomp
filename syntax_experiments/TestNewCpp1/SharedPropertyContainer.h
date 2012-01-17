@@ -6,6 +6,9 @@
 #include <memory>
 #include "SharedProperty.h"
 
+namespace Totem
+{
+
 template<class UserData = void*>
 class SharedPropertyContainer
 {
@@ -301,3 +304,5 @@ inline void SharedPropertyContainer<UserData>::clearDeletedSharedProperties()
 {
 	deletedSharedProperties.clear();
 }
+
+} //namespace Totem

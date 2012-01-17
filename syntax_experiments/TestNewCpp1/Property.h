@@ -4,6 +4,9 @@
 #include "../../depends/Standard/sigslot.h"
 #include <memory>
 
+namespace Totem
+{
+
 template<class PropertyType>
 class PropertyData
 {
@@ -193,3 +196,6 @@ inline bool Property<PropertyType>::operator <(const PropertyType &rhs)
 {
 	return (data->value < rhs);
 }
+
+} //namespace Totem
+

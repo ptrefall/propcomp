@@ -6,6 +6,9 @@
 #include <memory>
 #include "Property.h"
 
+namespace Totem
+{
+
 template<class UserData = void*>
 class PropertyContainer
 {
@@ -301,3 +304,6 @@ inline void PropertyContainer<UserData>::clearDeletedProperties()
 {
 	deletedProperties.clear();
 }
+
+} //namespace Totem
+
