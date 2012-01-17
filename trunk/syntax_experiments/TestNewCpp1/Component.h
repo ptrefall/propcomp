@@ -7,6 +7,9 @@
 #include "../../depends/Standard/sigslot.h"
 #include "PropertyContainer.h"
 
+namespace Totem
+{
+
 class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
 
@@ -20,5 +23,8 @@ public:
 protected:
 	std::string type;
 };
+
+} // namespace Totem
+
 //
 /////////////////////////////////////////////////////////

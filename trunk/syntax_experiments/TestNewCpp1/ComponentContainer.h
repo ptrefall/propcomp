@@ -6,6 +6,9 @@
 #include <vector>
 #include <unordered_map>
 
+namespace Totem
+{
+
 class Component;
 typedef std::shared_ptr<Component> ComponentPtr;
 
@@ -36,5 +39,8 @@ protected:
 	ComponentFactoryTypePtr factory;
 	std::vector<ComponentPtr> components;
 };
+
+} //namespace Totem
+
 //
 /////////////////////////////////////////////////////////

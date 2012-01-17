@@ -7,7 +7,7 @@
 class TestSystem;
 typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
-class TestComponent : public Component
+class TestComponent : public Totem::Component
 {
 public:
 	TestComponent(Entity *owner, TestSystemPtr sys);
@@ -21,6 +21,6 @@ private:
 	Entity *owner;
 	TestSystemPtr sys;
 
-	Property<std::string> test_prop;
-	SharedProperty<std::string> test_shared_prop;
+	Totem::Property<std::string> test_prop;
+	Totem::SharedProperty<std::string> test_shared_prop;
 };

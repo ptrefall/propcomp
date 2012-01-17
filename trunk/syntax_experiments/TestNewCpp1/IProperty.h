@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace Totem
+{
+
 class IProperty
 {
 public:
@@ -23,3 +26,6 @@ private:
 		return next_id++;
 	}
 };
+
+} //namespace Totem
+
