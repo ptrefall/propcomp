@@ -4,7 +4,9 @@
 
 TestComponent::TestComponent(Entity *owner, TestSystemPtr sys) 
 : Component(Type()), owner(owner), sys(sys) 
-{ 
+{
+	if(owner && sys)
+		reset(owner, sys);
 }
 
 void TestComponent::reset(Entity *owner, TestSystemPtr sys)
