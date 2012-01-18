@@ -4,14 +4,13 @@
 #include "SharedProperty.h"
 #include "Entity.h"
 
-class TotemFactory;
 class TestSystem;
 typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
-class TestComponent : public Totem::Component<TotemFactory>
+class TestComponent : public Totem::Component<>
 {
 public:
-	TestComponent(Entity *owner, TotemFactory *factory, TestSystemPtr sys);
+	TestComponent(Entity *owner, TestSystemPtr sys);
 	static std::string Type() { return "Test"; }
 	void reset(Entity *owner, TestSystemPtr sys);
 
