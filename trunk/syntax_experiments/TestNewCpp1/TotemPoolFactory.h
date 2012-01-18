@@ -11,18 +11,18 @@ namespace Totem{
 	class Component;
 	typedef std::shared_ptr<Component> ComponentPtr;
 }
-class PoolComponentFactory;
-typedef std::shared_ptr<PoolComponentFactory> PoolComponentFactoryPtr;
+class TotemPoolFactory;
+typedef std::shared_ptr<TotemPoolFactory> TotemPoolFactoryPtr;
 class Entity;
 
-enum ComponentFactoryCreateType
+enum TotemFactoryCreateType
 {
 	CFCT_GET_FROM_POOL = 1,
 	CFCT_GET_FROM_POOL_OR_CREATE,
 	CFCT_CREATE
 };
 
-class PoolComponentFactory
+class TotemPoolFactory
 {
 public:
 	template<class ComponentType>
