@@ -1,6 +1,5 @@
 
 #include "ComponentContainer.h"
-#include "TotemFactory.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include "Entity.h"
@@ -13,10 +12,7 @@ void main()
 	//We initialize some systems/managers for the engine here...
 	TestSystemPtr sys = std::make_shared<TestSystem>();
 
-	//Set up the component factory that pools resources
-	TotemFactoryPtr factory = std::make_shared<TotemFactory>();
-
-	EntityPtr entity = std::make_shared<Entity>(factory);
+	EntityPtr entity = std::make_shared<Entity>();
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;

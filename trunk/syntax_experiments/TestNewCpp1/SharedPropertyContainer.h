@@ -9,7 +9,17 @@
 namespace Totem
 {
 
-template<class TotemFactoryType, class UserData = void*>
+class DefaultSharedPropertyFactory
+{
+public:
+	template<class PropertyType>
+	static std::shared_ptr<Totem::SharedProperty<PropertyType>> createSharedProperty(const std::string &name)
+	{
+		return std::make_shared<Totem::SharedProperty<PropertyType>>(name);
+	}
+};
+
+template<class SharedPropertyFactoryType = DefaultSharedPropertyFactory, class UserData = void*>
 class SharedPropertyContainer
 {
 public:
@@ -17,7 +27,7 @@ public:
 	 * Constructor
 	 *
 	 */
-	SharedPropertyContainer(TotemFactoryType *factory) : factory(factory) {}
+	SharedPropertyContainer() {}
 
 	/**
 	 * Destructor
@@ -68,7 +78,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = factory->createSharedProperty<T>(name);
+		auto property = SharedPropertyFactoryType::createSharedProperty<T>(name);
 		property->set(defaultValue, true);
 		shared_properties[property->getName()] = property;
 
@@ -108,7 +118,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = factory->createSharedProperty<T>(name);
+		auto property = SharedPropertyFactoryType::createSharedProperty<T>(name);
 		property->set(defaultValue, true);
 		shared_properties[property->getName()] = property;
 
@@ -230,8 +240,6 @@ public:
 	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> &sharedPropertyWithUserDataAdded() { return sign_sharedPropertyWithUserDataAdded; }
 
 protected:
-	///
-	TotemFactoryType *factory;
 	/// The map of all properties owned by this SharedPropertyContainer.
 	std::unordered_map<std::string, std::shared_ptr<IProperty>> shared_properties;
 	/// The list of all properties pending deletion in this SharedPropertyContainer.
@@ -244,8 +252,8 @@ protected:
 
 //------------------------------------------------------
 
-template<class TotemFactoryType, class UserData>
-inline bool SharedPropertyContainer<TotemFactoryType, UserData>::hasSharedProperty(const std::string& name)
+template<class SharedPropertyFactoryType, class UserData>
+inline bool SharedPropertyContainer<SharedPropertyFactoryType, UserData>::hasSharedProperty(const std::string& name)
 {
 	if(properties.empty())
 		return false;
@@ -257,16 +265,16 @@ inline bool SharedPropertyContainer<TotemFactoryType, UserData>::hasSharedProper
 		return false;
 }
 
-template<class TotemFactoryType, class UserData>
-inline void SharedPropertyContainer<TotemFactoryType, UserData>::addSharedProperty(std::shared_ptr<IProperty> property)
+template<class SharedPropertyFactoryType, class UserData>
+inline void SharedPropertyContainer<SharedPropertyFactoryType, UserData>::addSharedProperty(std::shared_ptr<IProperty> property)
 {
 	auto it = shared_properties.find(property->getName());
 	if(it == shared_properties.end())
 		shared_properties[property->getName()] = property;
 }
 
-template<class TotemFactoryType, class UserData>
-inline std::shared_ptr<IProperty> SharedPropertyContainer<TotemFactoryType, UserData>::getSharedPropertyInterface(const std::string& name)
+template<class SharedPropertyFactoryType, class UserData>
+inline std::shared_ptr<IProperty> SharedPropertyContainer<SharedPropertyFactoryType, UserData>::getSharedPropertyInterface(const std::string& name)
 {
 	auto it = shared_properties.find(name);
 	if(it != shared_properties.end())
@@ -275,8 +283,8 @@ inline std::shared_ptr<IProperty> SharedPropertyContainer<TotemFactoryType, User
 		throw std::runtime_error(("Unable to get shared property " + name).c_str());
 }
 
-template<class TotemFactoryType, class UserData>
-inline void SharedPropertyContainer<TotemFactoryType, UserData>::removeSharedProperty(const std::string& name, bool postponeDelete)
+template<class SharedPropertyFactoryType, class UserData>
+inline void SharedPropertyContainer<SharedPropertyFactoryType, UserData>::removeSharedProperty(const std::string& name, bool postponeDelete)
 {
 	auto it = shared_properties.find(name);
 	if(it != shared_properties.end())
@@ -288,23 +296,23 @@ inline void SharedPropertyContainer<TotemFactoryType, UserData>::removeSharedPro
 	}
 }
 
-template<class TotemFactoryType, class UserData>
-inline void SharedPropertyContainer<TotemFactoryType, UserData>::removeAllSharedProperties()
+template<class SharedPropertyFactoryType, class UserData>
+inline void SharedPropertyContainer<SharedPropertyFactoryType, UserData>::removeAllSharedProperties()
 {
 	shared_properties.clear();
 	clearDeletedSharedProperties();
 }
 
-template<class TotemFactoryType, class UserData>
-inline void SharedPropertyContainer<TotemFactoryType, UserData>::updateSharedProperties()
+template<class SharedPropertyFactoryType, class UserData>
+inline void SharedPropertyContainer<SharedPropertyFactoryType, UserData>::updateSharedProperties()
 {
 	clearDeletedSharedProperties();
 }
 
-template<class TotemFactoryType, class UserData>
-inline void SharedPropertyContainer<TotemFactoryType, UserData>::clearDeletedSharedProperties()
+template<class SharedPropertyFactoryType, class UserData>
+inline void SharedPropertyContainer<SharedPropertyFactoryType, UserData>::clearDeletedSharedProperties()
 {
 	deletedSharedProperties.clear();
 }
 
-} //namespace Totem
+} //namespace Totem 

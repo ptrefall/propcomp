@@ -10,11 +10,11 @@
 namespace Totem
 {
 
-template<class TotemFactoryType>
-class Component : public PropertyContainer<TotemFactoryType>, public sigslot::has_slots<>
+template<class PropertyFactoryType = DefaultPropertyFactory>
+class Component : public PropertyContainer<PropertyFactoryType>, public sigslot::has_slots<>
 {
 public:
-	Component(TotemFactoryType *factory, const std::string &type) : PropertyContainer<TotemFactoryType>(factory), type(type) {}
+	Component(const std::string &type) : PropertyContainer<PropertyFactoryType>(), type(type) {}
 
 	const std::string &getType() const { return type; }
 	

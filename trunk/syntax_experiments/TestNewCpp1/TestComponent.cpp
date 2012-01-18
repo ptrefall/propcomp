@@ -2,8 +2,8 @@
 #include "TestSystem.h"
 #include <iostream>
 
-TestComponent::TestComponent(Entity *owner, TotemFactory *factory, TestSystemPtr sys) 
-: Totem::Component<TotemFactory>(factory, Type()), owner(owner), sys(sys) 
+TestComponent::TestComponent(Entity *owner, TestSystemPtr sys) 
+: Totem::Component<>(Type()), owner(owner), sys(sys) 
 {
 	if(owner && sys)
 		reset(owner, sys);

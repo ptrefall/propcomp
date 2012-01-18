@@ -38,8 +38,6 @@ SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 set(HDRS
   ./Component.h
   ./ComponentContainer.h
-  ./TotemFactory.h
-  ./TotemPoolFactory.h
   ./IProperty.h
   ./SharedProperty.h
   ./SharedPropertyContainer.h
@@ -54,8 +52,6 @@ set(SRCS
   ./main.cpp
   ./Component.cpp
   ./ComponentContainer.cpp
-  ./TotemFactory.cpp
-  ./TotemPoolFactory.cpp
   ./SharedProperty.cpp
   ./SharedPropertyContainer.cpp
   ./Property.cpp
