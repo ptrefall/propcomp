@@ -12,8 +12,7 @@ class TestComponent : public Totem::Component<>
 public:
 	TestComponent(Entity *owner, TestSystemPtr sys);
 	static std::string Type() { return "Test"; }
-	void reset(Entity *owner, TestSystemPtr sys);
-
+	
 	void test();
 
 private:
