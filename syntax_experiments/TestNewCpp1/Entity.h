@@ -2,16 +2,16 @@
 
 #include "ComponentContainer.h"
 #include "SharedPropertyContainer.h"
-#include "PoolComponentFactory.h"
+#include "TotemFactory.h"
 
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : public Totem::ComponentContainer<Entity, PoolComponentFactoryPtr>, public Totem::SharedPropertyContainer<>
+class Entity : public Totem::ComponentContainer<Entity, TotemFactory>, public Totem::SharedPropertyContainer<TotemFactory>
 {
 public:
-	Entity(PoolComponentFactoryPtr factory)
-		: Totem::ComponentContainer<Entity, PoolComponentFactoryPtr>(this, factory), Totem::SharedPropertyContainer<>()
+	Entity(TotemFactoryPtr factory)
+		: Totem::ComponentContainer<Entity, TotemFactory>(this, factory.get()), Totem::SharedPropertyContainer<TotemFactory>(factory.get())
 	{
 	}
 };

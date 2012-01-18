@@ -1,6 +1,6 @@
 
 #include "ComponentContainer.h"
-#include "PoolComponentFactory.h"
+#include "TotemFactory.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include "Entity.h"
@@ -14,10 +14,9 @@ void main()
 	TestSystemPtr sys = std::make_shared<TestSystem>();
 
 	//Set up the component factory that pools resources
-	PoolComponentFactoryPtr pool_factory = std::make_shared<PoolComponentFactory>();
-	pool_factory->pool<TestComponent, TestSystemPtr>(2, nullptr, nullptr);
+	TotemFactoryPtr factory = std::make_shared<TotemFactory>();
 
-	EntityPtr entity = std::make_shared<Entity>(pool_factory);
+	EntityPtr entity = std::make_shared<Entity>(factory);
 
 	//We have loaded a list of serialized components that belong to this entity we're building
 	std::vector<std::string> loaded_component_types;

@@ -10,16 +10,14 @@
 namespace Totem
 {
 
-class Component;
-typedef std::shared_ptr<Component> ComponentPtr;
-
-class Component : public PropertyContainer<>, public sigslot::has_slots<>
+template<class TotemFactoryType>
+class Component : public PropertyContainer<TotemFactoryType>, public sigslot::has_slots<>
 {
 public:
-	Component(const std::string &type) : PropertyContainer<>(), type(type) {}
+	Component(TotemFactoryType *factory, const std::string &type) : PropertyContainer<TotemFactoryType>(factory), type(type) {}
 
 	const std::string &getType() const { return type; }
-
+	
 protected:
 	std::string type;
 };
