@@ -17,6 +17,16 @@ public:
 	Component(const std::string &type) : PropertyContainer<PropertyFactoryType>(), type(type) {}
 
 	const std::string &getType() const { return type; }
+
+	virtual void update(const float &/*deltaTime*/) {}
+
+	Component &operator= (const Component &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		throw std::runtime_error("Assignment operation between ComponentTypes are not supported!");
+	}
 	
 protected:
 	std::string type;
