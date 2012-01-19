@@ -14,10 +14,10 @@ template<class PropertyFactoryType = DefaultPropertyFactory>
 class Component : public PropertyContainer<PropertyFactoryType>, public sigslot::has_slots<>
 {
 public:
-	Component(const std::string &type) : PropertyContainer<PropertyFactoryType>(), type(type) {}
+	Component(const std::string &type, const std::string &name) : PropertyContainer<PropertyFactoryType>(), type(type), name(name) {}
 
 	const std::string &getType() const { return type; }
-
+	const std::string &getName() const { return name; }
 	virtual void update(const float &/*deltaTime*/) {}
 
 	Component &operator= (const Component &rhs)
@@ -30,6 +30,7 @@ public:
 	
 protected:
 	std::string type;
+	std::string name;
 };
 
 } // namespace Totem
