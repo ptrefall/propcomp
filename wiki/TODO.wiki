@@ -1,6 +1,10 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 1) Make sure all code in syntax experiment project reflects the features currently in trunk.
+ * 1) Rewrite syntax experiment to use the typedefs of trunk, so that preprocessors can be used on src/ the same way as before when mergen in.
+ * 2) Create a branch of the current src/ and include/ folders, for history purposes.
+ * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Build doxygen and make sure everything builds fine.
  * 4) Write unit tests for all features of Totem EDK.
