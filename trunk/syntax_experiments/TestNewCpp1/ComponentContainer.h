@@ -14,15 +14,15 @@ class DefaultComponentFactory
 {
 public:
 	template<class EntityType, class ComponentType>
-	static std::shared_ptr<ComponentType> createComponent(EntityType *entity, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, unsigned int optionalParam)
 	{
-		return std::make_shared<ComponentType>(entity);
+		return std::make_shared<ComponentType>(name, entity);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0>
-	static std::shared_ptr<ComponentType> createComponent(EntityType *entity, CustomParam0 param0, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, unsigned int optionalParam)
 	{
-		return std::make_shared<ComponentType>(entity, param0);
+		return std::make_shared<ComponentType>(name, entity, param0);
 	}
 };
 
@@ -33,20 +33,22 @@ public:
 	ComponentContainer(EntityType *thisAsEntity) : thisAsEntity(thisAsEntity) {}
 
 	template<class ComponentType>
-	std::shared_ptr<ComponentType> addComponent(unsigned int optionalParam = 0)
+	std::shared_ptr<ComponentType> addComponent(const std::string &name = std::string(), unsigned int optionalParam = 0)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType>(thisAsEntity, optionalParam);
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType>(name, thisAsEntity, optionalParam);
 		components.push_back(component);
 		return component;
 	}
 
 	template<class ComponentType, class CustomParam0>
-	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, unsigned int optionalParam = 0)
+	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, const std::string &name = std::string(), unsigned int optionalParam = 0)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0>(thisAsEntity, param0, optionalParam);
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0>(name, thisAsEntity, param0, optionalParam);
 		components.push_back(component);
 		return component;
 	}
+
+
 
 protected:
 	EntityType *thisAsEntity;
