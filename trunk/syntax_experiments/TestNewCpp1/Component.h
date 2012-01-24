@@ -2,10 +2,11 @@
 //
 #pragma once
 
+#include "PropertyContainer.h"
+
 #include <string>
 #include <memory>
 #include "../../depends/Standard/sigslot.h"
-#include "PropertyContainer.h"
 
 namespace Totem
 {
