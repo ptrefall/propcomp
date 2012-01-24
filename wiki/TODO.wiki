@@ -5,6 +5,7 @@
  * 1) Rewrite syntax experiment to use the typedefs of trunk, so that preprocessors can be used on src/ the same way as before when mergen in.
  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
  * 2) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
+ * 2) Component name handling (*)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
  * 4) Write script language integration example.
@@ -19,6 +20,19 @@
  * 9) Write simple game example.
  * 10) Write Entity Editor tool.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
+
+
+(*)
+addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
+addComponent<MyComponent>("Dup")   // Type = MyComponent, Name = Dup
+addComponent<MyComponent>("Dup")   // error!
+addComponent<MyComponent>()   // error!
+addComponent<MyComponent2>("Dup")   //ikke feil
+
+
+addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
+addComponent<MyComponent2>()   // Type = MyComponent2, Name = MyComponent2
+addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til ingenting akkurat nå iaf. mm, vi kan godt sette den til type.
 
 = Fixed TODOs =
  * 2) Consider writing ComponentFactory as an interface, who's overloaded implementation might support pooling.
