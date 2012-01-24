@@ -6,7 +6,7 @@
 namespace Totem
 {
 
-class IProperty
+class IPropertyList
 {
 public:
 	virtual const unsigned int &getType() const = 0;

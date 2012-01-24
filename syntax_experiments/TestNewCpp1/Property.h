@@ -4,7 +4,6 @@
 
 #include "../../depends/Standard/sigslot.h"
 #include <memory>
-#include <sstream>
 
 namespace Totem
 {

@@ -39,10 +39,13 @@ set(HDRS
   ./Component.h
   ./ComponentContainer.h
   ./IProperty.h
-  ./SharedProperty.h
-  ./SharedPropertyContainer.h
+  ./IPropertyList.h
   ./Property.h
   ./PropertyContainer.h
+  ./SharedProperty.h
+  ./SharedPropertyContainer.h
+  ./SharedPropertyList.h
+  ./SharedPropertyListContainer.h
   ./Entity.h
   ./TestSystem.h
   ./TestComponent.h
@@ -52,10 +55,12 @@ set(SRCS
   ./main.cpp
   ./Component.cpp
   ./ComponentContainer.cpp
-  ./SharedProperty.cpp
-  ./SharedPropertyContainer.cpp
   ./Property.cpp
   ./PropertyContainer.cpp
+  ./SharedProperty.cpp
+  ./SharedPropertyContainer.cpp
+  ./SharedPropertyList.cpp
+  ./SharedPropertyListContainer.cpp
   ./TestSystem.cpp
   ./TestComponent.cpp
 )
