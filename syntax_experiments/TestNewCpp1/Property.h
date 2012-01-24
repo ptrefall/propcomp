@@ -10,30 +10,6 @@ namespace Totem
 {
 
 template<class PropertyType>
-class Property;
-
-class DefaultPropertySerializer
-{
-public:
-	template<class PropertyType>
-	static std::string toString(const Property<PropertyType> * const property)
-	{
-		std::stringstream stream;
-		stream << property->get();
-		return stream.str();
-	}
-
-	template<class PropertyType>
-	static void fromString(const std::string &serialized_property, Property<PropertyType> * property)
-	{
-		PropertyType value;
-		std::stringstream stream(serialized_property);
-		stream >> std::dec >> value;
-		property->set(value);
-	}
-};
-
-template<class PropertyType>
 class PropertyData
 {
 public:
@@ -71,13 +47,6 @@ public:
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
-
-	template<class PropertySerializer>
-	std::string toString() const { return PropertySerializer::toString<PropertyType>(this); }
-	std::string toString() const override { return toString<DefaultPropertySerializer>(); }
-	template<class PropertySerializer>
-	void fromString(const std::string &serialized_property) { return PropertySerializer::fromString<PropertyType>(serialized_property, this); }
-	void fromString(const std::string &serialized_property) override { return fromString<DefaultPropertySerializer>(serialized_property); }
 
 	/// Set's property's data to rhs' shared pointer data.
 	Property<PropertyType> operator= (const Property<PropertyType>& rhs);

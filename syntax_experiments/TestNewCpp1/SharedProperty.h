@@ -10,30 +10,6 @@ namespace Totem
 {
 
 template<class PropertyType>
-class SharedProperty;
-
-class DefaultSharedPropertySerializer
-{
-public:
-	template<class PropertyType>
-	static std::string toString(const SharedProperty<PropertyType> * const property)
-	{
-		std::stringstream stream;
-		stream << property->get();
-		return stream.str();
-	}
-
-	template<class PropertyType>
-	static void fromString(const std::string &serialized_property, SharedProperty<PropertyType> * property)
-	{
-		PropertyType value;
-		std::stringstream stream(serialized_property);
-		stream >> std::dec >> value;
-		property->set(value);
-	}
-};
-
-template<class PropertyType>
 class SharedPropertyData
 {
 public:
@@ -75,13 +51,6 @@ public:
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
-
-	template<class PropertySerializer>
-	std::string toString() const { return PropertySerializer::toString<PropertyType>(this); }
-	std::string toString() const override { return toString<DefaultSharedPropertySerializer>(); }
-	template<class PropertySerializer>
-	void fromString(const std::string &serialized_property) { return PropertySerializer::fromString<PropertyType>(serialized_property, this); }
-	void fromString(const std::string &serialized_property) override { return fromString<DefaultSharedPropertySerializer>(serialized_property); }
 
 	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
