@@ -256,7 +256,7 @@ protected:
 template<class SharedPropertyFactoryType, class UserData>
 inline bool SharedPropertyContainer<SharedPropertyFactoryType, UserData>::hasSharedProperty(const std::string& name)
 {
-	if(properties.empty())
+	if(shared_properties.empty())
 		return false;
 
 	auto it = shared_properties.find(name);
