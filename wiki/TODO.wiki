@@ -35,6 +35,7 @@ addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
 addComponent<MyComponent2>()   // Type = MyComponent2, Name = MyComponent2
 addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til ingenting akkurat nå iaf. mm, vi kan godt sette den til type.
 }}}
+What about InterpolatorComponent? 
 
 = Fixed TODOs =
  * 2) Consider writing ComponentFactory as an interface, who's overloaded implementation might support pooling.
