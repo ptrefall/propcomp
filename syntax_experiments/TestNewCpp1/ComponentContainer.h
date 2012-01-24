@@ -127,6 +127,8 @@ public:
 		throw std::runtime_error(("Couldn't find component " + type).c_str());
 	}
 
+	std::vector<std::shared_ptr<Component<>>> &getComponents() { return components; }
+
 	void updateComponents(const float &deltaTime)
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
