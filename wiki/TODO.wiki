@@ -22,7 +22,7 @@
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 
-from discussion from PiratePad:
+from discussion from PiratePad http://piratepad.net/KbYbzY0TFR:
 {{{
 addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
 addComponent<MyComponent>("Dup")   // Type = MyComponent, Name = Dup
