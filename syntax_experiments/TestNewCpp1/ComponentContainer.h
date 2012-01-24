@@ -107,6 +107,26 @@ public:
 		throw std::runtime_error(("Couldn't find component " + ComponentType::Type()).c_str());
 	}
 
+	std::shared_ptr<Component<>> getComponent(const std::string &type, const std::string &name = std::string())
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			if(components[i]->getType() == type)
+			{
+				if(!name.empty())
+				{
+					if(components[i]->getName() == name)
+						return components[i];
+				}
+				else
+				{
+					return components[i];
+				}
+			}
+		}
+		throw std::runtime_error(("Couldn't find component " + type).c_str());
+	}
+
 	void updateComponents(const float &deltaTime)
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
