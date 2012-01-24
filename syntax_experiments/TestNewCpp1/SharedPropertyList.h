@@ -126,10 +126,10 @@ public:
 	bool isNull() const override { return data == nullptr; }
 
 	sigslot::signal3<const unsigned int &, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
-	sigslot::signal2<const unsigned int &, const PropertyType &> valueAdded() {return data->valueAdded; }
-	sigslot::signal2<const unsigned int &, const PropertyType &> valueErased() { return data->valueErased; }
-	sigslot::signal0<> valuesCleared() { return data->valuesCleared; }
-	sigslot::signal2<const unsigned int &, const unsigned int &> listResized() { return data->listResized; }
+	sigslot::signal2<const unsigned int &, const PropertyType &> &valueAdded() {return data->valueAdded; }
+	sigslot::signal2<const unsigned int &, const PropertyType &> &valueErased() { return data->valueErased; }
+	sigslot::signal0<> &valuesCleared() { return data->valuesCleared; }
+	sigslot::signal2<const unsigned int &, const unsigned int &> &listResized() { return data->listResized; }
 
 	/// Set's property's data to rhs' shared pointer data.
 	SharedPropertyList<PropertyType> operator= (const SharedPropertyList<PropertyType>& rhs)
