@@ -2,10 +2,11 @@
 //
 #pragma once
 
+#include "Component.h"
+
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "Component.h"
 
 namespace Totem
 {

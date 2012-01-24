@@ -1,11 +1,37 @@
 #pragma once
 
 #include "IProperty.h"
+
 #include "../../depends/Standard/sigslot.h"
 #include <memory>
+#include <sstream>
 
 namespace Totem
 {
+
+template<class PropertyType, class PropertySerializer>
+class SharedProperty;
+
+class DefaultSharedPropertySerializer
+{
+public:
+	template<class PropertyType, class PropertySerializer>
+	static std::string toString(const SharedProperty<PropertyType, PropertySerializer> * const property)
+	{
+		std::stringstream stream;
+		stream << property->get();
+		return stream.str();
+	}
+
+	template<class PropertyType, class PropertySerializer>
+	static void fromString(const std::string &serialized_property, SharedProperty<PropertyType, PropertySerializer> * property)
+	{
+		PropertyType value;
+		std::stringstream stream(serialized_property);
+		stream >> std::dec >> value;
+		property->set(value);
+	}
+};
 
 template<class PropertyType>
 class SharedPropertyData
@@ -17,7 +43,7 @@ public:
 	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
 };
 
-template<class PropertyType>
+template<class PropertyType, class PropertySerializer = DefaultSharedPropertySerializer>
 class SharedProperty : public IProperty
 {
 public:
@@ -49,6 +75,9 @@ public:
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
+
+	std::string toString(IPropertySerializerPtr serializer) const override { return PropertySerializer::toString(this); }
+	void fromString(const std::string &serialized_property, IPropertySerializerPtr serializer) override { return PropertySerializer::fromString(serialized_property, this); }
 
 	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
@@ -99,106 +128,106 @@ private:
 	std::shared_ptr<SharedPropertyData<PropertyType>> data;
 };
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator =(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator =(const SharedProperty<PropertyType> &rhs)
 {
 	data = rhs.data;
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator =(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator =(const PropertyType &rhs)
 {
 	set(rhs);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator +=(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator +=(const SharedProperty<PropertyType> &rhs)
 {
 	set(data->value + rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator +=(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator +=(const PropertyType &rhs)
 {
 	set(data->value + rhs);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator -=(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator -=(const SharedProperty<PropertyType> &rhs)
 {
 	set(data->value - rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator -=(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator -=(const PropertyType &rhs)
 {
 	set(data->value - rhs);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator *=(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator *=(const SharedProperty<PropertyType> &rhs)
 {
 	set(data->value * rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType>
-inline SharedProperty<PropertyType> SharedProperty<PropertyType>::operator *=(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline SharedProperty<PropertyType> SharedProperty<PropertyType, PropertySerializer>::operator *=(const PropertyType &rhs)
 {
 	set(data->value * rhs);
 	return *this;
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator ==(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator ==(const SharedProperty<PropertyType> &rhs)
 {
 	return data == rhs.data;
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator ==(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator ==(const PropertyType &rhs)
 {
 	return (data->value == rhs);
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator !=(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator !=(const SharedProperty<PropertyType> &rhs)
 {
 	return data != rhs.data;
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator !=(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator !=(const PropertyType &rhs)
 {
 	return (data->value != rhs);
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator >(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator >(const SharedProperty<PropertyType> &rhs)
 {
 	return (data->value > rhs.data->value);
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator >(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator >(const PropertyType &rhs)
 {
 	return (data->value > rhs);
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator <(const SharedProperty<PropertyType> &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator <(const SharedProperty<PropertyType> &rhs)
 {
 	return (data->value < rhs.data->value);
 }
 
-template<class PropertyType>
-inline bool SharedProperty<PropertyType>::operator <(const PropertyType &rhs)
+template<class PropertyType, class PropertySerializer>
+inline bool SharedProperty<PropertyType, PropertySerializer>::operator <(const PropertyType &rhs)
 {
 	return (data->value < rhs);
 }

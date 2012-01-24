@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Property.h"
+
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include <memory>
-#include "Property.h"
 
 namespace Totem
 {

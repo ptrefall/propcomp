@@ -1,9 +1,13 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 namespace Totem
 {
+
+class IPropertySerializer;
+typedef std::shared_ptr<IPropertySerializer> IPropertySerializerPtr;
 
 class IProperty
 {
@@ -18,6 +22,9 @@ public:
 		static unsigned int typeId(newPropertyTypeId());
 		return typeId;
 	}
+
+	virtual std::string toString(IPropertySerializerPtr serializer) const = 0;
+	virtual void fromString(const std::string &serialized_property, IPropertySerializerPtr serializer) = 0;
 
 private:
 	static unsigned int newPropertyTypeId()
