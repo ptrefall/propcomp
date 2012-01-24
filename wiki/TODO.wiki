@@ -6,11 +6,10 @@
  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
  * 2) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
- * 3) Build doxygen and make sure everything builds fine.
- * 4) Write unit tests for all features of Totem EDK.
- * 5) Write XML loader example.
- * 5) Write XML property state saving example.
- * 6) Write script language integration example.
+ * 3) Write XML component/property state saving and loading example.
+ * 4) Write script language integration example.
+ * 5) Write unit tests for all features of Totem EDK.
+ * 6) Build doxygen and make sure everything builds fine.
  * 7) Write Documentation
    * Frontpage 
      * Updated description and feature list
