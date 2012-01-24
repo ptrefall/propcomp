@@ -9,22 +9,22 @@
 namespace Totem
 {
 
-template<class PropertyType, class PropertySerializer>
+template<class PropertyType>
 class Property;
 
 class DefaultPropertySerializer
 {
 public:
-	template<class PropertyType, class PropertySerializer>
-	static std::string toString(const Property<PropertyType, PropertySerializer> * const property)
+	template<class PropertyType>
+	static std::string toString(const Property<PropertyType> * const property)
 	{
 		std::stringstream stream;
 		stream << property->get();
 		return stream.str();
 	}
 
-	template<class PropertyType, class PropertySerializer>
-	static void fromString(const std::string &serialized_property, Property<PropertyType, PropertySerializer> * property)
+	template<class PropertyType>
+	static void fromString(const std::string &serialized_property, Property<PropertyType> * property)
 	{
 		PropertyType value;
 		std::stringstream stream(serialized_property);
@@ -42,7 +42,7 @@ public:
 	std::string name;
 };
 
-template<class PropertyType, class PropertySerializer = DefaultPropertySerializer>
+template<class PropertyType>
 class Property : public IProperty
 {
 public:
@@ -72,8 +72,12 @@ public:
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
 
-	std::string toString(IPropertySerializerPtr serializer) const override { return PropertySerializer::toString<PropertyType, PropertySerializer>(this); }
-	void fromString(const std::string &serialized_property, IPropertySerializerPtr serializer) override { return PropertySerializer::fromString<PropertyType, PropertySerializer>(serialized_property, this); }
+	template<class PropertySerializer>
+	std::string toString() const { return PropertySerializer::toString<PropertyType>(this); }
+	std::string toString() const override { return toString<DefaultPropertySerializer>(); }
+	template<class PropertySerializer>
+	void fromString(const std::string &serialized_property) { return PropertySerializer::fromString<PropertyType>(serialized_property, this); }
+	void fromString(const std::string &serialized_property) override { return fromString<DefaultPropertySerializer>(serialized_property); }
 
 	/// Set's property's data to rhs' shared pointer data.
 	Property<PropertyType> operator= (const Property<PropertyType>& rhs);
@@ -122,106 +126,106 @@ private:
 	std::shared_ptr<PropertyData<PropertyType>> data;
 };
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator =(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator =(const Property<PropertyType> &rhs)
 {
 	data = rhs.data;
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator =(const PropertyType &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator =(const PropertyType &rhs)
 {
 	set(rhs);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator +=(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator +=(const Property<PropertyType> &rhs)
 {
 	set(data->value + rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator +=(const PropertyType &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator +=(const PropertyType &rhs)
 {
 	set(data->value + rhs);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator -=(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator -=(const Property<PropertyType> &rhs)
 {
 	set(data->value - rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator -=(const PropertyType &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator -=(const PropertyType &rhs)
 {
 	set(data->value - rhs);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator *=(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator *=(const Property<PropertyType> &rhs)
 {
 	set(data->value * rhs.data->value);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline Property<PropertyType> Property<PropertyType, PropertySerializer>::operator *=(const PropertyType &rhs)
+template<class PropertyType>
+inline Property<PropertyType> Property<PropertyType>::operator *=(const PropertyType &rhs)
 {
 	set(data->value * rhs);
 	return *this;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator ==(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator ==(const Property<PropertyType> &rhs)
 {
 	return data == rhs.data;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator ==(const PropertyType &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator ==(const PropertyType &rhs)
 {
 	return (data->value == rhs);
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator !=(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator !=(const Property<PropertyType> &rhs)
 {
 	return data != rhs.data;
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator !=(const PropertyType &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator !=(const PropertyType &rhs)
 {
 	return (data->value != rhs);
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator >(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator >(const Property<PropertyType> &rhs)
 {
 	return (data->value > rhs.data->value);
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator >(const PropertyType &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator >(const PropertyType &rhs)
 {
 	return (data->value > rhs);
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator <(const Property<PropertyType> &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator <(const Property<PropertyType> &rhs)
 {
 	return (data->value < rhs.data->value);
 }
 
-template<class PropertyType, class PropertySerializer>
-inline bool Property<PropertyType, PropertySerializer>::operator <(const PropertyType &rhs)
+template<class PropertyType>
+inline bool Property<PropertyType>::operator <(const PropertyType &rhs)
 {
 	return (data->value < rhs);
 }

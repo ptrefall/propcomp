@@ -23,8 +23,8 @@ public:
 		return typeId;
 	}
 
-	virtual std::string toString(IPropertySerializerPtr serializer) const = 0;
-	virtual void fromString(const std::string &serialized_property, IPropertySerializerPtr serializer) = 0;
+	virtual std::string toString() const = 0;
+	virtual void fromString(const std::string &serialized_property) = 0;
 
 private:
 	static unsigned int newPropertyTypeId()
