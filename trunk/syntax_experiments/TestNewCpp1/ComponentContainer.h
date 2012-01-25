@@ -31,9 +31,33 @@ public:
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1);
 	}
+
+	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, unsigned int optionalParam)
+	{
+		return std::make_shared<ComponentType>(name, entity, param0, param1, param2);
+	}
+
+	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, unsigned int optionalParam)
+	{
+		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3);
+	}
+
+	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, unsigned int optionalParam)
+	{
+		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3, param4);
+	}
+
+	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5, unsigned int optionalParam)
+	{
+		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3, param4, param5);
+	}
 };
 
-template<class EntityType, class ComponentFactoryType = DefaultComponentFactory>
+template<class EntityType, class ComponentFactoryType = DefaultComponentFactory, class PropertyFactoryType = DefaultPropertyFactory>
 class ComponentContainer
 {
 public:
@@ -59,6 +83,38 @@ public:
 	std::shared_ptr<ComponentType> addComponent2(CustomParam0 param0, CustomParam1 param1, const std::string &name = std::string(), unsigned int optionalParam = 0)
 	{
 		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0, CustomParam1>(name, thisAsEntity, param0, param1, optionalParam);
+		components.push_back(component);
+		return component;
+	}
+
+	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
+	std::shared_ptr<ComponentType> addComponent3(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, const std::string &name = std::string(), unsigned int optionalParam = 0)
+	{
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(name, thisAsEntity, param0, param1, param2, optionalParam);
+		components.push_back(component);
+		return component;
+	}
+
+	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
+	std::shared_ptr<ComponentType> addComponent4(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, const std::string &name = std::string(), unsigned int optionalParam = 0)
+	{
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(name, thisAsEntity, param0, param1, param2, param3, optionalParam);
+		components.push_back(component);
+		return component;
+	}
+
+	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
+	std::shared_ptr<ComponentType> addComponent5(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, const std::string &name = std::string(), unsigned int optionalParam = 0)
+	{
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(name, thisAsEntity, param0, param1, param2, param3, param4, optionalParam);
+		components.push_back(component);
+		return component;
+	}
+
+	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
+	std::shared_ptr<ComponentType> addComponent6(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5, const std::string &name = std::string(), unsigned int optionalParam = 0)
+	{
+		auto component = ComponentFactoryType::createComponent<EntityType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(name, thisAsEntity, param0, param1, param2, param3, param4, param5, optionalParam);
 		components.push_back(component);
 		return component;
 	}
@@ -107,7 +163,7 @@ public:
 		throw std::runtime_error(("Couldn't find component " + ComponentType::Type()).c_str());
 	}
 
-	std::shared_ptr<Component<>> getComponent(const std::string &type, const std::string &name = std::string())
+	std::shared_ptr<Component<PropertyFactoryType>> getComponent(const std::string &type, const std::string &name = std::string())
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
@@ -127,7 +183,7 @@ public:
 		throw std::runtime_error(("Couldn't find component " + type).c_str());
 	}
 
-	std::vector<std::shared_ptr<Component<>>> &getComponents() { return components; }
+	std::vector<std::shared_ptr<Component<PropertyFactoryType>>> &getComponents() { return components; }
 
 	void updateComponents(const float &deltaTime)
 	{
@@ -137,7 +193,7 @@ public:
 
 protected:
 	EntityType *thisAsEntity;
-	std::vector<std::shared_ptr<Component<>>> components;
+	std::vector<std::shared_ptr<Component<PropertyFactoryType>>> components;
 };
 
 } //namespace Totem
