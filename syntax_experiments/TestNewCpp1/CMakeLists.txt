@@ -36,6 +36,7 @@ set(Standard_HDRS
 SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(HDRS
+  ./HashedString.h
   ./Component.h
   ./ComponentContainer.h
   ./IProperty.h
@@ -53,6 +54,7 @@ set(HDRS
 
 set(SRCS
   ./main.cpp
+  ./HashedString.cpp
   ./Component.cpp
   ./ComponentContainer.cpp
   ./Property.cpp
