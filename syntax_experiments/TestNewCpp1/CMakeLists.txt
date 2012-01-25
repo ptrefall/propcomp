@@ -35,7 +35,19 @@ set(Standard_HDRS
 )
 SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
+set(ADDON_HDRS
+	./Addons/TemplateEventHandler.h
+	./Addons/DelegateHandler.h
+)
+SOURCE_GROUP("Header Files\\Addons" FILES ${ADDON_HDRS})
+set(ADDON_SRCS
+	./Addons/TemplateEventHandler.cpp
+	./Addons/DelegateHandler.cpp
+)
+SOURCE_GROUP("Source Files\\Addons" FILES ${ADDON_SRCS})
+
 set(HDRS
+  ./config.h
   ./HashedString.h
   ./Component.h
   ./ComponentContainer.h
@@ -67,6 +79,6 @@ set(SRCS
   ./TestComponent.cpp
 )
  
-add_executable(TestNewCpp1 ${Standard_HDRS} ${HDRS} ${SRCS})
+add_executable(TestNewCpp1 ${Standard_HDRS} ${ADDON_HDRS} ${ADDON_SRCS} ${HDRS} ${SRCS})
 
 set_target_properties(TestNewCpp1 PROPERTIES DEBUG_POSTFIX -debug)
