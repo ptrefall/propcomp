@@ -46,6 +46,61 @@
 namespace Totem {
 namespace Addon {
 
+template<typename RetType> class Delegate0;
+template<typename Param1, typename RetType> class Delegate1;
+template<typename Param1, typename Param2, typename RetType> class Delegate2;
+template<typename Param1, typename Param2, typename Param3, typename RetType> class Delegate3;
+template<typename Param1, typename Param2, typename Param3, typename Param4, typename RetType> class Delegate4;
+template<typename Param1, typename Param2, typename Param3, typename Param4, typename Param5, typename RetType> class Delegate5;
+template<typename Param1, typename Param2, typename Param3, typename Param4, typename Param5, typename Param6, typename RetType> class Delegate6;
+
+class DefaultDelegateFactory
+{
+public:
+	template<class RetType>
+	static std::shared_ptr<Delegate0<RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate0<RetType>>();
+	}
+
+	template<class Param1, class RetType>
+	static std::shared_ptr<Delegate1<Param1, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate1<Param1, RetType>>();
+	}
+
+	template<class Param1, class Param2, class RetType>
+	static std::shared_ptr<Delegate2<Param1, Param2, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate2<Param1, Param2, RetType>>();
+	}
+
+	template<class Param1, class Param2, class Param3, class RetType>
+	static std::shared_ptr<Delegate3<Param1, Param2, Param3, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate3<Param1, Param2, Param3, RetType>>();
+	}
+
+	template<class Param1, class Param2, class Param3, class Param4, class RetType>
+	static std::shared_ptr<Delegate4<Param1, Param2, Param3, Param4, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate4<Param1, Param2, Param3, Param4, RetType>>();
+	}
+
+	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
+	static std::shared_ptr<Delegate5<Param1, Param2, Param3, Param4, Param5, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate5<Param1, Param2, Param3, Param4, Param5, RetType>>();
+	}
+
+	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
+	static std::shared_ptr<Delegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>> createDelegate()
+	{
+		return std::make_shared<Delegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>>();
+	}
+};
+
+template<class DelegateFactory = DefaultDelegateFactory>
 class DelegateHandler
 {
 public:
@@ -146,7 +201,7 @@ public:
 	 * @return A signal that requires no parameters in the slot.
 	 */
 	template<class RetType>
-	typename T_Delegate_v0<RetType>::Type &registerFunction0(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v0<RetType>::Type> registerFunction0(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding one parameter.
@@ -155,7 +210,7 @@ public:
 	 * @return A signal that requires one parameters in the slot.
 	 */
 	template<class Param1, class RetType>
-	typename T_Delegate_v1<Param1, RetType>::Type &registerFunction1(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v1<Param1, RetType>::Type> registerFunction1(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding two parameters.
@@ -164,7 +219,7 @@ public:
 	 * @return A signal that requires two parameters in the slot.
 	 */
 	template<class Param1, class Param2, class RetType>
-	typename T_Delegate_v2<Param1, Param2, RetType>::Type &registerFunction2(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v2<Param1, Param2, RetType>::Type> registerFunction2(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding three parameters.
@@ -173,7 +228,7 @@ public:
 	 * @return A signal that requires three parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
-	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &registerFunction3(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type> registerFunction3(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding four parameters.
@@ -182,7 +237,7 @@ public:
 	 * @return A signal that requires four parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &registerFunction4(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type> registerFunction4(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding five parameters.
@@ -191,7 +246,7 @@ public:
 	 * @return A signal that requires five parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &registerFunction5(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type> registerFunction5(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding six parameters.
@@ -200,7 +255,7 @@ public:
 	 * @return A signal that requires six parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &registerFunction6(const HashedString &type);
+	std::shared_ptr<typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type> registerFunction6(const HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -282,42 +337,44 @@ protected:
 	};
 	
 	/// Map of parameter-less delegate delegates held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates0;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates0;
 	/// Map of delegate delegates with one parameter held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates1;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates1;
 	/// Map of delegate delegates with two parameters held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates2;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates2;
 	/// Map of delegate delegates with three parameters held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates3;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates3;
 	/// Map of delegate delegates with four parameters held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates4;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates4;
 	/// Map of delegate delegates with five parameters held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates5;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates5;
 	/// Map of delegate delegates with six parameters held by DelegateHandler.
-	T_Map<unsigned int, IDelegate*>::Type delegates6;
+	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates6;
 };
 
 //------------------------------------------------------
 
+template<class DelegateFactory>
 template<class RetType>
-inline RetType DelegateHandler::call0(const HashedString &type)
+inline RetType DelegateHandler<DelegateFactory>::call0(const HashedString &type)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates0.find(type.getId());
+	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates0 registry!").c_str());
 
 	return static_cast<Delegate0<RetType>*>(it->second)->delegate();
 }
 
+template<class DelegateFactory>
 template<class Param1, class RetType>
-inline RetType DelegateHandler::call1(const HashedString &type, const Param1 &param1)
+inline RetType DelegateHandler<DelegateFactory>::call1(const HashedString &type, const Param1 &param1)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates1.find(type.getId());
+	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates1 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate1<Param1, RetType> *delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 	return delegate->delegate(param1);
@@ -326,15 +383,16 @@ inline RetType DelegateHandler::call1(const HashedString &type, const Param1 &pa
 #endif
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline RetType DelegateHandler::call2(const HashedString &type, const Param1 &param1, const Param2 &param2)
+inline RetType DelegateHandler<DelegateFactory>::call2(const HashedString &type, const Param1 &param1, const Param2 &param2)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates2.find(type.getId());
+	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates2 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate2<Param1,Param2, RetType> *delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2);
@@ -343,15 +401,16 @@ inline RetType DelegateHandler::call2(const HashedString &type, const Param1 &pa
 #endif
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline RetType DelegateHandler::call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
+inline RetType DelegateHandler<DelegateFactory>::call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates3.find(type.getId());
+	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates3 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate3<Param1,Param2,Param3, RetType> *delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3);
@@ -360,15 +419,16 @@ inline RetType DelegateHandler::call3(const HashedString &type, const Param1 &pa
 #endif
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline RetType DelegateHandler::call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
+inline RetType DelegateHandler<DelegateFactory>::call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates4.find(type.getId());
+	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates4 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate4<Param1,Param2,Param3,Param4, RetType> *delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4);
@@ -377,15 +437,16 @@ inline RetType DelegateHandler::call4(const HashedString &type, const Param1 &pa
 #endif
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline RetType DelegateHandler::call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
+inline RetType DelegateHandler<DelegateFactory>::call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates5.find(type.getId());
+	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates5 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate5<Param1,Param2,Param3,Param4,Param5, RetType> *delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5);
@@ -394,15 +455,16 @@ inline RetType DelegateHandler::call5(const HashedString &type, const Param1 &pa
 #endif
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline RetType DelegateHandler::call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
+inline RetType DelegateHandler<DelegateFactory>::call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
 {
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates6.find(type.getId());
+	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
 		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates6 registry!").c_str());
 
 #ifdef _DEBUG
-	Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType> *delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
+	auto delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
 		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5, param6);
@@ -413,173 +475,255 @@ inline RetType DelegateHandler::call6(const HashedString &type, const Param1 &pa
 
 //------------------------------------------------------------------
 
+template<class DelegateFactory>
 template<class RetType>
-inline typename T_Delegate_v0<RetType>::Type &DelegateHandler::registerFunction0(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v0<RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction0(const HashedString &type)
 {
-	Delegate0<RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates0.find(type.getId());
+	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
 	{
-		delegate = new Delegate0<RetType>();
+		auto delegate = DelegateFactory::createDelegate<RetType>();
 		delegates0[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
-		delegate = static_cast<Delegate0<RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate0<RetType>>(it->second);
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class RetType>
-inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateHandler::registerFunction1(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v1<Param1, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction1(const HashedString &type)
 {
-	Delegate1<Param1, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates1.find(type.getId());
+	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
 	{
-		delegate = new Delegate1<Param1, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1, RetType>();
 		delegates1[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate1<Param1, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 #else
-		delegate = static_cast<Delegate1<Param1, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate1<Param1, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateHandler::registerFunction2(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v2<Param1, Param2, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction2(const HashedString &type)
 {
-	Delegate2<Param1,Param2, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates2.find(type.getId());
+	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
 	{
-		delegate = new Delegate2<Param1,Param2, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1,Param2, RetType>();
 		delegates2[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
-		delegate = static_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateHandler::registerFunction3(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction3(const HashedString &type)
 {
-	Delegate3<Param1,Param2,Param3, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates3.find(type.getId());
+	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
 	{
-		delegate = new Delegate3<Param1,Param2,Param3, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1,Param2,Param3, RetType>();
 		delegates3[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
-		delegate = static_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &DelegateHandler::registerFunction4(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction4(const HashedString &type)
 {
-	Delegate4<Param1,Param2,Param3,Param4, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates4.find(type.getId());
+	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
 	{
-		delegate = new Delegate4<Param1,Param2,Param3,Param4, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1,Param2,Param3,Param4, RetType>();
 		delegates4[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
-		delegate = static_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &DelegateHandler::registerFunction5(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction5(const HashedString &type)
 {
-	Delegate5<Param1,Param2,Param3,Param4,Param5, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates5.find(type.getId());
+	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
 	{
-		delegate = new Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1,Param2,Param3,Param4,Param5, RetType>();
 		delegates5[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
-		delegate = static_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
-
-	return delegate->delegate;
 }
 
+template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &DelegateHandler::registerFunction6(const HashedString &type)
+inline std::shared_ptr<typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction6(const HashedString &type)
 {
-	Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType> *delegate = NULL_PTR;
-
-	T_Map<unsigned int, IDelegate*>::Type::iterator it = delegates6.find(type.getId());
+	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
 	{
-		delegate = new Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>();
+		auto delegate = DelegateFactory::createDelegate<Param1,Param2,Param3,Param4,Param5,Param6, RetType>();
 		delegates6[type.getId()] = delegate;
+		return delegate->delegate;
 	}
 	else
 	{
 #ifdef _DEBUG
-		delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
+		auto delegate = std::dynamic_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);
 		if(delegate == NULL_PTR)
 			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
-		delegate = static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
+		auto delegate = std::static_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);
 #endif
+		return delegate->delegate;
 	}
+}
 
-	return delegate->delegate;
+//--------------------------------------------------------------------------------
+
+template<class DelegateFactory>
+bool DelegateHandler<DelegateFactory>::hasFunction(const HashedString &id, int num_params)
+{
+	if(num_params == 0)
+	{
+		auto it = delegates0.find(id.getId());
+		if(it != delegates0.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 1)
+	{
+		auto it = delegates1.find(id.getId());
+		if(it != delegates1.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 2)
+	{
+		auto it = delegates2.find(id.getId());
+		if(it != delegates2.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 3)
+	{
+		auto it = delegates3.find(id.getId());
+		if(it != delegates3.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 4)
+	{
+		auto it = delegates4.find(id.getId());
+		if(it != delegates4.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 5)
+	{
+		auto it = delegates5.find(id.getId());
+		if(it != delegates5.end())
+			return true;
+		else
+			return false;
+	}
+	else if(num_params == 6)
+	{
+		auto it = delegates6.find(id.getId());
+		if(it != delegates6.end())
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		auto it = delegates0.find(id.getId());
+		if(it != delegates0.end())
+			return true;
+		it = delegates1.find(id.getId());
+		if(it != delegates1.end())
+			return true;
+		it = delegates2.find(id.getId());
+		if(it != delegates2.end())
+			return true;
+		it = delegates3.find(id.getId());
+		if(it != delegates3.end())
+			return true;
+		it = delegates4.find(id.getId());
+		if(it != delegates4.end())
+			return true;
+		it = delegates5.find(id.getId());
+		if(it != delegates5.end())
+			return true;
+		it = delegates6.find(id.getId());
+		if(it != delegates6.end())
+			return true;
+
+		return false;
+	}
 }
 
 } //namespace Addon
