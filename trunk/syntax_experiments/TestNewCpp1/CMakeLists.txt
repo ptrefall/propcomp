@@ -36,13 +36,13 @@ set(Standard_HDRS
 SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(ADDON_HDRS
-	./Addons/TemplateEventHandler.h
-	./Addons/DelegateHandler.h
+	./Addons/EventSystem.h
+	./Addons/DelegateSystem.h
 )
 SOURCE_GROUP("Header Files\\Addons" FILES ${ADDON_HDRS})
 set(ADDON_SRCS
-	./Addons/TemplateEventHandler.cpp
-	./Addons/DelegateHandler.cpp
+	./Addons/EventSystem.cpp
+	./Addons/DelegateSystem.cpp
 )
 SOURCE_GROUP("Source Files\\Addons" FILES ${ADDON_SRCS})
 

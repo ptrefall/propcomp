@@ -2,14 +2,14 @@
 
 /**
  * @file
- * @class Totem::Addon::DelegateHandler
+ * @class Totem::Addon::DelegateSystem
  *
  * @author Pål Trefall
  * @author Kenneth Gangstø
  *
  * @version 2.0
  *
- * @brief DelegateHandler base class
+ * @brief DelegateSystem base class
  *
  * @section LICENSE
  * This software is provided 'as-is', without any express or implied
@@ -46,13 +46,75 @@
 namespace Totem {
 namespace Addon {
 
-template<typename RetType> class Delegate0;
-template<typename Param1, typename RetType> class Delegate1;
-template<typename Param1, typename Param2, typename RetType> class Delegate2;
-template<typename Param1, typename Param2, typename Param3, typename RetType> class Delegate3;
-template<typename Param1, typename Param2, typename Param3, typename Param4, typename RetType> class Delegate4;
-template<typename Param1, typename Param2, typename Param3, typename Param4, typename Param5, typename RetType> class Delegate5;
-template<typename Param1, typename Param2, typename Param3, typename Param4, typename Param5, typename Param6, typename RetType> class Delegate6;
+/**
+* In order to support multiple different types registered into the delegate maps
+* we need to store them as interfaces, else we can only store one specific type
+* into the map (must specify value of template classes).
+*/
+class IDelegate
+{
+public:
+	/// Constructor.
+	IDelegate() {}
+	/// Destructor.
+	virtual ~IDelegate() {}
+};
+/// Delegate holding an parameter-less delegate.
+template<class RetType> 
+class Delegate0 : public IDelegate
+{
+public:
+	/// Delegate taking no parameters
+	typename T_Delegate_v0<RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires a single parameter.
+template<class Param1, class RetType> 
+class Delegate1 : public IDelegate
+{
+public:
+	/// Delegate taking one parameters
+	typename T_Delegate_v1<Param1, RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires two parameters.
+template<class Param1, class Param2, class RetType> 
+class Delegate2 : public IDelegate
+{
+public:
+	/// Delegate taking two parameters
+	typename T_Delegate_v2<Param1, Param2, RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires three parameters.
+template<class Param1, class Param2, class Param3, class RetType>
+class Delegate3 : public IDelegate
+{
+public:
+	/// Delegate taking three parameters
+	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires four parameters.
+template<class Param1, class Param2, class Param3, class Param4, class RetType>
+class Delegate4 : public IDelegate
+{
+public:
+	/// Delegate taking four parameters
+	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires five parameters.
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
+class Delegate5 : public IDelegate
+{
+public:
+	/// Delegate taking five parameters
+	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type delegate;
+};
+/// Delegate holding a delegate that requires six parameters.
+template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
+class Delegate6 : public IDelegate
+{
+public:
+	/// Delegate taking six parameters
+	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type delegate;
+};
 
 class DefaultDelegateFactory
 {
@@ -101,17 +163,17 @@ public:
 };
 
 template<class DelegateFactory = DefaultDelegateFactory>
-class DelegateHandler
+class DelegateSystem
 {
 public:
 	/**
 	 * Constructor
 	 */
-	DelegateHandler() {}
+	DelegateSystem() {}
 	/**
 	 * Destructor
 	 */
-	virtual ~DelegateHandler() {}
+	virtual ~DelegateSystem() {}
 
 	//--------------------------------------------------------------
 
@@ -201,7 +263,7 @@ public:
 	 * @return A signal that requires no parameters in the slot.
 	 */
 	template<class RetType>
-	std::shared_ptr<typename T_Delegate_v0<RetType>::Type> registerFunction0(const HashedString &type);
+	typename T_Delegate_v0<RetType>::Type &registerFunction0(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding one parameter.
@@ -210,7 +272,7 @@ public:
 	 * @return A signal that requires one parameters in the slot.
 	 */
 	template<class Param1, class RetType>
-	std::shared_ptr<typename T_Delegate_v1<Param1, RetType>::Type> registerFunction1(const HashedString &type);
+	typename T_Delegate_v1<Param1, RetType>::Type &registerFunction1(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding two parameters.
@@ -219,7 +281,7 @@ public:
 	 * @return A signal that requires two parameters in the slot.
 	 */
 	template<class Param1, class Param2, class RetType>
-	std::shared_ptr<typename T_Delegate_v2<Param1, Param2, RetType>::Type> registerFunction2(const HashedString &type);
+	typename T_Delegate_v2<Param1, Param2, RetType>::Type &registerFunction2(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding three parameters.
@@ -228,7 +290,7 @@ public:
 	 * @return A signal that requires three parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
-	std::shared_ptr<typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type> registerFunction3(const HashedString &type);
+	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &registerFunction3(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding four parameters.
@@ -237,7 +299,7 @@ public:
 	 * @return A signal that requires four parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	std::shared_ptr<typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type> registerFunction4(const HashedString &type);
+	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &registerFunction4(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding five parameters.
@@ -246,7 +308,7 @@ public:
 	 * @return A signal that requires five parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	std::shared_ptr<typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type> registerFunction5(const HashedString &type);
+	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &registerFunction5(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding six parameters.
@@ -255,7 +317,7 @@ public:
 	 * @return A signal that requires six parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	std::shared_ptr<typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type> registerFunction6(const HashedString &type);
+	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &registerFunction6(const HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -265,90 +327,19 @@ public:
 	bool hasFunction(const HashedString &id, int num_params = -1);
 
 protected:
-
-	/**
-	 * In order to support multiple different types registered into the delegate maps
-	 * we need to store them as interfaces, else we can only store one specific type
-	 * into the map (must specify value of template classes).
-	 */
-	class IDelegate
-	{
-	public:
-		/// Constructor.
-		IDelegate() {}
-		/// Destructor.
-		virtual ~IDelegate() {}
-	};
-	/// Delegate holding an parameter-less delegate.
-	template<class RetType> 
-	class Delegate0 : public IDelegate
-	{
-	public:
-		/// Delegate taking no parameters
-		typename T_Delegate_v0<RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires a single parameter.
-	template<class Param1, class RetType> 
-	class Delegate1 : public IDelegate
-	{
-	public:
-		/// Delegate taking one parameters
-		typename T_Delegate_v1<Param1, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires two parameters.
-	template<class Param1, class Param2, class RetType> 
-	class Delegate2 : public IDelegate
-	{
-	public:
-		/// Delegate taking two parameters
-		typename T_Delegate_v2<Param1, Param2, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires three parameters.
-	template<class Param1, class Param2, class Param3, class RetType>
-	class Delegate3 : public IDelegate
-	{
-	public:
-		/// Delegate taking three parameters
-		typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires four parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	class Delegate4 : public IDelegate
-	{
-	public:
-		/// Delegate taking four parameters
-		typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires five parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	class Delegate5 : public IDelegate
-	{
-	public:
-		/// Delegate taking five parameters
-		typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type delegate;
-	};
-	/// Delegate holding a delegate that requires six parameters.
-	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	class Delegate6 : public IDelegate
-	{
-	public:
-		/// Delegate taking six parameters
-		typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type delegate;
-	};
-	
-	/// Map of parameter-less delegate delegates held by DelegateHandler.
+	/// Map of parameter-less delegate delegates held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates0;
-	/// Map of delegate delegates with one parameter held by DelegateHandler.
+	/// Map of delegate delegates with one parameter held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates1;
-	/// Map of delegate delegates with two parameters held by DelegateHandler.
+	/// Map of delegate delegates with two parameters held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates2;
-	/// Map of delegate delegates with three parameters held by DelegateHandler.
+	/// Map of delegate delegates with three parameters held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates3;
-	/// Map of delegate delegates with four parameters held by DelegateHandler.
+	/// Map of delegate delegates with four parameters held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates4;
-	/// Map of delegate delegates with five parameters held by DelegateHandler.
+	/// Map of delegate delegates with five parameters held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates5;
-	/// Map of delegate delegates with six parameters held by DelegateHandler.
+	/// Map of delegate delegates with six parameters held by DelegateSystem.
 	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates6;
 };
 
@@ -356,7 +347,7 @@ protected:
 
 template<class DelegateFactory>
 template<class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call0(const HashedString &type)
+inline RetType DelegateSystem<DelegateFactory>::call0(const HashedString &type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
@@ -367,7 +358,7 @@ inline RetType DelegateHandler<DelegateFactory>::call0(const HashedString &type)
 
 template<class DelegateFactory>
 template<class Param1, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call1(const HashedString &type, const Param1 &param1)
+inline RetType DelegateSystem<DelegateFactory>::call1(const HashedString &type, const Param1 &param1)
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
@@ -385,7 +376,7 @@ inline RetType DelegateHandler<DelegateFactory>::call1(const HashedString &type,
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call2(const HashedString &type, const Param1 &param1, const Param2 &param2)
+inline RetType DelegateSystem<DelegateFactory>::call2(const HashedString &type, const Param1 &param1, const Param2 &param2)
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
@@ -403,7 +394,7 @@ inline RetType DelegateHandler<DelegateFactory>::call2(const HashedString &type,
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
+inline RetType DelegateSystem<DelegateFactory>::call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
@@ -421,7 +412,7 @@ inline RetType DelegateHandler<DelegateFactory>::call3(const HashedString &type,
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
+inline RetType DelegateSystem<DelegateFactory>::call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
@@ -439,7 +430,7 @@ inline RetType DelegateHandler<DelegateFactory>::call4(const HashedString &type,
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
+inline RetType DelegateSystem<DelegateFactory>::call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
@@ -457,7 +448,7 @@ inline RetType DelegateHandler<DelegateFactory>::call5(const HashedString &type,
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline RetType DelegateHandler<DelegateFactory>::call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
+inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
@@ -477,7 +468,7 @@ inline RetType DelegateHandler<DelegateFactory>::call6(const HashedString &type,
 
 template<class DelegateFactory>
 template<class RetType>
-inline std::shared_ptr<typename T_Delegate_v0<RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction0(const HashedString &type)
+inline typename T_Delegate_v0<RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction0(const HashedString &type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
@@ -495,7 +486,7 @@ inline std::shared_ptr<typename T_Delegate_v0<RetType>::Type> DelegateHandler<De
 
 template<class DelegateFactory>
 template<class Param1, class RetType>
-inline std::shared_ptr<typename T_Delegate_v1<Param1, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction1(const HashedString &type)
+inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction1(const HashedString &type)
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
@@ -519,7 +510,7 @@ inline std::shared_ptr<typename T_Delegate_v1<Param1, RetType>::Type> DelegateHa
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline std::shared_ptr<typename T_Delegate_v2<Param1, Param2, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction2(const HashedString &type)
+inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction2(const HashedString &type)
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
@@ -543,7 +534,7 @@ inline std::shared_ptr<typename T_Delegate_v2<Param1, Param2, RetType>::Type> De
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline std::shared_ptr<typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction3(const HashedString &type)
+inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction3(const HashedString &type)
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
@@ -567,7 +558,7 @@ inline std::shared_ptr<typename T_Delegate_v3<Param1, Param2, Param3, RetType>::
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline std::shared_ptr<typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction4(const HashedString &type)
+inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction4(const HashedString &type)
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
@@ -591,7 +582,7 @@ inline std::shared_ptr<typename T_Delegate_v4<Param1, Param2, Param3, Param4, Re
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline std::shared_ptr<typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction5(const HashedString &type)
+inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction5(const HashedString &type)
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
@@ -615,7 +606,7 @@ inline std::shared_ptr<typename T_Delegate_v5<Param1, Param2, Param3, Param4, Pa
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline std::shared_ptr<typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type> DelegateHandler<DelegateFactory>::registerFunction6(const HashedString &type)
+inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction6(const HashedString &type)
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
@@ -640,7 +631,7 @@ inline std::shared_ptr<typename T_Delegate_v6<Param1, Param2, Param3, Param4, Pa
 //--------------------------------------------------------------------------------
 
 template<class DelegateFactory>
-bool DelegateHandler<DelegateFactory>::hasFunction(const HashedString &id, int num_params)
+bool DelegateSystem<DelegateFactory>::hasFunction(const HashedString &id, int num_params)
 {
 	if(num_params == 0)
 	{
