@@ -360,7 +360,7 @@ inline RetType DelegateSystem<DelegateFactory>::call1(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 	return delegate->delegate(param1);
 #else
@@ -378,7 +378,7 @@ inline RetType DelegateSystem<DelegateFactory>::call2(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2);
 #else
@@ -396,7 +396,7 @@ inline RetType DelegateSystem<DelegateFactory>::call3(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3);
 #else
@@ -414,7 +414,7 @@ inline RetType DelegateSystem<DelegateFactory>::call4(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4);
 #else
@@ -432,7 +432,7 @@ inline RetType DelegateSystem<DelegateFactory>::call5(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5);
 #else
@@ -450,7 +450,7 @@ inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, 
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
-	if(delegate == NULL_PTR)
+	if(delegate == nullptr)
 		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5, param6);
 #else
@@ -493,7 +493,7 @@ inline fastdelegate::FastDelegate1<Param1, RetType> &DelegateSystem<DelegateFact
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate1<Param1, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate1<Param1, RetType>>(it->second);
@@ -517,7 +517,7 @@ inline fastdelegate::FastDelegate2<Param1, Param2, RetType> &DelegateSystem<Dele
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
@@ -541,7 +541,7 @@ inline fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &DelegateSys
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
@@ -565,7 +565,7 @@ inline fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &Del
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
@@ -589,7 +589,7 @@ inline fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetTy
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
@@ -613,7 +613,7 @@ inline fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param
 	{
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);
-		if(delegate == NULL_PTR)
+		if(delegate == nullptr)
 			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);

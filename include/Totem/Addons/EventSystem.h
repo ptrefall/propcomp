@@ -300,7 +300,7 @@ inline void EventSystem<EventFactory>::sendEvent0(const HashedString &type)
 {
 	auto it = events0.find(type.getId());
 	if(it == events0.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
 
 	std::static_pointer_cast<EventSignal0<>>(it->second)->signal.invoke();
 }
@@ -311,12 +311,12 @@ inline void EventSystem<EventFactory>::sendEvent1(const HashedString &type, T ar
 {
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal1<T>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 	signal->signal.invoke(arg0);
 #else
 	static_pointer_cast<EventSignal1<T>>(it->second)->signal.invoke(arg0);
@@ -329,12 +329,12 @@ inline void EventSystem<EventFactory>::sendEvent2(const HashedString &type, T ar
 {
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal2<T,U>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.invoke(arg0, arg1);
 #else
 	std::static_pointer_cast<EventSignal2<T,U>>(it->second)->signal.invoke(arg0, arg1);
@@ -347,12 +347,12 @@ inline void EventSystem<EventFactory>::sendEvent3(const HashedString &type, T ar
 {
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal3<T,U,V>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.invoke(arg0, arg1, arg2);
 #else
 	std::static_pointer_cast<EventSignal3<T,U,V>>(it->second)->signal.invoke(arg0, arg1, arg2);
@@ -365,12 +365,12 @@ inline void EventSystem<EventFactory>::sendEvent4(const HashedString &type, T ar
 {
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.invoke(arg0, arg1, arg2, arg3);
 #else
 	std::static_pointer_cast<EventSignal4<T,U,V,W>>(it->second)->signal.invoke(arg0, arg1, arg2, arg3);
@@ -383,12 +383,12 @@ inline void EventSystem<EventFactory>::sendEvent5(const HashedString &type, T ar
 {
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4);
 #else
 	std::static_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4);
@@ -401,12 +401,12 @@ inline void EventSystem<EventFactory>::sendEvent6(const HashedString &type, T ar
 {
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
-		throw T_Exception(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
+		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
-	if(signal == NULL_PTR)
-		throw T_Exception(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+	if(signal == nullptr)
+		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 	signal->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
 #else
 	std::static_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second)->signal.invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -447,8 +447,8 @@ inline sigslot::signal1<T> &EventSystem<EventFactory>::registerToEvent1(const Ha
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal1<T>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried to return the event signal " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried to return the event signal " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal1<T>>(it->second);
 #endif
@@ -471,8 +471,8 @@ inline sigslot::signal2<T, U> &EventSystem<EventFactory>::registerToEvent2(const
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal2<T,U>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal2<T,U>>(it->second);
 #endif
@@ -495,8 +495,8 @@ inline sigslot::signal3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(co
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal3<T,U,V>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal3<T,U,V>>(it->second);
 #endif
@@ -519,8 +519,8 @@ inline sigslot::signal4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
 #endif
@@ -543,8 +543,8 @@ inline sigslot::signal5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEve
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
 #endif
@@ -567,8 +567,8 @@ inline sigslot::signal6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerTo
 	{
 #ifdef _DEBUG
 		auto signal = std::dynamic_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
-		if(signal == NULL_PTR)
-			throw T_Exception(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
+		if(signal == nullptr)
+			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
 		signal = std::static_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
 #endif
