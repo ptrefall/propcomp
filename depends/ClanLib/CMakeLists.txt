@@ -32,6 +32,7 @@ empty_preprocess_pair_list()
 add_preprocess_pair("std::string" 							"CL_String")
 
 add_preprocess_pair("std::runtime_error" 						"CL_Exception")
+add_preprocess_pair(": public sigslot::has_slots<>, " 	": ")
 add_preprocess_pair(": public sigslot::has_slots<>" 	" ")
 add_preprocess_pair("public sigslot::has_slots<>" 	" ")
 add_preprocess_pair("sigslot::signal0" 		"CL_Signal_v0")
