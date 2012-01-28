@@ -1,0 +1,1 @@
+#include <Totem/SharedProperty.h>
