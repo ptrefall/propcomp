@@ -47,7 +47,6 @@ set(ADDON_SRCS
 SOURCE_GROUP("Source Files\\Addons" FILES ${ADDON_SRCS})
 
 set(HDRS
-  ./config.h
   ./HashedString.h
   ./Component.h
   ./ComponentContainer.h
