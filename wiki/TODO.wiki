@@ -1,7 +1,10 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Fix Clanlib preprocessor and remove the Standard preprocessor.
+ * 1) Fix Clanlib preprocessor and remove the Standard preprocessor. (In Progress)
+   * -> A couple problems has surfaced working on this:
+     * Replacing includes to dependencies, perhaps we should use config.h to hold dependencies?
+     * ClanLib's CL_Callback replacing FastDelegate, since this no longer uses typedefs in trunk, it will require a more complex regex in clanlib's preprocessor to change the order of template input.
  * 2) Component name handling (see below)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
