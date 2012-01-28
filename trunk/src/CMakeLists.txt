@@ -28,39 +28,37 @@ cmake_minimum_required(VERSION 2.8)
 project(TotemEDK)
 
 set(Standard_HDRS
-	#../depends/Standard/config.h
 	../depends/Standard/sigslot.h
-	../depends/Standard/cdiggins_any.h
 	../depends/Standard/FastDelegate.h
 	../depends/Standard/FastDelegateBind.h
 )
 SOURCE_GROUP("Header Files\\Depends" FILES ${Standard_HDRS})
 
 set(HDRS
-  #../include/Totem/Entity.h
+  ../include/Totem/HashedString.h
   ../include/Totem/Component.h
-  ../include/Totem/ComponentFactory.h
-  ../include/Totem/ComponentHandler.h
+  ../include/Totem/ComponentContainer.h
   ../include/Totem/IProperty.h
-  ../include/Totem/Property.h
-  ../include/Totem/PropertyHandler.h
-  ../include/Totem/IPropertySerializer.h
-  ../include/Totem/PropertySerializer.h
   ../include/Totem/IPropertyList.h
-  ../include/Totem/PropertyList.h
-  ../include/Totem/PropertyListHandler.h
-  #./TemplateEventHandler.h
-  #./AnyEventHandler.h
-  #./DelegateHandler.h
-  ../include/Totem/config.h
+  ../include/Totem/Property.h
+  ../include/Totem/PropertyContainer.h
+  ../include/Totem/SharedProperty.h
+  ../include/Totem/SharedPropertyContainer.h
+  ../include/Totem/SharedPropertyList.h
+  ../include/Totem/SharedPropertyListContainer.h
   ../include/Totem/mainpage.h
 )
 
 set(SRCS
-  ./ComponentFactory.cpp
-  #./DelegateHandler.cpp
-  #./TemplateEventHandler.cpp
-  #./AnyEventHandler.cpp
+  ./HashedString.cpp
+  ./Component.cpp
+  ./ComponentContainer.cpp
+  ./Property.cpp
+  ./PropertyContainer.cpp
+  ./SharedProperty.cpp
+  ./SharedPropertyContainer.cpp
+  ./SharedPropertyList.cpp
+  ./SharedPropertyListContainer.cpp
 )
  
 add_library(TotemEDK STATIC  ${Standard_HDRS} ${HDRS} ${SRCS})
