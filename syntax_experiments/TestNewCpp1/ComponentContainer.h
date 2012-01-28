@@ -21,37 +21,37 @@ public:
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1, param2);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3, param4);
 	}
 
 	template<class EntityType, class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
-	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5, unsigned int optionalParam)
+	static std::shared_ptr<ComponentType> createComponent(const std::string &name, EntityType *entity, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5, unsigned int /*optionalParam*/)
 	{
 		return std::make_shared<ComponentType>(name, entity, param0, param1, param2, param3, param4, param5);
 	}
