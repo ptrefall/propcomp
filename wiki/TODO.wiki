@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
  * 1) Fix Clanlib preprocessor and remove the Standard preprocessor.
  * 2) Component name handling (see below)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -36,6 +35,8 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
+   * Totem is now a pure headers library. cpp files are only included so that we can build a library project file, but templates are used so heavily that the cpp files doesn't do anything but include a header.
  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
    * Branch created: r251/
  * 1) Make sure all code in syntax experiment project reflects the features currently in trunk.
