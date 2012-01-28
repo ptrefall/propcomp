@@ -38,10 +38,15 @@
  * 
  */
 
-#include "../config.h"
 #include "../Property.h"
 #include "../Component.h"
 #include "../HashedString.h"
+
+#include "../../../depends/Standard/FastDelegate.h"
+#include "../../../depends/Standard/FastDelegateBind.h"
+
+#include <unordered_map>
+#include <memory>
 
 namespace Totem {
 namespace Addon {
@@ -65,7 +70,7 @@ class Delegate0 : public IDelegate
 {
 public:
 	/// Delegate taking no parameters
-	typename T_Delegate_v0<RetType>::Type delegate;
+	fastdelegate::FastDelegate0<RetType> delegate;
 };
 /// Delegate holding a delegate that requires a single parameter.
 template<class Param1, class RetType> 
@@ -73,7 +78,7 @@ class Delegate1 : public IDelegate
 {
 public:
 	/// Delegate taking one parameters
-	typename T_Delegate_v1<Param1, RetType>::Type delegate;
+	fastdelegate::FastDelegate1<Param1, RetType> delegate;
 };
 /// Delegate holding a delegate that requires two parameters.
 template<class Param1, class Param2, class RetType> 
@@ -81,7 +86,7 @@ class Delegate2 : public IDelegate
 {
 public:
 	/// Delegate taking two parameters
-	typename T_Delegate_v2<Param1, Param2, RetType>::Type delegate;
+	fastdelegate::FastDelegate2<Param1, Param2, RetType> delegate;
 };
 /// Delegate holding a delegate that requires three parameters.
 template<class Param1, class Param2, class Param3, class RetType>
@@ -89,7 +94,7 @@ class Delegate3 : public IDelegate
 {
 public:
 	/// Delegate taking three parameters
-	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type delegate;
+	fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> delegate;
 };
 /// Delegate holding a delegate that requires four parameters.
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
@@ -97,7 +102,7 @@ class Delegate4 : public IDelegate
 {
 public:
 	/// Delegate taking four parameters
-	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type delegate;
+	fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> delegate;
 };
 /// Delegate holding a delegate that requires five parameters.
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
@@ -105,7 +110,7 @@ class Delegate5 : public IDelegate
 {
 public:
 	/// Delegate taking five parameters
-	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type delegate;
+	fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> delegate;
 };
 /// Delegate holding a delegate that requires six parameters.
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
@@ -113,7 +118,7 @@ class Delegate6 : public IDelegate
 {
 public:
 	/// Delegate taking six parameters
-	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type delegate;
+	fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> delegate;
 };
 
 class DefaultDelegateFactory
@@ -166,17 +171,6 @@ template<class DelegateFactory = DefaultDelegateFactory>
 class DelegateSystem
 {
 public:
-	/**
-	 * Constructor
-	 */
-	DelegateSystem() {}
-	/**
-	 * Destructor
-	 */
-	virtual ~DelegateSystem() {}
-
-	//--------------------------------------------------------------
-
 	/**
 	 * Calls all slots registered to the parameter-less delegate signal of type.
 	 *
@@ -263,7 +257,7 @@ public:
 	 * @return A signal that requires no parameters in the slot.
 	 */
 	template<class RetType>
-	typename T_Delegate_v0<RetType>::Type &registerFunction0(const HashedString &type);
+	fastdelegate::FastDelegate0<RetType> &registerFunction0(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding one parameter.
@@ -272,7 +266,7 @@ public:
 	 * @return A signal that requires one parameters in the slot.
 	 */
 	template<class Param1, class RetType>
-	typename T_Delegate_v1<Param1, RetType>::Type &registerFunction1(const HashedString &type);
+	fastdelegate::FastDelegate1<Param1, RetType> &registerFunction1(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding two parameters.
@@ -281,7 +275,7 @@ public:
 	 * @return A signal that requires two parameters in the slot.
 	 */
 	template<class Param1, class Param2, class RetType>
-	typename T_Delegate_v2<Param1, Param2, RetType>::Type &registerFunction2(const HashedString &type);
+	fastdelegate::FastDelegate2<Param1, Param2, RetType> &registerFunction2(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding three parameters.
@@ -290,7 +284,7 @@ public:
 	 * @return A signal that requires three parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
-	typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &registerFunction3(const HashedString &type);
+	fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &registerFunction3(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding four parameters.
@@ -299,7 +293,7 @@ public:
 	 * @return A signal that requires four parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &registerFunction4(const HashedString &type);
+	fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &registerFunction4(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding five parameters.
@@ -308,7 +302,7 @@ public:
 	 * @return A signal that requires five parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &registerFunction5(const HashedString &type);
+	fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &registerFunction5(const HashedString &type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding six parameters.
@@ -317,7 +311,7 @@ public:
 	 * @return A signal that requires six parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &registerFunction6(const HashedString &type);
+	fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &registerFunction6(const HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -328,19 +322,19 @@ public:
 
 protected:
 	/// Map of parameter-less delegate delegates held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates0;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates0;
 	/// Map of delegate delegates with one parameter held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates1;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates1;
 	/// Map of delegate delegates with two parameters held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates2;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates2;
 	/// Map of delegate delegates with three parameters held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates3;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates3;
 	/// Map of delegate delegates with four parameters held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates4;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates4;
 	/// Map of delegate delegates with five parameters held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates5;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates5;
 	/// Map of delegate delegates with six parameters held by DelegateSystem.
-	typename T_Map<unsigned int, std::shared_ptr<IDelegate>>::Type delegates6;
+	std::unordered_map<unsigned int, std::shared_ptr<IDelegate>> delegates6;
 };
 
 //------------------------------------------------------
@@ -351,7 +345,7 @@ inline RetType DelegateSystem<DelegateFactory>::call0(const HashedString &type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates0 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates0 registry!").c_str());
 
 	return static_cast<Delegate0<RetType>*>(it->second)->delegate();
 }
@@ -362,12 +356,12 @@ inline RetType DelegateSystem<DelegateFactory>::call1(const HashedString &type, 
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates1 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates1 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate1<Param1, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 	return delegate->delegate(param1);
 #else
 	return static_cast<Delegate1<Param1, RetType>*>(it->second)->delegate(param1);
@@ -380,12 +374,12 @@ inline RetType DelegateSystem<DelegateFactory>::call2(const HashedString &type, 
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates2 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates2 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate2<Param1,Param2, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2);
 #else
 	return static_cast<Delegate2<Param1,Param2, RetType>*>(it->second)->delegate(param1, param2);
@@ -398,12 +392,12 @@ inline RetType DelegateSystem<DelegateFactory>::call3(const HashedString &type, 
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates3 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates3 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3);
 #else
 	return static_cast<Delegate3<Param1,Param2,Param3, RetType>*>(it->second)->delegate(param1, param2, param3);
@@ -416,12 +410,12 @@ inline RetType DelegateSystem<DelegateFactory>::call4(const HashedString &type, 
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates4 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates4 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4);
 #else
 	return static_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>*>(it->second)->delegate(param1, param2, param3, param4);
@@ -434,12 +428,12 @@ inline RetType DelegateSystem<DelegateFactory>::call5(const HashedString &type, 
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates5 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates5 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5);
 #else
 	return static_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5);
@@ -452,12 +446,12 @@ inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, 
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
-		throw T_Exception(("Couldn't find delegate type " + type.getStr() + " in delegates6 registry!").c_str());
+		throw std::runtime_error(("Couldn't find delegate type " + type.getStr() + " in delegates6 registry!").c_str());
 
 #ifdef _DEBUG
 	auto delegate = dynamic_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second);
 	if(delegate == NULL_PTR)
-		throw T_Exception(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+		throw std::runtime_error(("Tried to call delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 	return delegate->delegate(param1, param2, param3, param4, param5, param6);
 #else
 	return static_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>*>(it->second)->delegate(param1, param2, param3, param4, param5, param6);
@@ -468,7 +462,7 @@ inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class RetType>
-inline typename T_Delegate_v0<RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction0(const HashedString &type)
+inline fastdelegate::FastDelegate0<RetType> &DelegateSystem<DelegateFactory>::registerFunction0(const HashedString &type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
@@ -486,7 +480,7 @@ inline typename T_Delegate_v0<RetType>::Type &DelegateSystem<DelegateFactory>::r
 
 template<class DelegateFactory>
 template<class Param1, class RetType>
-inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction1(const HashedString &type)
+inline fastdelegate::FastDelegate1<Param1, RetType> &DelegateSystem<DelegateFactory>::registerFunction1(const HashedString &type)
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
@@ -500,7 +494,7 @@ inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateSystem<DelegateFac
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate1<Param1, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but the parameter type didn't match the registered type!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate1<Param1, RetType>>(it->second);
 #endif
@@ -510,7 +504,7 @@ inline typename T_Delegate_v1<Param1, RetType>::Type &DelegateSystem<DelegateFac
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction2(const HashedString &type)
+inline fastdelegate::FastDelegate2<Param1, Param2, RetType> &DelegateSystem<DelegateFactory>::registerFunction2(const HashedString &type)
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
@@ -524,7 +518,7 @@ inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateSystem<Del
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate2<Param1,Param2, RetType>>(it->second);
 #endif
@@ -534,7 +528,7 @@ inline typename T_Delegate_v2<Param1, Param2, RetType>::Type &DelegateSystem<Del
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction3(const HashedString &type)
+inline fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &DelegateSystem<DelegateFactory>::registerFunction3(const HashedString &type)
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
@@ -548,7 +542,7 @@ inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateSy
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate3<Param1,Param2,Param3, RetType>>(it->second);
 #endif
@@ -558,7 +552,7 @@ inline typename T_Delegate_v3<Param1, Param2, Param3, RetType>::Type &DelegateSy
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction4(const HashedString &type)
+inline fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &DelegateSystem<DelegateFactory>::registerFunction4(const HashedString &type)
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
@@ -572,7 +566,7 @@ inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &De
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate4<Param1,Param2,Param3,Param4, RetType>>(it->second);
 #endif
@@ -582,7 +576,7 @@ inline typename T_Delegate_v4<Param1, Param2, Param3, Param4, RetType>::Type &De
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction5(const HashedString &type)
+inline fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &DelegateSystem<DelegateFactory>::registerFunction5(const HashedString &type)
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
@@ -596,7 +590,7 @@ inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate5<Param1,Param2,Param3,Param4,Param5, RetType>>(it->second);
 #endif
@@ -606,7 +600,7 @@ inline typename T_Delegate_v5<Param1, Param2, Param3, Param4, Param5, RetType>::
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, RetType>::Type &DelegateSystem<DelegateFactory>::registerFunction6(const HashedString &type)
+inline fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &DelegateSystem<DelegateFactory>::registerFunction6(const HashedString &type)
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
@@ -620,7 +614,7 @@ inline typename T_Delegate_v6<Param1, Param2, Param3, Param4, Param5, Param6, Re
 #ifdef _DEBUG
 		auto delegate = std::dynamic_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);
 		if(delegate == NULL_PTR)
-			throw T_Exception(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
+			throw std::runtime_error(("Tried to return the delegate " + type.getStr() + ", but one or both of the parameter types didn't match the registered types!").c_str());
 #else
 		auto delegate = std::static_pointer_cast<Delegate6<Param1,Param2,Param3,Param4,Param5,Param6, RetType>>(it->second);
 #endif

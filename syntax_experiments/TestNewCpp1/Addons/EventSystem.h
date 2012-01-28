@@ -1,8 +1,11 @@
 #pragma once
 
-#include "../config.h"
 #include "../Property.h"
 #include "../HashedString.h"
+
+#include "../../../depends/Standard/sigslot.h"
+#include <unordered_map>
+#include <memory>
 
 namespace Totem {
 namespace Addon {
@@ -29,7 +32,7 @@ class EventSignal0 : public IEventSignal
 {
 public:
 	/// Signal taking no arguments
-	T_Signal_v0<>::Type signal;
+	sigslot::signal0<> signal;
 };
 /// Event holding a signal that requires a single argument.
 template<class T> 
@@ -37,7 +40,7 @@ class EventSignal1 : public IEventSignal
 {
 public:
 	/// Signal taking one arguments
-	typename T_Signal_v1<T>::Type signal;
+	sigslot::signal1<T> signal;
 };
 /// Event holding a signal that requires two arguments.
 template<class T, class U> 
@@ -45,7 +48,7 @@ class EventSignal2 : public IEventSignal
 {
 public:
 	/// Signal taking two arguments
-	typename T_Signal_v2<T, U>::Type signal;
+	sigslot::signal2<T, U> signal;
 };
 /// Event holding a signal that requires three arguments.
 template<class T, class U, class V> 
@@ -53,7 +56,7 @@ class EventSignal3 : public IEventSignal
 {
 public:
 	/// Signal taking three arguments
-	typename T_Signal_v3<T, U, V>::Type signal;
+	sigslot::signal3<T, U, V> signal;
 };
 /// Event holding a signal that requires four arguments.
 template<class T, class U, class V, class W> 
@@ -61,7 +64,7 @@ class EventSignal4 : public IEventSignal
 {
 public:
 	/// Signal taking four arguments
-	typename T_Signal_v4<T, U, V, W>::Type signal;
+	sigslot::signal4<T, U, V, W> signal;
 };
 /// Event holding a signal that requires five arguments.
 template<class T, class U, class V, class W, class X> 
@@ -69,7 +72,7 @@ class EventSignal5 : public IEventSignal
 {
 public:
 	/// Signal taking five arguments
-	typename T_Signal_v5<T, U, V, W, X>::Type signal;
+	sigslot::signal5<T, U, V, W, X> signal;
 };
 /// Event holding a signal that requires six arguments.
 template<class T, class U, class V, class W, class X, class Y> 
@@ -77,7 +80,7 @@ class EventSignal6 : public IEventSignal
 {
 public:
 	/// Signal taking six arguments
-	typename T_Signal_v6<T, U, V, W, X, Y>::Type signal;
+	sigslot::signal6<T, U, V, W, X, Y> signal;
 };
 
 class DefaultEventFactory
@@ -126,20 +129,9 @@ public:
 };
 
 template<class EventFactory = DefaultEventFactory>
-class EventSystem HAS_SIGNALSLOTS_INHERITANCE_TYPE
+class EventSystem : public sigslot::has_slots<>
 {
 public:
-	/**
-	 * Constructor
-	 */
-	EventSystem() {}
-	/**
-	 * Destructor
-	 */
-	virtual ~EventSystem() {}
-
-	//--------------------------------------------------------------
-
 	/**
 	 * Calls all slots registered to the argument-less event signal of type.
 	 *
@@ -224,7 +216,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires no arguments in the slot.
 	 */
-	T_Signal_v0<>::Type &registerToEvent0(const HashedString &type);
+	sigslot::signal0<> &registerToEvent0(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding one argument.
@@ -233,7 +225,7 @@ public:
 	 * @return A signal that requires one arguments in the slot.
 	 */
 	template<class T>
-	typename T_Signal_v1<T>::Type &registerToEvent1(const HashedString &type);
+	sigslot::signal1<T> &registerToEvent1(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -242,7 +234,7 @@ public:
 	 * @return A signal that requires two arguments in the slot.
 	 */
 	template<class T, class U>
-	typename T_Signal_v2<T, U>::Type &registerToEvent2(const HashedString &type);
+	sigslot::signal2<T, U> &registerToEvent2(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding three arguments.
@@ -251,7 +243,7 @@ public:
 	 * @return A signal that requires three arguments in the slot.
 	 */
 	template<class T, class U, class V>
-	typename T_Signal_v3<T, U, V>::Type &registerToEvent3(const HashedString &type);
+	sigslot::signal3<T, U, V> &registerToEvent3(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding four arguments.
@@ -260,7 +252,7 @@ public:
 	 * @return A signal that requires four arguments in the slot.
 	 */
 	template<class T, class U, class V, class W>
-	typename T_Signal_v4<T, U, V, W>::Type &registerToEvent4(const HashedString &type);
+	sigslot::signal4<T, U, V, W> &registerToEvent4(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding five arguments.
@@ -269,7 +261,7 @@ public:
 	 * @return A signal that requires five arguments in the slot.
 	 */
 	template<class T, class U, class V, class W, class X>
-	typename T_Signal_v5<T, U, V, W, X>::Type &registerToEvent5(const HashedString &type);
+	sigslot::signal5<T, U, V, W, X> &registerToEvent5(const HashedString &type);
 
 	/**
 	 * Register a slot to the event signal of type holding six arguments.
@@ -278,7 +270,7 @@ public:
 	 * @return A signal that requires six arguments in the slot.
 	 */
 	template<class T, class U, class V, class W, class X, class Y>
-	typename T_Signal_v6<T, U, V, W, X, Y>::Type &registerToEvent6(const HashedString &type);
+	sigslot::signal6<T, U, V, W, X, Y> &registerToEvent6(const HashedString &type);
 
 	//--------------------------------------------------------------
 
@@ -286,19 +278,19 @@ public:
 
 protected:
 	/// Map of argument-less event signals held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events0;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events0;
 	/// Map of event signals with one argument held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events1;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events1;
 	/// Map of event signals with two arguments held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events2;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events2;
 	/// Map of event signals with three arguments held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events3;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events3;
 	/// Map of event signals with four arguments held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events4;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events4;
 	/// Map of event signals with five arguments held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events5;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events5;
 	/// Map of event signals with six arguments held by TemplateEventHandler.
-	typename T_Map<unsigned int, std::shared_ptr<IEventSignal>>::Type events6;
+	std::unordered_map<unsigned int, std::shared_ptr<IEventSignal>> events6;
 };
 
 //------------------------------------------------------
@@ -424,7 +416,7 @@ inline void EventSystem<EventFactory>::sendEvent6(const HashedString &type, T ar
 //------------------------------------------------------------------
 
 template<class EventFactory>
-inline T_Signal_v0<>::Type &EventSystem<EventFactory>::registerToEvent0(const HashedString &type)
+inline sigslot::signal0<> &EventSystem<EventFactory>::registerToEvent0(const HashedString &type)
 {
 	auto it = events0.find(type.getId());
 	if(it == events0.end())
@@ -442,7 +434,7 @@ inline T_Signal_v0<>::Type &EventSystem<EventFactory>::registerToEvent0(const Ha
 
 template<class EventFactory>
 template<class T>
-inline typename T_Signal_v1<T>::Type &EventSystem<EventFactory>::registerToEvent1(const HashedString &type)
+inline sigslot::signal1<T> &EventSystem<EventFactory>::registerToEvent1(const HashedString &type)
 {
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
@@ -466,7 +458,7 @@ inline typename T_Signal_v1<T>::Type &EventSystem<EventFactory>::registerToEvent
 
 template<class EventFactory>
 template<class T, class U>
-inline typename T_Signal_v2<T, U>::Type &EventSystem<EventFactory>::registerToEvent2(const HashedString &type)
+inline sigslot::signal2<T, U> &EventSystem<EventFactory>::registerToEvent2(const HashedString &type)
 {
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
@@ -490,7 +482,7 @@ inline typename T_Signal_v2<T, U>::Type &EventSystem<EventFactory>::registerToEv
 
 template<class EventFactory>
 template<class T, class U, class V>
-inline typename T_Signal_v3<T, U, V>::Type &EventSystem<EventFactory>::registerToEvent3(const HashedString &type)
+inline sigslot::signal3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(const HashedString &type)
 {
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
@@ -514,7 +506,7 @@ inline typename T_Signal_v3<T, U, V>::Type &EventSystem<EventFactory>::registerT
 
 template<class EventFactory>
 template<class T, class U, class V, class W>
-inline typename T_Signal_v4<T, U, V, W>::Type &EventSystem<EventFactory>::registerToEvent4(const HashedString &type)
+inline sigslot::signal4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4(const HashedString &type)
 {
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
@@ -538,7 +530,7 @@ inline typename T_Signal_v4<T, U, V, W>::Type &EventSystem<EventFactory>::regist
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X>
-inline typename T_Signal_v5<T, U, V, W, X>::Type &EventSystem<EventFactory>::registerToEvent5(const HashedString &type)
+inline sigslot::signal5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEvent5(const HashedString &type)
 {
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
@@ -562,7 +554,7 @@ inline typename T_Signal_v5<T, U, V, W, X>::Type &EventSystem<EventFactory>::reg
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X, class Y>
-inline typename T_Signal_v6<T, U, V, W, X, Y>::Type &EventSystem<EventFactory>::registerToEvent6(const HashedString &type)
+inline sigslot::signal6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerToEvent6(const HashedString &type)
 {
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
