@@ -1,8 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Make sure all code in syntax experiment project reflects the features currently in trunk.
- * 1) Rewrite syntax experiment to use the typedefs of trunk, so that preprocessors can be used on src/ the same way as before when mergen in.
  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
  * 2) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
  * 2) Component name handling (see below)
@@ -38,6 +36,9 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) Make sure all code in syntax experiment project reflects the features currently in trunk.
+ * 1) Rewrite syntax experiment to use the typedefs of trunk, so that preprocessors can be used on src/ the same way as before when mergen in.
+   * -> We're going away from using config.h and let trunk/ contain a C++11 specific implementation. Preprocessors will be added for ClanLib first, and maybe C++03 and boost later, along with any other preprocessors that could help users to adapt Totem.
  * 2) Consider writing ComponentFactory as an interface, who's overloaded implementation might support pooling.
     * -> Completely redefined how factories are used in Totem to a much simpler and more flexible approach. Only in the syntax_experiments project for now, will merge with trunk when entire experiment codebase is ready.
  * 2) Consider refactoring property system into supporting both SharedProperties, that's owned by the Entity, and Properties that's local to each component. This would open up the possibility to add multiple instances of the same type of component to an entity as well, which would lead to more flexibility and a more intuitive approach to the programming of Totem, perhaps.
