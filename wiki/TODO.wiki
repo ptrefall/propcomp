@@ -1,7 +1,8 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
+ * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
+ * 1) Fix Clanlib preprocessor and remove the Standard preprocessor.
  * 2) Component name handling (see below)
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
