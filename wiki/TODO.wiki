@@ -38,6 +38,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 2) Allow usage of shared_ptr of Entity with ComponentContainer.
  * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
    * Totem is now a pure headers library. cpp files are only included so that we can build a library project file, but templates are used so heavily that the cpp files doesn't do anything but include a header.
  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
