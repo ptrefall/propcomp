@@ -23,27 +23,25 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <Totem/ComponentHandler.h>
-#include <Totem/PropertyHandler.h>
-#include <Totem/PropertyListHandler.h>
-#include <Totem/Addons/TemplateEventHandler.h>
-#include <Totem/Addons/DelegateHandler.h>
+#pragma once
 
-class Entity 
-	:	public Totem::ComponentHandler<Entity>, 
-		public Totem::PropertyHandler<>, 
-		public Totem::PropertyListHandler<>, 
-		public Totem::Addon::TemplateEventHandler,
-		public Totem::Addon::DelegateHandler
+#include "../../include/Totem/ComponentContainer.h"
+#include "../../include/Totem/SharedPropertyContainer.h"
+#include "../../include/Totem/SharedPropertyListContainer.h"
+
+#include <memory>
+
+class Entity;
+typedef std::shared_ptr<Entity> EntityPtr;
+
+class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::SharedPropertyContainer<>, public Totem::SharedPropertyListContainer<>
 {
 public:
-	/// Constructor
-	Entity(Totem::ComponentFactory &factory)
-#pragma warning(suppress: 4355)
-		: Totem::ComponentHandler<Entity>(*this, factory)
-	{
-	}
+    Entity()
+		: Totem::ComponentContainer<EntityPtr>(), Totem::SharedPropertyContainer<>(), Totem::SharedPropertyListContainer<>()
+    {
+    }
 
-	/// Destructor
-	virtual ~Entity() {}
+protected:
+	EntityPtr Totem::ComponentContainer<EntityPtr>::getThisAsEntity() override { return shared_from_this(); }
 };

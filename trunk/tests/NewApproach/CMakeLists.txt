@@ -23,7 +23,33 @@
 #
 ###
 
-add_subdirectory(NewApproach)
-#add_subdirectory(Delegates)
-#add_subdirectory(Serialization)
-add_subdirectory(Common)
+cmake_minimum_required(VERSION 2.8.3)
+
+project(TestNewApproach)
+
+set(HDRS
+  #../../include/Totem/Addons/TemplateEventHandler.h
+  #../../include/Totem/Addons/DelegateHandler.h
+  ../Common/Entity.h
+  #../Common/CustomPropertySerializer.h
+  #../Common/Vector3.h
+  ./TestSystem.h
+  ./TestComponent.h
+)
+
+set(SRCS
+  ./main.cpp
+  #../../src/Addons/TemplateEventHandler.cpp
+  #../../src/Addons/DelegateHandler.cpp
+  ./TestComponent.cpp
+)
+ 
+add_executable(TestNewApproach ${HDRS} ${SRCS})
+
+set_target_properties(TestNewApproach PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
+
+
+target_link_libraries(TestNewApproach
+  TotemEDK
+)
