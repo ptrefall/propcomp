@@ -253,7 +253,7 @@ macro(copy_totem_to_output package)
 	endforeach(input ${totem_config_hdrs_abs_path})
 	message(STATUS "----------------------------------------------")
 	
-	set(output_files ${package_src_files} ${package_hdr_files})
+	set(output_files ${package_src_files} ${package_hdr_files} ${package_src_addon_files} ${package_hdr_addon_files})
 endmacro(copy_totem_to_output)
 
 #-------------------------------
