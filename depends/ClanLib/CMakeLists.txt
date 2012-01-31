@@ -34,14 +34,20 @@ add_preprocess_pair("std::string" 							"CL_String")
 add_preprocess_pair("std::runtime_error" 						"CL_Exception")
 add_preprocess_pair(": public sigslot::has_slots<>, " 	": ")
 add_preprocess_pair(": public sigslot::has_slots<>" 	" ")
+add_preprocess_pair(", public sigslot::has_slots<>" 	" ")
 add_preprocess_pair("public sigslot::has_slots<>" 	" ")
-add_preprocess_pair("sigslot::signal0" 		"CL_Signal_v0")
+add_preprocess_pair("sigslot::signal0<>" 		"CL_Signal_v0")
 add_preprocess_pair(".bind(" 							".set(")
 add_preprocess_pair("delegate->delegate(" 				"delegate->delegate.invoke(")
 
 add_preprocess_pair("std::shared_ptr" 				"CL_SharedPtr")
 
 add_preprocess_pair_regex("sigslot::signal(.)"		"CL_Signal_v\\\\1")
+
+add_preprocess_pair("#include <string>"		" ")
+add_preprocess_pair("#include <memory>"		" ")
+add_preprocess_pair("#include \"../../depends/Standard/sigslot.h\""		" ")
+add_preprocess_pair("#pragma once"		"#pragma once\n#include <ClanLib/core.h>")
 
 set(package_src_files)
 set(package_hdr_files)
