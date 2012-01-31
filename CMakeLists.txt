@@ -74,9 +74,6 @@ endif()
 include(${CMAKE_SOURCE_DIR}/cmake/preprocessor.cmake)
 
 set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projects with the generated solution, FALSE if not.")
-if(BUILD_TEST_PROJECTS)
-	add_subdirectory(tests)
-endif()
 
 set(BUILD_EXAMPLE_PROJECTS TRUE CACHE BOOL "TRUE if you want to include example projects with the generated solution, FALSE if not.")
 if(BUILD_EXAMPLE_PROJECTS)
@@ -95,6 +92,10 @@ if(TOTEM_WITHOUT_PREPROCESSING)
 	  "${CMAKE_SOURCE_DIR}/include"
 	)
 	add_subdirectory(src)
+	
+	if(BUILD_TEST_PROJECTS)
+		add_subdirectory(tests/Standard)
+	endif()
 endif()
 
 set(PREPROCESS_TOTEM_FOR_CLANLIB FALSE CACHE BOOL "TRUE if you want to preprocess Totem EDK's codebase with ClanLib 3rdparty bindings, FALSE if not.")
@@ -104,4 +105,8 @@ if(PREPROCESS_TOTEM_FOR_CLANLIB)
 	  "${CMAKE_SOURCE_DIR}/editions/clanlib/include"
 	)
 	add_subdirectory(depends/ClanLib)
+	
+	if(BUILD_TEST_PROJECTS)
+		add_subdirectory(tests/ClanLib)
+	endif()
 endif()

@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(TestNewApproach)
 
 set(HDRS
-  ../../include/Totem/Addons/EventSystem.h
+  ../../../editions/ClanLib/include/Totem/Addons/EventSystem.h
   #../../include/Totem/Addons/DelegateHandler.h
   ../Common/Entity.h
   #../Common/CustomPropertySerializer.h
@@ -42,6 +42,10 @@ set(SRCS
   #../../src/Addons/DelegateHandler.cpp
   ./TestComponent.cpp
 )
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/depends/ClanLib/cmake/Modules)
+find_package(ClanLib REQUIRED)
+include_directories(${CL_INCLUDE_PATH})
  
 add_executable(TestNewApproach ${HDRS} ${SRCS})
 
@@ -51,4 +55,6 @@ set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
 
 target_link_libraries(TestNewApproach
   TotemEDK_ClanLib
+  debug ${CL_ZLIB_LIB_DEBUG} optimized ${CL_ZLIB_LIB_RELEASE}
+  debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
 )
