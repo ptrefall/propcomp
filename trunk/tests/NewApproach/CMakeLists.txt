@@ -51,5 +51,5 @@ set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
 
 
 target_link_libraries(TestNewApproach
-  TotemEDK
+  TotemEDK_ClanLib
 )
