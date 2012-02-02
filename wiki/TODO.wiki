@@ -1,11 +1,8 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Fix Clanlib preprocessor and remove the Standard preprocessor. (In Progress)
-   * -> A couple problems has surfaced working on this:
-     * Replacing includes to dependencies, perhaps we should use config.h to hold dependencies? (Fixed)
-     * ClanLib's CL_Callback replacing FastDelegate, since this no longer uses typedefs in trunk, it will require a more complex regex in clanlib's preprocessor to change the order of template input.
  * 2) Component name handling (see below)
+ * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
  * 4) Write script language integration example.
@@ -38,6 +35,12 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) Fix Clanlib preprocessor and remove the Standard preprocessor. (In Progress)
+   * -> A couple problems has surfaced working on this:
+     * Replacing includes to dependencies, perhaps we should use config.h to hold dependencies? (fixed)
+       * -> unused includes replaced by whitespace, and clanlib header inserted right after #pragma once.
+     * ClanLib's CL_Callback replacing FastDelegate, since this no longer uses typedefs in trunk, it will require a more complex regex in clanlib's preprocessor to change the order of template input.
+       * -> Branched out into a lower-priority task, since the delegate system isn't critical for current projects using Totem.
  * 2) Allow usage of shared_ptr of Entity with ComponentContainer.
  * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
    * Totem is now a pure headers library. cpp files are only included so that we can build a library project file, but templates are used so heavily that the cpp files doesn't do anything but include a header.
