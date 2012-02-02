@@ -40,7 +40,7 @@ add_preprocess_pair("sigslot::signal0<>" 		"CL_Signal_v0")
 add_preprocess_pair(".bind(" 							".set(")
 add_preprocess_pair("delegate->delegate(" 				"delegate->delegate.invoke(")
 
-add_preprocess_pair("std::shared_ptr" 				"CL_SharedPtr")
+#add_preprocess_pair("std::shared_ptr" 				"CL_SharedPtr")
 
 add_preprocess_pair_regex("sigslot::signal(.)"		"CL_Signal_v\\\\1")
 
