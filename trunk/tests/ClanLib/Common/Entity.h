@@ -31,7 +31,7 @@ requirements or restrictions.
 #include "../../../editions/ClanLib/include/Totem/SharedPropertyListContainer.h"
 
 class Entity;
-typedef CL_SharedPtr<Entity> EntityPtr;
+typedef std::shared_ptr<Entity> EntityPtr;
 
 class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::SharedPropertyContainer<>, public Totem::SharedPropertyListContainer<>
 {

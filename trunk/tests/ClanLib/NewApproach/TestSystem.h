@@ -4,7 +4,7 @@
 #include <iostream>
 
 class TestSystem;
-typedef CL_SharedPtr<TestSystem> TestSystemPtr;
+typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
 class TestSystem
 {
