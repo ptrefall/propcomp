@@ -21,8 +21,8 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include "../../include/Totem/ComponentContainer.h"
-#include "../../include/Totem/Addons/EventSystem.h"
+#include "../../../include/Totem/ComponentContainer.h"
+#include "../../../include/Totem/Addons/EventSystem.h"
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include "../Common/Entity.h"
