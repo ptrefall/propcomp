@@ -25,9 +25,9 @@ requirements or restrictions.
 
 #pragma once
 
-#include "../../include/Totem/ComponentContainer.h"
-#include "../../include/Totem/SharedPropertyContainer.h"
-#include "../../include/Totem/SharedPropertyListContainer.h"
+#include "../../../include/Totem/ComponentContainer.h"
+#include "../../../include/Totem/SharedPropertyContainer.h"
+#include "../../../include/Totem/SharedPropertyListContainer.h"
 
 #include <memory>
 

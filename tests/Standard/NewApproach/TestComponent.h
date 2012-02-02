@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../include/Totem/Component.h"
-#include "../../include/Totem/SharedProperty.h"
+#include "../../../include/Totem/Component.h"
+#include "../../../include/Totem/SharedProperty.h"
 #include "../Common/Entity.h"
 
 #include <memory>
