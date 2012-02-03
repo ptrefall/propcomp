@@ -60,6 +60,10 @@ set(SRCS
   ./SharedPropertyList.cpp
   ./SharedPropertyListContainer.cpp
 )
+
+include_directories(
+  "../depends/Standard/"
+)
  
 add_library(TotemEDK STATIC  ${Standard_HDRS} ${HDRS} ${SRCS})
 

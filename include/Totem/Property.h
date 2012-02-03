@@ -2,7 +2,7 @@
 
 #include "IProperty.h"
 
-#include "../../depends/Standard/sigslot.h"
+#include <sigslot.h>
 #include <memory>
 
 namespace Totem
