@@ -2,6 +2,9 @@
 
 = Tasks =
  * 2) Component name handling (see below)
+ * 2) Properties that's owned by components should also have ValueChanged signals.
+ * 2) Components should also have PropertyLists.
+ * 2) (Shared)PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
