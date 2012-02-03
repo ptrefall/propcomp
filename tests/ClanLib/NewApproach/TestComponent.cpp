@@ -8,7 +8,7 @@ TestComponent::TestComponent(const CL_String &name, EntityPtr owner, TestSystemP
 {
 	test_prop = addProperty<CL_String>("TestProp", "Testing Property");
 	test_shared_prop = owner->addSharedProperty<CL_String>("TestSharedProp", "Testing Shared Property");
-	test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
+	sharedPropChangedSlot = test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
 }
 
 void TestComponent::test() 

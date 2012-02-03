@@ -85,10 +85,10 @@ void main()
 
         auto list = entity->addSharedPropertyList<int>("TestList");
 
-        ListCallback listCallback;
-        list.valueAdded().connect(&listCallback, &ListCallback::onValueAddedToList);
-        list.valueErased().connect(&listCallback, &ListCallback::onValueErasedFromList);
-        list.valuesCleared().connect(&listCallback, &ListCallback::onValuesClearedFromList);
+		auto listCallback = std::make_shared<ListCallback>();
+		CL_Slot valueAddedSlot = list.valueAdded().connect(listCallback.get(), &ListCallback::onValueAddedToList);
+        CL_Slot valueErasedSlot = list.valueErased().connect(listCallback.get(), &ListCallback::onValueErasedFromList);
+        CL_Slot valuesClearedSlot = list.valuesCleared().connect(listCallback.get(), &ListCallback::onValuesClearedFromList);
         list.push_back(1);
         list.push_back(2);
         list.push_back(3);

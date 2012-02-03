@@ -18,6 +18,8 @@ public:
 
 private:
 	void OnSharedPropChanged(const CL_String &old_value, const CL_String &new_value);
+	CL_Slot sharedPropChangedSlot;
+
 	EntityPtr owner;
 	TestSystemPtr sys;
 
