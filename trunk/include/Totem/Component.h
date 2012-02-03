@@ -4,9 +4,9 @@
 
 #include "PropertyContainer.h"
 
+#include <sigslot.h>
 #include <string>
 #include <memory>
-#include "../../depends/Standard/sigslot.h"
 
 namespace Totem
 {

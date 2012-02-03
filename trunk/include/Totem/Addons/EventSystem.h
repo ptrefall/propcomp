@@ -3,7 +3,7 @@
 #include "../Property.h"
 #include "../HashedString.h"
 
-#include "../../../depends/Standard/sigslot.h"
+#include <sigslot.h>
 #include <unordered_map>
 #include <memory>
 

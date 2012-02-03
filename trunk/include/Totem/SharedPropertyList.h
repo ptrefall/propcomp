@@ -2,7 +2,7 @@
 
 #include "IPropertyList.h"
 
-#include "../../depends/Standard/sigslot.h"
+#include <sigslot.h>
 #include <memory>
 #include <vector>
 
