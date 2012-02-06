@@ -80,6 +80,8 @@ void main()
                 }
         });
 
+		auto testComp = entity->getComponent<TestComponent>("Test1");
+
         auto list = entity->addSharedPropertyList<int>("TestList");
 
         ListCallback listCallback;
