@@ -11,7 +11,7 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent : public Totem::Component<>
 {
 public:
-	TestComponent(const CL_String &name, EntityPtr owner, TestSystemPtr sys);
+	TestComponent(EntityPtr owner, const CL_String &name, TestSystemPtr sys);
 	static CL_String Type() { return "Test"; }
         
 	void test();

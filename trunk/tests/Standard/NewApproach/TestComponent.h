@@ -12,7 +12,7 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent : public Totem::Component<>
 {
 public:
-	TestComponent(const std::string &name, EntityPtr owner, TestSystemPtr sys);
+	TestComponent(EntityPtr owner, const std::string &name, TestSystemPtr sys);
 	static std::string Type() { return "Test"; }
         
 	void test();
