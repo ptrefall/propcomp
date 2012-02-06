@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-TestComponent::TestComponent(const std::string &name, EntityPtr owner, TestSystemPtr sys) 
+TestComponent::TestComponent(EntityPtr owner, const std::string &name, TestSystemPtr sys) 
 : Totem::Component<>(Type(), name), owner(owner), sys(sys) 
 {
 	test_prop = add<std::string>("TestProp", "Testing Property");
