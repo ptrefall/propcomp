@@ -43,5 +43,5 @@ public:
     }
 
 protected:
-	EntityPtr Totem::ComponentContainer<EntityPtr>::getThisAsEntity() override { return shared_from_this(); }
+	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
 };
