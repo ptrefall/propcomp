@@ -1,11 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) PropertyContainer code is shared between component and entity. 
-      - getSharedProperty() becomes owner.get();
-      - addSharedProperty() becomes owner.add();
-      - getProperty() becomes get();
-      - addProperty() becomes add();
  * 1) Component(const CL_String &name, GameObject &owner) should exchange position so it becomes Component(GameObject &owner, const CL_String &name)
  * 1) Check if it is possible to use templates without empty <>
  * 1) getThisAsEntity should be renamed more properly..
@@ -49,6 +44,12 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) PropertyContainer code is shared between component and entity. 
+      - getSharedProperty() becomes owner.get();
+      - addSharedProperty() becomes owner.add();
+      - getProperty() becomes get();
+      - addProperty() becomes add();
+ * Added some new operators to PropertyListIndexValue.
  * 1) Fix Clanlib preprocessor and remove the Standard preprocessor. (In Progress)
    * -> A couple problems has surfaced working on this:
      * Replacing includes to dependencies, perhaps we should use config.h to hold dependencies? (fixed)
