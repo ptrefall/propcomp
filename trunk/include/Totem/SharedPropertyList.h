@@ -33,6 +33,7 @@ public:
 	}
 
 	const PropertyType &get() const { return data->value[index]; }
+
 	void set(const PropertyType &rhs, bool invokeValueChanged = true)
 	{
 		PropertyType oldValue = data->value[index];
@@ -40,7 +41,9 @@ public:
 		if(invokeValueChanged)
 			data->valueChanged.invoke(index, oldValue, rhs);
 	}
+
 	void operator= (const PropertyType &rhs) { set(rhs); }
+
 	SharedPropertyListIndexValue<PropertyType> &operator= (const SharedPropertyListIndexValue<PropertyType> &rhs)
 	{
 		if(this == &rhs)
@@ -48,6 +51,23 @@ public:
 		throw std::runtime_error("Operation not supported!");
 	}
 	operator const PropertyType &() const { return get(); }
+
+	/// Adds rhs' data value to SharedPropertyListIndexValue's data value
+	SharedPropertyListIndexValue<PropertyType> &operator+= (const SharedPropertyListIndexValue<PropertyType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() + rhs.get());
+		return *this;
+	}
+
+	/// Adds rhs' value to SharedPropertyListIndexValue's data value
+	SharedPropertyListIndexValue<PropertyType> &operator+= (const PropertyType& rhs)
+	{
+		set(get() + rhs);
+		return *this;
+	}
 
 private:
 	std::shared_ptr<SharedPropertyListData<PropertyType>> data;
