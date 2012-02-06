@@ -46,6 +46,10 @@ public:
         {
                 std::cout << "Values cleared!" << std::endl;
         }
+		void onValueChanged(const unsigned int &index, const int &oldValue, const int &newValue)
+        {
+                std::cout << "Value changed from " << oldValue << " to " << newValue << " at index " << index << std::endl;
+        }
 };
 
 void main()
@@ -88,9 +92,11 @@ void main()
         list.valueAdded().connect(&listCallback, &ListCallback::onValueAddedToList);
         list.valueErased().connect(&listCallback, &ListCallback::onValueErasedFromList);
         list.valuesCleared().connect(&listCallback, &ListCallback::onValuesClearedFromList);
+		list.valueChanged().connect(&listCallback, &ListCallback::onValueChanged);
         list.push_back(1);
         list.push_back(2);
         list.push_back(3);
+		list[1] += 2;
         list.erase(1);
         list.erase(1);
         list.clear();
