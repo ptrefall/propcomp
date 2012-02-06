@@ -48,6 +48,7 @@ add_preprocess_pair("#include <string>"		" ")
 add_preprocess_pair("#include <memory>"		" ")
 add_preprocess_pair("#include \"../../depends/Standard/sigslot.h\""		" ")
 add_preprocess_pair("#include \"../../../depends/Standard/sigslot.h\"" " ")
+add_preprocess_pair("#include <sigslot.h>"		" ")
 add_preprocess_pair("#pragma once"		"#pragma once\n#include <ClanLib/core.h>")
 
 set(package_src_files)
