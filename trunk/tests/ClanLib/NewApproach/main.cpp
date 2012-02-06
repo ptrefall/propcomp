@@ -69,12 +69,12 @@ void main()
                         testComp->test();
                         testComp2->test();
                         
-                        auto test_prop = testComp->getProperty<CL_String>("TestProp");
+                        auto test_prop = testComp->get<CL_String>("TestProp");
                         std::cout << test_prop.get().c_str() << " from " << testComp->getName().c_str() << std::endl;
-                        auto test_prop2 = testComp2->getProperty<CL_String>("TestProp");
+                        auto test_prop2 = testComp2->get<CL_String>("TestProp");
                         std::cout << test_prop2.get().c_str() << " from " << testComp2->getName().c_str() << std::endl;
                         
-                        auto test_shared_prop = entity->getSharedProperty<CL_String>("TestSharedProp");
+                        auto test_shared_prop = entity->get<CL_String>("TestSharedProp");
                         std::cout << test_shared_prop.get().c_str() << std::endl;
                         test_shared_prop = "Test Shared Property Value Changed";
 					} catch(CL_Exception &e) {
@@ -83,7 +83,7 @@ void main()
                 }
         });
 
-        auto list = entity->addSharedPropertyList<int>("TestList");
+        auto list = entity->addList<int>("TestList");
 
 		auto listCallback = std::make_shared<ListCallback>();
 		CL_Slot valueAddedSlot = list.valueAdded().connect(listCallback.get(), &ListCallback::onValueAddedToList);

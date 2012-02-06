@@ -62,7 +62,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyContainer.
 	 */
 	template<class T>
-	Property<T> addProperty(const std::string& name, const T &defaultValue)
+	Property<T> add(const std::string& name, const T &defaultValue)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -75,16 +75,16 @@ public:
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
-			sign_propertyAdded.invoke(it->second);
+			sign_PropertyAdded.invoke(it->second);
 			return *property.get();
 		}
 
 		auto property = PropertyFactoryType::createProperty<T>(name);
-		property->set(defaultValue);
+		property->set(defaultValue, true);
 		properties[property->getName()] = property;
 
 		//return *property;
-		sign_propertyAdded.invoke(std::static_pointer_cast<IProperty>(property));
+		sign_PropertyAdded.invoke(std::static_pointer_cast<IProperty>(property));
 		//return getProperty<T>(name);
 		return *property.get();
 	}
@@ -102,7 +102,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property that was added to the PropertyContainer.
 	 */
 	template<class T>
-	Property<T> addProperty(const std::string& name, const T &defaultValue, const UserData &userData)
+	Property<T> add(const std::string& name, const T &defaultValue, const UserData &userData)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -115,16 +115,16 @@ public:
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
-			sign_propertyWithUserDataAdded.invoke(it->second, userData);
+			sign_PropertyWithUserDataAdded.invoke(it->second, userData);
 			return *property.get();
 		}
 
 		auto property = PropertyFactoryType::createProperty<T>(name);
-		property->set(defaultValue);
+		property->set(defaultValue, true);
 		properties[property->getName()] = property;
 
 		//return *property;
-		sign_propertyWithUserDataAdded.invoke(std::static_pointer_cast<IProperty>(property), userData);
+		sign_PropertyWithUserDataAdded.invoke(std::static_pointer_cast<IProperty>(property), userData);
 		//return getProperty<T>(name);
 		return *property.get();
 	}
@@ -135,7 +135,7 @@ public:
 	 *
 	 * @param property The interface of the property.
 	 */
-	void addProperty(std::shared_ptr<IProperty> property);
+	void add(std::shared_ptr<IProperty> property);
 
 	/**
 	 * Get a shared_ptr (pimpl) reference to a property of specified name from the PropertyContainer.
@@ -144,7 +144,7 @@ public:
 	 * @return Returns a shared_ptr (pimpl) reference to the property.
 	 */
 	template<class T>
-	Property<T> getProperty(const std::string& name)
+	Property<T> get(const std::string& name)
 	{
 		auto it = properties.find(name);
 		if(it != properties.end())
@@ -153,7 +153,7 @@ public:
 	#ifdef _DEBUG
 			property = std::dynamic_pointer_cast< Property<T> >(it->second);
 			if(!property)
-				throw std::runtime_error(("Tried to get property " + name + ", but the type was wrong!").c_str());
+				throw std::runtime_error(("Tried to get shared property " + name + ", but the type was wrong!").c_str());
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
@@ -169,7 +169,7 @@ public:
 	 * @param name  The name of the property.
 	 * @return The interface pointer to the property.
 	 */
-	std::shared_ptr<IProperty> getPropertyInterface(const std::string& name);
+	std::shared_ptr<IProperty> getInterface(const std::string& name);
 
 	/**
 	 * Remove the property of specified name from PropertyContainer with
@@ -229,7 +229,7 @@ public:
 	 *
 	 * @return Returns the propertyAdded signal of this property handler.
 	 */
-	sigslot::signal1<std::shared_ptr<IProperty>> propertyAdded() { return sign_propertyAdded; }
+	sigslot::signal1<std::shared_ptr<IProperty>> PropertyAdded() { return sign_PropertyAdded; }
 
 	/**
 	 * Function that gives the outside access to the PropertyContainer's
@@ -238,7 +238,7 @@ public:
 	 *
 	 * @return Returns the propertyWithUserDataAdded signal of this property handler.
 	 */
-	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> &propertyWithUserDataAdded() { return sign_propertyWithUserDataAdded; }
+	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> &PropertyWithUserDataAdded() { return sign_PropertyWithUserDataAdded; }
 
 protected:
 	/// The map of all properties owned by this PropertyContainer.
@@ -246,9 +246,9 @@ protected:
 	/// The list of all properties pending deletion in this PropertyContainer.
 	std::vector<std::shared_ptr<IProperty>> deletedProperties;
 	/// Signal that's emitted when a property with NO userdata is added to the property handler.
-	sigslot::signal1<std::shared_ptr<IProperty>> sign_propertyAdded;
+	sigslot::signal1<std::shared_ptr<IProperty>> sign_PropertyAdded;
 	/// Signal that's emitted when a property with userdata is added to the property handler.
-	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> sign_propertyWithUserDataAdded;
+	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> sign_PropertyWithUserDataAdded;
 };
 
 //------------------------------------------------------
@@ -267,7 +267,7 @@ inline bool PropertyContainer<PropertyFactoryType, UserData>::hasProperty(const 
 }
 
 template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::addProperty(std::shared_ptr<IProperty> property)
+inline void PropertyContainer<PropertyFactoryType, UserData>::add(std::shared_ptr<IProperty> property)
 {
 	auto it = properties.find(property->getName());
 	if(it == properties.end())
@@ -275,13 +275,13 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::addProperty(std::s
 }
 
 template<class PropertyFactoryType, class UserData>
-inline std::shared_ptr<IProperty> PropertyContainer<PropertyFactoryType, UserData>::getPropertyInterface(const std::string& name)
+inline std::shared_ptr<IProperty> PropertyContainer<PropertyFactoryType, UserData>::getInterface(const std::string& name)
 {
 	auto it = properties.find(name);
 	if(it != properties.end())
 		return it->second;
 	else
-		throw std::runtime_error(("Unable to get property " + name).c_str());
+		throw std::runtime_error(("Unable to get shared property " + name).c_str());
 }
 
 template<class PropertyFactoryType, class UserData>
@@ -316,5 +316,4 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::clearDeletedProper
 	deletedProperties.clear();
 }
 
-} //namespace Totem
-
+} //namespace Totem 

@@ -6,8 +6,8 @@
 TestComponent::TestComponent(const CL_String &name, EntityPtr owner, TestSystemPtr sys) 
 : Totem::Component<>(Type(), name), owner(owner), sys(sys) 
 {
-	test_prop = addProperty<CL_String>("TestProp", "Testing Property");
-	test_shared_prop = owner->addSharedProperty<CL_String>("TestSharedProp", "Testing Shared Property");
+	test_prop = add<CL_String>("TestProp", "Testing Property");
+	test_shared_prop = owner->add<CL_String>("TestSharedProp", "Testing Shared Property");
 	sharedPropChangedSlot = test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
 }
 

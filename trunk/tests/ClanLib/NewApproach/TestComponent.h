@@ -2,7 +2,7 @@
 #include <ClanLib\core.h>
 
 #include "../../../editions/ClanLib/include/Totem/Component.h"
-#include "../../../editions/ClanLib/include/Totem/SharedProperty.h"
+#include "../../../editions/ClanLib/include/Totem/Property.h"
 #include "../Common/Entity.h"
 
 class TestSystem;
@@ -24,5 +24,5 @@ private:
 	TestSystemPtr sys;
 
 	Totem::Property<CL_String> test_prop;
-	Totem::SharedProperty<CL_String> test_shared_prop;
+	Totem::Property<CL_String> test_shared_prop;
 };

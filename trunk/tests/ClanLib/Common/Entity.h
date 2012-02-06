@@ -27,17 +27,17 @@ requirements or restrictions.
 #include <ClanLib\core.h>
 
 #include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
-#include "../../../editions/ClanLib/include/Totem/SharedPropertyContainer.h"
-#include "../../../editions/ClanLib/include/Totem/SharedPropertyListContainer.h"
+#include "../../../editions/ClanLib/include/Totem/PropertyContainer.h"
+#include "../../../editions/ClanLib/include/Totem/PropertyListContainer.h"
 
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::SharedPropertyContainer<>, public Totem::SharedPropertyListContainer<>
+class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::PropertyContainer<>, public Totem::PropertyListContainer<>
 {
 public:
     Entity()
-		: Totem::ComponentContainer<EntityPtr>(), Totem::SharedPropertyContainer<>(), Totem::SharedPropertyListContainer<>()
+		: Totem::ComponentContainer<EntityPtr>(), Totem::PropertyContainer<>(), Totem::PropertyListContainer<>()
     {
     }
 

@@ -26,19 +26,19 @@ requirements or restrictions.
 #pragma once
 
 #include "../../../include/Totem/ComponentContainer.h"
-#include "../../../include/Totem/SharedPropertyContainer.h"
-#include "../../../include/Totem/SharedPropertyListContainer.h"
+#include "../../../include/Totem/PropertyContainer.h"
+#include "../../../include/Totem/PropertyListContainer.h"
 
 #include <memory>
 
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::SharedPropertyContainer<>, public Totem::SharedPropertyListContainer<>
+class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::PropertyContainer<>, public Totem::PropertyListContainer<>
 {
 public:
     Entity()
-		: Totem::ComponentContainer<EntityPtr>(), Totem::SharedPropertyContainer<>(), Totem::SharedPropertyListContainer<>()
+		: Totem::ComponentContainer<EntityPtr>(), Totem::PropertyContainer<>(), Totem::PropertyListContainer<>()
     {
     }
 
