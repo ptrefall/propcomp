@@ -15,6 +15,7 @@ public:
 	PropertyType value;
 	unsigned int type;
 	std::string name;
+	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
 };
 
 template<class PropertyType>
@@ -33,12 +34,15 @@ public:
 		data->name = name;
 	}
 
-	void set(const PropertyType& value) 
+	void set(const PropertyType& value, bool invokeValueChanged = true) 
 	{ 
 		if(data->value != value)
 		{
 			PropertyType oldValue = data->value;
 			data->value = value; 
+
+			if(invokeValueChanged)
+				data->valueChanged.invoke(oldValue, value);
 		}
 	}
 
@@ -46,6 +50,8 @@ public:
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
+
+	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
 	/// Set's property's data to rhs' shared pointer data.
 	Property<PropertyType> operator= (const Property<PropertyType>& rhs);
@@ -199,4 +205,3 @@ inline bool Property<PropertyType>::operator <(const PropertyType &rhs)
 }
 
 } //namespace Totem
-

@@ -42,10 +42,8 @@ set(HDRS
   ../include/Totem/IPropertyList.h
   ../include/Totem/Property.h
   ../include/Totem/PropertyContainer.h
-  ../include/Totem/SharedProperty.h
-  ../include/Totem/SharedPropertyContainer.h
-  ../include/Totem/SharedPropertyList.h
-  ../include/Totem/SharedPropertyListContainer.h
+  ../include/Totem/PropertyList.h
+  ../include/Totem/PropertyListContainer.h
   ../include/Totem/mainpage.h
 )
 
@@ -55,10 +53,8 @@ set(SRCS
   ./ComponentContainer.cpp
   ./Property.cpp
   ./PropertyContainer.cpp
-  ./SharedProperty.cpp
-  ./SharedPropertyContainer.cpp
-  ./SharedPropertyList.cpp
-  ./SharedPropertyListContainer.cpp
+  ./PropertyList.cpp
+  ./PropertyListContainer.cpp
 )
 
 include_directories(

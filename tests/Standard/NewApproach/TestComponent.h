@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../include/Totem/Component.h"
-#include "../../../include/Totem/SharedProperty.h"
+#include "../../../include/Totem/Property.h"
 #include "../Common/Entity.h"
 
 #include <memory>
@@ -23,5 +23,5 @@ private:
 	TestSystemPtr sys;
 
 	Totem::Property<std::string> test_prop;
-	Totem::SharedProperty<std::string> test_shared_prop;
+	Totem::Property<std::string> test_shared_prop;
 };

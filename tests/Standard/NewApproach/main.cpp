@@ -73,12 +73,12 @@ void main()
                         testComp->test();
                         testComp2->test();
                         
-                        auto test_prop = testComp->getProperty<std::string>("TestProp");
+                        auto test_prop = testComp->get<std::string>("TestProp");
                         std::cout << test_prop.get() << " from " << testComp->getName() << std::endl;
-                        auto test_prop2 = testComp2->getProperty<std::string>("TestProp");
+                        auto test_prop2 = testComp2->get<std::string>("TestProp");
                         std::cout << test_prop2.get() << " from " << testComp2->getName() << std::endl;
                         
-                        auto test_shared_prop = entity->getSharedProperty<std::string>("TestSharedProp");
+                        auto test_shared_prop = entity->get<std::string>("TestSharedProp");
                         std::cout << test_shared_prop.get() << std::endl;
                         test_shared_prop = "Test Shared Property Value Changed";
                 }
@@ -86,7 +86,7 @@ void main()
 
 		auto testComp = entity->getComponent<TestComponent>("Test1");
 
-        auto list = entity->addSharedPropertyList<int>("TestList");
+        auto list = entity->addList<int>("TestList");
 
         ListCallback listCallback;
         list.valueAdded().connect(&listCallback, &ListCallback::onValueAddedToList);
