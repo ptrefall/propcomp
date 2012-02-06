@@ -52,7 +52,6 @@ public:
 	}
 	operator const PropertyType &() const { return get(); }
 
-	/// Adds rhs' data value to SharedPropertyListIndexValue's data value
 	SharedPropertyListIndexValue<PropertyType> &operator+= (const SharedPropertyListIndexValue<PropertyType>& rhs)
 	{
 		if(this == &rhs)
@@ -62,10 +61,54 @@ public:
 		return *this;
 	}
 
-	/// Adds rhs' value to SharedPropertyListIndexValue's data value
 	SharedPropertyListIndexValue<PropertyType> &operator+= (const PropertyType& rhs)
 	{
 		set(get() + rhs);
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator-= (const SharedPropertyListIndexValue<PropertyType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() - rhs.get());
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator-= (const PropertyType& rhs)
+	{
+		set(get() - rhs);
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator*= (const SharedPropertyListIndexValue<PropertyType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() * rhs.get());
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator*= (const PropertyType& rhs)
+	{
+		set(get() * rhs);
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator/= (const SharedPropertyListIndexValue<PropertyType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() / rhs.get());
+		return *this;
+	}
+
+	SharedPropertyListIndexValue<PropertyType> &operator/= (const PropertyType& rhs)
+	{
+		set(get() / rhs);
 		return *this;
 	}
 
