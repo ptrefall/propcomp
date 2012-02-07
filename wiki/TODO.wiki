@@ -1,6 +1,7 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
  * 2) addComponent0...6, couldn't the numbers be removed here?
    * -> Not sure why, but my compiler crash when I try to remove these numbers... perhaps a bug in VS2010?
  * 2) Component name handling (see below)
