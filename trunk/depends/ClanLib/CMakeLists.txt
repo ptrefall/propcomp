@@ -25,7 +25,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project(TotemEDK_ClanLib)
+#project(TotemEDK_ClanLib)
 
 empty_preprocess_pair_list()
 
@@ -51,20 +51,20 @@ add_preprocess_pair("#include \"../../../depends/Standard/sigslot.h\"" " ")
 add_preprocess_pair("#include <sigslot.h>"		" ")
 add_preprocess_pair("#pragma once"		"#pragma once\n#include <ClanLib/core.h>")
 
-set(package_src_files)
+#set(package_src_files)
 set(package_hdr_files)
 set(package_config_hdr_files)		
 preprocess_totem("ClanLib")
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-find_package(ClanLib REQUIRED)
-include_directories(${CL_INCLUDE_PATH})
+#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
+#find_package(ClanLib REQUIRED)
+#include_directories(${CL_INCLUDE_PATH})
 
-add_library(TotemEDK_ClanLib STATIC ${package_src_files} ${package_hdr_files} ${package_config_hdr_files})
+#add_library(TotemEDK_ClanLib STATIC ${package_src_files} ${package_hdr_files} ${package_config_hdr_files})
 
-set_target_properties(TotemEDK_ClanLib PROPERTIES DEBUG_POSTFIX -debug)
-set_target_properties(TotemEDK_ClanLib PROPERTIES LINKER_LANGUAGE CXX)
+#set_target_properties(TotemEDK_ClanLib PROPERTIES DEBUG_POSTFIX -debug)
+#set_target_properties(TotemEDK_ClanLib PROPERTIES LINKER_LANGUAGE CXX)
 
-target_link_libraries(TotemEDK_ClanLib
-  debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
-)
+#target_link_libraries(TotemEDK_ClanLib
+#  debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
+#)
