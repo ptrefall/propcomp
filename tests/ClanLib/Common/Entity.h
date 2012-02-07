@@ -42,5 +42,8 @@ public:
     }
 
 protected:
+#pragma warning(push)
+#pragma warning(disable : 4481)
 	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
+#pragma warning(pop)
 };
