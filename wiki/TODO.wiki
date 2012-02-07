@@ -1,9 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) Remove cpp files from totem core, and use a test to check compilation instead
-   * -> Should we wait with this one until we have unit testing in, or?
-     Just create a test that includes the current cpp files maybe?
  * 2) Component name handling (see below)
  * 2) Properties that's owned by components should also have ValueChanged signals.
  * 2) Components should also have PropertyLists.
@@ -41,6 +38,9 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 2) Remove cpp files from totem core, and use a test to check compilation instead
+   * -> Should we wait with this one until we have unit testing in, or?
+     Just create a test that includes the current cpp files maybe?
  * 1) Remove mainpage.h from editions
  * 1) Check if it is possible to use templates without empty <>
    * -> It's possible to hide with a typedef, but can't be of same name as class :/
