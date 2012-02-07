@@ -77,7 +77,7 @@ set(BUILD_TEST_PROJECTS TRUE CACHE BOOL "TRUE if you want to include test projec
 
 set(BUILD_EXAMPLE_PROJECTS FALSE CACHE BOOL "TRUE if you want to include example projects with the generated solution, FALSE if not.")
 if(BUILD_EXAMPLE_PROJECTS)
-	add_subdirectory(examples)
+	#add_subdirectory(examples)
 endif()
 
 set(BUILD_TOOL_PROJECTS FALSE CACHE BOOL "TRUE if you want to include tool projects with the generated solution, FALSE if not.")
