@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) optionalParam in ComponentContainer should be removed.
  * 2) addComponent0...6, couldn't the numbers be removed here?
    * -> Not sure why, but my compiler crash when I try to remove these numbers... perhaps a bug in VS2010?
  * 2) Component name handling (see below)
@@ -39,6 +38,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 2) optionalParam in ComponentContainer should be removed.
  * 2) Properties that's owned by components should also have ValueChanged signals.
  * 2) Components should also have PropertyLists.
  * 2) Remove cpp files from totem core, and use a test to check compilation instead
