@@ -27,19 +27,32 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(TestNewApproach)
 
-set(HDRS
+set(TOTEM_HDRS
+  ../../../editions/ClanLib/include/Totem/Component.h
+  ../../../editions/ClanLib/include/Totem/ComponentContainer.h
+  ../../../editions/ClanLib/include/Totem/Property.h
+  ../../../editions/ClanLib/include/Totem/PropertyContainer.h
+  ../../../editions/ClanLib/include/Totem/PropertyList.h
+  ../../../editions/ClanLib/include/Totem/PropertyListContainer.h
+  ../../../editions/ClanLib/include/Totem/HashedString.h
+)
+SOURCE_GROUP("Header Files\\Totem" FILES ${TOTEM_HDRS})
+
+set(TOTEM_ADDONS_HDRS
   ../../../editions/ClanLib/include/Totem/Addons/EventSystem.h
-  #../../include/Totem/Addons/DelegateHandler.h
+)
+SOURCE_GROUP("Header Files\\Totem\\Addons" FILES ${TOTEM_ADDONS_HDRS})
+
+set(HDRS
+  ${TOTEM_HDRS}
+  ${TOTEM_ADDONS_HDRS}
   ../Common/Entity.h
-  #../Common/CustomPropertySerializer.h
-  #../Common/Vector3.h
   ./TestSystem.h
   ./TestComponent.h
 )
 
 set(SRCS
   ./main.cpp
-  #../../src/Addons/DelegateHandler.cpp
   ./TestComponent.cpp
 )
 
@@ -54,7 +67,6 @@ set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
 
 
 target_link_libraries(TestNewApproach
-  TotemEDK_ClanLib
   debug ${CL_ZLIB_LIB_DEBUG} optimized ${CL_ZLIB_LIB_RELEASE}
   debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
 )

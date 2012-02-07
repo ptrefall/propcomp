@@ -27,19 +27,33 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(TestNewApproach)
 
-set(HDRS
+set(TOTEM_HDRS
+  ../../../include/Totem/Component.h
+  ../../../include/Totem/ComponentContainer.h
+  ../../../include/Totem/Property.h
+  ../../../include/Totem/PropertyContainer.h
+  ../../../include/Totem/PropertyList.h
+  ../../../include/Totem/PropertyListContainer.h
+  ../../../include/Totem/HashedString.h
+)
+SOURCE_GROUP("Header Files\\Totem" FILES ${TOTEM_HDRS})
+
+set(TOTEM_ADDONS_HDRS
   ../../../include/Totem/Addons/EventSystem.h
-  #../../include/Totem/Addons/DelegateHandler.h
+  ../../../include/Totem/Addons/DelegateSystem.h
+)
+SOURCE_GROUP("Header Files\\Totem\\Addons" FILES ${TOTEM_ADDONS_HDRS})
+
+set(HDRS
+  ${TOTEM_HDRS}
+  ${TOTEM_ADDONS_HDRS}
   ../Common/Entity.h
-  #../Common/CustomPropertySerializer.h
-  #../Common/Vector3.h
   ./TestSystem.h
   ./TestComponent.h
 )
 
 set(SRCS
   ./main.cpp
-  #../../src/Addons/DelegateHandler.cpp
   ./TestComponent.cpp
 )
  
@@ -47,11 +61,6 @@ add_executable(TestNewApproach ${HDRS} ${SRCS})
 
 set_target_properties(TestNewApproach PROPERTIES DEBUG_POSTFIX _d)
 set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
-
-
-target_link_libraries(TestNewApproach
-  TotemEDK
-)
 
 include_directories(
   "../../../depends/Standard/"
