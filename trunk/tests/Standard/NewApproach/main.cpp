@@ -34,22 +34,23 @@ requirements or restrictions.
 class ListCallback : public sigslot::has_slots<>
 {
 public:
-        void onValueAddedToList(const unsigned int &index, const int &newValue)
-        {
-                std::cout << "Added value " << newValue << " at index " << index << std::endl;
-        }
-        void onValueErasedFromList(const unsigned int &index, const int &valueErased)
-        {
-                std::cout << "Erased value " << valueErased << " from index " << index << std::endl;
-        }
-        void onValuesClearedFromList()
-        {
-                std::cout << "Values cleared!" << std::endl;
-        }
-		void onValueChanged(const unsigned int &index, const int &oldValue, const int &newValue)
-        {
-                std::cout << "Value changed from " << oldValue << " to " << newValue << " at index " << index << std::endl;
-        }
+	ListCallback(){}
+    void onValueAddedToList(const unsigned int &index, const int &newValue)
+    {
+            std::cout << "Added value " << newValue << " at index " << index << std::endl;
+    }
+    void onValueErasedFromList(const unsigned int &index, const int &valueErased)
+    {
+            std::cout << "Erased value " << valueErased << " from index " << index << std::endl;
+    }
+    void onValuesClearedFromList()
+    {
+            std::cout << "Values cleared!" << std::endl;
+    }
+	void onValueChanged(const unsigned int &index, const int &oldValue, const int &newValue)
+    {
+            std::cout << "Value changed from " << oldValue << " to " << newValue << " at index " << index << std::endl;
+    }
 };
 
 void main()
@@ -88,11 +89,11 @@ void main()
 
         auto list = entity->addList<int>("TestList");
 
-        ListCallback listCallback;
-        list.valueAdded().connect(&listCallback, &ListCallback::onValueAddedToList);
-        list.valueErased().connect(&listCallback, &ListCallback::onValueErasedFromList);
-        list.valuesCleared().connect(&listCallback, &ListCallback::onValuesClearedFromList);
-		list.valueChanged().connect(&listCallback, &ListCallback::onValueChanged);
+        auto listCallback = std::make_shared<ListCallback>();
+        list.valueAdded().connect(listCallback.get(), &ListCallback::onValueAddedToList);
+        list.valueErased().connect(listCallback.get(), &ListCallback::onValueErasedFromList);
+        list.valuesCleared().connect(listCallback.get(), &ListCallback::onValuesClearedFromList);
+		list.valueChanged().connect(listCallback.get(), &ListCallback::onValueChanged);
         list.push_back(1);
         list.push_back(2);
         list.push_back(3);

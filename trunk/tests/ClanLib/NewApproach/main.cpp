@@ -33,18 +33,19 @@ requirements or restrictions.
 class ListCallback
 {
 public:
-        void onValueAddedToList(const unsigned int &index, const int &newValue)
-        {
-                std::cout << "Added value " << newValue << " at index " << index << std::endl;
-        }
-        void onValueErasedFromList(const unsigned int &index, const int &valueErased)
-        {
-                std::cout << "Erased value " << valueErased << " from index " << index << std::endl;
-        }
-        void onValuesClearedFromList()
-        {
-                std::cout << "Values cleared!" << std::endl;
-        }
+	ListCallback(){}
+    void onValueAddedToList(const unsigned int &index, const int &newValue)
+    {
+            std::cout << "Added value " << newValue << " at index " << index << std::endl;
+    }
+    void onValueErasedFromList(const unsigned int &index, const int &valueErased)
+    {
+            std::cout << "Erased value " << valueErased << " from index " << index << std::endl;
+    }
+    void onValuesClearedFromList()
+    {
+            std::cout << "Values cleared!" << std::endl;
+    }
 };
 
 void main()
