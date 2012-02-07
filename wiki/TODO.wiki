@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Remove mainpage.h from editions
  * 2) Remove cpp files from totem core, and use a test to check compilation instead
    * -> Should we wait with this one until we have unit testing in, or?
      Just create a test that includes the current cpp files maybe?
@@ -42,6 +41,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) Remove mainpage.h from editions
  * 1) Check if it is possible to use templates without empty <>
    * -> It's possible to hide with a typedef, but can't be of same name as class :/
  * 2) Add a pragma to remove warning C4481: nonstandard extension used: override specifier 'override'
