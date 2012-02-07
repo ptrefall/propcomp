@@ -110,15 +110,14 @@ macro(split_into_filenames package)
 		FILE(RELATIVE_PATH folder ${TOTEM_HDRS} ${f})
 		get_filename_component(filename ${folder} NAME)
 		
-		STRING(COMPARE EQUAL ${filename} "types_config.h" string_compare_result)
-		STRING(COMPARE EQUAL ${filename} "config.h" string_compare_result2)
+		STRING(COMPARE EQUAL ${filename} "mainpage.h" string_compare_result)
 		
-		if(${string_compare_result} OR ${string_compare_result2})
+		if(${string_compare_result})
 			set(totem_hdr_ignore_files ${totem_hdr_ignore_files} ${f})
 			message(STATUS "THROW AWAY ${filename}")
 		endif()
 		
-		if(NOT ${string_compare_result} AND NOT ${string_compare_result2})
+		if(NOT ${string_compare_result})
 			set(totem_hdr_files ${totem_hdr_files}  ${filename})
 			message(STATUS "- ${filename}")
 		endif()
