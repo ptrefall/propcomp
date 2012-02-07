@@ -227,7 +227,7 @@ public:
 	 *
 	 * @return Returns the propertyAdded signal of this property handler.
 	 */
-	sigslot::signal1<std::shared_ptr<IPropertyList>> PropertyListAdded() { return sign_PropertyListAdded; }
+	sigslot::signal1<std::shared_ptr<IPropertyList>> propertyListAdded() { return sign_PropertyListAdded; }
 
 	/**
 	 * Function that gives the outside access to the PropertyContainer's
@@ -236,7 +236,7 @@ public:
 	 *
 	 * @return Returns the propertyWithUserDataAdded signal of this property handler.
 	 */
-	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> &PropertyListWithUserDataAdded() { return sign_PropertyListWithUserDataAdded; }
+	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> &propertyListWithUserDataAdded() { return sign_PropertyListWithUserDataAdded; }
 
 protected:
 	/// The map of all properties owned by this PropertyContainer.
