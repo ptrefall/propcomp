@@ -22,7 +22,16 @@ requirements or restrictions.
 */
 
 #include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
+#include "../../../editions/ClanLib/include/Totem/Component.h"
+#include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
+#include "../../../editions/ClanLib/include/Totem/Property.h"
+#include "../../../editions/ClanLib/include/Totem/PropertyContainer.h"
+#include "../../../editions/ClanLib/include/Totem/PropertyList.h"
+#include "../../../editions/ClanLib/include/Totem/PropertyListContainer.h"
+#include "../../../editions/ClanLib/include/Totem/HashedString.h"
+
 #include "../../../editions/ClanLib/include/Totem/Addons/EventSystem.h"
+
 #include "TestSystem.h"
 #include "TestComponent.h"
 #include "../Common/Entity.h"
