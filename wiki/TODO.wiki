@@ -1,6 +1,8 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 2) addComponent0...6, couldn't the numbers be changed here?
+   * -> Not sure why, but my compiler crash when I try to remove these numbers... perhaps a bug in VS2010?
  * 2) Component name handling (see below)
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
