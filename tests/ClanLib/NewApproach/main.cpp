@@ -69,29 +69,31 @@ void main()
         loaded_component_types.push_back("Test");
 
         //We iterate over serialized components and add one by one to the entity
-        std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const CL_String &component_type){
-                if(component_type == TestComponent::Type())
-                {
-					try{
-                        auto testComp = entity->addComponent1<TestComponent, TestSystemPtr>(sys, "Test1");
-                        auto testComp2 = entity->addComponent1<TestComponent, TestSystemPtr>(sys, "Test2");
+		for(unsigned int i = 0; i < loaded_component_types.size(); i++)
+		{
+			const CL_String &component_type = loaded_component_types[i];
+            if(component_type == TestComponent::Type())
+            {
+				try{
+                    auto testComp = entity->addComponent<TestComponent, TestSystemPtr>("Test1", sys);
+                    auto testComp2 = entity->addComponent<TestComponent, TestSystemPtr>("Test2", sys);
                         
-                        testComp->test();
-                        testComp2->test();
+                    testComp->test();
+                    testComp2->test();
                         
-                        auto test_prop = testComp->get<CL_String>("TestProp");
-                        std::cout << test_prop.get().c_str() << " from " << testComp->getName().c_str() << std::endl;
-                        auto test_prop2 = testComp2->get<CL_String>("TestProp");
-                        std::cout << test_prop2.get().c_str() << " from " << testComp2->getName().c_str() << std::endl;
+                    auto test_prop = testComp->get<CL_String>("TestProp");
+                    std::cout << test_prop.get().c_str() << " from " << testComp->getName().c_str() << std::endl;
+                    auto test_prop2 = testComp2->get<CL_String>("TestProp");
+                    std::cout << test_prop2.get().c_str() << " from " << testComp2->getName().c_str() << std::endl;
                         
-                        auto test_shared_prop = entity->get<CL_String>("TestSharedProp");
-                        std::cout << test_shared_prop.get().c_str() << std::endl;
-                        test_shared_prop = "Test Shared Property Value Changed";
-					} catch(CL_Exception &e) {
-						std::cout << e.get_message_and_stack_trace().c_str() << std::endl;
-					}
-                }
-        });
+                    auto test_shared_prop = entity->get<CL_String>("TestSharedProp");
+                    std::cout << test_shared_prop.get().c_str() << std::endl;
+                    test_shared_prop = "Test Shared Property Value Changed";
+				} catch(CL_Exception &e) {
+					std::cout << e.get_message_and_stack_trace().c_str() << std::endl;
+				}
+            }
+        }
 
         auto list = entity->addList<int>("TestList");
 
