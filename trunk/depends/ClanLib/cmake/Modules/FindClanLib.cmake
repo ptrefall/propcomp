@@ -29,10 +29,10 @@ FIND_LIBRARY(CL_NET_LIB_DEBUG
 	
 FIND_LIBRARY(CL_ZLIB_LIB_RELEASE
 	NAMES zlib-static-mt
-    PATHS D:/Development/3rdParty/ClanLib/Lib/x64
+    PATHS D:/Development/3rdParty/ClanLib/Lib/Win32
     )
 
 FIND_LIBRARY(CL_ZLIB_LIB_DEBUG
 	NAMES zlib-static-mt-debug
-    PATHS D:/Development/3rdParty/ClanLib/Lib/x64
+    PATHS D:/Development/3rdParty/ClanLib/Lib/Win32
     )

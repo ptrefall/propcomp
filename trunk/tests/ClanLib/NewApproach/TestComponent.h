@@ -8,6 +8,9 @@
 class TestSystem;
 typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
+class TestComponent;
+typedef std::shared_ptr<TestComponent> TestComponentPtr;
+
 class TestComponent : public Totem::Component<>
 {
 public:
