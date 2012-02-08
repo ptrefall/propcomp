@@ -77,8 +77,8 @@ void main()
         std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const std::string &component_type){
                 if(component_type == TestComponent::Type())
                 {
-                        auto testComp = entity->addComponent1<TestComponent, TestSystemPtr>(sys, "Test1");
-                        auto testComp2 = entity->addComponent1<TestComponent, TestSystemPtr>(sys, "Test2");
+                        auto testComp = entity->addComponent<TestComponent, TestSystemPtr>(sys, "Test1");
+                        auto testComp2 = entity->addComponent<TestComponent, TestSystemPtr>(sys, "Test2");
                         
                         testComp->test();
                         testComp2->test();
