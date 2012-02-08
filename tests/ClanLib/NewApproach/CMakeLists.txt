@@ -55,18 +55,8 @@ set(SRCS
   ./main.cpp
   ./TestComponent.cpp
 )
-
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/depends/ClanLib/cmake/Modules)
-find_package(ClanLib REQUIRED)
-include_directories(${CL_INCLUDE_PATH})
  
 add_executable(TestNewApproach ${HDRS} ${SRCS})
 
 set_target_properties(TestNewApproach PROPERTIES DEBUG_POSTFIX _d)
 set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
-
-
-target_link_libraries(TestNewApproach
-  debug ${CL_ZLIB_LIB_DEBUG} optimized ${CL_ZLIB_LIB_RELEASE}
-  debug ${CL_CORE_LIB_DEBUG} optimized ${CL_CORE_LIB_RELEASE}
-)
