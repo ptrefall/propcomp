@@ -1,6 +1,7 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 2) We shouldn't link to ClanLib via CMake, since it's supposed to be added as a global include already.
  * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
  * 2) Component name handling (see below)
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
