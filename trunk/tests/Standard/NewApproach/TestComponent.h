@@ -22,6 +22,8 @@ private:
 	EntityPtr owner;
 	TestSystemPtr sys;
 
+	void OnSomeEvent();
+
 	Totem::Property<std::string> test_prop;
 	Totem::Property<std::string> test_shared_prop;
 };
