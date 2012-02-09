@@ -26,6 +26,9 @@ private:
 	EntityPtr owner;
 	TestSystemPtr sys;
 
+	void OnSomeEvent();
+	CL_Slot someEventSlot;
+
 	Totem::Property<CL_String> test_prop;
 	Totem::Property<CL_String> test_shared_prop;
 };
