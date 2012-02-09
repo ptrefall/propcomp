@@ -23,17 +23,11 @@ public:
 	}
 
 	FORCE_INLINE unsigned int getId() { return hashId; }
-#ifdef _DEBUG
 	FORCE_INLINE const std::string &getStr() { return str; }
-#else
-	FORCE_INLINE unsigned int getStr() { return hashId; }
-#endif
 
 private:
 	unsigned int hashId;
-#ifdef _DEBUG
 	std::string str;
-#endif
 };
 
 class HashFNV1a
