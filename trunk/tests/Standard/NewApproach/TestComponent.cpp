@@ -28,5 +28,5 @@ void TestComponent::OnSharedPropChanged(const std::string &/*old_value*/, const 
 
 void TestComponent::OnSomeEvent()
 {
-	std::cout << "Some Event Fired!" << std::endl;
+	std::cout << "Some Event Fired " << name.c_str() << "!" << std::endl;
 }
