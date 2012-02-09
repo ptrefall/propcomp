@@ -95,6 +95,8 @@ void main()
 			}
         });
 
+		entity->sendEvent0("SomeEvent");
+
         auto list = entity->addList<int>("TestList");
 
         auto listCallback = std::make_shared<ListCallback>();

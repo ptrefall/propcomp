@@ -177,7 +177,7 @@ public:
 	 * @param type The hashed type string id of the delegate.
 	 */
 	template<class RetType>
-	RetType call0(const HashedString &type);
+	RetType call0(HashedString1 type);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding one parameter.
@@ -186,7 +186,7 @@ public:
 	 * @param param1 First parameter of type Param1.
 	 */
 	template<class Param1, class RetType>
-	RetType call1(const HashedString &type, const Param1 &param1);
+	RetType call1(HashedString1 type, const Param1 &param1);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding two parameters.
@@ -196,7 +196,7 @@ public:
 	 * @param param2 Second parameter of type Param2.
 	 */
 	template<class Param1, class Param2, class RetType>
-	RetType call2(const HashedString &type, const Param1 &param1, const Param2 &param2);
+	RetType call2(HashedString1 type, const Param1 &param1, const Param2 &param2);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding three parameters.
@@ -207,7 +207,7 @@ public:
 	 * @param param3 Third parameter of type Param3.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
-	RetType call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3);
+	RetType call3(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding four parameters.
@@ -219,7 +219,7 @@ public:
 	 * @param param4 Fourth parameter of type Param4.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	RetType call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4);
+	RetType call4(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding five parameters.
@@ -232,7 +232,7 @@ public:
 	 * @param param5 Fifth parameter of type Param5.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	RetType call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5);
+	RetType call5(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5);
 
 	/**
 	 * Calls all slots registered to the delegate signal of type holding six parameters.
@@ -246,7 +246,7 @@ public:
 	 * @param param6 Sixth parameter of type Param6.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	RetType call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6);
+	RetType call6(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6);
 
 	//--------------------------------------------------------------
 
@@ -257,7 +257,7 @@ public:
 	 * @return A signal that requires no parameters in the slot.
 	 */
 	template<class RetType>
-	fastdelegate::FastDelegate0<RetType> &registerFunction0(const HashedString &type);
+	fastdelegate::FastDelegate0<RetType> &registerFunction0(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding one parameter.
@@ -266,7 +266,7 @@ public:
 	 * @return A signal that requires one parameters in the slot.
 	 */
 	template<class Param1, class RetType>
-	fastdelegate::FastDelegate1<Param1, RetType> &registerFunction1(const HashedString &type);
+	fastdelegate::FastDelegate1<Param1, RetType> &registerFunction1(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding two parameters.
@@ -275,7 +275,7 @@ public:
 	 * @return A signal that requires two parameters in the slot.
 	 */
 	template<class Param1, class Param2, class RetType>
-	fastdelegate::FastDelegate2<Param1, Param2, RetType> &registerFunction2(const HashedString &type);
+	fastdelegate::FastDelegate2<Param1, Param2, RetType> &registerFunction2(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding three parameters.
@@ -284,7 +284,7 @@ public:
 	 * @return A signal that requires three parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class RetType>
-	fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &registerFunction3(const HashedString &type);
+	fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &registerFunction3(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding four parameters.
@@ -293,7 +293,7 @@ public:
 	 * @return A signal that requires four parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class RetType>
-	fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &registerFunction4(const HashedString &type);
+	fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &registerFunction4(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding five parameters.
@@ -302,7 +302,7 @@ public:
 	 * @return A signal that requires five parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-	fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &registerFunction5(const HashedString &type);
+	fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &registerFunction5(HashedString1 type);
 
 	/**
 	 * Register a slot to the delegate signal of type holding six parameters.
@@ -311,14 +311,14 @@ public:
 	 * @return A signal that requires six parameters in the slot.
 	 */
 	template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-	fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &registerFunction6(const HashedString &type);
+	fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &registerFunction6(HashedString1 type);
 
 	//--------------------------------------------------------------
 
 	/**
 	 *
 	 */
-	bool hasFunction(const HashedString &id, int num_params = -1);
+	bool hasFunction(const HashedString1 &id, int num_params = -1);
 
 protected:
 	/// Map of parameter-less delegate delegates held by DelegateSystem.
@@ -341,7 +341,7 @@ protected:
 
 template<class DelegateFactory>
 template<class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call0(const HashedString &type)
+inline RetType DelegateSystem<DelegateFactory>::call0(HashedString1 type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
@@ -352,7 +352,7 @@ inline RetType DelegateSystem<DelegateFactory>::call0(const HashedString &type)
 
 template<class DelegateFactory>
 template<class Param1, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call1(const HashedString &type, const Param1 &param1)
+inline RetType DelegateSystem<DelegateFactory>::call1(HashedString1 type, const Param1 &param1)
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
@@ -370,7 +370,7 @@ inline RetType DelegateSystem<DelegateFactory>::call1(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call2(const HashedString &type, const Param1 &param1, const Param2 &param2)
+inline RetType DelegateSystem<DelegateFactory>::call2(HashedString1 type, const Param1 &param1, const Param2 &param2)
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
@@ -388,7 +388,7 @@ inline RetType DelegateSystem<DelegateFactory>::call2(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call3(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
+inline RetType DelegateSystem<DelegateFactory>::call3(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3)
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
@@ -406,7 +406,7 @@ inline RetType DelegateSystem<DelegateFactory>::call3(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call4(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
+inline RetType DelegateSystem<DelegateFactory>::call4(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4)
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
@@ -424,7 +424,7 @@ inline RetType DelegateSystem<DelegateFactory>::call4(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call5(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
+inline RetType DelegateSystem<DelegateFactory>::call5(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5)
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
@@ -442,7 +442,7 @@ inline RetType DelegateSystem<DelegateFactory>::call5(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
+inline RetType DelegateSystem<DelegateFactory>::call6(HashedString1 type, const Param1 &param1, const Param2 &param2, const Param3 &param3, const Param4 &param4, const Param5 &param5, const Param6 &param6)
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
@@ -462,7 +462,7 @@ inline RetType DelegateSystem<DelegateFactory>::call6(const HashedString &type, 
 
 template<class DelegateFactory>
 template<class RetType>
-inline fastdelegate::FastDelegate0<RetType> &DelegateSystem<DelegateFactory>::registerFunction0(const HashedString &type)
+inline fastdelegate::FastDelegate0<RetType> &DelegateSystem<DelegateFactory>::registerFunction0(HashedString1 type)
 {
 	auto it = delegates0.find(type.getId());
 	if(it == delegates0.end())
@@ -480,7 +480,7 @@ inline fastdelegate::FastDelegate0<RetType> &DelegateSystem<DelegateFactory>::re
 
 template<class DelegateFactory>
 template<class Param1, class RetType>
-inline fastdelegate::FastDelegate1<Param1, RetType> &DelegateSystem<DelegateFactory>::registerFunction1(const HashedString &type)
+inline fastdelegate::FastDelegate1<Param1, RetType> &DelegateSystem<DelegateFactory>::registerFunction1(HashedString1 type)
 {
 	auto it = delegates1.find(type.getId());
 	if(it == delegates1.end())
@@ -504,7 +504,7 @@ inline fastdelegate::FastDelegate1<Param1, RetType> &DelegateSystem<DelegateFact
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class RetType>
-inline fastdelegate::FastDelegate2<Param1, Param2, RetType> &DelegateSystem<DelegateFactory>::registerFunction2(const HashedString &type)
+inline fastdelegate::FastDelegate2<Param1, Param2, RetType> &DelegateSystem<DelegateFactory>::registerFunction2(HashedString1 type)
 {
 	auto it = delegates2.find(type.getId());
 	if(it == delegates2.end())
@@ -528,7 +528,7 @@ inline fastdelegate::FastDelegate2<Param1, Param2, RetType> &DelegateSystem<Dele
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class RetType>
-inline fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &DelegateSystem<DelegateFactory>::registerFunction3(const HashedString &type)
+inline fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &DelegateSystem<DelegateFactory>::registerFunction3(HashedString1 type)
 {
 	auto it = delegates3.find(type.getId());
 	if(it == delegates3.end())
@@ -552,7 +552,7 @@ inline fastdelegate::FastDelegate3<Param1, Param2, Param3, RetType> &DelegateSys
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class RetType>
-inline fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &DelegateSystem<DelegateFactory>::registerFunction4(const HashedString &type)
+inline fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &DelegateSystem<DelegateFactory>::registerFunction4(HashedString1 type)
 {
 	auto it = delegates4.find(type.getId());
 	if(it == delegates4.end())
@@ -576,7 +576,7 @@ inline fastdelegate::FastDelegate4<Param1, Param2, Param3, Param4, RetType> &Del
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class RetType>
-inline fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &DelegateSystem<DelegateFactory>::registerFunction5(const HashedString &type)
+inline fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetType> &DelegateSystem<DelegateFactory>::registerFunction5(HashedString1 type)
 {
 	auto it = delegates5.find(type.getId());
 	if(it == delegates5.end())
@@ -600,7 +600,7 @@ inline fastdelegate::FastDelegate5<Param1, Param2, Param3, Param4, Param5, RetTy
 
 template<class DelegateFactory>
 template<class Param1, class Param2, class Param3, class Param4, class Param5, class Param6, class RetType>
-inline fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &DelegateSystem<DelegateFactory>::registerFunction6(const HashedString &type)
+inline fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param6, RetType> &DelegateSystem<DelegateFactory>::registerFunction6(HashedString1 type)
 {
 	auto it = delegates6.find(type.getId());
 	if(it == delegates6.end())
@@ -625,7 +625,7 @@ inline fastdelegate::FastDelegate6<Param1, Param2, Param3, Param4, Param5, Param
 //--------------------------------------------------------------------------------
 
 template<class DelegateFactory>
-bool DelegateSystem<DelegateFactory>::hasFunction(const HashedString &id, int num_params)
+bool DelegateSystem<DelegateFactory>::hasFunction(const HashedString1 &id, int num_params)
 {
 	if(num_params == 0)
 	{

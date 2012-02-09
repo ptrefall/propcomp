@@ -9,6 +9,8 @@ TestComponent::TestComponent(EntityPtr owner, const std::string &name, TestSyste
 	test_prop = add<std::string>("TestProp", "Testing Property");
 	test_shared_prop = owner->add<std::string>("TestSharedProp", "Testing Shared Property");
 	test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
+
+	owner->registerToEvent0("SomeEvent").connect(this, &TestComponent::OnSomeEvent);
 }
 
 void TestComponent::test() 
@@ -22,4 +24,9 @@ void TestComponent::OnSharedPropChanged(const std::string &/*old_value*/, const 
 		std::cout << new_value << " from " << name << std::endl;
 	else
 		std::cout << new_value << std::endl;
+}
+
+void TestComponent::OnSomeEvent()
+{
+	std::cout << "Some Event Fired!" << std::endl;
 }
