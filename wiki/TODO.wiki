@@ -3,7 +3,6 @@
 = Tasks =
  * 2) Component name handling (see below)
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
- * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
@@ -37,6 +36,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
  * 3) Fix pragma warnings for override to encapsulate entire file where used.
  * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
     * -> Implemented for EventSystem and DelegateSystem.
