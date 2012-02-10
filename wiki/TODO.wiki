@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) Component name handling (see below)
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -19,20 +18,8 @@
  * 10) Write Entity Editor tool.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
-
-from discussion from PiratePad http://piratepad.net/KbYbzY0TFR
-{{{
-addComponent<MyComponent>()   // OK! Type = MyComponent, Name = MyComponent
-addComponent<MyComponent>("Dup")   // OK! Type = MyComponent, Name = Dup
-addComponent<MyComponent>("Dup")   // error! Type = MyComponent, Name = Dup
-addComponent<MyComponent>()   // error! Type = MyComponent, Name = MyComponent
-addComponent<MyComponent2>("Dup")   // ok! Type = MyComponent2, Name = Dup
-addComponent<MyComponent2>()   // ok! Type = MyComponent2, Name = MyComponent2
-addComponent<MyComponent>("MyComponent2")   // OK! Type = MyComponent, Name = MyComponent2
-}}}
-What about InterpolatorComponent? 
-
 = Fixed TODOs =
+ * 2) Component name handling (see below)
  * 1) Change static Type() function on components to getType(), to be more in line with the virtual getType() you can do on instantiated components.
  * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
  * 3) Fix pragma warnings for override to encapsulate entire file where used.
@@ -109,3 +96,15 @@ What about InterpolatorComponent?
  * 2) Revisit serializer interface and the handling internal in properties.
  * 1) Add option in cmake to set the project's runtime library to static, not the default DLL (at least in visual studio).
  * 1) Add group description to properties
+
+from discussion from PiratePad http://piratepad.net/KbYbzY0TFR
+{{{
+addComponent<MyComponent>()   // OK! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent>("Dup")   // OK! Type = MyComponent, Name = Dup
+addComponent<MyComponent>("Dup")   // error! Type = MyComponent, Name = Dup
+addComponent<MyComponent>()   // error! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent2>("Dup")   // ok! Type = MyComponent2, Name = Dup
+addComponent<MyComponent2>()   // ok! Type = MyComponent2, Name = MyComponent2
+addComponent<MyComponent>("MyComponent2")   // OK! Type = MyComponent, Name = MyComponent2
+}}}
+What about InterpolatorComponent? 
