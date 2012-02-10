@@ -15,7 +15,7 @@ class TestComponent : public Totem::Component<>
 {
 public:
 	TestComponent(EntityPtr owner, const CL_String &name, TestSystemPtr sys);
-	static CL_String Type() { return "Test"; }
+	static CL_String getType() { return "Test"; }
         
 	void test();
 
