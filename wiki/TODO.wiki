@@ -27,10 +27,8 @@ addComponent<MyComponent>("Dup")   // OK! Type = MyComponent, Name = Dup
 addComponent<MyComponent>("Dup")   // error! Type = MyComponent, Name = Dup
 addComponent<MyComponent>()   // error! Type = MyComponent, Name = MyComponent
 addComponent<MyComponent2>("Dup")   // ok! Type = MyComponent2, Name = MyComponent
-
-addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
-addComponent<MyComponent2>()   // Type = MyComponent2, Name = MyComponent2
-addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til ingenting akkurat nå iaf. mm, vi kan godt sette den til type.
+addComponent<MyComponent2>()   // ok! Type = MyComponent2, Name = MyComponent2
+addComponent<MyComponent>("MyComponent2")   // OK! Type = MyComponent, Name = MyComponent2
 }}}
 What about InterpolatorComponent? 
 
