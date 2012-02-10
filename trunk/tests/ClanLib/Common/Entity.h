@@ -36,14 +36,13 @@ requirements or restrictions.
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : public std::enable_shared_from_this<Entity>, public Totem::ComponentContainer<EntityPtr>, public Totem::PropertyContainer<>, public Totem::PropertyListContainer<>, public Totem::Addon::EventSystem<>
+class Entity 
+	:	public std::enable_shared_from_this<Entity>, 
+		public Totem::ComponentContainer<EntityPtr>, 
+		public Totem::PropertyContainer<>, 
+		public Totem::PropertyListContainer<>, 
+		public Totem::Addon::EventSystem<>
 {
-public:
-    Entity()
-		: Totem::ComponentContainer<EntityPtr>(), Totem::PropertyContainer<>(), Totem::PropertyListContainer<>(), Totem::Addon::EventSystem<>()
-    {
-    }
-
 protected:
 	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
 };
