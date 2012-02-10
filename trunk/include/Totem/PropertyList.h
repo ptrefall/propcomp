@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(push)
+#pragma warning(disable : 4481)
 
 #include "IPropertyList.h"
 
@@ -184,12 +186,9 @@ public:
 	}
 
 	const std::vector<PropertyType> &get() const { return data->value; }
-#pragma warning(push)
-#pragma warning(disable : 4481)
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
-#pragma warning(pop)
 
 	sigslot::signal3<const unsigned int &, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 	sigslot::signal2<const unsigned int &, const PropertyType &> &valueAdded() {return data->valueAdded; }
@@ -216,3 +215,5 @@ private:
 };
 
 } //namespace Totem
+
+#pragma warning(pop)

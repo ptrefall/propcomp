@@ -24,6 +24,8 @@ requirements or restrictions.
 */
 
 #pragma once
+#pragma warning(push)
+#pragma warning(disable : 4481)
 
 #include "../../../include/Totem/ComponentContainer.h"
 #include "../../../include/Totem/PropertyContainer.h"
@@ -44,8 +46,7 @@ public:
     }
 
 protected:
-#pragma warning(push)
-#pragma warning(disable : 4481)
 	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
-#pragma warning(pop)
 };
+
+#pragma warning(pop)
