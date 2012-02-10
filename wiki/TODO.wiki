@@ -22,12 +22,11 @@
 
 from discussion from PiratePad http://piratepad.net/KbYbzY0TFR
 {{{
-addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
-addComponent<MyComponent>("Dup")   // Type = MyComponent, Name = Dup
-addComponent<MyComponent>("Dup")   // error!
-addComponent<MyComponent>()   // error!
-addComponent<MyComponent2>("Dup")   //ikke feil
-
+addComponent<MyComponent>()   // OK! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent>("Dup")   // OK! Type = MyComponent, Name = Dup
+addComponent<MyComponent>("Dup")   // error! Type = MyComponent, Name = Dup
+addComponent<MyComponent>()   // error! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent2>("Dup")   // ok! Type = MyComponent2, Name = MyComponent
 
 addComponent<MyComponent>()   // Type = MyComponent, Name = MyComponent
 addComponent<MyComponent2>()   // Type = MyComponent2, Name = MyComponent2
