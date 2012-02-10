@@ -36,6 +36,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 1) Change static Type() function on components to getType(), to be more in line with the virtual getType() you can do on instantiated components.
  * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
  * 3) Fix pragma warnings for override to encapsulate entire file where used.
  * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
