@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(push)
+#pragma warning(disable : 4481)
 
 #include "IProperty.h"
 
@@ -47,12 +49,9 @@ public:
 	}
 
 	const PropertyType &get() const { return data->value; }
-#pragma warning(push)
-#pragma warning(disable : 4481)
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
-#pragma warning(pop)
 
 	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
@@ -208,3 +207,5 @@ inline bool Property<PropertyType>::operator <(const PropertyType &rhs)
 }
 
 } //namespace Totem
+
+#pragma warning(pop)

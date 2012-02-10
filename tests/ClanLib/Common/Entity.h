@@ -25,6 +25,8 @@ requirements or restrictions.
 
 #pragma once
 #include <ClanLib\core.h>
+#pragma warning(push)
+#pragma warning(disable : 4481)
 
 #include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
 #include "../../../editions/ClanLib/include/Totem/PropertyContainer.h"
@@ -43,8 +45,7 @@ public:
     }
 
 protected:
-#pragma warning(push)
-#pragma warning(disable : 4481)
 	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
-#pragma warning(pop)
 };
+
+#pragma warning(pop)
