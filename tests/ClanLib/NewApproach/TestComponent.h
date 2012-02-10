@@ -21,14 +21,14 @@ public:
 
 private:
 	void OnSharedPropChanged(const CL_String &old_value, const CL_String &new_value);
-	CL_Slot sharedPropChangedSlot;
 
 	EntityPtr owner;
 	TestSystemPtr sys;
 
 	void OnSomeEvent();
-	CL_Slot someEventSlot;
 
 	Totem::Property<CL_String> test_prop;
 	Totem::Property<CL_String> test_shared_prop;
+
+	CL_SlotContainer slots;
 };
