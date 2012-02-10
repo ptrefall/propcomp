@@ -37,6 +37,7 @@ addComponent<MyComponent>("MyComponent2")   // error, nope. Navn settes til inge
 What about InterpolatorComponent? 
 
 = Fixed TODOs =
+ * 3) Fix pragma warnings for override to encapsulate entire file where used.
  * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
     * -> Implemented for EventSystem and DelegateSystem.
  * 2) We shouldn't link to ClanLib via CMake, since it's supposed to be added as a global include already.
