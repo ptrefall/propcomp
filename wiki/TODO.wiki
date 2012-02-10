@@ -3,6 +3,7 @@
 = Tasks =
  * 2) Component name handling (see below)
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
+ * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
  * 3) Write XML component/property state saving and loading example.
