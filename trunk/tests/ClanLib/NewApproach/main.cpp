@@ -72,7 +72,7 @@ void main()
 		for(unsigned int i = 0; i < loaded_component_types.size(); i++)
 		{
 			const CL_String &component_type = loaded_component_types[i];
-            if(component_type == TestComponent::Type())
+            if(component_type == TestComponent::getType())
             {
 				try{
                     auto testComp = entity->addComponent<TestComponent, TestSystemPtr>("Test1", sys);

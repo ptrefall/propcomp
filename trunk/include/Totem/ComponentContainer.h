@@ -65,7 +65,7 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), ComponentType::Type());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), ComponentType::getType());
 		components.push_back(component);
 		return component;
 	}
@@ -81,7 +81,7 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), ComponentType::Type(), param0);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), ComponentType::getType(), param0);
 		components.push_back(component);
 		return component;
 	}
@@ -97,7 +97,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), ComponentType::Type(), param0, param1);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), ComponentType::getType(), param0, param1);
 		components.push_back(component);
 		return component;
 	}
@@ -113,7 +113,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), ComponentType::Type(), param0, param1, param2);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), ComponentType::getType(), param0, param1, param2);
 		components.push_back(component);
 		return component;
 	}
@@ -129,7 +129,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), ComponentType::Type(), param0, param1, param2, param3);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3);
 		components.push_back(component);
 		return component;
 	}
@@ -145,7 +145,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), ComponentType::Type(), param0, param1, param2, param3, param4);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3, param4);
 		components.push_back(component);
 		return component;
 	}
@@ -161,7 +161,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5)
 	{
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), ComponentType::Type(), param0, param1, param2, param3, param4, param5);
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
 		return component;
 	}
@@ -181,7 +181,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(components[i]->getType() == ComponentType::Type())
+			if(components[i]->getType() == ComponentType::getType())
 			{
 				if(!name.empty())
 				{
@@ -202,7 +202,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(components[i]->getType() == ComponentType::Type())
+			if(components[i]->getType() == ComponentType::getType())
 			{
 				if(!name.empty())
 				{
@@ -215,7 +215,7 @@ public:
 				}
 			}
 		}
-		throw std::runtime_error(("Couldn't find component " + ComponentType::Type()).c_str());
+		throw std::runtime_error(("Couldn't find component " + ComponentType::getType()).c_str());
 	}
 
 	std::shared_ptr<Component<PropertyFactoryType>> getComponent(const std::string &type, const std::string &name = std::string())
