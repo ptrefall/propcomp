@@ -14,7 +14,7 @@ typedef std::shared_ptr<TestComponent> TestComponentPtr;
 class TestComponent : public Totem::Component<>
 {
 public:
-	TestComponent(EntityPtr owner, const CL_String &name, TestSystemPtr sys);
+	TestComponent(const EntityPtr &owner, const CL_String &name, const TestSystemPtr &sys);
 	static CL_String getType() { return "Test"; }
         
 	void test();
@@ -22,7 +22,7 @@ public:
 private:
 	void OnSharedPropChanged(const CL_String &old_value, const CL_String &new_value);
 
-	EntityPtr owner;
+	EntityWPtr owner;
 	TestSystemPtr sys;
 
 	void OnSomeEvent();

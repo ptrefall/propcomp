@@ -12,14 +12,14 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent : public Totem::Component<>
 {
 public:
-	TestComponent(EntityPtr owner, const std::string &name, TestSystemPtr sys);
+	TestComponent(const EntityPtr &owner, const std::string &name, const TestSystemPtr &sys);
 	static std::string getType() { return "Test"; }
         
 	void test();
 
 private:
 	void OnSharedPropChanged(const std::string &old_value, const std::string &new_value);
-	EntityPtr owner;
+	EntityWPtr owner;
 	TestSystemPtr sys;
 
 	void OnSomeEvent();

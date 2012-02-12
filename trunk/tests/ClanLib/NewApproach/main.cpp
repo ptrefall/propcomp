@@ -75,8 +75,8 @@ void main()
             if(component_type == TestComponent::getType())
             {
 				try{
-                    auto testComp = entity->addComponent<TestComponent, TestSystemPtr>("Test1", sys);
-                    auto testComp2 = entity->addComponent<TestComponent, TestSystemPtr>("Test2", sys);
+                    auto testComp = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);
+                    auto testComp2 = entity->addComponent<TestComponent, const TestSystemPtr &>("Test2", sys);
                         
                     testComp->test();
                     testComp2->test();
