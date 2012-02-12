@@ -35,6 +35,7 @@ requirements or restrictions.
 
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
+typedef std::weak_ptr<Entity> EntityWPtr;
 
 class Entity 
 	:	public std::enable_shared_from_this<Entity>, 
