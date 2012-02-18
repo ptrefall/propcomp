@@ -20,6 +20,100 @@ public:
 	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
 };
 
+template<class PropertyType, class PropertyIndexType>
+class PropertyIndexValue
+{
+public:
+	PropertyIndexValue(std::shared_ptr<PropertyData<PropertyType>> data, const unsigned int &index)
+		: data(data), index(index)
+	{
+	}
+
+	const PropertyIndexType &get() const { return data->value[index]; }
+
+	void set(const PropertyIndexType &rhs, bool invokeValueChanged = true)
+	{
+		PropertyType oldValue = data->value;
+		data->value[index] = rhs;
+		if(invokeValueChanged)
+			data->valueChanged.invoke(oldValue, data->value);
+	}
+
+	void operator= (const PropertyIndexType &rhs) { set(rhs); }
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator= (const PropertyIndexValue<PropertyType, PropertyIndexType> &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+		throw std::runtime_error("Operation not supported!");
+	}
+	operator const PropertyIndexType &() const { return get(); }
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator+= (const PropertyIndexValue<PropertyType, PropertyIndexType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() + rhs.get());
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator+= (const PropertyIndexType& rhs)
+	{
+		set(get() + rhs);
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator-= (const PropertyIndexValue<PropertyType, PropertyIndexType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() - rhs.get());
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator-= (const PropertyIndexType& rhs)
+	{
+		set(get() - rhs);
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator*= (const PropertyIndexValue<PropertyType, PropertyIndexType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() * rhs.get());
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator*= (const PropertyIndexType& rhs)
+	{
+		set(get() * rhs);
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator/= (const PropertyIndexValue<PropertyType, PropertyIndexType>& rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		set(get() / rhs.get());
+		return *this;
+	}
+
+	PropertyIndexValue<PropertyType, PropertyIndexType> &operator/= (const PropertyIndexType& rhs)
+	{
+		set(get() / rhs);
+		return *this;
+	}
+
+private:
+	std::shared_ptr<PropertyData<PropertyType>> data;
+	const unsigned int &index;
+};
+
 template<class PropertyType>
 class Property : public IProperty
 {
@@ -94,6 +188,12 @@ public:
 	bool operator< (const Property<PropertyType>& rhs);
 	/// Check whether the value of rhs is greater than property's data value
 	bool operator< (const PropertyType& rhs);
+
+	template<class PropertyIndexType>
+	PropertyIndexValue<PropertyType, PropertyIndexType> at(const unsigned int &index)
+	{
+		return PropertyIndexValue<PropertyType, PropertyIndexType>(data, index);
+	}
 
 	/// Instead of property.get() this operator exist for convenience.
 	operator const PropertyType &() const { return data->value; }
