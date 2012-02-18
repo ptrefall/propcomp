@@ -87,6 +87,7 @@ void main()
 				auto test_prop = testComp->get<std::string>("TestProp");
 				std::cout << test_prop.get() << " from " << testComp->getName() << std::endl;
 				auto test_prop2 = testComp2->get<std::string>("TestProp");
+				test_prop2.at<char>(2) = 'a';
 				std::cout << test_prop2.get() << " from " << testComp2->getName() << std::endl;
                         
 				auto test_shared_prop = entity->get<std::string>("TestSharedProp");
