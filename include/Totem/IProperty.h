@@ -12,21 +12,14 @@ public:
 	virtual const unsigned int &getType() const = 0;
 	virtual const std::string &getName() const = 0;
 	virtual bool isNull() const = 0;
-	bool isDirty() const = 0;
-	void clearDirty() = 0;
+	virtual bool isDirty() const = 0;
+	virtual void clearDirty() = 0;
 
 	template<typename PropertyType>
 	static unsigned int getType()
 	{
-		static unsigned int typeId(newPropertyTypeId());
+		static unsigned int typeId(typeid(PropertyType).hash_code());
 		return typeId;
-	}
-
-private:
-	static unsigned int newPropertyTypeId()
-	{
-		static unsigned int next_id(0);
-		return next_id++;
 	}
 };
 

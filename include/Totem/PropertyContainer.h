@@ -345,10 +345,9 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(con
 template<class PropertyFactoryType, class UserData>
 inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties()
 {
-	std::foreach(properties.begin(), properties.end(); [&](std::shared_ptr<IProperty> property)
-	{
-		sign_PropertyRemoved.invoke(property);
-	});
+	for(auto it = properties.begin(); it != properties.end(); ++it)
+		sign_PropertyRemoved.invoke(it->second);
+
 	properties.clear();
 	clearDeletedProperties();
 }
@@ -356,10 +355,9 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllPropertie
 template<class PropertyFactoryType, class UserData>
 inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties(const UserData &userData)
 {
-	std::foreach(properties.begin(), properties.end(); [&](std::shared_ptr<IProperty> property)
-	{
-		sign_PropertyWithUserDataRemoved.invoke(property, userData);
-	});
+	for(auto it = properties.begin(); it != properties.end(); ++it)
+		sign_PropertyWithUserDataRemoved.invoke(it->second, userData);
+
 	properties.clear();
 	clearDeletedProperties();
 }
