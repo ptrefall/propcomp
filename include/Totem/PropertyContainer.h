@@ -182,11 +182,29 @@ public:
 	void removeProperty(const std::string& name, bool postponeDelete = false);
 
 	/**
+	 * Remove the property of specified name from PropertyContainer with
+	 * option to postpone deletion until the next time update
+	 * is called on the PropertyContainer.
+	 *
+	 * @param name The name of the property.
+	 * @param userData The userdata is of type specified for the PropertyContainer's class template, and provides optional userdata description of the property.
+	 * @param postponeDelete Flag whether to postpone the deletion of this property (if true), or delete it immediately (if false). Defaults to false.
+	 */
+	void removeProperty(const std::string& name, const UserData &userData, bool postponeDelete = false);
+	
+	/**
 	 * Remove all properties from PropertyContainer.
 	 *
 	 */
 	void removeAllProperties();
 
+	/**
+	 * Remove all properties from PropertyContainer.
+	 *
+	 * @param userData The userdata is of type specified for the PropertyContainer's class template, and provides optional userdata description of the property.
+	 */
+	void removeAllProperties(const UserData &userData);
+	
 	/**
 	 * Delete all properties that was deleted last time update was called
 	 * and marked postponeDelete.
@@ -242,7 +260,7 @@ public:
 	 * propertyWithUserDataAdded signal. It's through this function call we can
 	 * register slots to the propertyWithUserDataAdded signal.
 	 *
-	 * @return Returns the propertyWithUserDataAdded signal of this property handler.
+	 * @return Returns the propertyWithUserDataAdded signal of this property container.
 	 */
 	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> &propertyWithUserDataAdded() { return sign_PropertyWithUserDataAdded; }
 
@@ -251,10 +269,14 @@ protected:
 	std::unordered_map<std::string, std::shared_ptr<IProperty>> properties;
 	/// The list of all properties pending deletion in this PropertyContainer.
 	std::vector<std::shared_ptr<IProperty>> deletedProperties;
-	/// Signal that's emitted when a property with NO userdata is added to the property handler.
+	/// Signal that's emitted when a property with NO userdata is added to the property container.
 	sigslot::signal1<std::shared_ptr<IProperty>> sign_PropertyAdded;
-	/// Signal that's emitted when a property with userdata is added to the property handler.
+	/// Signal that's emitted when a property with userdata is added to the property container.
 	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> sign_PropertyWithUserDataAdded;
+	/// Signal that's emitted when a property with NO userdata is removed from the property container.
+	sigslot::signal1<std::shared_ptr<IProperty>> sign_PropertyRemoved;
+	/// Signal that's emitted when a property with userdata is removed from the property container.
+	sigslot::signal2<std::shared_ptr<IProperty>, const UserData&> sign_PropertyWithUserDataRemoved;
 };
 
 //------------------------------------------------------
@@ -300,12 +322,44 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(con
 		if(postponeDelete)
 			deletedProperties.push_back(property);
 		properties.erase(it);
+
+		sign_PropertyRemoved.invoke(property);
+	}
+}
+
+template<class PropertyFactoryType, class UserData>
+inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(const std::string& name, const UserData &userData, bool postponeDelete)
+{
+	auto it = properties.find(name);
+	if(it != properties.end())
+	{
+		std::shared_ptr<IProperty> property = (*it).second;
+		if(postponeDelete)
+			deletedProperties.push_back(property);
+		properties.erase(it);
+
+		sign_PropertyWithUserDataRemoved.invoke(property, userData);
 	}
 }
 
 template<class PropertyFactoryType, class UserData>
 inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties()
 {
+	std::foreach(properties.begin(), properties.end(); [&](std::shared_ptr<IProperty> property)
+	{
+		sign_PropertyRemoved.invoke(property);
+	});
+	properties.clear();
+	clearDeletedProperties();
+}
+
+template<class PropertyFactoryType, class UserData>
+inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties(const UserData &userData)
+{
+	std::foreach(properties.begin(), properties.end(); [&](std::shared_ptr<IProperty> property)
+	{
+		sign_PropertyWithUserDataRemoved.invoke(property, userData);
+	});
 	properties.clear();
 	clearDeletedProperties();
 }
