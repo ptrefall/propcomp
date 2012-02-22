@@ -17,6 +17,7 @@ public:
 	PropertyType value;
 	unsigned int type;
 	std::string name;
+	bool dirty;
 	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
 };
 
@@ -35,6 +36,7 @@ public:
 	{
 		PropertyType oldValue = data->value;
 		data->value[index] = rhs;
+		data->dirty = true;
 		if(invokeValueChanged)
 			data->valueChanged.invoke(oldValue, data->value);
 	}
@@ -123,11 +125,13 @@ public:
 		: data(copy.data)
 	{
 	}
+
 	Property(const std::string &name)
 		: data(std::make_shared<PropertyData<PropertyType>>())
 	{
 		data->type = IProperty::getType<PropertyType>();
 		data->name = name;
+		data->dirty = false; 
 	}
 
 	void set(const PropertyType& value, bool invokeValueChanged = true) 
@@ -136,6 +140,7 @@ public:
 		{
 			PropertyType oldValue = data->value;
 			data->value = value; 
+			data->dirty = false; 
 
 			if(invokeValueChanged)
 				data->valueChanged.invoke(oldValue, value);
@@ -146,6 +151,8 @@ public:
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
+	bool isDirty() const override { return data->dirty; }
+	void clearDirty() override { data->dirty = false; }
 
 	sigslot::signal2<const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 
