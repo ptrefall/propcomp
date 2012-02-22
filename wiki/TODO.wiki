@@ -13,6 +13,7 @@
      * Updated description and feature list
      * Easier examples
    * Docs/Wiki
+     * Make note that for complex objects stored in a Property, when changed via a function call to the reference of the stored object that changes the object's state, a custom call to valueChanged().invoke() has to be performed in order to broadcast the changed state of the property. There's no way for totem's property to track such changes automatically.
  * 8) Write stress tests for all features of Totem EDK.
  * 9) Write simple game example.
  * 10) Write Entity Editor tool.
