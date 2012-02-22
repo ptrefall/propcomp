@@ -195,6 +195,12 @@ public:
 	void clearDeletedProperties();
 
 	/**
+	 * Clears the dirty flag on all properties.
+	 *
+	 */
+	void clearDirtyProperties();
+
+	/**
 	 * Get a reference to the entire map of properties owned by the PropertyContainer.
 	 *
 	 * @return Returns a reference to the PropertyContainer's property map.
@@ -314,6 +320,15 @@ template<class PropertyFactoryType, class UserData>
 inline void PropertyContainer<PropertyFactoryType, UserData>::clearDeletedProperties()
 {
 	deletedProperties.clear();
+}
+
+template<class PropertyFactoryType, class UserData>
+inline void PropertyContainer<PropertyFactoryType, UserData>::clearDirtyProperties()
+{
+	for(auto it = properties.begin(); it != properties.end(); ++it)
+	{
+		(*it).second->clearDirty();
+	}
 }
 
 } //namespace Totem 
