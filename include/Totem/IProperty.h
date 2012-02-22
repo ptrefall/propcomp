@@ -12,6 +12,8 @@ public:
 	virtual const unsigned int &getType() const = 0;
 	virtual const std::string &getName() const = 0;
 	virtual bool isNull() const = 0;
+	bool isDirty() const = 0;
+	void clearDirty() = 0;
 
 	template<typename PropertyType>
 	static unsigned int getType()
