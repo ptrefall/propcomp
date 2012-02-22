@@ -68,6 +68,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), ComponentType::getType());
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -77,6 +79,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), name);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -86,6 +90,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), ComponentType::getType(), param0);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -95,6 +101,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), name, param0);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -104,6 +112,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), ComponentType::getType(), param0, param1);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -113,6 +123,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), name, param0, param1);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -122,6 +134,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), ComponentType::getType(), param0, param1, param2);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -131,6 +145,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), name, param0, param1, param2);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -140,6 +156,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -149,6 +167,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), name, param0, param1, param2, param3);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -158,6 +178,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3, param4);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -167,6 +189,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), name, param0, param1, param2, param3, param4);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -176,6 +200,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), ComponentType::getType());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), ComponentType::getType(), param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -185,6 +211,8 @@ public:
 		checkComponentNamingHistory(ComponentType::getType(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), name, param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
+
+		sign_ComponentAdded.invoke(component);
 		return component;
 	}
 
@@ -285,6 +313,9 @@ protected:
 
 	std::vector<std::shared_ptr<Component<PropertyFactoryType>>> components;
 	std::unordered_map<std::string, std::vector<std::string>> component_naming_history;
+
+	/// Signal that's emitted when a component with added to the component container.
+	sigslot::signal1<std::shared_ptr<Component<PropertyFactoryType>>> sign_ComponentAdded;
 };
 
 } //namespace Totem
