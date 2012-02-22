@@ -140,7 +140,7 @@ public:
 		{
 			PropertyType oldValue = data->value;
 			data->value = value; 
-			data->dirty = false; 
+			data->dirty = true; 
 
 			if(invokeValueChanged)
 				data->valueChanged.invoke(oldValue, value);
