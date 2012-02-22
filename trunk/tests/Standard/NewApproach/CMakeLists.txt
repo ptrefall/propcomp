@@ -28,10 +28,13 @@ cmake_minimum_required(VERSION 2.8.3)
 project(TestNewApproach)
 
 set(TOTEM_HDRS
+  ../../../include/Totem/IComponent.h
   ../../../include/Totem/Component.h
   ../../../include/Totem/ComponentContainer.h
+  ../../../include/Totem/IProperty.h
   ../../../include/Totem/Property.h
   ../../../include/Totem/PropertyContainer.h
+  ../../../include/Totem/IPropertyList.h
   ../../../include/Totem/PropertyList.h
   ../../../include/Totem/PropertyListContainer.h
   ../../../include/Totem/HashedString.h
