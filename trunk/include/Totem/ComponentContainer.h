@@ -243,22 +243,7 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> getComponent(const std::string &name = std::string())
 	{
-		for(unsigned int i = 0; i < components.size(); i++)
-		{
-			if(components[i]->getType() == IComponent::getType<ComponentType>())
-			{
-				if(!name.empty())
-				{
-					if(components[i]->getName() == name)
-						return std::static_pointer_cast<ComponentType>(components[i]);
-				}
-				else
-				{
-					return std::static_pointer_cast<ComponentType>(components[i]);
-				}
-			}
-		}
-		throw std::runtime_error(("Couldn't find component " + IComponent::getType<ComponentType>()).c_str());
+		return getComponent(IComponent::getType<ComponentType>(), name);
 	}
 
 	std::shared_ptr<IComponent> getComponent(const std::string &type, const std::string &name = std::string())
@@ -278,7 +263,7 @@ public:
 				}
 			}
 		}
-		throw std::runtime_error(("Couldn't find component " + type).c_str());
+		throw std::runtime_error(("Couldn't find component " + type + " with name " + name).c_str());
 	}
 
 	std::vector<std::shared_ptr<IComponent>> &getComponents() { return components; }
@@ -287,6 +272,54 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 			components[i]->update(deltaTime);
+	}
+
+	template<class ComponentType>
+	void removeComponent(const std::string &name = std::string(), bool upholdOrderInList = false)
+	{
+		removeComponent(IComponent::getType<ComponentType>(), name, upholdOrderInList);
+	}
+
+	void removeComponent(const std::string &type, const std::string &name = std::string(), bool upholdOrderInList = false)
+	{
+		for(unsigned int i = 0; i < components.size(); i++)
+		{
+			if(components[i]->getType() == type)
+			{
+				if(!name.empty())
+				{
+					if(components[i]->getName() == name)
+					{
+						sign_ComponentRemoved.invoke(components[i]);
+						if(upholdOrderInList)
+						{
+							components.erase(components.begin()+i);
+						}
+						else
+						{
+							components[i] = components.back();
+							components.pop_back();
+						}
+						return;
+					}
+				}
+				else
+				{
+					sign_ComponentRemoved.invoke(components[i]);
+					if(upholdOrderInList)
+					{
+						components.erase(components.begin()+i);
+					}
+					else
+					{
+						components[i] = components.back();
+						components.pop_back();
+					}
+					return;
+				}
+			}
+		}
+		throw std::runtime_error(("Couldn't find component " + type + " with name " + name).c_str());
 	}
 
 protected:
@@ -315,8 +348,10 @@ protected:
 	std::vector<std::shared_ptr<IComponent>> components;
 	std::unordered_map<std::string, std::vector<std::string>> component_naming_history;
 
-	/// Signal that's emitted when a component with added to the component container.
+	/// Signal that's emitted when a component was added to the component container.
 	sigslot::signal1<std::shared_ptr<IComponent>> sign_ComponentAdded;
+	/// Signal that's emitted when a component was removed from the component container.
+	sigslot::signal1<std::shared_ptr<IComponent>> sign_ComponentRemoved;
 };
 
 } //namespace Totem
