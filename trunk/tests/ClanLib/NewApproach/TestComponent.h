@@ -11,11 +11,10 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent;
 typedef std::shared_ptr<TestComponent> TestComponentPtr;
 
-class TestComponent : public Totem::Component<>
+class TestComponent : public Totem::Component<TestComponent>
 {
 public:
 	TestComponent(const EntityPtr &owner, const CL_String &name, const TestSystemPtr &sys);
-	static CL_String getType() { return "Test"; }
         
 	void test();
 

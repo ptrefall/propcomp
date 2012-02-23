@@ -4,7 +4,7 @@
 #include <iostream>
 
 TestComponent::TestComponent(const EntityPtr &owner, const CL_String &name, const TestSystemPtr &sys) 
-: Totem::Component<>(getType(), name), owner(owner), sys(sys) 
+: Totem::Component<TestComponent>(name), owner(owner), sys(sys) 
 {
 	test_prop = add<CL_String>("TestProp", "Testing Property");
 	test_shared_prop = owner->add<CL_String>("TestSharedProp", "Testing Shared Property");
