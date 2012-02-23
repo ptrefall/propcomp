@@ -16,7 +16,8 @@ class PropertyListData
 {
 public:
 	std::vector<PropertyType> value;
-	unsigned int type;
+	unsigned int typeId;
+	std::string type;
 	std::string name;
 	sigslot::signal3<const unsigned int &, const PropertyType &, const PropertyType &> valueChanged;
 	sigslot::signal2<const unsigned int &, const PropertyType &> valueAdded;
@@ -132,7 +133,8 @@ public:
 	PropertyList(const std::string &name)
 		: data(std::make_shared<PropertyListData<PropertyType>>())
 	{
-		data->type = IProperty::getType<PropertyType>();
+		data->typeId = IPropertyList::getTypeId<PropertyType>();
+		data->type = IPropertyList::getType<PropertyType>();
 		data->name = name;
 	}
 
@@ -188,7 +190,8 @@ public:
 
 	const std::vector<PropertyType> &get() const { return data->value; }
 	std::vector<PropertyType> &get() { return data->value; }
-	const unsigned int &getType() const override { return data->type; }
+	const unsigned int &getTypeId() const override { return data->typeId; }
+	const std::string &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
 

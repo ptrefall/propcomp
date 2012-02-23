@@ -15,7 +15,8 @@ class PropertyData
 {
 public:
 	PropertyType value;
-	unsigned int type;
+	unsigned int typeId;
+	std::string type;
 	std::string name;
 	bool dirty;
 	sigslot::signal2<const PropertyType &, const PropertyType &> valueChanged;
@@ -34,6 +35,7 @@ public:
 	Property(const std::string &name)
 		: data(std::make_shared<PropertyData<PropertyType>>())
 	{
+		data->typeId = IProperty::getTypeId<PropertyType>();
 		data->type = IProperty::getType<PropertyType>();
 		data->name = name;
 		data->dirty = false; 
@@ -54,7 +56,8 @@ public:
 
 	const PropertyType &get() const { return data->value; }
 	PropertyType &get() { return data->value; }
-	const unsigned int &getType() const override { return data->type; }
+	const unsigned int &getTypeId() const override { return data->typeId; }
+	const std::string &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
 	bool isDirty() const override { return data->dirty; }

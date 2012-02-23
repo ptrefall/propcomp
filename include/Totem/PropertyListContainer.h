@@ -180,6 +180,17 @@ public:
 	void removePropertyList(const std::string& name, bool postponeDelete = false);
 
 	/**
+	 * Remove the property of specified name from PropertyContainer with
+	 * option to postpone deletion until the next time update
+	 * is called on the PropertyContainer.
+	 *
+	 * @param name The name of the property.
+	 * @param userData The userdata is of type specified for the PropertyContainer's class template, and provides optional userdata description of the property.
+	 * @param postponeDelete Flag whether to postpone the deletion of this property (if true), or delete it immediately (if false). Defaults to false.
+	 */
+	void removePropertyList(const std::string& name, const UserData &userData, bool postponeDelete = false);
+
+	/**
 	 * Remove all properties from PropertyContainer.
 	 *
 	 */
@@ -227,7 +238,7 @@ public:
 	 *
 	 * @return Returns the propertyAdded signal of this property handler.
 	 */
-	sigslot::signal1<std::shared_ptr<IPropertyList>> propertyListAdded() { return sign_PropertyListAdded; }
+	sigslot::signal1<std::shared_ptr<IPropertyList>> &propertyListAdded() { return sign_PropertyListAdded; }
 
 	/**
 	 * Function that gives the outside access to the PropertyContainer's
@@ -238,15 +249,22 @@ public:
 	 */
 	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> &propertyListWithUserDataAdded() { return sign_PropertyListWithUserDataAdded; }
 
+	sigslot::signal1<std::shared_ptr<IPropertyList>> &propertyListRemoved() { return sign_PropertyListRemoved; }
+	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> &propertyListWithUserDataRemoved() { return sign_PropertyListWithUserDataRemoved; }
+
 protected:
 	/// The map of all properties owned by this PropertyContainer.
 	std::unordered_map<std::string, std::shared_ptr<IPropertyList>> shared_property_lists;
 	/// The list of all properties pending deletion in this PropertyContainer.
 	std::vector<std::shared_ptr<IPropertyList>> deletedPropertyLists;
-	/// Signal that's emitted when a property with NO userdata is added to the property handler.
+	/// Signal that's emitted when a property with NO userdata is added to the property container.
 	sigslot::signal1<std::shared_ptr<IPropertyList>> sign_PropertyListAdded;
-	/// Signal that's emitted when a property with userdata is added to the property handler.
+	/// Signal that's emitted when a property with userdata is added to the property container.
 	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> sign_PropertyListWithUserDataAdded;
+	/// Signal that's emitted when a property with NO userdata is removed from the property container.
+	sigslot::signal1<std::shared_ptr<IPropertyList>> sign_PropertyListRemoved;
+	/// Signal that's emitted when a property with userdata is removed from the property container.
+	sigslot::signal2<std::shared_ptr<IPropertyList>, const UserData&> sign_PropertyListWithUserDataRemoved;
 };
 
 //------------------------------------------------------
@@ -292,6 +310,23 @@ inline void PropertyListContainer<PropertyListFactoryType, UserData>::removeProp
 		if(postponeDelete)
 			deletedPropertyLists.push_back(property);
 		shared_property_lists.erase(it);
+
+		sign_PropertyListRemoved.invoke(property);
+	}
+}
+
+template<class PropertyListFactoryType, class UserData>
+inline void PropertyListContainer<PropertyListFactoryType, UserData>::removePropertyList(const std::string& name, const UserData &userData, bool postponeDelete)
+{
+	auto it = shared_property_lists.find(name);
+	if(it != shared_property_lists.end())
+	{
+		std::shared_ptr<IPropertyList> property = (*it).second;
+		if(postponeDelete)
+			deletedPropertyLists.push_back(property);
+		shared_property_lists.erase(it);
+
+		sign_PropertyListWithUserDataRemoved.invoke(property, userData);
 	}
 }
 
