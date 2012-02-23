@@ -322,6 +322,9 @@ public:
 		throw std::runtime_error(("Couldn't find component " + type + " with name " + name).c_str());
 	}
 
+	sigslot::signal1<std::shared_ptr<IComponent>> &componentAdded() { return sign_ComponentAdded; }
+	sigslot::signal1<std::shared_ptr<IComponent>> &componentRemoved() { return sign_ComponentRemoved; }
+
 protected:
 	void checkComponentNamingHistory(const std::string &type, const std::string &name)
 	{

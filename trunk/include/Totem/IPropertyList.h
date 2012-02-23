@@ -9,22 +9,28 @@ namespace Totem
 class IPropertyList
 {
 public:
-	virtual const unsigned int &getType() const = 0;
+	virtual const unsigned int &getTypeId() const = 0;
+	virtual const std::string &getType() const = 0;
 	virtual const std::string &getName() const = 0;
 	virtual bool isNull() const = 0;
 
 	template<typename PropertyType>
-	static unsigned int getType()
+	static const unsigned int &getTypeId()
 	{
-		static unsigned int typeId(newPropertyTypeId());
+		static unsigned int typeId(typeid(PropertyType).hash_code());
 		return typeId;
 	}
 
-private:
-	static unsigned int newPropertyTypeId()
+	template<typename PropertyType>
+	static const std::string &getType()
 	{
-		static unsigned int next_id(0);
-		return next_id++;
+		static std::string type;
+		if(type.empty())
+		{
+			std::string temp_type(typeid(PropertyType).name());
+			type = temp_type.substr(6, temp_type.size());
+		}
+		return type;
 	}
 };
 
