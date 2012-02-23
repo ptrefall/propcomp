@@ -28,7 +28,12 @@ public:
 		if(type.empty())
 		{
 			std::string temp_type(typeid(PropertyType).name());
-			type = temp_type.substr(6, temp_type.size());
+			if(temp_type.find("class ") != std::string::npos)
+				type = temp_type.substr(6, temp_type.size());
+			else if(temp_type.find("struct ") != std::string::npos)
+				type = temp_type.substr(7, temp_type.size());
+			else
+				type = temp_type;
 		}
 		return type;
 	}
