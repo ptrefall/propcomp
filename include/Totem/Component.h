@@ -21,12 +21,10 @@ public:
 	Component(const std::string &name) 
 		: PropertyContainer<PropertyFactoryType>(), name(name)
 	{
-		typeId = IComponent::getTypeId<ComponentType>();
-		type = IComponent::getType<ComponentType>();
 	}
 
-	const unsigned int &getTypeId() const override { return typeId; }
-	const std::string &getType() const override { return type; }
+	const unsigned int &getTypeId() const override { return IComponent::getTypeId<ComponentType>(); }
+	const std::string &getType() const override { return IComponent::getType<ComponentType>(); }
 	const std::string &getName() const override { return name; }
 
 	Component &operator= (const Component &rhs)
@@ -38,8 +36,6 @@ public:
 	}
 	
 protected:
-	unsigned int typeId;
-	std::string type;
 	std::string name;
 };
 
