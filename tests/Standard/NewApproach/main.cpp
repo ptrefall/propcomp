@@ -76,7 +76,7 @@ void main()
         //We iterate over serialized components and add one by one to the entity
         std::for_each(loaded_component_types.begin(), loaded_component_types.end(), [&](const std::string &component_type)
 		{
-			if(component_type == Totem::IComponent::getType<TestComponent>())
+			if(component_type == Totem::IComponent<>::getType<TestComponent>())
 			{
 				auto testComp = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);
 				auto testComp2 = entity->addComponent<TestComponent, const TestSystemPtr &>("Test2", sys);

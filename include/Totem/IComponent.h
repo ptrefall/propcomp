@@ -1,14 +1,19 @@
 #pragma once
 
+#include "PropertyContainer.h"
+
 #include <memory>
 #include <string>
 
 namespace Totem
 {
 
-class IComponent
+template<class PropertyFactoryType = DefaultPropertyFactory>
+class IComponent : public PropertyContainer<PropertyFactoryType>
 {
 public:
+	IComponent() : PropertyContainer<PropertyFactoryType>() {}
+
 	virtual const unsigned int &getTypeId() const = 0;
 	virtual const std::string &getType() const = 0;
 	virtual const std::string &getName() const = 0;
