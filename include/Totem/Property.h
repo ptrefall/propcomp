@@ -104,6 +104,8 @@ public:
 
 	/// Instead of property.get() this operator exist for convenience.
 	operator const PropertyType &() const { return data->value; }
+	/// Instead of property.get() this operator exist for convenience.
+	operator PropertyType &() { return data->value; }
 
 private:
 	std::shared_ptr<PropertyData<PropertyType>> data;

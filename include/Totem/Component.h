@@ -25,10 +25,9 @@ public:
 		type = IComponent::getType<ComponentType>();
 	}
 
-	const std::string &getType() const override { return type; }
 	const unsigned int &getTypeId() const override { return typeId; }
-	const std::string &getName() const { return name; }
-	virtual void update(const float &/*deltaTime*/) {}
+	const std::string &getType() const override { return type; }
+	const std::string &getName() const override { return name; }
 
 	Component &operator= (const Component &rhs)
 	{
