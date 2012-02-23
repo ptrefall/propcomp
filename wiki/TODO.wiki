@@ -2,7 +2,6 @@
 
 = Tasks =
  * 2) Add componentRemoved signal to component container
- * 2) Rewrite component/component container to use same structure as property/property container with IComponent, rtti type identification, etc
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -25,6 +24,10 @@ which needs to get access to the properties added by a component.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 1) Fix RTTI in properties and components to be consistent between runtimes.
+ * 2) Rewrite component/component container to use same structure as property/property container with IComponent, rtti type identification, etc
+ * 1) ComponentContainer needs signals for when components are added.
+ * 1) PropertyComponent needs signal for when properties are removed.
  * 2) Component name handling (see bottom of page)
  * 1) Change static Type() function on components to getType(), to be more in line with the virtual getType() you can do on instantiated components.
  * 2) Remove TOTEM_WITHOUT_PREPROCESSING in cmake
