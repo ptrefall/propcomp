@@ -53,6 +53,7 @@ public:
 	}
 
 	const PropertyType &get() const { return data->value; }
+	PropertyType &get() { return data->value; }
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }

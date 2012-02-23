@@ -35,6 +35,7 @@ public:
 	}
 
 	const PropertyType &get() const { return data->value[index]; }
+	PropertyType &get() { return data->value[index]; }
 
 	void set(const PropertyType &rhs, bool invokeValueChanged = true)
 	{
@@ -186,6 +187,7 @@ public:
 	}
 
 	const std::vector<PropertyType> &get() const { return data->value; }
+	std::vector<PropertyType> &get() { return data->value; }
 	const unsigned int &getType() const override { return data->type; }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
