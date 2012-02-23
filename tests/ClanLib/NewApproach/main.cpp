@@ -22,10 +22,13 @@ requirements or restrictions.
 */
 
 #include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
+#include "../../../editions/ClanLib/include/Totem/IComponent.h"
 #include "../../../editions/ClanLib/include/Totem/Component.h"
 #include "../../../editions/ClanLib/include/Totem/ComponentContainer.h"
+#include "../../../editions/ClanLib/include/Totem/IProperty.h"
 #include "../../../editions/ClanLib/include/Totem/Property.h"
 #include "../../../editions/ClanLib/include/Totem/PropertyContainer.h"
+#include "../../../editions/ClanLib/include/Totem/IPropertyList.h"
 #include "../../../editions/ClanLib/include/Totem/PropertyList.h"
 #include "../../../editions/ClanLib/include/Totem/PropertyListContainer.h"
 #include "../../../editions/ClanLib/include/Totem/HashedString.h"
@@ -66,13 +69,13 @@ void main()
 
         //We have loaded a list of serialized components that belong to this entity we're building
         std::vector<CL_String> loaded_component_types;
-        loaded_component_types.push_back("Test");
+        loaded_component_types.push_back("TestComponent");
 
         //We iterate over serialized components and add one by one to the entity
 		for(unsigned int i = 0; i < loaded_component_types.size(); i++)
 		{
 			const CL_String &component_type = loaded_component_types[i];
-            if(component_type == TestComponent::getType())
+            if(component_type == Totem::IComponent::getType<TestComponent>())
             {
 				try{
                     auto testComp = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);

@@ -28,10 +28,13 @@ cmake_minimum_required(VERSION 2.8.3)
 project(TestNewApproach)
 
 set(TOTEM_HDRS
+  ../../../editions/ClanLib/include/Totem/IComponent.h
   ../../../editions/ClanLib/include/Totem/Component.h
   ../../../editions/ClanLib/include/Totem/ComponentContainer.h
+  ../../../editions/ClanLib/include/Totem/IProperty.h
   ../../../editions/ClanLib/include/Totem/Property.h
   ../../../editions/ClanLib/include/Totem/PropertyContainer.h
+  ../../../editions/ClanLib/include/Totem/IPropertyList.h
   ../../../editions/ClanLib/include/Totem/PropertyList.h
   ../../../editions/ClanLib/include/Totem/PropertyListContainer.h
   ../../../editions/ClanLib/include/Totem/HashedString.h
