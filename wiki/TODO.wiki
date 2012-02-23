@@ -1,6 +1,7 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * 1) Dirty tracking on PropertyList?
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
