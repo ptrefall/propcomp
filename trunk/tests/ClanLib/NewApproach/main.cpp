@@ -75,7 +75,7 @@ void main()
 		for(unsigned int i = 0; i < loaded_component_types.size(); i++)
 		{
 			const CL_String &component_type = loaded_component_types[i];
-            if(component_type == Totem::IComponent::getType<TestComponent>())
+            if(component_type == Totem::IComponent<>::getType<TestComponent>())
             {
 				try{
                     auto testComp = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);

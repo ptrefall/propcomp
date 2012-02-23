@@ -5,7 +5,6 @@
 #pragma warning(disable : 4481)
 
 #include "IComponent.h"
-#include "PropertyContainer.h"
 
 #include <sigslot.h>
 #include <string>
@@ -15,11 +14,11 @@ namespace Totem
 {
 
 template<class ComponentType, class PropertyFactoryType = DefaultPropertyFactory>
-class Component : public IComponent, public PropertyContainer<PropertyFactoryType>, public sigslot::has_slots<>
+class Component : public IComponent<PropertyFactoryType>, public sigslot::has_slots<>
 {
 public:
 	Component(const std::string &name) 
-		: PropertyContainer<PropertyFactoryType>(), name(name)
+		: name(name)
 	{
 	}
 

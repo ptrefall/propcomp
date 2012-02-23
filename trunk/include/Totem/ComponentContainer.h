@@ -66,8 +66,8 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), IComponent::getType<ComponentType>());
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>());
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -77,7 +77,7 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), name);
 		components.push_back(component);
 
@@ -88,8 +88,8 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), IComponent::getType<ComponentType>(), param0);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -99,7 +99,7 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), name, param0);
 		components.push_back(component);
 
@@ -110,8 +110,8 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), IComponent::getType<ComponentType>(), param0, param1);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0, param1);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -121,7 +121,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), name, param0, param1);
 		components.push_back(component);
 
@@ -132,8 +132,8 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), IComponent::getType<ComponentType>(), param0, param1, param2);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0, param1, param2);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -143,7 +143,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), name, param0, param1, param2);
 		components.push_back(component);
 
@@ -154,8 +154,8 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), IComponent::getType<ComponentType>(), param0, param1, param2, param3);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0, param1, param2, param3);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -165,7 +165,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), name, param0, param1, param2, param3);
 		components.push_back(component);
 
@@ -176,8 +176,8 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), IComponent::getType<ComponentType>(), param0, param1, param2, param3, param4);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0, param1, param2, param3, param4);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -187,7 +187,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), name, param0, param1, param2, param3, param4);
 		components.push_back(component);
 
@@ -198,8 +198,8 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), IComponent::getType<ComponentType>());
-		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), IComponent::getType<ComponentType>(), param0, param1, param2, param3, param4, param5);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), IComponent<PropertyFactoryType>::getType<ComponentType>());
+		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), IComponent<PropertyFactoryType>::getType<ComponentType>(), param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
 
 		sign_ComponentAdded.invoke(component);
@@ -209,7 +209,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5)
 	{
-		checkComponentNamingHistory(IComponent::getType<ComponentType>(), name);
+		checkComponentNamingHistory(IComponent<PropertyFactoryType>::getType<ComponentType>(), name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), name, param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
 
@@ -224,7 +224,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(components[i]->getType() == IComponent::getType<ComponentType>())
+			if(components[i]->getType() == IComponent<PropertyFactoryType>::getType<ComponentType>())
 			{
 				if(!name.empty())
 				{
@@ -243,10 +243,10 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> getComponent(const std::string &name = std::string())
 	{
-		return getComponent(IComponent::getType<ComponentType>(), name);
+		return std::static_pointer_cast<ComponentType>(getComponent(IComponent<PropertyFactoryType>::getType<ComponentType>(), name));
 	}
 
-	std::shared_ptr<IComponent> getComponent(const std::string &type, const std::string &name = std::string())
+	std::shared_ptr<IComponent<PropertyFactoryType>> getComponent(const std::string &type, const std::string &name = std::string())
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
@@ -266,7 +266,7 @@ public:
 		throw std::runtime_error(("Couldn't find component " + type + " with name " + name).c_str());
 	}
 
-	std::vector<std::shared_ptr<IComponent>> &getComponents() { return components; }
+	std::vector<std::shared_ptr<IComponent<PropertyFactoryType>>> &getComponents() { return components; }
 
 	void updateComponents(const float &deltaTime)
 	{
@@ -277,7 +277,7 @@ public:
 	template<class ComponentType>
 	void removeComponent(const std::string &name = std::string(), bool upholdOrderInList = false)
 	{
-		removeComponent(IComponent::getType<ComponentType>(), name, upholdOrderInList);
+		removeComponent(IComponent<PropertyFactoryType>::getType<ComponentType>(), name, upholdOrderInList);
 	}
 
 	void removeComponent(const std::string &type, const std::string &name = std::string(), bool upholdOrderInList = false)
@@ -322,8 +322,8 @@ public:
 		throw std::runtime_error(("Couldn't find component " + type + " with name " + name).c_str());
 	}
 
-	sigslot::signal1<std::shared_ptr<IComponent>> &componentAdded() { return sign_ComponentAdded; }
-	sigslot::signal1<std::shared_ptr<IComponent>> &componentRemoved() { return sign_ComponentRemoved; }
+	sigslot::signal1<std::shared_ptr<IComponent<PropertyFactoryType>>> &componentAdded() { return sign_ComponentAdded; }
+	sigslot::signal1<std::shared_ptr<IComponent<PropertyFactoryType>>> &componentRemoved() { return sign_ComponentRemoved; }
 
 protected:
 	void checkComponentNamingHistory(const std::string &type, const std::string &name)
@@ -348,13 +348,13 @@ protected:
 
 	virtual EntityPtrType getComponentOwner() = 0;
 
-	std::vector<std::shared_ptr<IComponent>> components;
+	std::vector<std::shared_ptr<IComponent<PropertyFactoryType>>> components;
 	std::unordered_map<std::string, std::vector<std::string>> component_naming_history;
 
 	/// Signal that's emitted when a component was added to the component container.
-	sigslot::signal1<std::shared_ptr<IComponent>> sign_ComponentAdded;
+	sigslot::signal1<std::shared_ptr<IComponent<PropertyFactoryType>>> sign_ComponentAdded;
 	/// Signal that's emitted when a component was removed from the component container.
-	sigslot::signal1<std::shared_ptr<IComponent>> sign_ComponentRemoved;
+	sigslot::signal1<std::shared_ptr<IComponent<PropertyFactoryType>>> sign_ComponentRemoved;
 };
 
 } //namespace Totem
