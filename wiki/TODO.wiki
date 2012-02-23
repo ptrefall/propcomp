@@ -23,6 +23,7 @@ which needs to get access to the properties added by a component.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 1) Add non-const ref versions of get() function on Property, PropertyList and PropertyListIndexValue. When these are called, one has to handle the valueChanged, and other value state changing actions via invoking the appropriate signal manually.
  * 2) Add componentRemoved signal to component container
  * 1) Fix RTTI in properties and components to be consistent between runtimes.
  * 2) Rewrite component/component container to use same structure as property/property container with IComponent, rtti type identification, etc
