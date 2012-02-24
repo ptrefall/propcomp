@@ -418,7 +418,7 @@ inline void EventSystem<EventFactory>::sendEvent6(HashedString1 type, T arg0, U 
 template<class EventFactory>
 inline sigslot::signal0<> &EventSystem<EventFactory>::registerToEvent0(HashedString1 type)
 {
-	const unsigned int &hash_id = type.getId();
+	unsigned int hash_id = type.getId();
 	auto it = events0.find(hash_id);
 	if(it == events0.end())
 	{

@@ -36,7 +36,7 @@ protected:
 	virtual unsigned int getInternalTypeId() const = 0;
 
 	template<typename ComponentType>
-	static const unsigned int &getInternalTypeId()
+	static unsigned int getInternalTypeId()
 	{
 		static unsigned int typeId(typeid(ComponentType).hash_code());
 		return typeId;
