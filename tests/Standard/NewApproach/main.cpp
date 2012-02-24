@@ -44,11 +44,11 @@ class ListCallback : public sigslot::has_slots<>
 {
 public:
 	ListCallback(){}
-    void onValueAddedToList(const unsigned int &index, const int &newValue)
+    void onValueAddedToList(unsigned int index, const int &newValue)
     {
             std::cout << "Added value " << newValue << " at index " << index << std::endl;
     }
-    void onValueErasedFromList(const unsigned int &index, const int &valueErased)
+    void onValueErasedFromList(unsigned int index, const int &valueErased)
     {
             std::cout << "Erased value " << valueErased << " from index " << index << std::endl;
     }
@@ -56,7 +56,7 @@ public:
     {
             std::cout << "Values cleared!" << std::endl;
     }
-	void onValueChanged(const unsigned int &index, const int &oldValue, const int &newValue)
+	void onValueChanged(unsigned int index, const int &oldValue, const int &newValue)
     {
             std::cout << "Value changed from " << oldValue << " to " << newValue << " at index " << index << std::endl;
     }

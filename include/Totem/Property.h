@@ -52,7 +52,7 @@ public:
 
 	const PropertyType &get() const { return data->value; }
 	PropertyType &get() { return data->value; }
-	const unsigned int &getTypeId() const override { return IProperty::getTypeId<PropertyType>(); }
+	unsigned int getTypeId() const override { return IProperty::getTypeId<PropertyType>(); }
 	const std::string &getType() const override { return IProperty::getType<PropertyType>(); }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }

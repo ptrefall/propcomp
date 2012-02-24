@@ -17,18 +17,18 @@ class PropertyListData
 public:
 	std::vector<PropertyType> value;
 	std::string name;
-	sigslot::signal3<const unsigned int &, const PropertyType &, const PropertyType &> valueChanged;
-	sigslot::signal2<const unsigned int &, const PropertyType &> valueAdded;
-	sigslot::signal2<const unsigned int &, const PropertyType &> valueErased;
+	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> valueChanged;
+	sigslot::signal2<unsigned int, const PropertyType &> valueAdded;
+	sigslot::signal2<unsigned int, const PropertyType &> valueErased;
 	sigslot::signal0<> valuesCleared;
-	sigslot::signal2<const unsigned int &, const unsigned int &> listResized;
+	sigslot::signal2<unsigned int, unsigned int> listResized;
 };
 
 template<class PropertyType>
 class PropertyListIndexValue
 {
 public:
-	PropertyListIndexValue(std::shared_ptr<PropertyListData<PropertyType>> data, const unsigned int &index)
+	PropertyListIndexValue(std::shared_ptr<PropertyListData<PropertyType>> data, unsigned int index)
 		: data(data), index(index)
 	{
 	}
@@ -116,7 +116,7 @@ public:
 
 private:
 	std::shared_ptr<PropertyListData<PropertyType>> data;
-	const unsigned int &index;
+	unsigned int index;
 };
 
 template<class PropertyType>
@@ -142,7 +142,7 @@ public:
 			data->valueAdded.invoke(data->value.size()-1, value);
 	}
 
-	void erase(const unsigned int &index, bool invokeValueErased = true)
+	void erase(unsigned int index, bool invokeValueErased = true)
 	{
 		PropertyType value = data->value[index];
 		data->value.erase(data->value.begin()+index);
@@ -160,7 +160,7 @@ public:
 	unsigned int size() const { return data->value.size(); }
 	bool empty() const { return data->value.empty(); }
 
-	void resize(const unsigned int &size, bool invokeListResized = true)
+	void resize(unsigned int size, bool invokeListResized = true)
 	{
 		unsigned int oldSize = data->value.size();
 		data->value.resize(size);
@@ -168,7 +168,7 @@ public:
 			data->listResized(oldSize, size);
 	}
 
-	void resize(const unsigned int &size, const PropertyType &value, bool invokeListResized = true)
+	void resize(unsigned int size, const PropertyType &value, bool invokeListResized = true)
 	{
 		unsigned int oldSize = data->value.size();
 		data->value.resize(size, value);
@@ -176,7 +176,7 @@ public:
 			data->listResized(oldSize, size);
 	}
 
-	PropertyListIndexValue<PropertyType> at(const unsigned int &index)
+	PropertyListIndexValue<PropertyType> at(unsigned int index)
 	{
 		if(index >= data->value.size())
 			throw std::runtime_error("Index was out of bounds for shared property list");
@@ -186,16 +186,16 @@ public:
 
 	const std::vector<PropertyType> &get() const { return data->value; }
 	std::vector<PropertyType> &get() { return data->value; }
-	const unsigned int &getTypeId() const override { return IPropertyList::getTypeId<PropertyType>(); }
+	unsigned int getTypeId() const override { return IPropertyList::getTypeId<PropertyType>(); }
 	const std::string &getType() const override { return IPropertyList::getType<PropertyType>(); }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
 
-	sigslot::signal3<const unsigned int &, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
-	sigslot::signal2<const unsigned int &, const PropertyType &> &valueAdded() {return data->valueAdded; }
-	sigslot::signal2<const unsigned int &, const PropertyType &> &valueErased() { return data->valueErased; }
+	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
+	sigslot::signal2<unsigned int, const PropertyType &> &valueAdded() {return data->valueAdded; }
+	sigslot::signal2<unsigned int, const PropertyType &> &valueErased() { return data->valueErased; }
 	sigslot::signal0<> &valuesCleared() { return data->valuesCleared; }
-	sigslot::signal2<const unsigned int &, const unsigned int &> &listResized() { return data->listResized; }
+	sigslot::signal2<unsigned int, unsigned int> &listResized() { return data->listResized; }
 
 	/// Set's property's data to rhs' shared pointer data.
 	PropertyList<PropertyType> operator= (const PropertyList<PropertyType>& rhs)
