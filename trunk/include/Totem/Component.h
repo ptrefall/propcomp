@@ -22,8 +22,6 @@ public:
 	{
 	}
 
-	const unsigned int &getTypeId() const override { return IComponent::getTypeId<ComponentType>(); }
-	const std::string &getType() const override { return IComponent::getType<ComponentType>(); }
 	const std::string &getName() const override { return name; }
 
 	Component &operator= (const Component &rhs)
@@ -35,6 +33,8 @@ public:
 	}
 	
 protected:
+	unsigned int getInternalTypeId() const override { return IComponent::getInternalTypeId<ComponentType>(); }
+
 	std::string name;
 };
 
