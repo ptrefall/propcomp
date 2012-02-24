@@ -23,7 +23,7 @@ public:
 	}
 
 	template<typename ComponentType>
-	static void checkNameDuplication(const std::string &name)
+	static void checkDuplicationAndAddName(const std::string &name)
 	{
 		static std::vector<std::string> names;
 		for(unsigned int i = 0; i < names.size(); i++)
