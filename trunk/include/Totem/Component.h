@@ -22,6 +22,7 @@ public:
 	{
 	}
 
+	unsigned int getRuntimeTypeId() const override { return IComponent::getRuntimeTypeId<ComponentType>(); }
 	const std::string &getName() const override { return name; }
 
 	Component &operator= (const Component &rhs)
@@ -33,8 +34,6 @@ public:
 	}
 	
 protected:
-	unsigned int getInternalTypeId() const override { return IComponent::getInternalTypeId<ComponentType>(); }
-
 	std::string name;
 };
 

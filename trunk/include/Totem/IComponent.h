@@ -22,21 +22,10 @@ public:
 		return (component->getInternalTypeId() == getInternalTypeId<ComponentType());
 	}
 
-	template<typename ComponentType>
-	static void checkDuplicationAndAddName(const std::string &name)
-	{
-		static std::vector<std::string> names;
-		for(unsigned int i = 0; i < names.size(); i++)
-			if(names[i] == name)
-				throw std::runtime_error("Component name duplication with name " + name);
-		names.push_back(name);
-	}
-
-protected:
-	virtual unsigned int getInternalTypeId() const = 0;
+	virtual unsigned int getRuntimeTypeId() const = 0;
 
 	template<typename ComponentType>
-	static unsigned int getInternalTypeId()
+	static unsigned int getRuntimeTypeId()
 	{
 		static unsigned int typeId(typeid(ComponentType).hash_code());
 		return typeId;
