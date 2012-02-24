@@ -66,7 +66,7 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent()
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), std::string());
 		components.push_back(component);
 
@@ -77,7 +77,7 @@ public:
 	template<class ComponentType>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType>(getComponentOwner(), name);
 		components.push_back(component);
 
@@ -88,7 +88,7 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), std::string(), param0);
 		components.push_back(component);
 
@@ -99,7 +99,7 @@ public:
 	template<class ComponentType, class CustomParam0>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0>(getComponentOwner(), name, param0);
 		components.push_back(component);
 
@@ -110,7 +110,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), std::string(), param0, param1);
 		components.push_back(component);
 
@@ -121,7 +121,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1>(getComponentOwner(), name, param0, param1);
 		components.push_back(component);
 
@@ -132,7 +132,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), std::string(), param0, param1, param2);
 		components.push_back(component);
 
@@ -143,7 +143,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2>(getComponentOwner(), name, param0, param1, param2);
 		components.push_back(component);
 
@@ -154,7 +154,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), std::string(), param0, param1, param2, param3);
 		components.push_back(component);
 
@@ -165,7 +165,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3>(getComponentOwner(), name, param0, param1, param2, param3);
 		components.push_back(component);
 
@@ -176,7 +176,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), std::string(), param0, param1, param2, param3, param4);
 		components.push_back(component);
 
@@ -187,7 +187,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4>(getComponentOwner(), name, param0, param1, param2, param3, param4);
 		components.push_back(component);
 
@@ -198,7 +198,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
 	std::shared_ptr<ComponentType> addComponent(CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(std::string());
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(std::string());
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), std::string(), param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
 
@@ -209,7 +209,7 @@ public:
 	template<class ComponentType, class CustomParam0, class CustomParam1, class CustomParam2, class CustomParam3, class CustomParam4, class CustomParam5>
 	std::shared_ptr<ComponentType> addComponent(const std::string &name, CustomParam0 param0, CustomParam1 param1, CustomParam2 param2, CustomParam3 param3, CustomParam4 param4, CustomParam5 param5)
 	{
-		IComponent<PropertyFactoryType>::checkNameDuplication<ComponentType>(name);
+		IComponent<PropertyFactoryType>::checkDuplicationAndAddName<ComponentType>(name);
 		auto component = ComponentFactoryType::createComponent<EntityPtrType, ComponentType, CustomParam0, CustomParam1, CustomParam2, CustomParam3, CustomParam4, CustomParam5>(getComponentOwner(), name, param0, param1, param2, param3, param4, param5);
 		components.push_back(component);
 
