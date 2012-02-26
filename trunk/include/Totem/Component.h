@@ -13,8 +13,8 @@
 namespace Totem
 {
 
-template<class ComponentType, class PropertyFactoryType = DefaultPropertyFactory>
-class Component : public IComponent<PropertyFactoryType>, public sigslot::has_slots<>
+template<class ComponentType, class UserData = void*>
+class Component : public IComponent<UserData>, public sigslot::has_slots<>
 {
 public:
 	Component(const std::string &name) 

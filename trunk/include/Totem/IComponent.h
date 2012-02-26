@@ -8,16 +8,16 @@
 namespace Totem
 {
 
-template<class PropertyFactoryType = DefaultPropertyFactory>
-class IComponent : public PropertyContainer<PropertyFactoryType>
+template<class UserData = void*>
+class IComponent : public PropertyContainer<UserData>
 {
 public:
-	IComponent() : PropertyContainer<PropertyFactoryType>() {}
+	IComponent() {}
 	virtual const std::string &getName() const = 0;
 	virtual void update(const float &/*deltaTime*/) {}
 
 	template<typename ComponentType>
-	static bool isType(std::shared_ptr<IComponent<PropertyFactoryType>> component)
+	static bool isType(std::shared_ptr<IComponent> component)
 	{
 		return (component->getInternalTypeId() == getInternalTypeId<ComponentType());
 	}
