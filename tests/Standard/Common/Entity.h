@@ -39,14 +39,11 @@ typedef std::shared_ptr<Entity> EntityPtr;
 typedef std::weak_ptr<Entity> EntityWPtr;
 
 class Entity 
-	:	public std::enable_shared_from_this<Entity>, 
-		public Totem::ComponentContainer<EntityPtr>, 
+	:	public Totem::ComponentContainer<>, 
 		public Totem::PropertyContainer<>, 
 		public Totem::PropertyListContainer<>, 
 		public Totem::Addon::EventSystem<>
 {
-protected:
-	EntityPtr Totem::ComponentContainer<EntityPtr>::getComponentOwner() override { return shared_from_this(); }
 };
 
 #pragma warning(pop)

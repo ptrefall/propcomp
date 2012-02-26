@@ -10,7 +10,7 @@
 namespace Totem
 {
 
-class DefaultPropertyFactory
+class PropertyFactory
 {
 public:
 	template<class PropertyType>
@@ -20,7 +20,7 @@ public:
 	}
 };
 
-template<class PropertyFactoryType = DefaultPropertyFactory, class UserData = void*>
+template<class UserData = void*>
 class PropertyContainer
 {
 public:
@@ -79,7 +79,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = PropertyFactoryType::createProperty<T>(name);
+		auto property = PropertyFactory::createProperty<T>(name);
 		property->set(defaultValue, true);
 		properties[property->getName()] = property;
 
@@ -119,7 +119,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = PropertyFactoryType::createProperty<T>(name);
+		auto property = PropertyFactory::createProperty<T>(name);
 		property->set(defaultValue, true);
 		properties[property->getName()] = property;
 
@@ -284,8 +284,8 @@ protected:
 
 //------------------------------------------------------
 
-template<class PropertyFactoryType, class UserData>
-inline bool PropertyContainer<PropertyFactoryType, UserData>::hasProperty(const std::string& name)
+template<class UserData>
+inline bool PropertyContainer<UserData>::hasProperty(const std::string& name)
 {
 	if(properties.empty())
 		return false;
@@ -297,16 +297,16 @@ inline bool PropertyContainer<PropertyFactoryType, UserData>::hasProperty(const 
 		return false;
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::add(std::shared_ptr<IProperty> property)
+template<class UserData>
+inline void PropertyContainer<UserData>::add(std::shared_ptr<IProperty> property)
 {
 	auto it = properties.find(property->getName());
 	if(it == properties.end())
 		properties[property->getName()] = property;
 }
 
-template<class PropertyFactoryType, class UserData>
-inline std::shared_ptr<IProperty> PropertyContainer<PropertyFactoryType, UserData>::getInterface(const std::string& name)
+template<class UserData>
+inline std::shared_ptr<IProperty> PropertyContainer<UserData>::getInterface(const std::string& name)
 {
 	auto it = properties.find(name);
 	if(it != properties.end())
@@ -315,8 +315,8 @@ inline std::shared_ptr<IProperty> PropertyContainer<PropertyFactoryType, UserDat
 		throw std::runtime_error(("Unable to get shared property " + name).c_str());
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(const std::string& name, bool postponeDelete)
+template<class UserData>
+inline void PropertyContainer<UserData>::removeProperty(const std::string& name, bool postponeDelete)
 {
 	auto it = properties.find(name);
 	if(it != properties.end())
@@ -330,8 +330,8 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(con
 	}
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(const std::string& name, const UserData &userData, bool postponeDelete)
+template<class UserData>
+inline void PropertyContainer<UserData>::removeProperty(const std::string& name, const UserData &userData, bool postponeDelete)
 {
 	auto it = properties.find(name);
 	if(it != properties.end())
@@ -345,8 +345,8 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeProperty(con
 	}
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties()
+template<class UserData>
+inline void PropertyContainer<UserData>::removeAllProperties()
 {
 	for(auto it = properties.begin(); it != properties.end(); ++it)
 		sign_PropertyRemoved.invoke(it->second);
@@ -355,8 +355,8 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllPropertie
 	clearDeletedProperties();
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllProperties(const UserData &userData)
+template<class UserData>
+inline void PropertyContainer<UserData>::removeAllProperties(const UserData &userData)
 {
 	for(auto it = properties.begin(); it != properties.end(); ++it)
 		sign_PropertyWithUserDataRemoved.invoke(it->second, userData);
@@ -365,20 +365,20 @@ inline void PropertyContainer<PropertyFactoryType, UserData>::removeAllPropertie
 	clearDeletedProperties();
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::updateProperties()
+template<class UserData>
+inline void PropertyContainer<UserData>::updateProperties()
 {
 	clearDeletedProperties();
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::clearDeletedProperties()
+template<class UserData>
+inline void PropertyContainer<UserData>::clearDeletedProperties()
 {
 	deletedProperties.clear();
 }
 
-template<class PropertyFactoryType, class UserData>
-inline void PropertyContainer<PropertyFactoryType, UserData>::clearDirtyProperties()
+template<class UserData>
+inline void PropertyContainer<UserData>::clearDirtyProperties()
 {
 	for(auto it = properties.begin(); it != properties.end(); ++it)
 	{
