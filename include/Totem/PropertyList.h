@@ -17,6 +17,7 @@ class PropertyListData
 public:
 	std::vector<PropertyType> value;
 	std::string name;
+	bool dirty;
 	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> valueChanged;
 	sigslot::signal2<unsigned int, const PropertyType &> valueAdded;
 	sigslot::signal2<unsigned int, const PropertyType &> valueErased;
@@ -40,6 +41,7 @@ public:
 	{
 		PropertyType oldValue = data->value[index];
 		data->value[index] = rhs;
+		data->dirty = true; 
 		if(invokeValueChanged)
 			data->valueChanged.invoke(index, oldValue, rhs);
 	}
@@ -132,6 +134,7 @@ public:
 		: data(std::make_shared<PropertyListData<PropertyType>>())
 	{
 		data->name = name;
+		data->dirty = false; 
 	}
 
 	void push_back(const PropertyType& value, bool invokeValueAdded = true) 
@@ -190,6 +193,8 @@ public:
 	const std::string &getType() const override { return IPropertyList::getType<PropertyType>(); }
 	const std::string &getName() const override { return data->name; }
 	bool isNull() const override { return data == nullptr; }
+	bool isDirty() const override { return data->dirty; }
+	void clearDirty() override { data->dirty = false; }
 
 	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
 	sigslot::signal2<unsigned int, const PropertyType &> &valueAdded() {return data->valueAdded; }

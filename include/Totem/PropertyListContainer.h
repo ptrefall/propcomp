@@ -64,8 +64,8 @@ public:
 	template<class T>
 	PropertyList<T> addList(const std::string& name)
 	{
-		auto it = shared_property_lists.find(name);
-		if(it != shared_property_lists.end())
+		auto it = propertyLists.find(name);
+		if(it != propertyLists.end())
 		{
 			std::shared_ptr<PropertyList<T>> property;
 	#ifdef _DEBUG
@@ -80,7 +80,7 @@ public:
 		}
 
 		auto property = PropertyListFactory::createPropertyList<T>(name);
-		shared_property_lists[property->getName()] = property;
+		propertyLists[property->getName()] = property;
 
 		//return *property;
 		sign_PropertyListAdded.invoke(std::static_pointer_cast<IPropertyList>(property));
@@ -103,8 +103,8 @@ public:
 	template<class T>
 	PropertyList<T> addList(const std::string& name, const UserData &userData)
 	{
-		auto it = shared_property_lists.find(name);
-		if(it != shared_property_lists.end())
+		auto it = propertyLists.find(name);
+		if(it != propertyLists.end())
 		{
 			std::shared_ptr<PropertyList<T>> property;
 	#ifdef _DEBUG
@@ -119,7 +119,7 @@ public:
 		}
 
 		auto property = PropertyListFactory::createPropertyList<T>(name);
-		shared_property_lists[property->getName()] = property;
+		propertyLists[property->getName()] = property;
 
 		//return *property;
 		sign_PropertyListWithUserDataAdded.invoke(std::static_pointer_cast<IPropertyList>(property), userData);
@@ -144,8 +144,8 @@ public:
 	template<class T>
 	PropertyList<T> getList(const std::string& name)
 	{
-		auto it = shared_property_lists.find(name);
-		if(it != shared_property_lists.end())
+		auto it = propertyLists.find(name);
+		if(it != propertyLists.end())
 		{
 			std::shared_ptr<PropertyList<T>> property;
 	#ifdef _DEBUG
@@ -204,11 +204,17 @@ public:
 	void clearDeletedPropertyLists();
 
 	/**
+	 * Clears the dirty flag on all property lists.
+	 *
+	 */
+	void clearDirtyPropertyLists();
+
+	/**
 	 * Get a reference to the entire map of properties owned by the PropertyContainer.
 	 *
 	 * @return Returns a reference to the PropertyContainer's property map.
 	 */
-	std::unordered_map<std::string, std::shared_ptr<IPropertyList>> &getPropertyLists() { return shared_property_lists; }
+	std::unordered_map<std::string, std::shared_ptr<IPropertyList>> &getPropertyLists() { return propertyLists; }
 
 	//--------------------------------------------------------------
 	
@@ -254,7 +260,7 @@ public:
 
 protected:
 	/// The map of all properties owned by this PropertyContainer.
-	std::unordered_map<std::string, std::shared_ptr<IPropertyList>> shared_property_lists;
+	std::unordered_map<std::string, std::shared_ptr<IPropertyList>> propertyLists;
 	/// The list of all properties pending deletion in this PropertyContainer.
 	std::vector<std::shared_ptr<IPropertyList>> deletedPropertyLists;
 	/// Signal that's emitted when a property with NO userdata is added to the property container.
@@ -272,11 +278,11 @@ protected:
 template<class UserData>
 inline bool PropertyListContainer<UserData>::hasPropertyList(const std::string& name)
 {
-	if(shared_property_lists.empty())
+	if(propertyLists.empty())
 		return false;
 
-	auto it = shared_property_lists.find(name);
-	if(it != shared_property_lists.end())
+	auto it = propertyLists.find(name);
+	if(it != propertyLists.end())
 		return true;
 	else
 		return false;
@@ -285,16 +291,16 @@ inline bool PropertyListContainer<UserData>::hasPropertyList(const std::string& 
 template<class UserData>
 inline void PropertyListContainer<UserData>::addList(std::shared_ptr<IPropertyList> property)
 {
-	auto it = shared_property_lists.find(property->getName());
-	if(it == shared_property_lists.end())
-		shared_property_lists[property->getName()] = property;
+	auto it = propertyLists.find(property->getName());
+	if(it == propertyLists.end())
+		propertyLists[property->getName()] = property;
 }
 
 template<class UserData>
 inline std::shared_ptr<IPropertyList> PropertyListContainer<UserData>::getListInterface(const std::string& name)
 {
-	auto it = shared_property_lists.find(name);
-	if(it != shared_property_lists.end())
+	auto it = propertyLists.find(name);
+	if(it != propertyLists.end())
 		return it->second;
 	else
 		throw std::runtime_error(("Unable to get shared property list " + name).c_str());
@@ -303,13 +309,13 @@ inline std::shared_ptr<IPropertyList> PropertyListContainer<UserData>::getListIn
 template<class UserData>
 inline void PropertyListContainer<UserData>::removePropertyList(const std::string& name, bool postponeDelete)
 {
-	auto it = shared_property_lists.find(name);
-	if(it != shared_property_lists.end())
+	auto it = propertyLists.find(name);
+	if(it != propertyLists.end())
 	{
 		std::shared_ptr<IPropertyList> property = (*it).second;
 		if(postponeDelete)
 			deletedPropertyLists.push_back(property);
-		shared_property_lists.erase(it);
+		propertyLists.erase(it);
 
 		sign_PropertyListRemoved.invoke(property);
 	}
@@ -318,13 +324,13 @@ inline void PropertyListContainer<UserData>::removePropertyList(const std::strin
 template<class UserData>
 inline void PropertyListContainer<UserData>::removePropertyList(const std::string& name, const UserData &userData, bool postponeDelete)
 {
-	auto it = shared_property_lists.find(name);
-	if(it != shared_property_lists.end())
+	auto it = propertyLists.find(name);
+	if(it != propertyLists.end())
 	{
 		std::shared_ptr<IPropertyList> property = (*it).second;
 		if(postponeDelete)
 			deletedPropertyLists.push_back(property);
-		shared_property_lists.erase(it);
+		propertyLists.erase(it);
 
 		sign_PropertyListWithUserDataRemoved.invoke(property, userData);
 	}
@@ -333,7 +339,7 @@ inline void PropertyListContainer<UserData>::removePropertyList(const std::strin
 template<class UserData>
 inline void PropertyListContainer<UserData>::removeAllPropertyLists()
 {
-	shared_property_lists.clear();
+	propertyLists.clear();
 	clearDeletedPropertyLists();
 }
 
@@ -347,6 +353,14 @@ template<class UserData>
 inline void PropertyListContainer<UserData>::clearDeletedPropertyLists()
 {
 	deletedPropertyLists.clear();
+}
+
+template<class UserData>
+inline void PropertyListContainer<UserData>::clearDirtyPropertyLists()
+{
+	std::for_each(propertyLists.begin(), propertyLists.end(), [](std::shared_ptr<IPropertyList> propertyList) {
+		propertyList->clearDirty();
+	});
 }
 
 } //namespace Totem 
