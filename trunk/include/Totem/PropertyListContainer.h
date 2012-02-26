@@ -10,7 +10,7 @@
 namespace Totem
 {
 
-class DefaultPropertyListFactory
+class PropertyListFactory
 {
 public:
 	template<class PropertyType>
@@ -20,7 +20,7 @@ public:
 	}
 };
 
-template<class PropertyListFactoryType = DefaultPropertyListFactory, class UserData = void*>
+template<class UserData = void*>
 class PropertyListContainer
 {
 public:
@@ -79,7 +79,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = PropertyListFactoryType::createPropertyList<T>(name);
+		auto property = PropertyListFactory::createPropertyList<T>(name);
 		shared_property_lists[property->getName()] = property;
 
 		//return *property;
@@ -118,7 +118,7 @@ public:
 			return *property.get();
 		}
 
-		auto property = PropertyListFactoryType::createPropertyList<T>(name);
+		auto property = PropertyListFactory::createPropertyList<T>(name);
 		shared_property_lists[property->getName()] = property;
 
 		//return *property;
@@ -269,8 +269,8 @@ protected:
 
 //------------------------------------------------------
 
-template<class PropertyListFactoryType, class UserData>
-inline bool PropertyListContainer<PropertyListFactoryType, UserData>::hasPropertyList(const std::string& name)
+template<class UserData>
+inline bool PropertyListContainer<UserData>::hasPropertyList(const std::string& name)
 {
 	if(shared_property_lists.empty())
 		return false;
@@ -282,16 +282,16 @@ inline bool PropertyListContainer<PropertyListFactoryType, UserData>::hasPropert
 		return false;
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::addList(std::shared_ptr<IPropertyList> property)
+template<class UserData>
+inline void PropertyListContainer<UserData>::addList(std::shared_ptr<IPropertyList> property)
 {
 	auto it = shared_property_lists.find(property->getName());
 	if(it == shared_property_lists.end())
 		shared_property_lists[property->getName()] = property;
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline std::shared_ptr<IPropertyList> PropertyListContainer<PropertyListFactoryType, UserData>::getListInterface(const std::string& name)
+template<class UserData>
+inline std::shared_ptr<IPropertyList> PropertyListContainer<UserData>::getListInterface(const std::string& name)
 {
 	auto it = shared_property_lists.find(name);
 	if(it != shared_property_lists.end())
@@ -300,8 +300,8 @@ inline std::shared_ptr<IPropertyList> PropertyListContainer<PropertyListFactoryT
 		throw std::runtime_error(("Unable to get shared property list " + name).c_str());
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::removePropertyList(const std::string& name, bool postponeDelete)
+template<class UserData>
+inline void PropertyListContainer<UserData>::removePropertyList(const std::string& name, bool postponeDelete)
 {
 	auto it = shared_property_lists.find(name);
 	if(it != shared_property_lists.end())
@@ -315,8 +315,8 @@ inline void PropertyListContainer<PropertyListFactoryType, UserData>::removeProp
 	}
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::removePropertyList(const std::string& name, const UserData &userData, bool postponeDelete)
+template<class UserData>
+inline void PropertyListContainer<UserData>::removePropertyList(const std::string& name, const UserData &userData, bool postponeDelete)
 {
 	auto it = shared_property_lists.find(name);
 	if(it != shared_property_lists.end())
@@ -330,21 +330,21 @@ inline void PropertyListContainer<PropertyListFactoryType, UserData>::removeProp
 	}
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::removeAllPropertyLists()
+template<class UserData>
+inline void PropertyListContainer<UserData>::removeAllPropertyLists()
 {
 	shared_property_lists.clear();
 	clearDeletedPropertyLists();
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::updatePropertyLists()
+template<class UserData>
+inline void PropertyListContainer<UserData>::updatePropertyLists()
 {
 	clearDeletedPropertyLists();
 }
 
-template<class PropertyListFactoryType, class UserData>
-inline void PropertyListContainer<PropertyListFactoryType, UserData>::clearDeletedPropertyLists()
+template<class UserData>
+inline void PropertyListContainer<UserData>::clearDeletedPropertyLists()
 {
 	deletedPropertyLists.clear();
 }
