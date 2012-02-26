@@ -67,14 +67,17 @@ void main()
 
         EntityPtr entity = std::make_shared<Entity>();
 
-        auto testComp = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);
-        auto testComp2 = entity->addComponent<TestComponent, const TestSystemPtr &>("Test2", sys);
-               
-        testComp->test();
-        testComp2->test();
+		auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
+		auto testComp1 = entity->addComponent<TestComponent, const TestSystemPtr &>("Test1", sys);
+		auto testComp2 = entity->addComponent<TestComponent, const TestSystemPtr &>("Test2", sys);
+		auto testComp3 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test3", sys));
+           
+		testComp1->test();
+		testComp2->test();
+		testComp3->test();
                         
-        auto test_prop = testComp->get<CL_String>("TestProp");
-        std::cout << test_prop.get().c_str() << " from " << testComp->getName().c_str() << std::endl;
+        auto test_prop = testComp1->get<CL_String>("TestProp");
+        std::cout << test_prop.get().c_str() << " from " << testComp1->getName().c_str() << std::endl;
         auto test_prop2 = testComp2->get<CL_String>("TestProp");
         std::cout << test_prop2.get().c_str() << " from " << testComp2->getName().c_str() << std::endl;
                         

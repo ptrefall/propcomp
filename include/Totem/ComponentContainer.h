@@ -219,6 +219,25 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////////
 
+	std::shared_ptr<IComponent<PropertyFactoryType>> addComponent(std::shared_ptr<IComponent<PropertyFactoryType>> component)
+	{
+		checkDuplicationAndAdd(component->getRuntimeTypeId(), component->getName());
+		components.push_back(component);
+		sign_ComponentAdded.invoke(component);
+		return component;
+	}
+
+	template<class ComponentType>
+	std::shared_ptr<ComponentType> addComponent(std::shared_ptr<ComponentType> component)
+	{
+		checkDuplicationAndAdd(component->getRuntimeTypeId(), component->getName());
+		components.push_back(component);
+		sign_ComponentAdded.invoke(component);
+		return component;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+
 	template<class ComponentType>
 	bool hasComponent(const std::string &name = std::string())
 	{
