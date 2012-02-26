@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Dirty tracking on PropertyList?
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -24,6 +23,7 @@ which needs to get access to the properties added by a component.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 1) Dirty tracking on PropertyList?
  * 2) Took out factory from ComponentContainer, and the 12 versions of addComponent that would construct components internally. Instead this is now handled by user, and the option of two addComponent functions is given, either by IComponent or by ComponentType via template definition. The reason was that construction for general, flexible situations were just getting too complex. Changing the Standard approach should be handled via cmake preprocessor.
  * 2) As an experiment, took out all template factories, and instead just use those defined for properties. Should use cmake preprocessor to change this from Standard approach.
  * 1) getType/getTypeId implementations were not competent between compilers/platforms using typeid, thus we couldn't use it for storing a safe type. Thus, dropped the getType string, and renamed getTypeId to getRuntimeTypeId. One will have to specify ones own type identifier system from now on, which is the only practically sound thing to do in C++ anyway. ComponentContainer now uses the getRuntimeTypeId unsigned int as lookup of component types as well, which should speed up thing a little bit compared to the string lookup that was in there earlier, so we did achieve something with this change at least!
