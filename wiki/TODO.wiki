@@ -1,6 +1,7 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
+ * Write test with UserData to ComponentContainer to make sure it works
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
