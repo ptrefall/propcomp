@@ -107,9 +107,7 @@ void main()
 		std::cout << test_prop.get() << " from " << testComp0->getName() << std::endl;
 		auto test_prop2 = testComp1->get<std::string>("TestProp");
 		std::cout << test_prop2.get() << " from " << testComp1->getName() << std::endl;
-
-		auto test_prop_interface = test_prop.getInterface();
-                        
+               
 		auto test_shared_prop = entity->get<std::string>("TestSharedProp");
 		std::cout << test_shared_prop.get() << std::endl;
 		test_shared_prop = "Test Shared Property Value Changed";

@@ -107,8 +107,6 @@ void main()
         auto test_prop2 = testComp1->get<CL_String>("TestProp");
         std::cout << test_prop2.get().c_str() << " from " << testComp1->getName().c_str() << std::endl;
         
-		auto test_prop_interface = test_prop.getInterface();
-
         auto test_shared_prop = entity->get<CL_String>("TestSharedProp");
         std::cout << test_shared_prop.get().c_str() << std::endl;
         test_shared_prop = "Test Shared Property Value Changed";

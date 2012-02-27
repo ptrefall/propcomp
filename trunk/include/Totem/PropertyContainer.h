@@ -164,14 +164,6 @@ public:
 	}
 
 	/**
-	 * Get a property interface pointer to a property of specified name from the PropertyContainer.
-	 *
-	 * @param name  The name of the property.
-	 * @return The interface pointer to the property.
-	 */
-	std::shared_ptr<IProperty> getInterface(const std::string& name);
-
-	/**
 	 * Remove the property of specified name from PropertyContainer with
 	 * option to postpone deletion until the next time update
 	 * is called on the PropertyContainer.
@@ -303,16 +295,6 @@ inline void PropertyContainer<UserData>::add(std::shared_ptr<IProperty> property
 	auto it = properties.find(property->getName());
 	if(it == properties.end())
 		properties[property->getName()] = property;
-}
-
-template<class UserData>
-inline std::shared_ptr<IProperty> PropertyContainer<UserData>::getInterface(const std::string& name)
-{
-	auto it = properties.find(name);
-	if(it != properties.end())
-		return it->second;
-	else
-		throw std::runtime_error(("Unable to get shared property " + name).c_str());
 }
 
 template<class UserData>
