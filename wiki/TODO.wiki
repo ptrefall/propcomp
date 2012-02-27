@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) Write test with UserData to ComponentContainer to make sure it works
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -24,6 +23,7 @@ which needs to get access to the properties added by a component.
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 2) Write test with UserData to ComponentContainer to make sure it works
  * 1) PropertyContainer::clearDirtyProperties does not compile - needed to replace it with a simpler for loop
  * 1) Dirty tracking on PropertyList?
  * 2) Took out factory from ComponentContainer, and the 12 versions of addComponent that would construct components internally. Instead this is now handled by user, and the option of two addComponent functions is given, either by IComponent or by ComponentType via template definition. The reason was that construction for general, flexible situations were just getting too complex. Changing the Standard approach should be handled via cmake preprocessor.
