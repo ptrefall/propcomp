@@ -43,6 +43,8 @@ requirements or restrictions.
 class EntityCallback : public sigslot::has_slots<>
 {
 public:
+	EntityCallback(){}
+
 	void onComponentAdded(std::shared_ptr<Totem::IComponent<PropertyUserData>> component)
 	{
 		std::cout << "Component " + component->getName() + " added" << std::endl;
