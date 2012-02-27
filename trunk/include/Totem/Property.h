@@ -21,7 +21,7 @@ public:
 };
 
 template<class PropertyType>
-class Property : public IProperty
+class Property : public IProperty, public std::enable_shared_from_this<Property<PropertyType>>
 {
 public:
 	Property() {}
@@ -50,6 +50,7 @@ public:
 		}
 	}
 
+	std::shared_ptr<IProperty> getInterface() { return std::static_pointer_cast<IProperty>(shared_from_this()); }
 	const PropertyType &get() const { return data->value; }
 	PropertyType &get() { return data->value; }
 	unsigned int getTypeId() const override { return IProperty::getTypeId<PropertyType>(); }
