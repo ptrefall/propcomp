@@ -380,9 +380,8 @@ inline void PropertyContainer<UserData>::clearDeletedProperties()
 template<class UserData>
 inline void PropertyContainer<UserData>::clearDirtyProperties()
 {
-	std::for_each(properties.begin(), properties.end(), [](std::shared_ptr<IProperty> property) {
-		property->clearDirty();
-	});
+	for(auto it = properties.begin(); it != properties.end(); ++it)
+		it->second->clearDirty();
 }
 
 } //namespace Totem 
