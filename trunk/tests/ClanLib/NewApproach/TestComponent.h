@@ -11,7 +11,7 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent;
 typedef std::shared_ptr<TestComponent> TestComponentPtr;
 
-class TestComponent : public Totem::Component<TestComponent>
+class TestComponent : public Totem::Component<TestComponent, PropertyUserData>
 {
 public:
 	TestComponent(const EntityPtr &owner, const CL_String &name, const TestSystemPtr &sys);
@@ -26,6 +26,7 @@ private:
 
 	void OnSomeEvent();
 
+	PropertyUserData user_data;
 	Totem::Property<CL_String> test_prop;
 	Totem::Property<CL_String> test_shared_prop;
 
