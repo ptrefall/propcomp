@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 1) Remove getType from Property and make it similar to Component
  * 2) Evaluate whether PropertyContainer should use unique_ptr on it's instanced properties internally.
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
@@ -24,6 +23,7 @@
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 1) Remove getType from Property and make it similar to Component
  * 2) Write test with UserData to ComponentContainer to make sure it works
  * 1) PropertyContainer::clearDirtyProperties does not compile - needed to replace it with a simpler for loop
  * 1) Dirty tracking on PropertyList?
