@@ -40,6 +40,25 @@ requirements or restrictions.
 #include <algorithm>
 #include <iostream>
 
+class EntityCallback : public sigslot::has_slots<>
+{
+public:
+	void onComponentAdded(std::shared_ptr<Totem::IComponent<PropertyUserData>> component)
+	{
+		std::cout << "Component " + component->getName() + " added" << std::endl;
+	}
+
+	void onPropertyAdded(std::shared_ptr<Totem::IProperty> property, const PropertyUserData &userData)
+	{
+		std::cout << "Property " + property->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity->getName() << std::endl;
+	}
+
+	void onPropertyListAdded(std::shared_ptr<Totem::IPropertyList> propertyList, const PropertyUserData &userData)
+	{
+		std::cout << "PropertyList " + propertyList->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity->getName() << std::endl;
+	}
+};
+
 class ListCallback : public sigslot::has_slots<>
 {
 public:
@@ -67,7 +86,11 @@ void main()
         //We initialize some systems/managers for the engine here...
         TestSystemPtr sys = std::make_shared<TestSystem>();
 
-        EntityPtr entity = std::make_shared<Entity>();
+        EntityPtr entity = std::make_shared<Entity>("TestEntity");
+		auto entityCallback = std::make_shared<EntityCallback>();
+		entity->componentAdded().connect(entityCallback.get(), &EntityCallback::onComponentAdded);
+		entity->propertyWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyAdded);
+		entity->propertyListWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyListAdded);
 		
 		auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
 		auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));

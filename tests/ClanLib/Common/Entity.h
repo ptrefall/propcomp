@@ -37,12 +37,23 @@ class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 typedef std::weak_ptr<Entity> EntityWPtr;
 
+struct PropertyUserData
+{
+	EntityPtr entity;
+	Totem::IComponent<PropertyUserData> *component;
+};
+
 class Entity 
-	:	public Totem::ComponentContainer<>, 
-		public Totem::PropertyContainer<>, 
-		public Totem::PropertyListContainer<>, 
+	:	public Totem::ComponentContainer<PropertyUserData>, 
+		public Totem::PropertyContainer<PropertyUserData>, 
+		public Totem::PropertyListContainer<PropertyUserData>, 
 		public Totem::Addon::EventSystem<>
 {
+public:	
+	Entity(const CL_String &name) : name(name) {}
+	const CL_String &getName() const { return name; }
+private:
+	CL_String name;
 };
 
 #pragma warning(pop)

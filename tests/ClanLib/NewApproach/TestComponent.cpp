@@ -4,10 +4,13 @@
 #include <iostream>
 
 TestComponent::TestComponent(const EntityPtr &owner, const CL_String &name, const TestSystemPtr &sys) 
-: Totem::Component<TestComponent>(name), owner(owner), sys(sys) 
+: Totem::Component<TestComponent, PropertyUserData>(name), owner(owner), sys(sys) 
 {
-	test_prop = add<CL_String>("TestProp", "Testing Property");
-	test_shared_prop = owner->add<CL_String>("TestSharedProp", "Testing Shared Property");
+	user_data.entity = owner;
+	user_data.component = this;
+
+	test_prop = add<CL_String>("TestProp", "Testing Property", user_data);
+	test_shared_prop = owner->add<CL_String>("TestSharedProp", "Testing Shared Property", user_data);
 	slots.connect(test_shared_prop.valueChanged(), this, &TestComponent::OnSharedPropChanged);
 	slots.connect(owner->registerToEvent0("SomeEvent"), this, &TestComponent::OnSomeEvent);
 }
