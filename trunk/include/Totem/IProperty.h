@@ -9,35 +9,24 @@ namespace Totem
 class IProperty
 {
 public:
-	virtual unsigned int getTypeId() const = 0;
-	virtual const std::string &getType() const = 0;
 	virtual const std::string &getName() const = 0;
 	virtual bool isNull() const = 0;
 	virtual bool isDirty() const = 0;
 	virtual void clearDirty() = 0;
 
 	template<typename PropertyType>
-	static unsigned int getTypeId()
+	static bool isType(std::shared_ptr<IProperty> property)
+	{
+		return (property->getRuntimeTypeId() == getRuntimeTypeId<PropertyType>());
+	}
+
+	virtual unsigned int getRuntimeTypeId() const = 0;
+
+	template<typename PropertyType>
+	static unsigned int getRuntimeTypeId()
 	{
 		static unsigned int typeId(typeid(PropertyType).hash_code());
 		return typeId;
-	}
-
-	template<typename PropertyType>
-	static const std::string &getType()
-	{
-		static std::string type;
-		if(type.empty())
-		{
-			std::string temp_type(typeid(PropertyType).name());
-			if(temp_type.find("class ") != std::string::npos)
-				type = temp_type.substr(6, temp_type.size());
-			else if(temp_type.find("struct ") != std::string::npos)
-				type = temp_type.substr(7, temp_type.size());
-			else
-				type = temp_type;
-		}
-		return type;
 	}
 };
 
