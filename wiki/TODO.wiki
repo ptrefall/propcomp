@@ -14,8 +14,7 @@
      * Easier examples
    * Docs/Wiki
      * Make note that for complex objects stored in a Property, when changed via a function call to the reference of the stored object that changes the object's state, a custom call to valueChanged().invoke() has to be performed in order to broadcast the changed state of the property. There's no way for totem's property to track such changes automatically.
-     * UserData template option for PropertyContainer is explained as follows: The propertyWithUserDataAdded() allows external logic to access this functionality, like for instance an Editor. UserData can be specified if, for instance an editor, needs some special data collected for properties, like the name of the component it was added to, or an instance to it even. As UserData is a template set on the PropertyContainer, it's up to the end-user's implementation of the Entity class to determine the type of the UserData template used for this.
-which needs to get access to the properties added by a component.
+     * UserData template option for PropertyContainer is explained as follows: The propertyWithUserDataAdded() allows external logic to access this functionality, like for instance an Editor. UserData can be specified if, for instance an editor, needs some special data collected for properties, like the name of the component it was added to, or an instance to it even. As UserData is a template set on the PropertyContainer, it's up to the end-user's implementation of the Entity class to determine the type of the UserData template used for this which needs to get access to the properties added by a component.
  * 8) Write stress tests for all features of Totem EDK.
  * 9) Write simple game example.
  * 10) Write Entity Editor tool.
