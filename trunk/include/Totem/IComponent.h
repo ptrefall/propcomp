@@ -19,7 +19,7 @@ public:
 	template<typename ComponentType>
 	static bool isType(std::shared_ptr<IComponent> component)
 	{
-		return (component->getRuntimeTypeId() == getRuntimeTypeId<ComponentType());
+		return (component->getRuntimeTypeId() == getRuntimeTypeId<ComponentType>());
 	}
 
 	virtual unsigned int getRuntimeTypeId() const = 0;
