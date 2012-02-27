@@ -45,6 +45,8 @@ requirements or restrictions.
 class EntityCallback
 {
 public:
+	EntityCallback(){}
+
 	void onComponentAdded(std::shared_ptr<Totem::IComponent<PropertyUserData>> component)
 	{
 		std::cout << ("Component " + component->getName() + " added").c_str() << std::endl;
