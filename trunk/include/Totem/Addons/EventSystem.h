@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Property.h"
 #include "../HashedString.h"
 
 #include <sigslot.h>
