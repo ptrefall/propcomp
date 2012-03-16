@@ -318,7 +318,7 @@ inline void EventSystem<EventFactory>::sendEvent1(HashedString1 type, T arg0)
 		throw std::runtime_error(("Tried to invoke event " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 	signal->signal.invoke(arg0);
 #else
-	static_pointer_cast<EventSignal1<T>>(it->second)->signal.invoke(arg0);
+	std::static_pointer_cast<EventSignal1<T>>(it->second)->signal.invoke(arg0);
 #endif
 }
 
@@ -450,7 +450,7 @@ inline sigslot::signal1<T> &EventSystem<EventFactory>::registerToEvent1(HashedSt
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried to return the event signal " + type.getStr() + ", but the argument type didn't match the registered type!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal1<T>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal1<T>>(it->second);
 #endif
 		return signal->signal;
 	}
