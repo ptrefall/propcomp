@@ -1,7 +1,6 @@
 #summary Tasks left to do for Totem EDK
 
 = Tasks =
- * 2) Evaluate whether PropertyContainer should use unique_ptr on it's instanced properties internally.
  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
  * 2) Rewrite DelegateSystem to use std::function.
  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
@@ -23,6 +22,8 @@
  * 11) Evaluate options for pooling/more cache-friendly memory handling.
 
 = Fixed TODOs =
+ * 2) Evaluate whether PropertyContainer should use unique_ptr on it's instanced properties internally.
+   * -> This doesn't work well, because casting is not supported on a unique_ptr, naturally. Thus storing a IProperty internally, while exposing a Property<Type> externally doesn't work very well. Also, this would force any signals (like propertyAdded) to expose raw pointers, when they should really expose shared pointers for complete safety. Thus PropertyContainer will continue to use shared_ptr storage internally.
  * 1) Remove getType from Property and make it similar to Component
  * 2) Write test with UserData to ComponentContainer to make sure it works
  * 1) PropertyContainer::clearDirtyProperties does not compile - needed to replace it with a simpler for loop
