@@ -23,7 +23,7 @@
 
 = Fixed TODOs =
  * 2) Evaluate whether PropertyContainer should use unique_ptr on it's instanced properties internally.
-   * -> This doesn't work well, because casting is not supported on a unique_ptr, naturally. Thus storing a IProperty internally, while exposing a Property<Type> externally doesn't work very well. Also, this would force any signals (like propertyAdded) to expose raw pointers, when they should really expose shared pointers for complete safety. Thus PropertyContainer will continue to use shared_ptr storage internally.
+   * -> This doesn't work well, because casting is not supported on a unique_ptr, naturally. Thus storing a IProperty internally, while exposing a Property of Type externally doesn't work very well. Also, this would force any signals (like propertyAdded) to expose raw pointers, when they should really expose shared pointers for complete safety. Thus PropertyContainer will continue to use shared_ptr storage internally.
  * 1) Remove getType from Property and make it similar to Component
  * 2) Write test with UserData to ComponentContainer to make sure it works
  * 1) PropertyContainer::clearDirtyProperties does not compile - needed to replace it with a simpler for loop
