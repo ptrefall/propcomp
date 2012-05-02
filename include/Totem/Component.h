@@ -42,7 +42,7 @@ public:
 	}
 
 	sigslot::signal1<std::shared_ptr<ComponentType>> &removed() { return sign_Removed; }
-	void invokeRemovedSignal() final { sign_Removed.invoke(shared_from_this()); }
+	void invokeRemovedSignal() override { sign_Removed.invoke(shared_from_this()); }
 	
 protected:
 	std::string name;
