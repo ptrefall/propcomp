@@ -87,56 +87,57 @@ void main()
 {
         //We initialize some systems/managers for the engine here...
         TestSystemPtr sys = std::make_shared<TestSystem>();
-
         EntityPtr entity = std::make_shared<Entity>("TestEntity");
-		auto entityCallback = std::make_shared<EntityCallback>();
-		entity->componentAdded().connect(entityCallback.get(), &EntityCallback::onComponentAdded);
-		entity->propertyWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyAdded);
-		entity->propertyListWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyListAdded);
+		{
+			auto entityCallback = std::make_shared<EntityCallback>();
+			entity->componentAdded().connect(entityCallback.get(), &EntityCallback::onComponentAdded);
+			entity->propertyWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyAdded);
+			entity->propertyListWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyListAdded);
 		
-		auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
-		testComp0->initialize();
-		auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));
-		testComp1->initialize();
+			auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
+			testComp0->initialize();
+			auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));
+			testComp1->initialize();
 
-		if(Totem::Component<TestComponent, PropertyUserData>::isType(testComp0) == false)
-			return; //This shouldn't happen
+			if(Totem::Component<TestComponent, PropertyUserData>::isType(testComp0) == false)
+				return; //This shouldn't happen
 
-		if(entity->hasComponent<TestComponent>("Test1") == false)
-			return; //This shouldn't happen
+			if(entity->hasComponent<TestComponent>("Test1") == false)
+				return; //This shouldn't happen
            
-		//testComp0->test(); //<- this is a shared_ptr to an IComponent, so we can't call test() function.
-		testComp1->test();
+			//testComp0->test(); //<- this is a shared_ptr to an IComponent, so we can't call test() function.
+			testComp1->test();
                         
-		auto test_prop = testComp0->get<std::string>("TestProp");
-		std::cout << test_prop.get() << " from " << testComp0->getName() << std::endl;
-		auto test_prop2 = testComp1->get<std::string>("TestProp");
-		std::cout << test_prop2.get() << " from " << testComp1->getName() << std::endl;
+			auto test_prop = testComp0->get<std::string>("TestProp");
+			std::cout << test_prop.get() << " from " << testComp0->getName() << std::endl;
+			auto test_prop2 = testComp1->get<std::string>("TestProp");
+			std::cout << test_prop2.get() << " from " << testComp1->getName() << std::endl;
                
-		auto test_shared_prop = entity->get<std::string>("TestSharedProp");
-		std::cout << test_shared_prop.get() << std::endl;
-		test_shared_prop = "Test Shared Property Value Changed";
+			auto test_shared_prop = entity->get<std::string>("TestSharedProp");
+			std::cout << test_shared_prop.get() << std::endl;
+			test_shared_prop = "Test Shared Property Value Changed";
 
-		entity->sendEvent0("SomeEvent");
+			entity->sendEvent0("SomeEvent");
 		
-        auto list = entity->addList<int>("TestList");
+			auto list = entity->addList<int>("TestList");
 
-        auto listCallback = std::make_shared<ListCallback>();
-        list.valueAdded().connect(listCallback.get(), &ListCallback::onValueAddedToList);
-        list.valueErased().connect(listCallback.get(), &ListCallback::onValueErasedFromList);
-        list.valuesCleared().connect(listCallback.get(), &ListCallback::onValuesClearedFromList);
-		list.valueChanged().connect(listCallback.get(), &ListCallback::onValueChanged);
-        list.push_back(1);
-        list.push_back(2);
-        list.push_back(3);
-		list[1] += 2;
-        list.erase(1);
-        list.erase(1);
-        list.clear();
-
+			auto listCallback = std::make_shared<ListCallback>();
+			list.valueAdded().connect(listCallback.get(), &ListCallback::onValueAddedToList);
+			list.valueErased().connect(listCallback.get(), &ListCallback::onValueErasedFromList);
+			list.valuesCleared().connect(listCallback.get(), &ListCallback::onValuesClearedFromList);
+			list.valueChanged().connect(listCallback.get(), &ListCallback::onValueChanged);
+			list.push_back(1);
+			list.push_back(2);
+			list.push_back(3);
+			list[1] += 2;
+			list.erase(1);
+			list.erase(1);
+			list.clear();
+		}
 		std::cout << "There's " << entity.use_count() << " references to entity alive!" << std::endl;
 		entity.reset();
 		std::cout << "There's " << entity.use_count() << " references to entity alive!" << std::endl;
+		sys.reset();
 
         system("pause");
 }
