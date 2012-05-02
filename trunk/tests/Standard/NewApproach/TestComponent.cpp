@@ -3,17 +3,29 @@
 
 #include <iostream>
 
-TestComponent::TestComponent(const EntityPtr &owner, const std::string &name, const TestSystemPtr &sys) 
+TestComponent::TestComponent(const EntityWPtr &owner, const std::string &name, const TestSystemPtr &sys) 
 : Totem::Component<TestComponent, PropertyUserData>(name), owner(owner), sys(sys) 
 {
 	user_data.entity = owner;
 	user_data.component = this;
 
 	test_prop = add<std::string>("TestProp", "Testing Property", user_data);
-	test_shared_prop = owner->add<std::string>("TestSharedProp", "Testing Shared Property", user_data);
+	test_shared_prop = owner.lock()->add<std::string>("TestSharedProp", "Testing Shared Property", user_data);
 	test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
 
-	owner->registerToEvent0("SomeEvent").connect(this, &TestComponent::OnSomeEvent);
+	owner.lock()->registerToEvent0("SomeEvent").connect(this, &TestComponent::OnSomeEvent);
+}
+
+TestComponent::~TestComponent()
+{
+	std::cout << "Component " << name << "destructed!" << std::endl;
+}
+
+void TestComponent::initialize()
+{
+	//Register with TestSystem
+	sys->add(shared_from_this());
+	this->removed().connect(sys.get(), &TestSystem::remove);
 }
 
 void TestComponent::test() 

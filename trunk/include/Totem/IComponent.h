@@ -13,6 +13,7 @@ class IComponent : public PropertyContainer<UserData>
 {
 public:
 	IComponent() {}
+	virtual ~IComponent() {}
 	virtual const std::string &getName() const = 0;
 	virtual void update(const float &/*deltaTime*/) {}
 
@@ -30,6 +31,8 @@ public:
 		static unsigned int typeId(typeid(ComponentType).hash_code());
 		return typeId;
 	}
+
+	virtual void invokeRemovedSignal() = 0;
 };
 
 } //namespace Totem

@@ -131,6 +131,8 @@ template<class EventFactory = DefaultEventFactory>
 class EventSystem : public sigslot::has_slots<>
 {
 public:
+	virtual ~EventSystem() {}
+
 	/**
 	 * Calls all slots registered to the argument-less event signal of type.
 	 *
