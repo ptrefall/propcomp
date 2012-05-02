@@ -18,7 +18,7 @@ TestComponent::TestComponent(const EntityWPtr &owner, const std::string &name, c
 
 TestComponent::~TestComponent()
 {
-	std::cout << "Component " << name << "destructed!" << std::endl;
+	std::cout << "Component " << name << " is being destroyed!" << std::endl;
 }
 
 void TestComponent::initialize()
