@@ -52,12 +52,12 @@ public:
 
 	void onPropertyAdded(std::shared_ptr<Totem::IProperty> property, const PropertyUserData &userData)
 	{
-		std::cout << "Property " + property->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity->getName() << std::endl;
+		std::cout << "Property " + property->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity.lock()->getName() << std::endl;
 	}
 
 	void onPropertyListAdded(std::shared_ptr<Totem::IPropertyList> propertyList, const PropertyUserData &userData)
 	{
-		std::cout << "PropertyList " + propertyList->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity->getName() << std::endl;
+		std::cout << "PropertyList " + propertyList->getName() + " added to " + userData.component->getName() + " component in entity " + userData.entity.lock()->getName() << std::endl;
 	}
 };
 
@@ -95,7 +95,9 @@ void main()
 		entity->propertyListWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyListAdded);
 		
 		auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
+		testComp0->initialize();
 		auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));
+		testComp1->initialize();
 
 		if(Totem::Component<TestComponent, PropertyUserData>::isType(testComp0) == false)
 			return; //This shouldn't happen
@@ -116,7 +118,7 @@ void main()
 		test_shared_prop = "Test Shared Property Value Changed";
 
 		entity->sendEvent0("SomeEvent");
-
+		
         auto list = entity->addList<int>("TestList");
 
         auto listCallback = std::make_shared<ListCallback>();
@@ -131,6 +133,10 @@ void main()
         list.erase(1);
         list.erase(1);
         list.clear();
+
+		std::cout << "There's " << entity.use_count() << " references to entity alive!" << std::endl;
+		entity.reset();
+		std::cout << "There's " << entity.use_count() << " references to entity alive!" << std::endl;
 
         system("pause");
 }

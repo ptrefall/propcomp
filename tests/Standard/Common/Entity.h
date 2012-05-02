@@ -33,6 +33,7 @@ requirements or restrictions.
 #include "../../../include/Totem/Addons/EventSystem.h"
 
 #include <memory>
+#include <iostream>
 
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
@@ -40,7 +41,7 @@ typedef std::weak_ptr<Entity> EntityWPtr;
 
 struct PropertyUserData
 {
-	EntityPtr entity;
+	EntityWPtr entity;
 	Totem::IComponent<PropertyUserData> *component;
 };
 
@@ -52,6 +53,10 @@ class Entity
 {
 public:	
 	Entity(const std::string &name) : name(name) {}
+	virtual ~Entity() 
+	{
+		std::cout << "Entity " << name << " is being destroyed!" << std::endl;
+	}
 	const std::string &getName() const { return name; }
 private:
 	std::string name;

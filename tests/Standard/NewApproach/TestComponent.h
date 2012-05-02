@@ -12,8 +12,9 @@ typedef std::shared_ptr<TestSystem> TestSystemPtr;
 class TestComponent : public Totem::Component<TestComponent, PropertyUserData>
 {
 public:
-	TestComponent(const EntityPtr &owner, const std::string &name, const TestSystemPtr &sys);
-        
+	TestComponent(const EntityWPtr &owner, const std::string &name, const TestSystemPtr &sys);
+    virtual ~TestComponent();
+	void initialize();
 	void test();
 
 private:
