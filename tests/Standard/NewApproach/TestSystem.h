@@ -7,6 +7,9 @@
 #include <iostream>
 #include <vector>
 
+class TestComponent;
+typedef std::shared_ptr<TestComponent> TestComponentPtr;
+
 class TestSystem;
 typedef std::shared_ptr<TestSystem> TestSystemPtr;
 
@@ -17,12 +20,12 @@ public:
 	~TestSystem() { std::cout << "TestSystem destroyed!" << std::endl; }
 	void test() { std::cout << "Testing!" << std::endl; }
 
-	void add(std::shared_ptr<Totem::IComponent<PropertyUserData>> component)
+	void add(TestComponentPtr component)
 	{ 
 		components.push_back(component); 
 		std::cout << "Added component " << component->getName() << " to Test System!" << std::endl;
 	}
-	void remove(std::shared_ptr<Totem::IComponent<PropertyUserData>> component)
+	void remove(TestComponentPtr component)
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
@@ -37,5 +40,5 @@ public:
 	}
 
 private:
-	std::vector<std::shared_ptr<Totem::IComponent<PropertyUserData>>> components;
+	std::vector<TestComponentPtr> components;
 };
