@@ -102,6 +102,12 @@ void main()
 
 			if(entity->hasComponent<TestComponent>("Test1") == false)
 				return; //This shouldn't happen
+
+			try {
+				entity->getComponent<TestComponent>("Test0");
+			}catch(const std::exception &){
+				return; //This shouldn't happen
+			}
            
 			//testComp0->test(); //<- this is a shared_ptr to an IComponent, so we can't call test() function.
 			testComp1->test();
