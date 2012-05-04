@@ -31,8 +31,6 @@ public:
 		static unsigned int typeId(typeid(ComponentType).hash_code());
 		return typeId;
 	}
-
-	virtual void invokeRemovedSignal() = 0;
 };
 
 } //namespace Totem

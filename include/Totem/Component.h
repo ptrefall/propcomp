@@ -14,7 +14,7 @@ namespace Totem
 {
 
 template<class ComponentType, class UserData = void*>
-class Component : public IComponent<UserData>, public sigslot::has_slots<>, protected std::enable_shared_from_this<ComponentType>
+class Component : public IComponent<UserData>, public sigslot::has_slots<>
 {
 public:
 	Component(const std::string &name) 
@@ -40,13 +40,9 @@ public:
 
 		throw std::runtime_error("Assignment operation between ComponentTypes are not supported!");
 	}
-
-	sigslot::signal1<std::shared_ptr<ComponentType>> &removed() { return sign_Removed; }
-	void invokeRemovedSignal() override { sign_Removed.invoke(shared_from_this()); }
 	
 protected:
 	std::string name;
-	sigslot::signal1<std::shared_ptr<ComponentType>> sign_Removed;
 };
 
 } // namespace Totem

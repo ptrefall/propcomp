@@ -20,10 +20,7 @@ public:
 	virtual ~ComponentContainer()
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
-		{
 			sign_ComponentRemoved.invoke(components[i]);
-			components[i]->invokeRemovedSignal();
-		}
 	}
 
 	std::shared_ptr<IComponent<UserData>> addComponent(std::shared_ptr<IComponent<UserData>> component)
@@ -107,7 +104,6 @@ public:
 					if(components[i]->getName() == name)
 					{
 						sign_ComponentRemoved.invoke(components[i]);
-						components[i]->invokeRemovedSignal();
 						if(upholdOrderInList)
 						{
 							components.erase(components.begin()+i);
@@ -123,7 +119,6 @@ public:
 				else
 				{
 					sign_ComponentRemoved.invoke(components[i]);
-					components[i]->invokeRemovedSignal();
 					if(upholdOrderInList)
 					{
 						components.erase(components.begin()+i);

@@ -14,18 +14,14 @@ TestComponent::TestComponent(const EntityWPtr &owner, const std::string &name, c
 	test_shared_prop.valueChanged().connect(this, &TestComponent::OnSharedPropChanged);
 
 	owner.lock()->registerToEvent0("SomeEvent").connect(this, &TestComponent::OnSomeEvent);
+
+	sys->add(this);
 }
 
 TestComponent::~TestComponent()
 {
 	std::cout << "Component " << name << " is being destroyed!" << std::endl;
-}
-
-void TestComponent::initialize()
-{
-	//Register with TestSystem
-	sys->add(shared_from_this());
-	this->removed().connect(sys.get(), &TestSystem::remove);
+	sys->remove(this);
 }
 
 void TestComponent::test() 
