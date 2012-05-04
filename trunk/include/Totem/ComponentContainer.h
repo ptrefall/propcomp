@@ -73,11 +73,11 @@ public:
 				if(!name.empty())
 				{
 					if(components[i]->getName() == name)
-						return components[i];
+						return std::static_pointer_cast<ComponentType>(components[i]);
 				}
 				else
 				{
-					return components[i];
+					return std::static_pointer_cast<ComponentType>(components[i]);
 				}
 			}
 		}
