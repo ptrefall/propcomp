@@ -95,9 +95,7 @@ void main()
 			entity->propertyListWithUserDataAdded().connect(entityCallback.get(), &EntityCallback::onPropertyListAdded);
 		
 			auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
-			testComp0->initialize();
 			auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));
-			testComp1->initialize();
 
 			if(Totem::Component<TestComponent, PropertyUserData>::isType(testComp0) == false)
 				return; //This shouldn't happen
