@@ -15,6 +15,10 @@
     <ClInclude Include="component_colorshift.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="component_sound.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sound_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
@@ -31,6 +35,10 @@
     <ClCompile Include="component_colorshift.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="component_sound.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sound_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

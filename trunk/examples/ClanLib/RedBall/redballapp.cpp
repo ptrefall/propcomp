@@ -5,7 +5,9 @@
 #include "component_visual.h"
 #include "component_bounce.h"
 #include "component_colorshift.h"
+#include "component_sound.h"
 #include "visual_manager.h"
+#include "sound_manager.h"
 
 void RedBallApp::run()
 {
@@ -24,6 +26,8 @@ void RedBallApp::run()
 	CL_GraphicContext gc = window.get_gc();
 
 	VisualManager visual_manager;
+	SoundManager sound_manager;
+	sound_manager.add_sound("bounce", "Resources/bounce.ogg");
 
 	Entity background;
 	background.addComponent(std::make_shared<Visual>(&background, visual_manager));
@@ -41,6 +45,7 @@ void RedBallApp::run()
 	Entity ball2;
 	ball2.addComponent(std::make_shared<Visual>(&ball2, visual_manager));
 	ball2.addComponent(std::make_shared<Bounce>(&ball2));
+	ball2.addComponent(std::make_shared<Sound>(&ball2, sound_manager));
 	ball2.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Ball.png");
 	ball2.get<CL_Colorf>("color") = CL_Colorf(1.0f, 0.2f, 0.2f, 1.0f);
 	ball2.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);

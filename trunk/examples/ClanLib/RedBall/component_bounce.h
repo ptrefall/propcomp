@@ -17,11 +17,14 @@ protected:
 	Totem::Property<float> property_bounce_height;
 	Totem::Property<float> property_bounce_speed;
 	Totem::Property<CL_Pointf> property_position;
+	Totem::Property<CL_String> property_sound;
 
 	void on_position_changed(const CL_Pointf &old_value, const CL_Pointf &new_value);
 
 	float total_time;
 	CL_Pointf original_position;
+
+	float curve_sign;
 
 	CL_Slot slot;
 };
