@@ -15,8 +15,10 @@ void HorizontalMovement::update(const float &delta_time)
 	CL_Pointf position = property_position;
 
 	position.x = position.x + (delta_time * property_horizontal_movement_speed / 100.0f * direction);
-	if(position.x >= 800 || position.x <= 0)
-		direction = -direction;
+	if(position.x <= 0)
+		direction = 1.0f;
+	if(position.x >= 800)
+		direction = -1.0f;
 
 	property_position.set(position, false);
 }
