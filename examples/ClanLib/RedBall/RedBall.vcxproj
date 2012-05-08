@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClCompile Include="component_bounce.cpp" />
     <ClCompile Include="component_colorshift.cpp" />
+    <ClCompile Include="component_horizontal_movement.cpp" />
     <ClCompile Include="component_sound.cpp" />
     <ClCompile Include="component_visual.cpp" />
     <ClCompile Include="entity.cpp" />
@@ -85,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="component_bounce.h" />
     <ClInclude Include="component_colorshift.h" />
+    <ClInclude Include="component_horizontal_movement.h" />
     <ClInclude Include="component_sound.h" />
     <ClInclude Include="component_visual.h" />
     <ClInclude Include="entity.h" />
