@@ -15,7 +15,7 @@ void RedBallApp::run()
 	quit = false;
 	last_time = 0;
 
-	CL_DisplayWindow window("Red Ball", 800, 600, false, false);
+	CL_DisplayWindow window("Balls", 800, 600, false, false);
 	slots.connect(window.sig_window_close(), this, &RedBallApp::on_window_close);
 	slots.connect(window.get_ic().get_keyboard().sig_key_up(), this, &RedBallApp::on_input_up);
 	CL_GraphicContext gc = window.get_gc();
