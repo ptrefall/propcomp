@@ -22,15 +22,17 @@ void RedBallApp::run()
 
 	VisualManager visual_manager;
 	SoundManager sound_manager;
-	sound_manager.add_sound("bounce", "Resources/bounce.ogg");
+	sound_manager.add_sound("bounce", "Resources/bounce2.ogg");
+	sound_manager.add_sound("music", "Resources/music.ogg");
+	sound_manager.play("music");
 
 	Entity background;
 	background.addComponent(std::make_shared<Visual>(&background, visual_manager));
 	background.addComponent(std::make_shared<ColorShift>(&background));
 	background.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/background.png");
 	background.get<CL_Origin>("alignment") = origin_top_left;
-	background.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 1.0f);
-	background.get<CL_Colorf>("color_to") = CL_Colorf(1.0f, 0.0f, 0.0f, 1.0f);
+	background.get<CL_Colorf>("color") = CL_Colorf(1.0f, 0.0f, 0.0f, 1.0f);
+	background.get<CL_Colorf>("color_to") = CL_Colorf(1.0f, 1.0f, 1.0f, 1.0f);
 	background.get<float>("shift_speed") = 40.0f;
 	entities.push_back(&background);
 
@@ -52,8 +54,8 @@ void RedBallApp::run()
 	ball1_shadow.addComponent(std::make_shared<ColorShift>(&ball1_shadow));
 	ball1_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball1_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.4f, 0.4f);
-	ball1_shadow.get<CL_Pointf>("position") = CL_Pointf(200.0f, 510.0f);
-	ball1_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.4f);
+	ball1_shadow.get<CL_Pointf>("position") = CL_Pointf(200.0f, 506.0f);
+	ball1_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.3f);
 	ball1_shadow.get<CL_Colorf>("color_to") = CL_Colorf(1.0f, 1.0f, 1.0f, 1.0f);
 	ball1_shadow.get<float>("shift_speed") = 1000.0f;
 	entities.push_back(&ball1_shadow);
@@ -78,8 +80,8 @@ void RedBallApp::run()
 	ball2_shadow.addComponent(std::make_shared<ColorShift>(&ball2_shadow));
 	ball2_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball2_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.6f, 0.6f);
-	ball2_shadow.get<CL_Pointf>("position") = CL_Pointf(400.0f, 560.0f);
-	ball2_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.4f);
+	ball2_shadow.get<CL_Pointf>("position") = CL_Pointf(400.0f, 556.0f);
+	ball2_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.3f);
 	ball2_shadow.get<CL_Colorf>("color_to") = CL_Colorf(1.0f, 1.0f, 1.0f, 1.0f);
 	ball2_shadow.get<float>("shift_speed") = 900.0f;
 	entities.push_back(&ball2_shadow);
