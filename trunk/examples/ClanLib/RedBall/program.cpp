@@ -10,9 +10,6 @@ int Program::main(const std::vector<CL_String> &args)
 {
 	try
 	{
-		CL_ConsoleWindow console("Console", 80, 160);
-		CL_ConsoleLogger logger;
-
 		CL_SetupCore setup_core;
 		CL_SetupDisplay setup_display;
 		CL_SetupGL setup_gl;
