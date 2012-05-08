@@ -19,6 +19,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="sound_manager.h" />
+    <ClInclude Include="component_horizontal_movement.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
@@ -39,6 +42,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="sound_manager.cpp" />
+    <ClCompile Include="component_horizontal_movement.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

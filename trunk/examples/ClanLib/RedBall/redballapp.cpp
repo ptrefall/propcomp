@@ -6,23 +6,18 @@
 #include "component_bounce.h"
 #include "component_colorshift.h"
 #include "component_sound.h"
+#include "component_horizontal_movement.h"
 #include "visual_manager.h"
 #include "sound_manager.h"
 
 void RedBallApp::run()
 {
 	quit = false;
+	last_time = 0;
 
-	CL_DisplayWindowDescription desc;
-	desc.set_title("Red Ball");
-	desc.set_size(CL_Size(800, 600), true);
-	desc.set_allow_resize(true);
-
-	CL_DisplayWindow window(desc);
-
-	CL_Slot slot_quit = window.sig_window_close().connect(this, &RedBallApp::on_window_close);
-	CL_Slot slot_input_up = (window.get_ic().get_keyboard()).sig_key_up().connect(this, &RedBallApp::on_input_up);
-
+	CL_DisplayWindow window("Red Ball", 800, 600, false, false);
+	slots.connect(window.sig_window_close(), this, &RedBallApp::on_window_close);
+	slots.connect(window.get_ic().get_keyboard().sig_key_up(), this, &RedBallApp::on_input_up);
 	CL_GraphicContext gc = window.get_gc();
 
 	VisualManager visual_manager;
@@ -41,6 +36,7 @@ void RedBallApp::run()
 	ball1.addComponent(std::make_shared<Visual>(&ball1, visual_manager));
 	ball1.addComponent(std::make_shared<Bounce>(&ball1));
 	ball1.addComponent(std::make_shared<Sound>(&ball1, sound_manager));
+	ball1.addComponent(std::make_shared<HorizontalMovement>(&ball1));
 	ball1.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Ball.png");
 	ball1.get<CL_Colorf>("color") = CL_Colorf(1.0f, 0.2f, 0.2f, 1.0f);
 	ball1.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
@@ -70,12 +66,9 @@ void RedBallApp::run()
 	ball3.get<CL_Pointf>("position") = CL_Pointf(600.0f, 400.0f);
 	entities.push_back(&ball3);
 
-	unsigned int last_time = CL_System::get_time();
 	while (!quit)
 	{
-		unsigned int current_time = CL_System::get_time();
-		float time_delta_ms = static_cast<float> (current_time - last_time);
-		last_time = current_time;
+		float time_delta_ms = calculate_delta_time();
 
 		for(size_t i = 0; i < entities.size(); ++i)
 			entities[i]->update(time_delta_ms);
@@ -85,6 +78,18 @@ void RedBallApp::run()
 		window.flip(1);
 		CL_KeepAlive::process(0);
 	}
+}
+
+float RedBallApp::calculate_delta_time()
+{
+	if(last_time == 0)
+		last_time = CL_System::get_time();
+
+	unsigned int current_time = CL_System::get_time();
+	float time_delta_ms = static_cast<float> (current_time - last_time);
+	last_time = current_time;
+
+	return time_delta_ms;
 }
 
 void RedBallApp::on_input_up(const CL_InputEvent &key)
