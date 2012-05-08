@@ -9,8 +9,6 @@ class ColorShift : public Totem::Component<ColorShift>
 public:
 	ColorShift(Entity *owner, const CL_String &name = CL_String());
 
-	static CL_String getType() { return "ColorShift"; }
-
 	virtual void update(const float &delta_time);
 
 protected:

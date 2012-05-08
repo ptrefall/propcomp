@@ -11,8 +11,6 @@ class Visual : public Totem::Component<Visual>
 public:
 	Visual(Entity *owner, VisualManager &visual_manager, const CL_String &name = CL_String());
 
-	static CL_String getType() { return "Visual"; }
-
 	void render(CL_GraphicContext &gc);
 
 protected:
