@@ -9,8 +9,6 @@ class Bounce : public Totem::Component<Bounce>
 public:
 	Bounce(Entity *owner, const CL_String &name = CL_String());
 
-	static CL_String getType() { return "Bounce"; }
-
 	virtual void update(const float &delta_time);
 
 protected:
