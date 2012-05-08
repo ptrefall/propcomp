@@ -50,6 +50,7 @@ void RedBallApp::run()
 	ball1_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball1_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
 	ball1_shadow.get<CL_Pointf>("position") = CL_Pointf(200.0f, 410.0f);
+	ball1_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.5f);
 	entities.push_back(&ball1_shadow);
 
 	Entity ball2;
@@ -72,6 +73,7 @@ void RedBallApp::run()
 	ball2_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball2_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
 	ball2_shadow.get<CL_Pointf>("position") = CL_Pointf(400.0f, 410.0f);
+	ball2_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.5f);
 	entities.push_back(&ball2_shadow);
 
 	Entity ball3;
@@ -89,6 +91,7 @@ void RedBallApp::run()
 	ball3_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball3_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
 	ball3_shadow.get<CL_Pointf>("position") = CL_Pointf(600.0f, 410.0f);
+	ball3_shadow.get<CL_Colorf>("color") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.5f);
 	entities.push_back(&ball3_shadow);
 
 	while (!quit)
