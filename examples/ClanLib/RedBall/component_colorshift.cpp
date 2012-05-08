@@ -17,7 +17,7 @@ void ColorShift::update(const float &delta_time)
 {
 	total_time += delta_time*0.01f;
 
-	float curve = ((sinf(total_time * (property_shift_speed / 1000))) + 1.0f) / 2.0f;  
+	float curve = ((sinf(total_time * (property_shift_speed / 1000)+(CL_M_PI/4))) + 1.0f) / 2.0f;  
 	CL_Colorf color;
 	color.r = (property_color.get().r+(property_color_to.get().r-property_color.get().r)*curve);
 	color.g = (property_color.get().g+(property_color_to.get().g-property_color.get().g)*curve);
