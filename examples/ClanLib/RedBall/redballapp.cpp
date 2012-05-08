@@ -36,6 +36,8 @@ void RedBallApp::run()
 
 	Entity ball1;
 	ball1.addComponent(std::make_shared<Visual>(&ball1, visual_manager));
+	ball1.addComponent(std::make_shared<Bounce>(&ball1));
+	ball1.addComponent(std::make_shared<Sound>(&ball1, sound_manager));
 	ball1.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Ball.png");
 	ball1.get<CL_Colorf>("color") = CL_Colorf(1.0f, 0.2f, 0.2f, 1.0f);
 	ball1.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
@@ -51,7 +53,7 @@ void RedBallApp::run()
 	ball2.get<CL_Pointf>("scale") = CL_Pointf(0.3f, 0.3f);
 	ball2.get<CL_Pointf>("position") = CL_Pointf(400.0f, 400.0f);
 	ball2.get<float>("bounce_height") = 150.0f;
-	ball2.get<float>("bounce_speed") = 5.0f;
+	ball2.get<float>("bounce_speed") = 4.5f;
 	entities.push_back(&ball2);
 
 	Entity ball3;

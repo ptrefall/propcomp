@@ -5,8 +5,8 @@
 Bounce::Bounce(Entity *owner, const CL_String &name)
 : Component<Bounce>(name)
 {
-	property_bounce_height = owner->add<float>("bounce_height", 0.0f);
-	property_bounce_speed = owner->add<float>("bounce_speed", 10.0f);
+	property_bounce_height = owner->add<float>("bounce_height", 100.0f);
+	property_bounce_speed = owner->add<float>("bounce_speed", 5.0f);
 
 	property_position = owner->add<CL_Pointf>("position", CL_Pointf());
 
