@@ -7,6 +7,7 @@ Bounce::Bounce(Entity *owner, const CL_String &name)
 {
 	property_bounce_height = owner->add<float>("bounce_height", 100.0f);
 	property_bounce_speed = owner->add<float>("bounce_speed", 5.0f);
+	property_bounce_distance = owner->add<float>("bounce_distance", 0.0f);
 
 	property_position = owner->add<CL_Pointf>("position", CL_Pointf());
 
@@ -35,6 +36,7 @@ void Bounce::update(const float &delta_time)
 	}
 
 	float ypos = fabs(curve) * property_bounce_height;
+	property_bounce_distance = ypos;
 
 	position.y = original_position.y - ypos;
 

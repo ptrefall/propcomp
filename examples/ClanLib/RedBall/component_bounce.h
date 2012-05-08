@@ -16,6 +16,7 @@ public:
 protected:
 	Totem::Property<float> property_bounce_height;
 	Totem::Property<float> property_bounce_speed;
+	Totem::Property<float> property_bounce_distance;
 	Totem::Property<CL_Pointf> property_position;
 	Totem::Property<CL_String> property_sound;
 
