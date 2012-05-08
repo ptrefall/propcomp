@@ -90,7 +90,7 @@ void RedBallApp::run()
 	ball3.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Ball2.png");
 	ball3.get<CL_Colorf>("color_to") = CL_Colorf(0.5f, 0.5f, 0.5f, 0.0f);
 	ball3.get<CL_Pointf>("scale") = CL_Pointf(0.5f, 0.5f);
-	ball3.get<CL_Pointf>("position") = CL_Pointf(600.0f, 520.0f);
+	ball3.get<CL_Pointf>("position") = CL_Pointf(570.0f, 520.0f);
 	ball3.get<CL_Origin>("alignment") = origin_bottom_center;
 	entities.push_back(&ball3);
 
@@ -99,7 +99,7 @@ void RedBallApp::run()
 	ball3_shadow.addComponent(std::make_shared<ColorShift>(&ball3_shadow));
 	ball3_shadow.get<CL_Sprite>("sprite") = CL_Sprite(gc, "Resources/Shadow.png");
 	ball3_shadow.get<CL_Pointf>("scale") = CL_Pointf(0.5f, 0.5f);
-	ball3_shadow.get<CL_Pointf>("position") = CL_Pointf(600.0f, 530.0f);
+	ball3_shadow.get<CL_Pointf>("position") = CL_Pointf(570.0f, 530.0f);
 	ball3_shadow.get<CL_Colorf>("color_to") = CL_Colorf(1.0f, 1.0f, 1.0f, 0.0f);
 	entities.push_back(&ball3_shadow);
 
