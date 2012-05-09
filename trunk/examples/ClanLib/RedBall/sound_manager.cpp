@@ -11,5 +11,8 @@ void SoundManager::play(const CL_String &name)
 {
 	std::map<CL_String, CL_SoundBuffer>::iterator it = sounds.find(name);
 	if(it != sounds.end())
-		it->second.play();
+	{
+		CL_SoundBuffer_Session session = it->second.play();
+		session.set_volume(0.5f);
+	}
 }
