@@ -24,4 +24,5 @@
 ###
 
 add_subdirectory(NewApproach)
+add_subdirectory(Functionality)
 add_subdirectory(Common)
