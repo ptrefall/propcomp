@@ -63,6 +63,8 @@ set(TOTEM_ADDONS_HDRS
 )
 SOURCE_GROUP("Header Files\\Totem\\Addons" FILES ${TOTEM_ADDONS_HDRS})
 
+ADD_MSVC_PRECOMPILED_HEADER("precomp.h" "precomp.cpp" PRECOMP)
+
 set(HDRS
   ${TOTEM_HDRS}
   ${TOTEM_ADDONS_HDRS}
@@ -75,6 +77,7 @@ set(HDRS
 )
 
 set(SRCS
+  ${PRECOMP}
   entity.cpp
   redballapp.cpp
   visual_manager.cpp
@@ -82,8 +85,6 @@ set(SRCS
   component_colorshift.cpp
   component_bounce.cpp
 )
-
-ADD_MSVC_PRECOMPILED_HEADER("precomp.h" "precomp.cpp" PRECOMP)
  
 add_executable(RedBall ${PRECOMP} ${HDRS} ${SRCS})
 

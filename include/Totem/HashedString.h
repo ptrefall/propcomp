@@ -22,8 +22,8 @@ public:
 	{
 	}
 
-	FORCE_INLINE unsigned int getId() { return hashId; }
-	FORCE_INLINE const std::string &getStr() { return str; }
+	FORCE_INLINE unsigned int getId() const { return hashId; }
+	FORCE_INLINE const std::string &getStr() const { return str; }
 
 private:
 	unsigned int hashId;
