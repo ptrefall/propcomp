@@ -29,9 +29,6 @@ requirements or restrictions.
 #include <Totem/PropertyListContainer.h>
 #include <Totem/HashedString.h>
 
-#include <Totem/Addons/EventSystem.h>
-#include <Totem/Addons/DelegateSystem.h>
-
 #include <memory>
 #include <algorithm>
 #include <iostream>
@@ -47,7 +44,7 @@ class Entity
 	:	public Totem::ComponentContainer<>,
 		public Totem::PropertyContainer<>,
 		public Totem::PropertyListContainer<>,
-		public Totem::Addon::EventSystem<>
+		public sigslot::has_slots<>
 {
 public:
 	Entity(Totem::HashedString1 name) : name(name) {
@@ -83,8 +80,8 @@ struct PropertyUserData
 class EntityWithUserData 
 	:	public Totem::ComponentContainer<PropertyUserData>, 
 		public Totem::PropertyContainer<PropertyUserData>, 
-		public Totem::PropertyListContainer<PropertyUserData>, 
-		public Totem::Addon::EventSystem<>
+		public Totem::PropertyListContainer<PropertyUserData>,
+		public sigslot::has_slots<>
 {
 public:	
 	EntityWithUserData(const std::string &name) : name(name) {
@@ -126,8 +123,6 @@ public:
 		my_shared_int_property_list.valuesCleared().connect(this, &MyComponent::onMySharedInPropertyListCleared);
 		my_shared_int_property_list.listResized().connect(this, &MyComponent::onMySharedInPropertyListResized);
 
-		owner->registerToEvent0("MyEvent").connect(this, &MyComponent::onMyEvent);
-
 		std::cout << "Component " << getName() << ", owned by " << owner->getName() << ", has been instantiated." << std::endl;
 	}
 	virtual ~MyComponent() {}
@@ -138,9 +133,6 @@ private:
 	unsigned int id;
 	Entity *owner;
 
-	void onMyEvent() { 
-		std::cout << name << " received my event." << std::endl; 
-	}
 	void onMySharedStringPropertyChanged(const std::string &old_value, const std::string &new_value) { 
 		std::cout << "My shared string property changed from " << old_value << " to " << new_value << "." << std::endl;
 	}
