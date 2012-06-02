@@ -25,7 +25,7 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 
-set(NAME TestFunctionality)
+set(NAME TestCoreFunctionality)
 project(${NAME})
 
 set(TOTEM_HDRS
