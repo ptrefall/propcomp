@@ -37,8 +37,8 @@ requirements or restrictions.
 #include <iostream>
 
 /*
-	Comment on the purpose of this test:
-	In this test we'll run through all the functionality in Totem, so expect this file to be
+	Disclaimer:
+	In this test we'll run through all the functionality in Totem and catch implementation bugs, so expect this file to be
 	a bit messy in terms of all the function calls and setup. Refer to the examples to see
 	clean code.
 */
