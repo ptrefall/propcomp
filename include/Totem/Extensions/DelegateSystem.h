@@ -49,7 +49,6 @@
 #include <memory>
 
 namespace Totem {
-namespace Addon {
 
 /**
 * In order to support multiple different types registered into the delegate maps
@@ -711,5 +710,4 @@ bool DelegateSystem<DelegateFactory>::hasFunction(const HashedString1 &id, int n
 	}
 }
 
-} //namespace Addon
 } //namespace Totem
