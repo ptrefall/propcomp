@@ -7,7 +7,6 @@
 #include <memory>
 
 namespace Totem {
-namespace Addon {
 
 class Component;
 class ComponentFactory;
@@ -667,5 +666,4 @@ bool EventSystem<EventFactory>::hasEvent(const HashedString1 &id, int num_params
 	}
 }
 
-} //namespace Addon
 } //namespace Totem
