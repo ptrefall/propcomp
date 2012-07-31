@@ -50,11 +50,6 @@ public:
 		}
 	}
 
-	static bool isType(std::shared_ptr<IProperty> property)
-	{
-		return (property->getRuntimeTypeId() == IProperty::getRuntimeTypeId<PropertyType>());
-	}
-
 	unsigned int getRuntimeTypeId() const override { return IProperty::getRuntimeTypeId<PropertyType>(); }
 
 	const PropertyType &get() const { return data->value; }

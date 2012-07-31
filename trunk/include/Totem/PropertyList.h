@@ -187,11 +187,6 @@ public:
 		return PropertyListIndexValue<PropertyType>(data, index);
 	}
 
-	static bool isType(std::shared_ptr<IPropertyList> propertyList)
-	{
-		return (propertyList->getRuntimeTypeId() == IPropertyList::getRuntimeTypeId<PropertyType>());
-	}
-
 	unsigned int getRuntimeTypeId() const override { return IPropertyList::getRuntimeTypeId<PropertyType>(); }
 
 	const std::vector<PropertyType> &get() const { return data->value; }
