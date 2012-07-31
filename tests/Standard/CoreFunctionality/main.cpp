@@ -21,13 +21,14 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <Totem/Component.h>
+/*#include <Totem/Component.h>
 #include <Totem/ComponentContainer.h>
 #include <Totem/Property.h>
 #include <Totem/PropertyContainer.h>
 #include <Totem/PropertyList.h>
 #include <Totem/PropertyListContainer.h>
-#include <Totem/HashedString.h>
+#include <Totem/HashedString.h>*/
+#include <Totem/Totem.h>
 
 #include <memory>
 #include <algorithm>
@@ -114,6 +115,7 @@ public:
 		my_shared_string_property = owner->add<std::string>("MySharedString", "Testing shared string");
 		my_private_int_property = add<int>("MyPrivateInt", 3);
 		my_shared_int_property_list = owner->addList<int>("MySharedIntList");
+		Totem::IProperty::isType<std::string>(my_shared_string_property);
 		
 		my_shared_string_property.valueChanged().connect(this, &MyComponent::onMySharedStringPropertyChanged);
 		my_private_int_property.valueChanged().connect(this, &MyComponent::onMyPrivateIntPropertyChanged);
@@ -182,6 +184,8 @@ void main()
 		auto my_first_component = my_first_entity->addComponent<MyComponent>(std::make_shared<MyComponent>(my_first_entity.get(), "MyFirstComponent"));
 		std::cout << "Id of component " << my_first_component->getName() << " of entity " << my_first_entity->getName() << " is " << my_first_component->getId() << "." << std::endl;
 		auto my_second_component_interface = my_first_entity->addComponent(std::make_shared<MySecondComponent>(my_first_entity.get(), "MySecondComponent"));
+		Totem::IComponent<void*>::isType<MyComponent>(my_first_component);
+		Totem::Component<MyComponent, void*>::isType<MyComponent>(my_first_component);
 	}
 	EntityPtr my_second_entity = std::make_shared<Entity>("MySecondEntity");
 	system("pause");
