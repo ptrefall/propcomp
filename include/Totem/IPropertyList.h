@@ -15,9 +15,14 @@ public:
 	virtual void clearDirty() = 0;
 
 	template<typename PropertyType>
-	static bool isType(std::shared_ptr<IPropertyList> property)
+	static bool isType(const std::shared_ptr<IPropertyList> &property)
 	{
 		return (property->getRuntimeTypeId() == getRuntimeTypeId<PropertyType>());
+	}
+	template<typename PropertyType>
+	static bool isType(const IPropertyList &property)
+	{
+		return (property.getRuntimeTypeId() == getRuntimeTypeId<PropertyType>());
 	}
 
 	virtual unsigned int getRuntimeTypeId() const = 0;

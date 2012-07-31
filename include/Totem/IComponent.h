@@ -18,7 +18,7 @@ public:
 	virtual void update(const float &/*deltaTime*/) {}
 
 	template<typename ComponentType>
-	static bool isType(std::shared_ptr<IComponent> component)
+	static bool isType(const std::shared_ptr<IComponent> &component)
 	{
 		return (component->getRuntimeTypeId() == getRuntimeTypeId<ComponentType>());
 	}

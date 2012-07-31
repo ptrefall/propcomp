@@ -25,11 +25,6 @@ public:
 	{
 	}
 
-	static bool isType(std::shared_ptr<IComponent<UserData>> component)
-	{
-		return (component->getRuntimeTypeId() == IComponent<UserData>::getRuntimeTypeId<ComponentType>());
-	}
-
 	unsigned int getRuntimeTypeId() const override { return IComponent<UserData>::getRuntimeTypeId<ComponentType>(); }
 	const std::string &getName() const override { return name; }
 

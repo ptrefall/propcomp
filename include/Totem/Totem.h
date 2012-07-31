@@ -5,5 +5,5 @@
 #include "Property.h"
 #include "PropertyContainer.h"
 #include "PropertyList.h"
-#inlcude "PropertyListContainer.h"
+#include "PropertyListContainer.h"
 #include "HashedString.h"
