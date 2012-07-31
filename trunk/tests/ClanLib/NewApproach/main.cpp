@@ -96,7 +96,7 @@ void main()
 		auto testComp0 = entity->addComponent(std::make_shared<TestComponent>(entity, "Test0", sys));
 		auto testComp1 = entity->addComponent<TestComponent>(std::make_shared<TestComponent>(entity, "Test1", sys));
 
-		if(Totem::Component<TestComponent, PropertyUserData>::isType(testComp0) == false)
+		if(Totem::Component<TestComponent, PropertyUserData>::isType<TestComponent>(testComp0) == false)
 			return; //This shouldn't happen
            
 		//testComp0->test(); //<- this is a shared_ptr to an IComponent, so we can't call test() function.

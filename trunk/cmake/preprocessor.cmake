@@ -41,9 +41,9 @@ endmacro(define_totem_paths)
 # EXTRACT TOTEM FILES FROM DISK
 #-------------------------------
 macro(extract_files package)
-	file(GLOB totem_hdr_files_abs_path ${TOTEM_HDRS}/*.h)
-	file(GLOB totem_hdr_addon_files_abs_path ${TOTEM_HDRS_ADDONS}/*.h)
-	file(GLOB totem_config_hdrs_abs_path ${TOTEM_CONFIG_HDRS}/*.h)
+	file(GLOB totem_hdr_files_abs_path ${TOTEM_HDRS}/*.h ${TOTEM_HDRS}/*.inl)
+	file(GLOB totem_hdr_addon_files_abs_path ${TOTEM_HDRS_ADDONS}/*.h ${TOTEM_HDRS_ADDONS}/*.inl)
+	file(GLOB totem_config_hdrs_abs_path ${TOTEM_CONFIG_HDRS}/*.h ${TOTEM_CONFIG_HDRS}/*.inl)
 	message(STATUS "Header Files in include/Totem/ ${totem_hdr_files_abs_path}")
 	message(STATUS "Header Files in include/Totem/Addons/ ${totem_hdr_addon_files_abs_path}")
 	message(STATUS "${package} configuration headers for Totem in depends/${package}/ ${totem_config_hdrs_abs_path}")
