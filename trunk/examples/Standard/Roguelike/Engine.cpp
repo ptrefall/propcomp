@@ -1,0 +1,157 @@
+#include "Engine.h"
+
+#include "Entity.h"
+#include "Systems/RenderSystem.h"
+#include "Utils/Vec2i.h"
+#include "Components/Actor.h"
+#include "Components/Map.h"
+#include "Components/Destructible.h"
+#include "Components/Attacker.h"
+#include "Components/Player.h"
+#include "Components/Monster.h"
+#include "Components/Gui.h"
+#include "Components/Container.h"
+
+EnginePtr Engine::singleton;
+
+EnginePtr Engine::getSingleton()
+{
+	if(singleton == nullptr)
+		singleton = std::make_shared<Engine>();
+	return singleton;
+}
+
+void Engine::Shutdown()
+{
+	if(singleton)
+		singleton.reset();
+}
+
+Engine::Engine()
+	: fovRadius(10), gameStatus(STARTUP), screenWidth(0), screenHeight(screenHeight)
+{
+}
+
+Engine::~Engine()
+{
+}
+
+void Engine::init(const std::string &resource_dir, int screenWidth, int screenHeight)
+{
+	this->resource_dir = resource_dir;
+	this->screenWidth = screenWidth;
+	this->screenHeight = screenHeight;
+
+	TCODConsole::setCustomFont((resource_dir+"terminal.png").c_str());
+	TCODConsole::initRoot(screenWidth,screenHeight, "Totem Roguelike", false);
+
+	render_system = std::make_shared<RenderSystem>();
+
+	auto guiEntity = std::make_shared<Entity>("Gui");
+	gui = guiEntity->addComponent( std::make_shared<Gui>(guiEntity, render_system) );
+	entities.push_back(guiEntity);
+
+	auto playerEntity = std::make_shared<Entity>("player");
+	player = playerEntity->addComponent( std::make_shared<Actor>(playerEntity, render_system) );
+	playerEntity->addComponent( std::make_shared<Destructible>(playerEntity, "corpse of player", render_system) );
+	playerEntity->addComponent( std::make_shared<Attacker>(playerEntity, 5.0f) );
+	player_input = playerEntity->addComponent( std::make_shared<Player>(playerEntity, render_system) );
+	playerEntity->addComponent( std::make_shared<Container>(playerEntity, 26) );
+
+	playerEntity->get<Vec2i>("Position") = Vec2i(screenWidth/2,screenHeight/2);
+	playerEntity->get<int>("Character") = '@';
+	playerEntity->get<TCODColor>("Color") = TCODColor::white;
+	playerEntity->get<float>("Defense") = 2.0f;
+	playerEntity->get<float>("MaxHP") = 30.0f;
+	playerEntity->get<float>("HP") = 30.0f;
+	entities.push_back(playerEntity);
+
+	auto mapEntity = std::make_shared<Entity>("Map");
+	map = mapEntity->addComponent( std::make_shared<Map>(mapEntity, screenWidth,screenHeight - PANEL_HEIGHT, render_system) );
+	entities.push_back(mapEntity);
+
+	gui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
+}
+
+void Engine::update()
+{
+	if ( gameStatus == STARTUP ) 
+		map->computeFov();
+
+	gameStatus=IDLE;
+
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS|TCOD_EVENT_MOUSE,&last_key,&mouse);
+	player_input->checkForInput();
+
+	if(gameStatus == NEW_TURN)
+	{
+		for(unsigned int i = 0; i < entities.size(); i++)
+		{
+			entities[i]->updateComponents(1);
+			entities[i]->updateProperties();
+		}
+	}
+}
+
+void Engine::render()
+{
+	TCODConsole::root->clear();
+	render_system->render();
+}
+
+EntityPtr Engine::createActor(const std::string &name, int x, int y, int characterID, TCODColor color)
+{
+	auto actor = std::make_shared<Entity>(name);
+	auto actor_ptr = actor->addComponent( std::make_shared<Actor>(actor, render_system) );
+	actor->get<Vec2i>("Position") = Vec2i(x,y);
+	actor->get<int>("Character") = characterID;
+	actor->get<TCODColor>("Color") = color;
+	actors.push_back(actor_ptr);
+	entities.push_back(actor);
+	return actor;
+}
+
+EntityPtr Engine::createMonster(EntityPtr actor, const std::string &corpse_name, float defense, float maxHp, float power)
+{
+	if( !actor->hasComponent<Actor>() )
+		return nullptr; //If someone wants to be stupid, then act stupid back...
+
+	actor->addComponent( std::make_shared<Destructible>(actor, corpse_name, render_system) );
+	actor->addComponent( std::make_shared<Monster>(actor) );
+	actor->addComponent( std::make_shared<Attacker>(actor, power) );
+	actor->get<float>("Defense") = defense;
+	actor->get<float>("MaxHP") = maxHp;
+	actor->get<float>("HP") = maxHp;
+	return actor;
+}
+
+void Engine::remove(const EntityPtr &entity)
+{
+	if(entity->hasComponent<Actor>())
+		remove(entity->getComponent<Actor>());
+
+	for(unsigned int i = 0; i < entities.size(); i++)
+	{
+		if(entities[i] == entity)
+		{
+			entities[i] = entities.back();
+			entities.pop_back();
+			return;
+		}
+	}
+}
+
+void Engine::remove(const ActorPtr &actor)
+{
+	render_system->remove(actor.get());
+
+	for(unsigned int i = 0; i < actors.size(); i++)
+	{
+		if(actors[i] == actor)
+		{
+			actors[i] = actors.back();
+			actors.pop_back();
+			return;
+		}
+	}
+}

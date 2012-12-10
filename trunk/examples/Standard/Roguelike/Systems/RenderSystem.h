@@ -1,0 +1,117 @@
+#pragma once
+
+#include "../Components/Player.h"
+#include "../Components/Actor.h"
+#include "../Components/Map.h"
+#include "../Components/Gui.h"
+#include "../Entity.h"
+#include "../Engine.h"
+
+#include <memory>
+#include <iostream>
+#include <vector>
+
+class RenderSystem;
+typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
+
+class RenderSystem : public sigslot::has_slots<>
+{
+public:
+	RenderSystem() : map(nullptr), player(nullptr) {}
+	~RenderSystem() { std::cout << "Render System is being destroyed!" << std::endl; }
+
+	void set(Gui *gui)
+	{
+		this->gui = gui;
+		std::cout << "Set gui for Render System!" << std::endl;
+	}
+
+	void set(Player *player)
+	{
+		this->player = player;
+		std::cout << "Set player for Render System!" << std::endl;
+	}
+
+	void set(Map *map)
+	{ 
+		this->map = map;
+		std::cout << "Set map for Render System!" << std::endl;
+	}
+
+	void add(Actor *actor)
+	{ 
+		actors.push_back(actor); 
+		std::cout << "Added actor " << actor->getOwner()->getName() << " to Render System!" << std::endl;
+	}
+	void remove(Actor *actor)
+	{
+		for(unsigned int i = 0; i < actors.size(); i++)
+		{
+			if(actors[i] == actor)
+			{
+				std::cout << "Removed actor from Render System!" << std::endl;
+				actors[i] = actors.back();
+				actors.pop_back();
+				return;
+			}
+		}
+		for(unsigned int i = 0; i < corpses.size(); i++)
+		{
+			if(corpses[i] == actor)
+			{
+				std::cout << "Removed corpse from Render System!" << std::endl;
+				corpses[i] = corpses.back();
+				corpses.pop_back();
+				return;
+			}
+		}
+	}
+
+	void add(EntityWPtr corpse)
+	{
+		if(corpse.lock()->hasComponent<Actor>())
+		{
+			auto corpseActor = corpse.lock()->getComponent<Actor>().get();
+			remove(corpseActor);
+			corpses.push_back(corpseActor);
+			std::cout << "Added " << corpse.lock()->getName() << " to Render System!" << std::endl;
+		}
+	}
+
+	void render() const 
+	{
+		if( !map || !player || !gui )
+			return;
+
+		map->render();
+
+		for(unsigned int i = 0; i < corpses.size(); i++)
+		{
+			auto corpse = corpses[i];
+			if(map->isInFov(corpse->x(), corpse->y()))
+				corpse->render();
+		}
+
+		for(unsigned int i = 0; i < actors.size(); i++)
+		{
+			auto actor = actors[i];
+			if(map->isInFov(actor->x(), actor->y()))
+				actor->render();
+		}
+
+		// show the player's stats
+		//auto engine = Engine::getSingleton();
+		//TCODConsole::root->print(1,engine->getScreenHeight()-2, "HP : %d/%d", 
+		//	(int)player->getHp(),
+		//	(int)player->getMaxHp());
+
+		gui->render();
+	}
+
+private:
+	std::vector<Actor*> actors;
+	std::vector<Actor*> corpses;
+	Map *map;
+	Player *player;
+	Gui *gui;
+};

@@ -8,7 +8,8 @@
 
 namespace Totem {
 
-class Component;
+
+template<class ComponentType, class UserData = void*> class Component;
 class ComponentFactory;
 
 /**
