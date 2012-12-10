@@ -25,7 +25,7 @@ Actor::Actor(const EntityWPtr &owner, const RenderSystemPtr &system)
 
 Actor::~Actor()
 {
-	std::cout << "Actor is being destroyed!" << std::endl;
+	//std::cout << "Actor is being destroyed!" << std::endl;
 	system->remove(this);
 }
 

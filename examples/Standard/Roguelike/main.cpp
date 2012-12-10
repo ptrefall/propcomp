@@ -27,8 +27,19 @@ requirements or restrictions.
 #include <libtcod.hpp>
 #include <string>
 
+#ifdef WIN32
+#include <Windows.h>
+#endif
+
 int main(int argc, char** argv)
 {
+#ifdef WIN32
+#ifndef _DEBUG
+	auto hwnd = GetConsoleWindow();
+	ShowWindow(hwnd, 0);
+#endif
+#endif
+
 	std::string resource_dir = argv[0];
 	resource_dir = resource_dir.substr(0, resource_dir.find_last_of("\\"));
 	resource_dir = resource_dir.substr(0, resource_dir.find_last_of("\\"));

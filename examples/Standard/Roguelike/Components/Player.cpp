@@ -31,7 +31,7 @@ Player::Player(const EntityWPtr &owner, const RenderSystemPtr &system)
 
 Player::~Player()
 {
-	std::cout << "Player is being destroyed!" << std::endl;
+	//std::cout << "Player is being destroyed!" << std::endl;
 	system->set(static_cast<Player*>(nullptr));
 }
 

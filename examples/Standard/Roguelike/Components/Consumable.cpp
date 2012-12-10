@@ -17,11 +17,13 @@ Consumable::Consumable(const EntityWPtr &owner)
 
 Consumable::~Consumable()
 {
-	std::cout << "Consumable is being destroyed!" << std::endl;
+	//std::cout << "Consumable is being destroyed!" << std::endl;
 }
 
 void Consumable::use(EntityPtr wearer) {
-	wearer->sendEvent1<EntityPtr>("Remove", owner.lock());
+	if(wearer->hasEvent("Remove",1))
+		wearer->sendEvent1<EntityPtr>("Remove", owner.lock());
+
 	Engine::getSingleton()->remove(owner.lock());
 
 	if(wearer->hasComponent<Player>())

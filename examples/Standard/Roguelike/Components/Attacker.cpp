@@ -17,7 +17,7 @@ Attacker::Attacker(const EntityWPtr &owner, float power)
 
 Attacker::~Attacker()
 {
-	std::cout << "Attacker is being destroyed!" << std::endl;
+	//std::cout << "Attacker is being destroyed!" << std::endl;
 }
 
 void Attacker::attack(EntityPtr target) {

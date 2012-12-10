@@ -25,7 +25,7 @@ Destructible::Destructible(const EntityWPtr &owner, const std::string &corpseNam
 
 Destructible::~Destructible()
 {
-	std::cout << "Destructible is being destroyed!" << std::endl;
+	//std::cout << "Destructible is being destroyed!" << std::endl;
 }
 
 void Destructible::takeDamage(float damage) {
@@ -66,6 +66,9 @@ void Destructible::heal(float amount)
     hp += amount;
     if ( hp.get() > maxHp.get() ) {
         hp=maxHp.get();
+    }
+	else if ( hp <= 0 ) {
+            die();
     }
 }
 

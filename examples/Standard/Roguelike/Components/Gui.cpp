@@ -18,7 +18,7 @@ Gui::Gui(const EntityWPtr &owner, const RenderSystemPtr &system)
 
 Gui::~Gui()
 {
-	std::cout << "Gui is being destroyed!" << std::endl;
+	//std::cout << "Gui is being destroyed!" << std::endl;
 	delete con;
 
 	system->set(static_cast<Gui*>(nullptr));
