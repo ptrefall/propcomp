@@ -19,7 +19,7 @@ public:
 
 	EntityPtr getOwner() { return owner.lock(); }
 
-    void use(EntityPtr wearer);
+    void applyEffect(EntityPtr wearer);
 
 private:
 	EntityWPtr owner;

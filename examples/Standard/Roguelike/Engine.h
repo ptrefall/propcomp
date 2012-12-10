@@ -62,6 +62,8 @@ public:
 	void remove(const EntityPtr &entity);
 	void remove(const ActorPtr &actor);
 
+	void add(const ActorPtr &actor);
+
 	const TCOD_key_t &getLastKey() const { return last_key; }
 	const TCOD_mouse_t &getMouse() const { return mouse; }
 
@@ -69,6 +71,8 @@ public:
 	int getScreenHeight() const { return screenHeight; }
 
 	ActorPtr getClosestMonster(const Vec2i &pos, float range) const;
+	bool pickATile(Vec2i &pos, float maxRange = 0.0f);
+	ActorPtr getActor(const Vec2i &pos) const;
 
 private:
 #if(_MSC_VER >= 1700)

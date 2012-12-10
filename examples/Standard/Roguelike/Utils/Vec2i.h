@@ -17,6 +17,8 @@ public:
 
 	int distance(const Vec2i &rhs) const;
 	int distance(int x, int y) const;
+	float distancef(const Vec2i &rhs) const;
+	float distancef(int x, int y) const;
 	float length() const;
 
 	int round(double dbl) const;

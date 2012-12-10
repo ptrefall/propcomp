@@ -159,6 +159,12 @@ void Engine::remove(const ActorPtr &actor)
 	}
 }
 
+void Engine::add(const ActorPtr &actor)
+{
+	render_system->add(actor.get());
+	actors.push_back(actor);
+}
+
 ActorPtr Engine::getClosestMonster(const Vec2i &pos, float range) const
 {
 	ActorPtr closest = nullptr;
@@ -169,7 +175,7 @@ ActorPtr Engine::getClosestMonster(const Vec2i &pos, float range) const
 		auto actor = actors[i];
 		if(actor->isAlive())
 		{
-			auto distance = actor->getPosition().distance(pos);
+			auto distance = actor->getPosition().distancef(pos);
 			if(distance < bestDistance && (distance <= range || range == 0.0f))
 			{
 				bestDistance = distance;
@@ -178,4 +184,55 @@ ActorPtr Engine::getClosestMonster(const Vec2i &pos, float range) const
 		}
 	}
 	return closest;
+}
+
+bool Engine::pickATile(Vec2i &pos, float maxRange)
+{
+	while( !TCODConsole::isWindowClosed() )
+	{
+		render();
+		// highlight the possible range
+		for (int cx=0; cx < map->getWidth(); cx++) 
+		{
+			for (int cy=0; cy < map->getHeight(); cy++) 
+			{
+				auto cp = Vec2i(cx, cy);
+				if ( map->isInFov(cp) && ( maxRange == 0 || cp.distancef(player->getPosition()) <= maxRange) ) 
+				{
+					TCODColor col=TCODConsole::root->getCharBackground(cx,cy);
+					col = col * 1.2f;
+					TCODConsole::root->setCharBackground(cx,cy,col);
+				}
+			}
+		}
+
+		TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS|TCOD_EVENT_MOUSE,&last_key,&mouse);
+		Vec2i mouse_pos = Vec2i(mouse.cx,mouse.cy);
+		if ( map->isInFov(mouse_pos) && ( maxRange == 0 || mouse_pos.distancef(player->getPosition()) <= maxRange )) 
+		{
+			TCODConsole::root->setCharBackground(mouse.cx,mouse.cy,TCODColor::white);
+			if ( mouse.lbutton_pressed ) 
+			{
+				pos = mouse_pos;
+				return true;
+			}
+		}
+
+		if (mouse.rbutton_pressed || last_key.vk != TCODK_NONE)
+			return false;
+
+		TCODConsole::flush();
+	}
+	return false;
+}
+
+ActorPtr Engine::getActor(const Vec2i &pos) const
+{
+	for(unsigned int i = 0; i < actors.size(); i++)
+	{
+		auto actor = actors[i];
+		if(actor->getPosition() == pos && actor->isAlive())
+			return actor;
+	}
+	return nullptr;
 }

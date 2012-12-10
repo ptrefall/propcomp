@@ -34,6 +34,16 @@ int Vec2i::distance(int x, int y) const
 	return (int)sqrtf(powf(((float)x_-(float)x), 2.0f) + pow(((float)y_-(float)y), 2.0f));
 }
 
+float Vec2i::distancef(const Vec2i &rhs) const
+{
+	return sqrtf(powf(((float)x_-(float)rhs.x()), 2.0f) + pow(((float)y_-(float)rhs.y()), 2.0f));
+}
+
+float Vec2i::distancef(int x, int y) const
+{
+	return sqrtf(powf(((float)x_-(float)x), 2.0f) + pow(((float)y_-(float)y), 2.0f));
+}
+
 float Vec2i::length() const
 {
 	return sqrtf(powf((float)x_, 2.0f) + powf((float)y_, 2.0f));

@@ -16,7 +16,7 @@ Container::Container(const EntityWPtr &owner, int inventoryMaxSize)
 	inventoryFull = owner.lock()->add<bool>("InventoryFull", false);
 
 	owner.lock()->registerToEvent1<EntityPtr>("PickUp").connect(this, &Container::add);
-	owner.lock()->registerToEvent1<EntityPtr>("Consume").connect(this, &Container::remove);
+	owner.lock()->registerToEvent1<EntityPtr>("Remove").connect(this, &Container::remove);
 }
 
 Container::~Container()
