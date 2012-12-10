@@ -3,6 +3,7 @@
 #include <Totem/Component.h>
 #include <Totem/Property.h>
 #include "../Entity.h"
+#include "../Utils/Vec2i.h"
 
 #include <memory>
 
@@ -23,11 +24,12 @@ public:
 	EntityPtr getOwner() { return owner.lock(); }
 
 	void pick(EntityPtr wearer);
+	void drop(EntityPtr wearer);
 
 private:
 	EntityWPtr owner;
 	PropertyUserData user_data;
 	RenderSystemPtr system;
 	
-	
+	Totem::Property<Vec2i> position;
 };

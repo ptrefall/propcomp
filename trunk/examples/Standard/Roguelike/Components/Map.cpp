@@ -3,12 +3,14 @@
 #include "../Systems/RenderSystem.h"
 #include "../Engine.h"
 #include "../Utils/BspListener.h"
+#include "../Utils/TargetSelector.h"
 
 #include "Destructible.h"
 #include "Attacker.h"
 #include "Monster.h"
 #include "Pickable.h"
 #include "Consumable.h"
+#include "Magic/Effect.h"
 #include "Magic/Healer.h"
 
 #include <iostream>
@@ -222,6 +224,7 @@ void Map::addItem(const Vec2i &pos) {
 	auto healthPotion = engine->createActor("health potion", pos, '!', TCODColor::violet);
 	healthPotion->addComponent( std::make_shared<Pickable>(healthPotion, system) );
 	healthPotion->addComponent( std::make_shared<Consumable>(healthPotion) );
+	healthPotion->addComponent( std::make_shared<Effect>(healthPotion, nullptr) );
 	healthPotion->addComponent( std::make_shared<Healer>(healthPotion, 30.0f) );
 	healthPotion->get<bool>("Blocks") = false;
 }

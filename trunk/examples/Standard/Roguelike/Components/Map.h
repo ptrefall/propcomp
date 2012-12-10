@@ -10,8 +10,8 @@
 
 static const int ROOM_MAX_SIZE = 12;
 static const int ROOM_MIN_SIZE = 6;
-static const int MAX_ROOM_MONSTERS = 9;
-static const int MAX_ROOM_ITEMS = 2;
+static const int MAX_ROOM_MONSTERS = 2;
+static const int MAX_ROOM_ITEMS = 10;
 
 // after 20 turns, the monster cannot smell the scent anymore
 static const int SCENT_THRESHOLD=20;
@@ -50,6 +50,9 @@ public:
 
 	unsigned int currentScentValue;
 	unsigned int getScent(const Vec2i &pos) const;
+
+	int getWidth() const { return width; }
+	int getHeight() const { return height; }
 
 protected:
 	Tile *tiles;

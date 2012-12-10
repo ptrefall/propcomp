@@ -115,6 +115,15 @@ void Player::handleActionKey(int ascii)
 				engine->gameStatus = Engine::NEW_TURN;
 			}
 		} break;
+		case 'd' : // drop item
+		{
+			auto item = choseFromInventory();
+			if(item)
+			{
+				item->sendEvent1<EntityPtr>("Drop", owner.lock());
+				engine->gameStatus = Engine::NEW_TURN;
+			}
+		} break;
 	};
 }
 

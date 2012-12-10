@@ -45,7 +45,7 @@ void Attacker::attack(EntityPtr target) {
 				gui->message(TCODColor::darkGrey, "%s misses %s and hits himself for %g hit points!",
 								owner.lock()->getName().c_str(), target->getName().c_str(), ((int)(power*critical) - target_defense));
 
-				owner.lock()->sendEvent1<float>("TakeDamage", (int)(power*critical));
+				owner.lock()->sendEvent1<float>("TakeDamage", (float)((int)(power*critical)));
 			}
 			else
 			{

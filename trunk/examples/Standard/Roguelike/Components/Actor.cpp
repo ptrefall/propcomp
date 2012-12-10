@@ -42,24 +42,3 @@ void Actor::render()
 	TCODConsole::root->setChar(x(),y(),ch);
     TCODConsole::root->setCharForeground(x(),y(),col);
 }
-
-bool Actor::moveOrAttack(const Vec2i &pos)
-{
-	auto engine = Engine::getSingleton();
-	if ( engine->getMap()->isWall(pos) ) 
-		return false;
-
-	auto actors = engine->getActors();
-	for (unsigned int i = 0; i < actors.size(); i++) 
-	{
-		auto actor = actors[i];
-		if ( position == pos ) 
-		{
-			std::cout << "The " << actor->getOwner()->getName() << " laughs at your puny efforts to attack him!" << std::endl;
-			return false;
-		}
-	}
-
-	position = pos;
-	return true;
-}

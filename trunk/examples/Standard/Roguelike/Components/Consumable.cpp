@@ -21,7 +21,7 @@ Consumable::~Consumable()
 }
 
 void Consumable::use(EntityPtr wearer) {
-	wearer->sendEvent1<EntityPtr>("Consume", owner.lock());
+	wearer->sendEvent1<EntityPtr>("Remove", owner.lock());
 	Engine::getSingleton()->remove(owner.lock());
 
 	if(wearer->hasComponent<Player>())

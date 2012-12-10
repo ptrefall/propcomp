@@ -23,8 +23,6 @@ public:
 	void update(const float &deltaTime) override;
 	void render();
 
-	bool moveOrAttack(const Vec2i &pos);
-
 	bool blocksTile() const { return blocks.get(); }
 
 	EntityPtr getOwner() { return owner.lock(); }

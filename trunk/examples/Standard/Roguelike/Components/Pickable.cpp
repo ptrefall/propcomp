@@ -13,7 +13,10 @@ Pickable::Pickable(const EntityWPtr &owner, const RenderSystemPtr &system)
 	user_data.entity = owner;
 	user_data.component = this;
 
+	position = owner.lock()->add<Vec2i>("Position", Vec2i(0,0));
+
 	owner.lock()->registerToEvent1<EntityPtr>("PickUp").connect(this, &Pickable::pick);
+	owner.lock()->registerToEvent1<EntityPtr>("Drop").connect(this, &Pickable::drop);
 
 	if(owner.lock()->hasComponent<Actor>())
 		system->remove(owner.lock()->getComponent<Actor>().get());
@@ -31,7 +34,29 @@ void Pickable::pick(EntityPtr wearer) {
 	{
 		wearer->sendEvent1<EntityPtr>("PickUp", owner.lock());
 		system->remove(this);
+
+		//We still want an item's entity to receive updates to components and properties,
+		//so we only remove it's actor component from the world and render system
 		if(owner.lock()->hasComponent<Actor>())
-			Engine::getSingleton()->remove(owner.lock()->getComponent<Actor>()); //We still want an item's entity to receive updates to components and properties
+			Engine::getSingleton()->remove(owner.lock()->getComponent<Actor>());
     }
+}
+
+void Pickable::drop(EntityPtr wearer) {
+	
+	if(wearer->hasComponent<Container>())
+	{
+		auto engine = Engine::getSingleton();
+
+		wearer->sendEvent1<EntityPtr>("Remove", owner.lock());
+
+		// Drop item at wearer's feet
+		position = wearer->get<Vec2i>("Position").get();
+
+		// Add item back into the world and render system
+		if(owner.lock()->hasComponent<Actor>())
+			engine->add(owner.lock()->getComponent<Actor>());
+
+		engine->getGui()->message(TCODColor::lightGrey,"%s drops a %s.", wearer->getName().c_str(), owner.lock()->getName().c_str());
+	}
 }
