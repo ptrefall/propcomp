@@ -35,7 +35,9 @@ endif ()
  
 set(CMAKE_DEBUG_POSTFIX "-debug")
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 # define an option for choosing between static and dynamic C runtime
 set(STATIC_STD_LIBS TRUE CACHE BOOL "TRUE to statically link to the standard libraries, FALSE to use them as DLLs")
@@ -85,7 +87,8 @@ endif()
 set(PREPROCESS_TOTEM_FOR_CLANLIB FALSE CACHE BOOL "TRUE if you want to preprocess Totem EDK's codebase with ClanLib 3rdparty bindings, FALSE if not.")
 if(PREPROCESS_TOTEM_FOR_CLANLIB)
 	include_directories("${CMAKE_SOURCE_DIR}"
-	  "${CMAKE_SOURCE_DIR}/editions/clanlib/include"
+	  ${CMAKE_SOURCE_DIR}/editions/clanlib/include
+	  ${CMAKE_SOURCE_DIR}/depends/ClanLib/
 	)
 	add_subdirectory(depends/ClanLib)
 	
@@ -96,12 +99,16 @@ if(PREPROCESS_TOTEM_FOR_CLANLIB)
 		add_subdirectory(examples/ClanLib)
 	endif()
 else()
-	include_directories("${CMAKE_SOURCE_DIR}"
-	  "${CMAKE_SOURCE_DIR}/include"
+	include_directories(${CMAKE_SOURCE_DIR}
+	  ${CMAKE_SOURCE_DIR}/include
+	  ${CMAKE_SOURCE_DIR}/depends/Standard/
 	)
 	#add_subdirectory(src)
 	
 	if(BUILD_TEST_PROJECTS)
 		add_subdirectory(tests/Standard)
+	endif()
+	if(BUILD_EXAMPLE_PROJECTS)
+		add_subdirectory(examples/Standard)
 	endif()
 endif()
