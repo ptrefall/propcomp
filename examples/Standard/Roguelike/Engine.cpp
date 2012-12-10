@@ -85,6 +85,9 @@ void Engine::update()
 
 	if(gameStatus == NEW_TURN)
 	{
+		if(player->isAlive())
+			map->currentScentValue++;
+
 		for(unsigned int i = 0; i < entities.size(); i++)
 		{
 			entities[i]->updateComponents(1);
@@ -99,11 +102,11 @@ void Engine::render()
 	render_system->render();
 }
 
-EntityPtr Engine::createActor(const std::string &name, int x, int y, int characterID, TCODColor color)
+EntityPtr Engine::createActor(const std::string &name, const Vec2i &pos, int characterID, TCODColor color)
 {
 	auto actor = std::make_shared<Entity>(name);
 	auto actor_ptr = actor->addComponent( std::make_shared<Actor>(actor, render_system) );
-	actor->get<Vec2i>("Position") = Vec2i(x,y);
+	actor->get<Vec2i>("Position") = pos;
 	actor->get<int>("Character") = characterID;
 	actor->get<TCODColor>("Color") = color;
 	actors.push_back(actor_ptr);
@@ -154,4 +157,25 @@ void Engine::remove(const ActorPtr &actor)
 			return;
 		}
 	}
+}
+
+ActorPtr Engine::getClosestMonster(const Vec2i &pos, float range) const
+{
+	ActorPtr closest = nullptr;
+	float bestDistance=1E6f;
+
+	for(unsigned int i = 0; i < actors.size(); i++)
+	{
+		auto actor = actors[i];
+		if(actor->isAlive())
+		{
+			auto distance = actor->getPosition().distance(pos);
+			if(distance < bestDistance && (distance <= range || range == 0.0f))
+			{
+				bestDistance = distance;
+				closest = actor;
+			}
+		}
+	}
+	return closest;
 }

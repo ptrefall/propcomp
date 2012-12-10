@@ -11,7 +11,7 @@ public:
 	BspListener(Map *map);
 	~BspListener();
 
-	bool visitNode(TCODBsp *node, void *userData) override;
+	bool visitNode(TCODBsp *node, void * /*userData*/) override;
 
 private:
 	Map *map; // a map to dig

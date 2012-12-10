@@ -2,6 +2,7 @@
 
 #include <Totem/Component.h>
 #include <Totem/Property.h>
+#include <Totem/PropertyList.h>
 #include "../Entity.h"
 
 #include <memory>
@@ -28,7 +29,7 @@ private:
 	PropertyUserData user_data;
 	
 	int inventoryMaxSize; // maximum number of entities. 0=unlimited
-	std::vector<EntityPtr> inventory;
-
+	//std::vector<EntityPtr> inventory;
+	Totem::PropertyList<EntityPtr> inventoryList;
 	Totem::Property<bool> inventoryFull;
 };

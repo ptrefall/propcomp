@@ -2,6 +2,7 @@
 
 #include <Totem/Component.h>
 #include <Totem/Property.h>
+#include <Totem/PropertyList.h>
 #include "../Entity.h"
 #include "../Utils/Vec2i.h"
 
@@ -22,11 +23,14 @@ public:
     virtual ~Player();
 
 	void checkForInput();
+	void handleActionKey(int ascii);
 
 	EntityPtr getOwner() { return owner.lock(); }
 
 	float getMaxHp() const { return maxHp.get(); }
 	float getHp() const { return hp.get(); }
+
+	EntityPtr choseFromInventory();
 
 private:
 	EntityWPtr owner;
@@ -43,4 +47,7 @@ private:
 
 	Totem::Property<float> maxHp; // maximum health points
 	Totem::Property<float> hp; // current health points
+
+	Totem::Property<bool> inventoryFull;
+	Totem::PropertyList<EntityPtr> inventoryList;
 };

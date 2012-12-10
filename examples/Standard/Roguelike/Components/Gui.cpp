@@ -80,7 +80,7 @@ void Gui::renderMouseLook()
 	auto engine = Engine::getSingleton();
 	auto map = engine->getMap();
 	auto mouse_pos = Vec2i(engine->getMouse().cx, engine->getMouse().cy);
-	if (!map->isInFov(mouse_pos.x(), mouse_pos.y())) 
+	if (!map->isInFov(mouse_pos)) 
 	{
         // if mouse is out of fov, nothing to render
         return;

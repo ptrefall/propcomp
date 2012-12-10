@@ -16,6 +16,10 @@ Actor::Actor(const EntityWPtr &owner, const RenderSystemPtr &system)
 	position = owner.lock()->add<Vec2i>("Position", Vec2i(0,0));
 	hide = owner.lock()->add<bool>("Hide", false);
 
+	dead = owner.lock()->add<bool>("Dead", false);
+
+	owner.lock()->registerToEvent0("Render").connect(this, &Actor::render);
+
 	system->add(this);
 }
 
@@ -25,12 +29,12 @@ Actor::~Actor()
 	system->remove(this);
 }
 
-void Actor::update(const float &deltaTime)
+void Actor::update(const float &/*deltaTime*/)
 {
 	//std::cout << "The " << owner.lock()->getName() << " growls!" << std::endl;
 }
 
-void Actor::render() const
+void Actor::render()
 {
 	if( hide.get() )
 		return;
@@ -39,23 +43,23 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(x(),y(),col);
 }
 
-bool Actor::moveOrAttack(int x,int y)
+bool Actor::moveOrAttack(const Vec2i &pos)
 {
 	auto engine = Engine::getSingleton();
-	if ( engine->getMap()->isWall(x,y) ) 
+	if ( engine->getMap()->isWall(pos) ) 
 		return false;
 
 	auto actors = engine->getActors();
 	for (unsigned int i = 0; i < actors.size(); i++) 
 	{
 		auto actor = actors[i];
-		if ( position == Vec2i(x,y) ) 
+		if ( position == pos ) 
 		{
 			std::cout << "The " << actor->getOwner()->getName() << " laughs at your puny efforts to attack him!" << std::endl;
 			return false;
 		}
 	}
 
-	position = Vec2i(x,y);
+	position = pos;
 	return true;
 }

@@ -28,7 +28,7 @@ private:
 	EntityWPtr owner;
 	PropertyUserData user_data;
 
-	void moveOrAttack(Vec2i target_pos);
+	void moveOrAttack(const Vec2i &target_pos);
 	
 	void OnDying();
 

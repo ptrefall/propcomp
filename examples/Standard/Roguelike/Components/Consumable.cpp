@@ -2,6 +2,7 @@
 #include "../Engine.h"
 #include "Actor.h"
 #include "Container.h"
+#include "Gui.h"
 
 #include <iostream>
 
@@ -22,4 +23,9 @@ Consumable::~Consumable()
 void Consumable::use(EntityPtr wearer) {
 	wearer->sendEvent1<EntityPtr>("Consume", owner.lock());
 	Engine::getSingleton()->remove(owner.lock());
+
+	if(wearer->hasComponent<Player>())
+		Engine::getSingleton()->getGui()->message(TCODColor::lightViolet, "You quaff a %s.", owner.lock()->getName().c_str());
+	else
+		Engine::getSingleton()->getGui()->message(TCODColor::lightViolet, "%s quaffs a %s.", wearer->getName().c_str(), owner.lock()->getName().c_str());
 }
