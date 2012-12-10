@@ -13,5 +13,5 @@ Ai::Ai(const EntityWPtr &owner)
 
 Ai::~Ai()
 {
-	std::cout << "Ai is being destroyed!" << std::endl;
+	//std::cout << "Ai is being destroyed!" << std::endl;
 }

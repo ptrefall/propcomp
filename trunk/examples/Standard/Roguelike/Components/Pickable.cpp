@@ -26,7 +26,7 @@ Pickable::Pickable(const EntityWPtr &owner, const RenderSystemPtr &system)
 
 Pickable::~Pickable()
 {
-	std::cout << "Pickable is being destroyed!" << std::endl;
+	//std::cout << "Pickable is being destroyed!" << std::endl;
 }
 
 void Pickable::pick(EntityPtr wearer) {

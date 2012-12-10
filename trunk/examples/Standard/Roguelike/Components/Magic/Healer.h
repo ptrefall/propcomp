@@ -14,7 +14,7 @@ typedef std::shared_ptr<Healer> HealerPtr;
 class Healer : public Totem::Component<Healer, PropertyUserData>
 {
 public:
-	Healer(const EntityWPtr &owner, float amount);
+	Healer(const EntityWPtr &owner, float amount, const std::string &message = "");
     virtual ~Healer();
 
 	EntityPtr getOwner() { return owner.lock(); }
@@ -26,4 +26,5 @@ private:
 	PropertyUserData user_data;
 	
 	float amount; // how many hp
+	std::string message;
 };

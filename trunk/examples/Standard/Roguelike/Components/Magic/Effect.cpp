@@ -16,7 +16,7 @@ Effect::Effect(const EntityWPtr &owner, const TargetSelectorPtr &selector)
 
 Effect::~Effect()
 {
-	std::cout << "Effect is being destroyed!" << std::endl;
+	//std::cout << "Effect is being destroyed!" << std::endl;
 }
 
 void Effect::use(EntityPtr wearer)

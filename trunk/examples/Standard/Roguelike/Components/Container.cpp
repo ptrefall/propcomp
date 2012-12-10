@@ -21,7 +21,7 @@ Container::Container(const EntityWPtr &owner, int inventoryMaxSize)
 
 Container::~Container()
 {
-	std::cout << "Container is being destroyed!" << std::endl;
+	//std::cout << "Container is being destroyed!" << std::endl;
 }
 
 void Container::add(EntityPtr entity)

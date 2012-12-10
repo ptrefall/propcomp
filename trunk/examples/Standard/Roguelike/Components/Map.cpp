@@ -12,6 +12,7 @@
 #include "Consumable.h"
 #include "Magic/Effect.h"
 #include "Magic/Healer.h"
+#include "Magic/Weave.h"
 
 #include <iostream>
 
@@ -25,7 +26,7 @@ Map::Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &
 	map=new TCODMap(width,height);
 
     TCODBsp bsp(0,0,width,height);
-    bsp.splitRecursive(nullptr,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
+    bsp.splitRecursive(nullptr,8,ROOM_MIN_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
     BspListener listener(this);
     bsp.traverseInvertedLevelOrder(&listener,nullptr);
 
@@ -36,7 +37,7 @@ Map::Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &
 
 Map::~Map()
 {
-	std::cout << "Map is being destroyed!" << std::endl;
+	//std::cout << "Map is being destroyed!" << std::endl;
 	delete [] tiles;
 	delete map;
 	system->set(static_cast<Map*>(nullptr));
@@ -219,12 +220,35 @@ void Map::addMonster(const Vec2i &pos) {
 }
 
 void Map::addItem(const Vec2i &pos) {
+	auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
 
-	auto healthPotion = engine->createActor("health potion", pos, '!', TCODColor::violet);
-	healthPotion->addComponent( std::make_shared<Pickable>(healthPotion, system) );
-	healthPotion->addComponent( std::make_shared<Consumable>(healthPotion) );
-	healthPotion->addComponent( std::make_shared<Effect>(healthPotion, nullptr) );
-	healthPotion->addComponent( std::make_shared<Healer>(healthPotion, 30.0f) );
-	healthPotion->get<bool>("Blocks") = false;
+	auto dice = rng->getInt(0,100);
+	if ( dice < 50 ) 
+	{
+		auto potion = engine->createActor("health potion", pos, '!', TCODColor::violet);
+		potion->addComponent( std::make_shared<Pickable>(potion, system) );
+		potion->addComponent( std::make_shared<Consumable>(potion) );
+		potion->addComponent( std::make_shared<Effect>(potion, nullptr) );
+		potion->addComponent( std::make_shared<Healer>(potion, 30.0f) );
+		potion->get<bool>("Blocks") = false;
+	}
+	else if( dice < 75 )
+	{
+		auto scroll = engine->createActor("scroll of lightning bolt", pos, '#', TCODColor::lightYellow);
+		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
+		scroll->addComponent( std::make_shared<Weave>(scroll) );
+		scroll->addComponent( std::make_shared<Effect>(scroll, std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER, 5.0f)) );
+		scroll->addComponent( std::make_shared<Healer>(scroll, -20.0f, "A lighting bolt strikes the %s with a loud thunder!\nThe damage is %g hit points.") );
+		scroll->get<bool>("Blocks") = false;
+	}
+	else
+	{
+		auto scroll = engine->createActor("scroll of fireball", pos, '#', TCODColor::lightYellow);
+		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
+		scroll->addComponent( std::make_shared<Weave>(scroll) );
+		scroll->addComponent( std::make_shared<Effect>(scroll, std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE, 3.0f)) );
+		scroll->addComponent( std::make_shared<Healer>(scroll, -12.0f, "The %s gets burned for %g hit points.") );
+		scroll->get<bool>("Blocks") = false;
+	}
 }

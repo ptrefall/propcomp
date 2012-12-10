@@ -20,7 +20,7 @@ Monster::Monster(const EntityWPtr &owner)
 
 Monster::~Monster()
 {
-	std::cout << "Monster is being destroyed!" << std::endl;
+	//std::cout << "Monster is being destroyed!" << std::endl;
 }
 
 void Monster::update(const float &/*deltaTime*/)

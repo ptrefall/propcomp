@@ -50,7 +50,7 @@ public:
 		{
 			if(items[i] == item)
 			{
-				std::cout << "Removed item from Render System!" << std::endl;
+				//std::cout << "Removed item from Render System!" << std::endl;
 				items[i] = items.back();
 				items.pop_back();
 				return;
@@ -69,7 +69,7 @@ public:
 		{
 			if(actors[i] == actor)
 			{
-				std::cout << "Removed actor from Render System!" << std::endl;
+				//std::cout << "Removed actor from Render System!" << std::endl;
 				actors[i] = actors.back();
 				actors.pop_back();
 				return;
@@ -79,7 +79,7 @@ public:
 		{
 			if(corpses[i] == actor)
 			{
-				std::cout << "Removed corpse from Render System!" << std::endl;
+				//std::cout << "Removed corpse from Render System!" << std::endl;
 				corpses[i] = corpses.back();
 				corpses.pop_back();
 				return;
