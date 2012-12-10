@@ -21,9 +21,9 @@ public:
 	Actor(const EntityWPtr &owner, const RenderSystemPtr &system);
     virtual ~Actor();
 	void update(const float &deltaTime) override;
-	void render() const;
+	void render();
 
-	bool moveOrAttack(int x,int y);
+	bool moveOrAttack(const Vec2i &pos);
 
 	bool blocksTile() const { return blocks.get(); }
 
@@ -32,6 +32,9 @@ public:
 	Vec2i getPosition() const { return position.get(); }
 	int x() const { return position.get().x(); }
 	int y() const { return position.get().y(); }
+
+	bool isAlive() const { return !dead.get(); }
+	bool isDead() const { return dead.get(); }
 
 private:
 	EntityWPtr owner;
@@ -44,4 +47,6 @@ private:
 	Totem::Property<bool> blocks;
 	Totem::Property<Vec2i> position;
 	Totem::Property<bool> hide;
+
+	Totem::Property<bool> dead;
 };

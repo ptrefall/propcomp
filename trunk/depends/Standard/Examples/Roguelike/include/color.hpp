@@ -145,7 +145,7 @@ public :
 	@LuaEx myColor = tcod.Color(24,24,255)
 	*/
 	TCODColor(uint8 r, uint8 g, uint8 b): r(r), g(g), b(b) {}
-	TCODColor(int r, int g, int b): r(r), g(g), b(b) {}
+	TCODColor(int r, int g, int b): r((uint8)r), g((uint8)g), b((uint8)b) {}
 	TCODColor(const TCOD_color_t &col): r(col.r), g(col.g), b(col.b) {}
 	TCODColor(float h, float s, float v);
 

@@ -9,7 +9,9 @@ Container::Container(const EntityWPtr &owner, int inventoryMaxSize)
 	user_data.entity = owner;
 	user_data.component = this;
 
-	inventory.reserve(inventoryMaxSize);
+	inventoryList = owner.lock()->addList<EntityPtr>("Inventory");
+	//inventoryList.resize(inventoryMaxSize, false);
+	//inventory.reserve(inventoryMaxSize);
 
 	inventoryFull = owner.lock()->add<bool>("InventoryFull", false);
 
@@ -24,24 +26,23 @@ Container::~Container()
 
 void Container::add(EntityPtr entity)
 {
-	if ( inventoryMaxSize > 0 && inventory.size() >= inventoryMaxSize )
+	if ( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize )
         // inventory full
         return;
 
-	if( inventoryMaxSize > 0 && inventory.size() >= inventoryMaxSize-1 )
+	if( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize-1 )
 		inventoryFull = true;
 
-	inventory.push_back(entity);
+	inventoryList.push_back(entity);
 }
 
 void Container::remove(EntityPtr entity)
 {
-	for(unsigned int i = 0; i < inventory.size(); i++)
+	for(unsigned int i = 0; i < inventoryList.size(); i++)
 	{
-		if(inventory[i] == entity)
+		if(inventoryList[i].get() == entity)
 		{
-			inventory[i] = inventory.back();
-			inventory.pop_back();
+			inventoryList.erase(i);
 			return;
 		}
 	}

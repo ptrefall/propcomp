@@ -7,11 +7,14 @@
 #include "Destructible.h"
 #include "Attacker.h"
 #include "Monster.h"
+#include "Pickable.h"
+#include "Consumable.h"
+#include "Magic/Healer.h"
 
 #include <iostream>
 
 Map::Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &system) 
-: Totem::Component<Map, PropertyUserData>("Map"), owner(owner), width(width), height(height), system(system)
+: Totem::Component<Map, PropertyUserData>("Map"), owner(owner), width(width), height(height), system(system), currentScentValue(SCENT_THRESHOLD)
 {
 	user_data.entity = owner;
 	user_data.component = this;
@@ -20,7 +23,7 @@ Map::Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &
 	map=new TCODMap(width,height);
 
     TCODBsp bsp(0,0,width,height);
-    bsp.splitRecursive(nullptr,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.5f,1.5f);
+    bsp.splitRecursive(nullptr,8,ROOM_MAX_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
     BspListener listener(this);
     bsp.traverseInvertedLevelOrder(&listener,nullptr);
 
@@ -46,27 +49,39 @@ void Map::render() const
 
 	for (int x=0; x < width; x++) {
     for (int y=0; y < height; y++){
-        if ( isInFov(x,y) )
-            TCODConsole::root->setCharBackground(x,y, isWall(x,y) ? lightWall :lightGround );
-        else if ( isExplored(x,y) )
-            TCODConsole::root->setCharBackground(x,y, isWall(x,y) ? darkWall : darkGround );
+
+		auto pos = Vec2i(x,y);
+		int scent=SCENT_THRESHOLD - (currentScentValue - getScent(pos));
+        scent = CLAMP(0,10,scent);
+        float sc=scent * 0.1f;
+
+        if ( isInFov(pos) )
+            TCODConsole::root->setCharBackground(x,y, isWall(pos) ? lightWall :lightGround * sc );
+        else if ( isExplored(pos) )
+            TCODConsole::root->setCharBackground(x,y, isWall(pos) ? darkWall : darkGround * sc);
+		else if ( !isWall(pos) )
+			TCODConsole::root->setCharBackground(x,y, TCODColor::white * sc);
     }}
 }
 
-bool Map::isWall(int x, int y) const {
-    return !map->isWalkable(x,y);
+unsigned int Map::getScent(const Vec2i &pos) const {
+    return tiles[pos.x()+pos.y()*width].scent;
 }
 
-bool Map::isExplored(int x, int y) const {
-    return tiles[x+y*width].explored;
+bool Map::isWall(const Vec2i &pos) const {
+    return !map->isWalkable(pos.x(), pos.y());
 }
 
-bool Map::isInFov(int x, int y) const {
-	if ( x < 0 || x >= width || y < 0 || y >= height ) {
+bool Map::isExplored(const Vec2i &pos) const {
+    return tiles[pos.x()+pos.y()*width].explored;
+}
+
+bool Map::isInFov(const Vec2i &pos) const {
+	if ( pos.x() < 0 || pos.x() >= width || pos.y() < 0 || pos.y() >= height ) {
         return false;
     }
-    if ( map->isInFov(x,y) ) {
-        tiles[x+y*width].explored=true;
+    if ( map->isInFov(pos.x(), pos.y()) ) {
+        tiles[pos.x()+pos.y()*width].explored=true;
         return true;
     }
     return false;
@@ -77,18 +92,39 @@ void Map::computeFov() {
 	auto player = engine->getPlayer();
 	map->computeFov(player->x(),player->y(),
         engine->fovRadius);
+
+	if(player->isDead())
+		return;
+
+	// update scent field
+    for (int x=0; x < width; x++) 
+	{
+        for (int y=0; y < height; y++) 
+		{
+			auto pos = Vec2i(x,y);
+            if (isInFov(pos)) 
+			{
+                unsigned int oldScent=getScent(pos);
+				auto distance = pos.distance(player->getPosition());
+                unsigned int newScent=currentScentValue-distance;
+                if (newScent > oldScent) {
+                    tiles[x+y*width].scent = newScent;
+                }
+            }
+        }
+    }
 }
 
-bool Map::canWalk(int x, int y) const
+bool Map::canWalk(const Vec2i &pos) const
 {
-    if (isWall(x,y)) {
+    if (isWall(pos)) {
         // this is a wall
         return false;
     }
 	auto actors = Engine::getSingleton()->getActors();
     for (unsigned int i = 0; i < actors.size(); i++) {
         auto actor = actors[i];
-        if ( actor->blocksTile() && actor->getPosition() == Vec2i(x,y) ) {
+        if ( actor->blocksTile() && actor->getPosition() == pos ) {
             // there is a blocking actor there. cannot walk
             return false;
         }
@@ -96,8 +132,13 @@ bool Map::canWalk(int x, int y) const
     return true;
 }
 
-void Map::dig(int x1, int y1, int x2, int y2) 
+void Map::dig(const Vec2i &pos1, const Vec2i &pos2) 
 {
+	int x1 = pos1.x();
+	int x2 = pos2.x();
+	int y1 = pos1.y();
+	int y2 = pos2.y();
+
     if ( x2 < x1 ) 
 	{
         int tmp=x2;
@@ -117,11 +158,16 @@ void Map::dig(int x1, int y1, int x2, int y2)
 	}
 }
 
-void Map::createRoom(bool first, int x1, int y1, int x2, int y2)
+void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2)
 {
 	auto engine = Engine::getSingleton();
 
-    dig (x1,y1,x2,y2);
+	int x1 = pos1.x();
+	int x2 = pos2.x();
+	int y1 = pos1.y();
+	int y2 = pos2.y();
+
+    dig (pos1,pos2);
     if ( first ) 
 	{
         // put the player in the first room
@@ -130,31 +176,52 @@ void Map::createRoom(bool first, int x1, int y1, int x2, int y2)
 	else 
 	{
         auto rng=TCODRandom::getInstance();
+
+		// add monsters
 		int nbMonsters = rng->getInt(0,MAX_ROOM_MONSTERS);
 		while (nbMonsters > 0) 
 		{
-			int x=rng->getInt(x1,x2);
-			int y=rng->getInt(y1,y2);
-			if ( canWalk(x,y) )
-				addMonster(x,y);
+			auto rngPos = Vec2i(rng->getInt(x1,x2), rng->getInt(y1,y2));
+			if ( canWalk(rngPos) )
+				addMonster(rngPos);
 			nbMonsters--;
+		}
+
+		// add items
+		int nbItems = rng->getInt(0,MAX_ROOM_ITEMS);
+		while (nbItems > 0) 
+		{
+			auto rngPos = Vec2i(rng->getInt(x1,x2), rng->getInt(y1,y2));
+			if ( canWalk(rngPos) )
+				addItem(rngPos);
+			nbItems--;
 		}
     }
 }
 
-void Map::addMonster(int x, int y) {
+void Map::addMonster(const Vec2i &pos) {
     auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
     if ( rng->getInt(0,100) < 80 ) 
 	{
         // create an orc
-		auto orc = engine->createActor("orc", x,y, 'o', TCODColor::desaturatedGreen);
+		auto orc = engine->createActor("orc", pos, 'o', TCODColor::desaturatedGreen);
 		orc = engine->createMonster(orc, "corpse of an orc", 0.0f, 10.0f, 3.0f);
     } 
 	else 
 	{
         // create a troll            
-		auto troll = engine->createActor("troll", x,y, 'T', TCODColor::darkerGreen);
+		auto troll = engine->createActor("troll", pos, 'T', TCODColor::darkerGreen);
 		troll = engine->createMonster(troll, "corpse of a troll", 2.0f, 16.0f, 16.0f);
     }
+}
+
+void Map::addItem(const Vec2i &pos) {
+	auto engine = Engine::getSingleton();
+
+	auto healthPotion = engine->createActor("health potion", pos, '!', TCODColor::violet);
+	healthPotion->addComponent( std::make_shared<Pickable>(healthPotion, system) );
+	healthPotion->addComponent( std::make_shared<Consumable>(healthPotion) );
+	healthPotion->addComponent( std::make_shared<Healer>(healthPotion, 30.0f) );
+	healthPotion->get<bool>("Blocks") = false;
 }

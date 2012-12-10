@@ -29,18 +29,7 @@ void Monster::update(const float &/*deltaTime*/)
 		return;
 
 	auto engine = Engine::getSingleton();
-	if(engine->getMap()->isInFov(position.get().x(), position.get().y()))
-	{
-		// we can see the player. move towards him
-        moveCount=TRACKING_TURNS;
-	}
-	else
-	{
-		moveCount--;
-	}
-
-	if(moveCount > 0)
-		moveOrAttack(engine->getPlayer()->getPosition());
+	moveOrAttack(engine->getPlayer()->getPosition());
 }
 
 void Monster::OnDying()
@@ -48,27 +37,76 @@ void Monster::OnDying()
 	Engine::getSingleton()->getGui()->message(TCODColor::lightGrey,"The %s is dead",owner.lock()->getName().c_str());
 }
 
-void Monster::moveOrAttack(Vec2i target_pos) {
+void Monster::moveOrAttack(const Vec2i &target_pos) {
 	auto engine = Engine::getSingleton();
+	auto map = engine->getMap();
+	static int tdx[8]={-1,0,1,-1,1,-1,0,1};
+	static int tdy[8]={-1,-1,-1,0,0,1,1,1};
+
+	if( engine->getPlayer()->isDead() )
+	{
+		auto rng = TCODRandom::getInstance();
+		auto index = rng->getInt(0, 7);
+		auto dp = Vec2i(tdx[index], tdy[index]);
+		if(map->canWalk(position.get() + dp))
+			position += dp;
+
+		return;
+	}
+
 	auto dpos = target_pos - position.get();
 	auto distance = dpos.length();
-	if(distance >= 2)
+
+	// at melee range
+	if(distance < 2)
+	{
+		try { owner.lock()->sendEvent1<EntityPtr>("Attack", engine->getPlayer()->getOwner()); }catch(std::exception &/*e*/) {}
+		return;
+	}
+	// if player is not in attack range, but in fov, walk towards him
+	else if(map->isInFov(position.get()))
 	{
 		dpos.normalize();
 		auto step = Vec2i(dpos.x() > 0 ? 1:-1, dpos.y() > 0 ? 1:-1);
-
-
 		auto tp = position.get() + dpos;
-		if(engine->getMap()->canWalk(tp.x(), tp.y())) {
+		if(map->canWalk(tp)) {
 			position += dpos;
-		} else if ( engine->getMap()->canWalk(position.get().x()+step.x(),position.get().y()) ) {
-            position += Vec2i(step.x(), 0);
-        } else if ( engine->getMap()->canWalk(position.get().x(),position.get().y()+step.y()) ) {
-            position += Vec2i(0, step.y());
-        }
+			return;
+		}
 	}
+
+	// player not visible. use scent tracking.
+	// find the adjacent cell with the highest scent level
+	unsigned int bestLevel=0;
+	int bestCellIndex=-1;
+	
+
+	for (int i=0; i<8; i++) 
+	{
+		auto cell = position.get() + Vec2i(tdx[i], tdy[i]);
+		if (map->canWalk(cell)) 
+		{
+			auto cellScent = map->getScent(cell);      
+			if (cellScent > map->currentScentValue - SCENT_THRESHOLD && cellScent > bestLevel) 
+			{
+					bestLevel=cellScent;
+					bestCellIndex=i;
+			}
+		}
+	}
+
+	if ( bestCellIndex != -1 ) 
+	{
+		// the monster smells the player. follow the scent
+		position += Vec2i(tdx[bestCellIndex], tdy[bestCellIndex]);
+	}
+	//if there's no scent, move randomly
 	else
 	{
-		owner.lock()->sendEvent1<EntityPtr>("Attack", engine->getPlayer()->getOwner());
+		auto rng = TCODRandom::getInstance();
+		auto index = rng->getInt(0, 7);
+		auto dp = Vec2i(tdx[index], tdy[index]);
+		if(map->canWalk(position.get() + dp))
+			position += dp;
 	}
 }

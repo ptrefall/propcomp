@@ -4,6 +4,7 @@
 #include "../Components/Actor.h"
 #include "../Components/Map.h"
 #include "../Components/Gui.h"
+#include "../Components/Pickable.h"
 #include "../Entity.h"
 #include "../Engine.h"
 
@@ -36,6 +37,25 @@ public:
 	{ 
 		this->map = map;
 		std::cout << "Set map for Render System!" << std::endl;
+	}
+
+	void add(Pickable *item)
+	{
+		items.push_back(item);
+		std::cout << "Added item " << item->getOwner()->getName() << " to Render System!" << std::endl;
+	}
+	void remove(Pickable *item)
+	{
+		for(unsigned int i = 0; i < items.size(); i++)
+		{
+			if(items[i] == item)
+			{
+				std::cout << "Removed item from Render System!" << std::endl;
+				items[i] = items.back();
+				items.pop_back();
+				return;
+			}
+		}
 	}
 
 	void add(Actor *actor)
@@ -85,17 +105,25 @@ public:
 
 		map->render();
 
+		for(unsigned int i = 0; i < items.size(); i++)
+		{
+			auto item = items[i];
+			auto item_pos = item->getOwner()->get<Vec2i>("Position").get();
+			if(map->isInFov(item_pos))
+				item->getOwner()->sendEvent0("Render");
+		}
+
 		for(unsigned int i = 0; i < corpses.size(); i++)
 		{
 			auto corpse = corpses[i];
-			if(map->isInFov(corpse->x(), corpse->y()))
+			if(map->isInFov(corpse->getPosition()))
 				corpse->render();
 		}
 
 		for(unsigned int i = 0; i < actors.size(); i++)
 		{
 			auto actor = actors[i];
-			if(map->isInFov(actor->x(), actor->y()))
+			if(map->isInFov(actor->getPosition()))
 				actor->render();
 		}
 
@@ -111,6 +139,7 @@ public:
 private:
 	std::vector<Actor*> actors;
 	std::vector<Actor*> corpses;
+	std::vector<Pickable*> items;
 	Map *map;
 	Player *player;
 	Gui *gui;

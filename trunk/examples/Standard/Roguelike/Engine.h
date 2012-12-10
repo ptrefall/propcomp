@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Utils/Vec2i.h"
+
 #include <libtcod.hpp>
 #include <memory>
 #include <string>
@@ -49,7 +51,7 @@ public:
 	const MapPtr &getMap() const { return map; }
 	const GuiPtr &getGui() const { return gui; }
 
-	EntityPtr createActor(const std::string &name, int x, int y, int characterID, TCODColor color);
+	EntityPtr createActor(const std::string &name, const Vec2i &pos, int characterID, TCODColor color);
 	EntityPtr createMonster(EntityPtr actor, const std::string &corpse_name, float defense, float maxHp, float power);			
 
 	int fovRadius;
@@ -65,6 +67,8 @@ public:
 
 	int getScreenWidth() const { return screenWidth; }
 	int getScreenHeight() const { return screenHeight; }
+
+	ActorPtr getClosestMonster(const Vec2i &pos, float range) const;
 
 private:
 #if(_MSC_VER >= 1700)

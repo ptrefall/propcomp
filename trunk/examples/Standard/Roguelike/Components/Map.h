@@ -3,17 +3,23 @@
 #include <Totem/Component.h>
 #include <Totem/Property.h>
 #include "../Entity.h"
+#include "../Utils/Vec2i.h"
 
 #include <libtcod.hpp>
 #include <memory>
 
 static const int ROOM_MAX_SIZE = 12;
 static const int ROOM_MIN_SIZE = 6;
-static const int MAX_ROOM_MONSTERS = 3;
+static const int MAX_ROOM_MONSTERS = 9;
+static const int MAX_ROOM_ITEMS = 2;
+
+// after 20 turns, the monster cannot smell the scent anymore
+static const int SCENT_THRESHOLD=20;
 
 struct Tile {
     bool explored; // has the player already seen this tile ?
-    Tile() : explored(false) {}
+	unsigned int scent; // amount of player scent on this cell
+    Tile() : explored(false), scent(0) {}
 };
 
 class RenderSystem;
@@ -30,23 +36,27 @@ public:
 
 	EntityPtr getOwner() { return owner.lock(); }
 
-	bool isInFov(int x, int y) const;
-	bool isWall(int x, int y) const;
-    bool isExplored(int x, int y) const;
+	bool isInFov(const Vec2i &pos) const;
+	bool isWall(const Vec2i &pos) const;
+    bool isExplored(const Vec2i &pos) const;
     void computeFov();
 
-	bool canWalk(int x, int y) const;
+	bool canWalk(const Vec2i &pos) const;
 
 	void render() const;
 
-	void addMonster(int x, int y);
+	void addMonster(const Vec2i &pos);
+	void addItem(const Vec2i &pos);
+
+	unsigned int currentScentValue;
+	unsigned int getScent(const Vec2i &pos) const;
 
 protected:
 	Tile *tiles;
 	TCODMap *map;
 	friend class BspListener;
-	void dig(int x1, int y1, int x2, int y2);
-    void createRoom(bool first, int x1, int y1, int x2, int y2);
+	void dig(const Vec2i &pos1, const Vec2i &pos2);
+    void createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2);
 
 private:
 	EntityWPtr owner;
