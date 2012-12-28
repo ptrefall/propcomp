@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include "Entity.h"
+#include "EntityParser.h"
 #include "Systems/RenderSystem.h"
 #include "Utils/Vec2i.h"
 #include "Components/Actor.h"
@@ -50,6 +51,9 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	auto guiEntity = std::make_shared<Entity>("Gui");
 	gui = guiEntity->addComponent( std::make_shared<Gui>(guiEntity, render_system) );
 	entities.push_back(guiEntity);
+
+	auto entityParser = std::make_shared<EntityParser>();
+	auto testPlayer = entityParser->getPlayer();
 
 	auto playerEntity = std::make_shared<Entity>("player");
 	player = playerEntity->addComponent( std::make_shared<Actor>(playerEntity, render_system) );
