@@ -2,6 +2,15 @@
 #include "Engine.h"
 #include "Entity.h"
 
+#include "Components/Actor.h"
+#include "Components/Map.h"
+#include "Components/Destructible.h"
+#include "Components/Attacker.h"
+#include "Components/Player.h"
+#include "Components/Monster.h"
+#include "Components/Gui.h"
+#include "Components/Container.h"
+
 EntityParser::EntityParser()
 {
 	parser = new TCODParser();
@@ -75,11 +84,65 @@ EntityParserListener::EntityParserListener(std::vector<EntityPtr> &entities)
 bool EntityParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
 {
 	printf ("new structure type '%s' with name '%s'\n", str->getName(), name ? name : "NULL");
+	std::string struct_name = str->getName();
+	if(struct_name == "entity")
+		entities.push_back(std::make_shared<Entity>(name));
     return true;
 }
 bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 {
 	printf ("found new flag '%s'\n",name);
+	if(entities.empty())
+		return false;
+
+
+	auto engine = Engine::getSingleton();
+	auto render_system = engine->getRenderSystem();
+	auto entity = entities.back();
+
+	if(name == "Actor")
+	{
+		entity->addComponent(std::make_shared<Actor>(entity, render_system));
+	}
+	else if(name == "Ai")
+	{
+	}
+	else if(name == "Attacker")
+	{
+		entity->addComponent(std::make_shared<Attacker>(entity, 0));
+	}
+	else if(name == "Consumable")
+	{
+	}
+	else if(name == "Container")
+	{
+		entity->addComponent(std::make_shared<Container>(entity, 26));
+	}
+	else if(name == "Destructible")
+	{
+		entity->addComponent(std::make_shared<Destructible>(entity, "corpse of " + entity->getName(), render_system));
+	}
+	else if(name == "Monster")
+	{
+		entity->addComponent(std::make_shared<Monster>(entity));
+	}
+	else if(name == "Pickable")
+	{
+	}
+	else if(name == "Player")
+	{
+		entity->addComponent(std::make_shared<Player>(entity, render_system));
+	}
+		//Magic
+	else if(name == "Effect")
+	{
+	}
+	else if(name == "Healer")
+	{
+	}
+	else if(name == "Weave")
+	{
+	}
 	return true;
 }
 bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
