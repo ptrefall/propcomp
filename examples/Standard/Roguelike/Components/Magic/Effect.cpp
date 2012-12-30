@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-Effect::Effect(const EntityWPtr &owner, const TargetSelectorPtr &selector) 
-: Totem::Component<Effect, PropertyUserData>("Effect"), owner(owner), selector(selector)
+Effect::Effect(const EntityWPtr &owner) 
+: Totem::Component<Effect, PropertyUserData>("Effect"), owner(owner), selector(nullptr)
 {
 	user_data.entity = owner;
 	user_data.component = this;

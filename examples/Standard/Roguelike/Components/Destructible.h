@@ -17,7 +17,7 @@ typedef std::shared_ptr<Destructible> DestructiblePtr;
 class Destructible : public Totem::Component<Destructible, PropertyUserData>
 {
 public:
-	Destructible(const EntityWPtr &owner, const std::string &corpseName, const RenderSystemPtr &system);
+	Destructible(const EntityWPtr &owner, const RenderSystemPtr &system);
     virtual ~Destructible();
 
 	EntityPtr getOwner() { return owner.lock(); }
@@ -33,7 +33,7 @@ private:
 	PropertyUserData user_data;
 	RenderSystemPtr system;
 
-	std::string corpseName; // the owner's name once dead/destroyed
+	Totem::Property<std::string> corpseName; // the owner's name once dead/destroyed
 
 	//Shared properties
 	Totem::Property<int> ch;

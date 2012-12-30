@@ -6,11 +6,13 @@
 
 #include <iostream>
 
-Attacker::Attacker(const EntityWPtr &owner, float power) 
-: Totem::Component<Attacker, PropertyUserData>("Attacker"), owner(owner), power(power)
+Attacker::Attacker(const EntityWPtr &owner) 
+: Totem::Component<Attacker, PropertyUserData>("Attacker"), owner(owner)
 {
 	user_data.entity = owner;
 	user_data.component = this;
+
+	this->power = owner.lock()->add<float>("Power", 5.0f);
 
 	owner.lock()->registerToEvent1<EntityPtr>("Attack").connect(this, &Attacker::attack);
 }

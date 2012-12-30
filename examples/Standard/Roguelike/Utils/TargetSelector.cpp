@@ -4,8 +4,8 @@
 #include "../Components/Gui.h"
 #include "../Engine.h"
 
-TargetSelector::TargetSelector(SelectorType type, float range)
-	: type(type), range(range)
+TargetSelector::TargetSelector(SelectorType type)
+	: type(type), range(1.0f)
 {
 }
 

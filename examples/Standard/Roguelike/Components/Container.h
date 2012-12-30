@@ -16,7 +16,7 @@ typedef std::shared_ptr<Container> ContainerPtr;
 class Container : public Totem::Component<Container, PropertyUserData>
 {
 public:
-	Container(const EntityWPtr &owner, int inventoryMaxSize);
+	Container(const EntityWPtr &owner);
     virtual ~Container();
 
 	EntityPtr getOwner() { return owner.lock(); }
@@ -28,7 +28,7 @@ private:
 	EntityWPtr owner;
 	PropertyUserData user_data;
 	
-	int inventoryMaxSize; // maximum number of entities. 0=unlimited
+	Totem::Property<int> inventoryMaxSize; // maximum number of entities. 0=unlimited
 	//std::vector<EntityPtr> inventory;
 	Totem::PropertyList<EntityPtr> inventoryList;
 	Totem::Property<bool> inventoryFull;

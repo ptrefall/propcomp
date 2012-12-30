@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-Container::Container(const EntityWPtr &owner, int inventoryMaxSize) 
-: Totem::Component<Container, PropertyUserData>("Container"), owner(owner), inventoryMaxSize(inventoryMaxSize)
+Container::Container(const EntityWPtr &owner) 
+: Totem::Component<Container, PropertyUserData>("Container"), owner(owner)
 {
 	user_data.entity = owner;
 	user_data.component = this;
@@ -14,6 +14,7 @@ Container::Container(const EntityWPtr &owner, int inventoryMaxSize)
 	//inventory.reserve(inventoryMaxSize);
 
 	inventoryFull = owner.lock()->add<bool>("InventoryFull", false);
+	inventoryMaxSize = owner.lock()->add<int>("InventoryMaxSize", 26);
 
 	owner.lock()->registerToEvent1<EntityPtr>("PickUp").connect(this, &Container::add);
 	owner.lock()->registerToEvent1<EntityPtr>("Remove").connect(this, &Container::remove);
@@ -26,11 +27,11 @@ Container::~Container()
 
 void Container::add(EntityPtr entity)
 {
-	if ( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize )
+	if ( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize.get() )
         // inventory full
         return;
 
-	if( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize-1 )
+	if( inventoryMaxSize > 0 && inventoryList.size() >= (unsigned int)inventoryMaxSize.get()-1 )
 		inventoryFull = true;
 
 	inventoryList.push_back(entity);
