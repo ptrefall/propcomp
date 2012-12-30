@@ -17,10 +17,13 @@ typedef std::shared_ptr<Effect> EffectPtr;
 class Effect : public Totem::Component<Effect, PropertyUserData>
 {
 public:
-	Effect(const EntityWPtr &owner, const TargetSelectorPtr &selector = nullptr);
+	Effect(const EntityWPtr &owner);
     virtual ~Effect();
 
 	EntityPtr getOwner() { return owner.lock(); }
+
+	void setSelector(const TargetSelectorPtr &selector) { this->selector = selector; }
+	TargetSelectorPtr getSelector() const { return selector; }
 
 	void use(EntityPtr wearer);
 

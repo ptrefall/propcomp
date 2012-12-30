@@ -6,11 +6,14 @@
 
 #include <iostream>
 
-Healer::Healer(const EntityWPtr &owner, float amount, const std::string &message) 
-: Totem::Component<Healer, PropertyUserData>("Healer"), owner(owner), amount(amount), message(message)
+Healer::Healer(const EntityWPtr &owner) 
+: Totem::Component<Healer, PropertyUserData>("Healer"), owner(owner)
 {
 	user_data.entity = owner;
 	user_data.component = this;
+
+	amount = owner.lock()->add<float>("Amount", 1.0f);
+	message = owner.lock()->add<std::string>("Message", std::string());
 
 	owner.lock()->registerToEvent1<EntityPtr>("ApplyEffect").connect(this, &Healer::applyEffect);
 }
@@ -23,9 +26,9 @@ Healer::~Healer()
 void Healer::applyEffect(EntityPtr wearer) {
 	if(wearer->hasEvent("Heal",1))
 	{
-		if( !message.empty() )
-			Engine::getSingleton()->getGui()->message(TCODColor::lightCyan, message.c_str(),wearer->getName().c_str(), abs(amount));
+		if( !message.get().empty() )
+			Engine::getSingleton()->getGui()->message(TCODColor::lightCyan, message.get().c_str(),wearer->getName().c_str(), abs(amount.get()));
 
-		wearer->sendEvent1<float>("Heal", amount);
+		wearer->sendEvent1<float>("Heal", amount.get());
 	}
 }

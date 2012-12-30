@@ -4,20 +4,22 @@
 
 #include <iostream>
 
-Destructible::Destructible(const EntityWPtr &owner, const std::string &corpseName, const RenderSystemPtr &system) 
-: Totem::Component<Destructible, PropertyUserData>("Destructible"), owner(owner), corpseName(corpseName), system(system)
+Destructible::Destructible(const EntityWPtr &owner, const RenderSystemPtr &system) 
+: Totem::Component<Destructible, PropertyUserData>("Destructible"), owner(owner), system(system)
 {
 	user_data.entity = owner;
 	user_data.component = this;
 
-	this->ch = owner.lock()->add<int>("Character", '@');
-	this->col = owner.lock()->add<TCODColor>("Color", TCODColor::white);
-	this->blocks = owner.lock()->add<bool>("Blocks", true);
+	ch = owner.lock()->add<int>("Character", '@');
+	col = owner.lock()->add<TCODColor>("Color", TCODColor::white);
+	blocks = owner.lock()->add<bool>("Blocks", true);
 	dead = owner.lock()->add<bool>("Dead", false);
-	this->defense = owner.lock()->add<float>("Defense", 1);
+	defense = owner.lock()->add<float>("Defense", 1);
 
-	this->maxHp = owner.lock()->add<float>("MaxHP", 1);
-	this->hp = owner.lock()->add<float>("HP", 1);
+	maxHp = owner.lock()->add<float>("MaxHP", 1);
+	hp = owner.lock()->add<float>("HP", 1);
+
+	corpseName = owner.lock()->add<std::string>("CorpseName", "corpse");
 
 	owner.lock()->registerToEvent1<float>("TakeDamage").connect(this, &Destructible::takeDamage);
 	owner.lock()->registerToEvent1<float>("Heal").connect(this, &Destructible::heal);
@@ -49,7 +51,7 @@ void Destructible::die() {
     // transform the actor into a corpse!
     ch='%';
     col=TCODColor::darkRed;   
-	owner.lock()->updateName(corpseName);
+	owner.lock()->updateName(corpseName.get());
     blocks=false;
 
 	dead = true;

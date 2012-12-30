@@ -14,7 +14,7 @@ typedef std::shared_ptr<Attacker> AttackerPtr;
 class Attacker : public Totem::Component<Attacker, PropertyUserData>
 {
 public:
-	Attacker(const EntityWPtr &owner, float power);
+	Attacker(const EntityWPtr &owner);
     virtual ~Attacker();
 
 	EntityPtr getOwner() { return owner.lock(); }
@@ -25,5 +25,5 @@ private:
 	EntityWPtr owner;
 	PropertyUserData user_data;
 	
-	float power;
+	Totem::Property<float> power;
 };

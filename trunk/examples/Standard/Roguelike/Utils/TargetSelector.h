@@ -16,8 +16,10 @@ public:
         SELECTED_RANGE      
     };
 
-	TargetSelector(SelectorType type, float range);
+	TargetSelector(SelectorType type);
 	~TargetSelector();
+
+	void setRange(float range) { this->range = range; }
 
 	std::vector<ActorPtr> selectTargets(const ActorPtr &wearer);
 

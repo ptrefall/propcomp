@@ -10,6 +10,8 @@
 #include "Components/Monster.h"
 #include "Components/Gui.h"
 #include "Components/Container.h"
+#include "Components/Magic/Effect.h"
+#include "Utils/TargetSelector.h"
 
 EntityParser::EntityParser()
 {
@@ -35,12 +37,12 @@ EntityParser::EntityParser()
 	//Available properties
 	entity_struct
 		->addProperty("Character", TCOD_TYPE_CHAR, false)
-		->addProperty("Color", TCOD_TYPE_STRING, false)
+		->addProperty("Color", TCOD_TYPE_COLOR, false)
 		->addProperty("Defense", TCOD_TYPE_FLOAT, false)
 		->addProperty("MaxHP", TCOD_TYPE_FLOAT, false)
 		->addProperty("HP", TCOD_TYPE_FLOAT, false)
 		->addProperty("Power", TCOD_TYPE_FLOAT, false)
-		->addProperty("InventorySpace", TCOD_TYPE_INT, false)
+		->addProperty("InventoryMaxSize", TCOD_TYPE_INT, false)
 		->addProperty("CorpseName", TCOD_TYPE_STRING, false)
 
 		->addProperty("Blocks", TCOD_TYPE_BOOL, false)
@@ -95,52 +97,53 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 	if(entities.empty())
 		return false;
 
+	std::string flag_name = name;
 
 	auto engine = Engine::getSingleton();
 	auto render_system = engine->getRenderSystem();
 	auto entity = entities.back();
 
-	if(name == "Actor")
+	if(flag_name == "Actor")
 	{
 		entity->addComponent(std::make_shared<Actor>(entity, render_system));
 	}
-	else if(name == "Ai")
+	else if(flag_name == "Ai")
 	{
 	}
-	else if(name == "Attacker")
+	else if(flag_name == "Attacker")
 	{
-		entity->addComponent(std::make_shared<Attacker>(entity, 0));
+		entity->addComponent(std::make_shared<Attacker>(entity));
 	}
-	else if(name == "Consumable")
+	else if(flag_name == "Consumable")
 	{
 	}
-	else if(name == "Container")
+	else if(flag_name == "Container")
 	{
-		entity->addComponent(std::make_shared<Container>(entity, 26));
+		entity->addComponent(std::make_shared<Container>(entity));
 	}
-	else if(name == "Destructible")
+	else if(flag_name == "Destructible")
 	{
-		entity->addComponent(std::make_shared<Destructible>(entity, "corpse of " + entity->getName(), render_system));
+		entity->addComponent(std::make_shared<Destructible>(entity, render_system));
 	}
-	else if(name == "Monster")
+	else if(flag_name == "Monster")
 	{
 		entity->addComponent(std::make_shared<Monster>(entity));
 	}
-	else if(name == "Pickable")
+	else if(flag_name == "Pickable")
 	{
 	}
-	else if(name == "Player")
+	else if(flag_name == "Player")
 	{
 		entity->addComponent(std::make_shared<Player>(entity, render_system));
 	}
 		//Magic
-	else if(name == "Effect")
+	else if(flag_name == "Effect")
 	{
 	}
-	else if(name == "Healer")
+	else if(flag_name == "Healer")
 	{
 	}
-	else if(name == "Weave")
+	else if(flag_name == "Weave")
 	{
 	}
 	return true;
@@ -148,6 +151,90 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
 {
 	printf ("found new property '%s'\n",name);
+	if(entities.empty())
+		return false;
+
+	std::string prop_name = name;
+
+	auto engine = Engine::getSingleton();
+	auto entity = entities.back();
+
+	if(prop_name == "Character")
+	{
+		entity->get<int>(prop_name) = (int)value.c;
+	}
+	else if(prop_name == "Color")
+	{
+		entity->get<TCODColor>(prop_name) = value.col;
+	}
+	else if(prop_name == "Defense")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "MaxHP")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "HP")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "Power")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "InventoryMaxSize")
+	{
+		entity->get<int>(prop_name) = value.i;
+	}
+	else if(prop_name == "CorpseName")
+	{
+		entity->get<std::string>(prop_name) = value.s;
+	}
+
+	else if(prop_name == "Blocks")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "Amount")
+	{
+		entity->get<float>(prop_name) = value.f;
+	}
+	else if(prop_name == "Message")
+	{
+		entity->get<std::string>(prop_name) = value.s;
+	}
+	else if(prop_name == "TargetSelector")
+	{
+		//This property is slightly more advanced...
+		if(entity->hasComponent<Effect>())
+		{
+			auto effect = entity->getComponent<Effect>();
+			std::string selector_type = value.s;
+
+			if(selector_type == "ClosestMonster")
+				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER));
+			else if(selector_type == "SelectedMonster")
+				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_MONSTER));
+			else if(selector_type == "SelectedRange")
+				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE));
+		}
+	}
+	else if(prop_name == "TargetRange")
+	{
+		//This property is slightly more advanced too...
+		if(entity->hasComponent<Effect>())
+		{
+			auto effect = entity->getComponent<Effect>();
+
+			//Note that TargetSelector property must have been defined before this property is set...
+			if(effect->getSelector())
+				effect->getSelector()->setRange(value.f);
+
+			//else we should throw an exception, or at least print a warning about it!
+		}
+	}
+
 	return true;
 }
 bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
