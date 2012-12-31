@@ -10,7 +10,11 @@
 #include "Components/Monster.h"
 #include "Components/Gui.h"
 #include "Components/Container.h"
+#include "Components/Consumable.h"
+#include "Components/Pickable.h"
 #include "Components/Magic/Effect.h"
+#include "Components/Magic/Healer.h"
+#include "Components/Magic/Weave.h"
 #include "Utils/TargetSelector.h"
 
 EntityParser::EntityParser()
@@ -109,6 +113,10 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 	}
 	else if(flag_name == "Ai")
 	{
+		//This component doesn't do anything yet... and might not ever do anything at all, 
+		//since Player and Monster components takes care of that logic right now. Might
+		//change that in the future though, as common behavior related to intelligence
+		//could merge in this component.
 	}
 	else if(flag_name == "Attacker")
 	{
@@ -116,6 +124,7 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 	}
 	else if(flag_name == "Consumable")
 	{
+		entity->addComponent(std::make_shared<Consumable>(entity));
 	}
 	else if(flag_name == "Container")
 	{
@@ -131,6 +140,7 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 	}
 	else if(flag_name == "Pickable")
 	{
+		entity->addComponent(std::make_shared<Pickable>(entity, render_system));
 	}
 	else if(flag_name == "Player")
 	{
@@ -139,12 +149,15 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 		//Magic
 	else if(flag_name == "Effect")
 	{
+		entity->addComponent(std::make_shared<Effect>(entity));
 	}
 	else if(flag_name == "Healer")
 	{
+		entity->addComponent(std::make_shared<Healer>(entity));
 	}
 	else if(flag_name == "Weave")
 	{
+		entity->addComponent(std::make_shared<Weave>(entity));
 	}
 	return true;
 }
