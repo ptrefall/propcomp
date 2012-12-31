@@ -12,7 +12,10 @@ Attacker::Attacker(const EntityWPtr &owner)
 	user_data.entity = owner;
 	user_data.component = this;
 
-	this->power = owner.lock()->add<float>("Power", 5.0f);
+	power = owner.lock()->add<float>("Power", 5.0f);
+
+	maxHp = owner.lock()->add<float>("MaxHP", 1);
+	hp = owner.lock()->add<float>("HP", 1);
 
 	owner.lock()->registerToEvent1<EntityPtr>("Attack").connect(this, &Attacker::attack);
 }
@@ -57,6 +60,14 @@ void Attacker::attack(EntityPtr target) {
 
 				target->sendEvent1<float>("TakeDamage", power);
 			}
+
+			//Finally, check if target is dead, and give ourself a little extra HP and MaxHP for the effort :)
+			if(target->get<bool>("Dead").get())
+			{
+				maxHp += target->get<float>("MaxHP").get() / 2;
+				hp += target->get<float>("MaxHP").get() / 2;
+			}
+
         } 
 		else 
 		{

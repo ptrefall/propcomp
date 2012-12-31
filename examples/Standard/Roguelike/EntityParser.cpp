@@ -57,17 +57,10 @@ EntityParser::EntityParser()
 		->addProperty("TargetSelector", TCOD_TYPE_STRING, false)
 		->addProperty("TargetRange", TCOD_TYPE_FLOAT, false);
 
-	//Allow inheritance of x num levels
-	int INHERITANCE_DEPTH = 4;
-	std::vector<TCODParserStruct*> inheritanceDepth;
-	inheritanceDepth.push_back(entity_struct);
-	for(int i = 0; i < INHERITANCE_DEPTH; i++)
-	{
-		inheritanceDepth.push_back(inheritanceDepth[i]->addStructure(inheritanceDepth[i]));
-	}
+	entity_struct->addStructure(entity_struct);
 
 	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Player.cfg").c_str(), new EntityParserListener());
-	//parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Monsters.cfg").c_str(), new EntityParserListener());
+	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Monsters.cfg").c_str(), new EntityParserListener());
 	//parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Items.cfg").c_str(), new EntityParserListener());
 }
 
@@ -82,8 +75,13 @@ EntityParser::~EntityParser()
 //
 ///////////////////////////////////////////////////
 EntityParserListener::EntityParserListener()
-	: ITCODParserListener(), name(std::string())
+	: ITCODParserListener(), info(new EntityInfo())
 {
+}
+
+EntityParserListener::~EntityParserListener()
+{
+	delete info;
 }
 
 bool EntityParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
@@ -92,26 +90,53 @@ bool EntityParserListener::parserNewStruct(TCODParser *parser,const TCODParserSt
 	std::string struct_name = str->getName();
 	if(struct_name == "entity")
 	{
-		this->name = name;
-		components.clear();
-		properties.clear();
-		special_properties.clear();
+		//If this is a root structure, and the name of the structure is empty,
+		//that means this is a new root structure
+		if(info->parent == nullptr && info->name.empty())
+		{
+			info->name = name;
+		}
+		//Else, if the root structure has already been defined, but there's no parent definition yet,
+		//that means that this is the first child structure of the root structure.
+		else if(info->parent == nullptr)
+		{
+			auto child_info = EntityInfo();
+			child_info.parent = info;
+			info->children.push_back(child_info);
+
+			//Swap info pointer to current child
+			info = &info->children[info->children.size()-1];
+			info->name = name;
+		}
+		//Else we already have one or more child structures defined, thus we're adding
+		//another child to the parent of the current info pointer...
+		else
+		{
+			info = info->parent;
+			auto child_info = EntityInfo();
+			child_info.parent = info;
+			info->children.push_back(child_info);
+
+			//Swap info pointer to current child
+			info = &info->children[info->children.size()-1];
+			info->name = name;
+		}
 	}
     return true;
 }
 bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 {
 	printf ("found new flag '%s'\n",name);
-	if(this->name.empty())
+	if(info->name.empty())
 		return false;
 
-	components.push_back(name);
+	info->components.push_back(name);
 	return true;
 }
 bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
 {
 	printf ("found new property '%s'\n",name);
-	if(this->name.empty() || components.empty())
+	if(info->name.empty() || (info->parent == nullptr && info->components.empty()) || (info->parent != nullptr && info->parent->components.empty() && info->components.empty()))
 		return false;
 
 	std::string prop_name = name;
@@ -123,13 +148,13 @@ bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, T
 	{
 		auto property = new Totem::Property<std::string>(prop_name);
 		property->set(value.s, false);
-		special_properties.push_back(property);
+		info->special_properties.push_back(property);
 	}
 	else if(prop_name == "TargetRange")
 	{
 		auto property = new Totem::Property<float>(prop_name);
 		property->set(value.f, false);
-		special_properties.push_back(property);
+		info->special_properties.push_back(property);
 	}
 
 	//Then we handle for generic types...
@@ -137,42 +162,101 @@ bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, T
 	{
 		auto property = new Totem::Property<bool>(prop_name);
 		property->set(value.b, false);
-		properties.push_back(property);
+		info->properties.push_back(property);
+	}
+	else if(type == TCOD_TYPE_CHAR)
+	{
+		auto property = new Totem::Property<int>(prop_name);
+		property->set((int)value.c, false);
+		info->properties.push_back(property);
 	}
 	else if(type == TCOD_TYPE_INT)
 	{
 		auto property = new Totem::Property<int>(prop_name);
 		property->set(value.i, false);
-		properties.push_back(property);
+		info->properties.push_back(property);
 	}
 	else if(type == TCOD_TYPE_FLOAT)
 	{
 		auto property = new Totem::Property<float>(prop_name);
 		property->set(value.f, false);
-		properties.push_back(property);
+		info->properties.push_back(property);
 	}
 	else if(type == TCOD_TYPE_STRING)
 	{
 		auto property = new Totem::Property<std::string>(prop_name);
 		property->set(value.s, false);
-		properties.push_back(property);
+		info->properties.push_back(property);
 	}
 	else if(type == TCOD_TYPE_COLOR)
 	{
 		auto property = new Totem::Property<TCODColor>(prop_name);
 		property->set(value.col, false);
-		properties.push_back(property);
+		info->properties.push_back(property);
 	}
 	return true;
 }
 bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
 {
 	printf ("end of structure type '%s'\n",name);
-	if( this->name.empty() || this->name != std::string(name) )
+
+	//Make sure everything is nice and dandy
+	if( info->name.empty() || info->name != std::string(name) )
 		return false;
 
 	auto prefab_system = Engine::getSingleton()->getPrefabSystem();
-	prefab_system->createPrefab(this->name, components, properties, special_properties);
+
+	//If the current entity info is the root structure, then we should just close off and clear out the info
+	if(info->parent == nullptr)
+	{
+		//If the root structure has children, then we define it as abstract. Thus only those structures with
+		//a parent can be defined as a prefab!
+		if(info->children.empty())
+			prefab_system->createPrefab(info->name, info->components, info->properties, info->special_properties);
+
+		//Reset the entity info, in case there are more root structures defined in the current file we're parsing.
+		info->name.clear();
+		info->components.clear();
+		info->properties.clear();
+		info->special_properties.clear();
+		info->children.clear();
+	}
+	//Else, this is a child structure of the root, thus we need to make sure we get all the components of our parent
+	//structure as well as our own.
+	else
+	{
+		//We extract the data into new structures, so that the parent info comes first in the list. This is important if
+		//we are to support children overriding the data of their parent. This is specially important for the properties!
+		std::vector<std::string> components;
+		std::vector<Totem::IProperty*> properties;
+		std::vector<Totem::IProperty*> special_properties;
+		
+		for(unsigned int i = 0; i < info->parent->components.size(); i++)
+			components.push_back(info->parent->components[i]);
+		for(unsigned int i = 0; i < info->parent->properties.size(); i++)
+			properties.push_back(info->parent->properties[i]);
+		for(unsigned int i = 0; i < info->parent->special_properties.size(); i++)
+			special_properties.push_back(info->parent->special_properties[i]);
+
+		for(unsigned int i = 0; i < info->components.size(); i++)
+			components.push_back(info->components[i]);
+		for(unsigned int i = 0; i < info->properties.size(); i++)
+			properties.push_back(info->properties[i]);
+		for(unsigned int i = 0; i < info->special_properties.size(); i++)
+			special_properties.push_back(info->special_properties[i]);
+
+		prefab_system->createPrefab(info->name, components, properties, special_properties);
+
+		//Reset the current entity info and define the root structure as current info again, so that if there's
+		//any new components/properties defined after this on the root, then it will be added to the correct
+		//info structure (even though it wouldn't make much sense to do so). 
+		//Also, it just flows with the architecture better to do this...
+		info->name.clear();
+		info->components.clear();
+		info->properties.clear();
+		info->special_properties.clear();
+		info = info->parent;
+	}
 
 	return true;
 }

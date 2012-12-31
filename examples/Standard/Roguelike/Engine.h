@@ -66,6 +66,7 @@ public:
 	void remove(const EntityPtr &entity);
 	void remove(const ActorPtr &actor);
 
+	void add(const EntityPtr &entity);
 	void add(const ActorPtr &actor);
 
 	const TCOD_key_t &getLastKey() const { return last_key; }

@@ -66,6 +66,9 @@ EntityPtr PrefabSystem::instantiate(const std::string &prefab_name)
 	//Do some special handling
 	for(unsigned int i = 0; i < specials.size(); i++)
 		addSpecialProperty(entity, specials[i]);
+	
+	//Add the new entity to the engine
+	Engine::getSingleton()->add(entity);
 
 	//return the new entity, fresh out from the oven!
 	return entity;

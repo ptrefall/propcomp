@@ -21,6 +21,7 @@ class EntityParserListener : public ITCODParserListener
 {
 public:
 	EntityParserListener();
+	~EntityParserListener();
 
 	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
 	bool parserFlag(TCODParser *parser,const char *name) override;
@@ -29,8 +30,16 @@ public:
 	void error(const char *msg) override;
 
 private:
-	std::string name;
-	std::vector<std::string> components;
-	std::vector<Totem::IProperty*> properties;
-	std::vector<Totem::IProperty*> special_properties;
+	struct EntityInfo
+	{
+		std::string name;
+		std::vector<std::string> components;
+		std::vector<Totem::IProperty*> properties;
+		std::vector<Totem::IProperty*> special_properties;
+		std::vector<EntityInfo> children;
+		EntityInfo *parent;
+
+		EntityInfo() : parent(nullptr) {}
+	};
+	EntityInfo *info;
 };

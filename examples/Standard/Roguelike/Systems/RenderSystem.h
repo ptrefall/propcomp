@@ -41,6 +41,11 @@ public:
 
 	void add(Pickable *item)
 	{
+		for(unsigned int i = 0; i < items.size(); i++)
+		{
+			if(items[i] == item)
+				return;
+		}
 		items.push_back(item);
 		std::cout << "Added item " << item->getOwner()->getName() << " to Render System!" << std::endl;
 	}
@@ -60,6 +65,11 @@ public:
 
 	void add(Actor *actor)
 	{ 
+		for(unsigned int i = 0; i < actors.size(); i++)
+		{
+			if(actors[i] == actor)
+				return;
+		}
 		actors.push_back(actor); 
 		std::cout << "Added actor " << actor->getOwner()->getName() << " to Render System!" << std::endl;
 	}
@@ -89,12 +99,13 @@ public:
 
 	void add(EntityWPtr corpse)
 	{
-		if(corpse.lock()->hasComponent<Actor>())
+		auto entity = corpse.lock();
+		if(entity->hasComponent<Actor>())
 		{
-			auto corpseActor = corpse.lock()->getComponent<Actor>().get();
+			auto corpseActor = entity->getComponent<Actor>().get();
 			remove(corpseActor);
 			corpses.push_back(corpseActor);
-			std::cout << "Added " << corpse.lock()->getName() << " to Render System!" << std::endl;
+			std::cout << "Added " << entity->getName() << " to Render System!" << std::endl;
 		}
 	}
 
