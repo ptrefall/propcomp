@@ -10,7 +10,6 @@ namespace Totem {
 
 
 template<class ComponentType, class UserData = void*> class Component;
-class ComponentFactory;
 
 /**
 * In order to support multiple different types registered into the event maps
