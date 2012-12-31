@@ -26,4 +26,7 @@ private:
 	PropertyUserData user_data;
 	
 	Totem::Property<float> power;
+
+	Totem::Property<float> maxHp; // maximum health points
+	Totem::Property<float> hp; // current health points
 };

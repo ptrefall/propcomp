@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "Actor.h"
+#include "../Systems/PrefabSystem.h"
 #include "../Systems/RenderSystem.h"
 #include "../Engine.h"
 #include "../Utils/BspListener.h"
@@ -205,18 +206,15 @@ void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2)
 void Map::addMonster(const Vec2i &pos) {
     auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
+	auto prefab_system = engine->getPrefabSystem();
+	EntityPtr monster = nullptr;
+
     if ( rng->getInt(0,100) < 80 ) 
-	{
-        // create an orc
-		auto orc = engine->createActor("orc", pos, 'o', TCODColor::desaturatedGreen);
-		orc = engine->createMonster(orc, "corpse of an orc", 0.0f, 10.0f, 3.0f);
-    } 
+		monster = prefab_system->instantiate("orc");
 	else 
-	{
-        // create a troll            
-		auto troll = engine->createActor("troll", pos, 'T', TCODColor::darkerGreen);
-		troll = engine->createMonster(troll, "corpse of a troll", 2.0f, 16.0f, 16.0f);
-    }
+		monster = prefab_system->instantiate("troll");
+
+	monster->get<Vec2i>("Position") = pos;
 }
 
 void Map::addItem(const Vec2i &pos) {

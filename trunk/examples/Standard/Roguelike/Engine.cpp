@@ -172,6 +172,14 @@ void Engine::remove(const ActorPtr &actor)
 	}
 }
 
+void Engine::add(const EntityPtr &entity)
+{
+	entities.push_back(entity);
+
+	if(entity->hasComponent<Actor>())
+		add(entity->getComponent<Actor>());
+}
+
 void Engine::add(const ActorPtr &actor)
 {
 	render_system->add(actor.get());
@@ -186,6 +194,9 @@ ActorPtr Engine::getClosestMonster(const Vec2i &pos, float range) const
 	for(unsigned int i = 0; i < actors.size(); i++)
 	{
 		auto actor = actors[i];
+		if(pos == actor->getPosition() && actor == player)
+			continue;
+
 		if(actor->isAlive())
 		{
 			auto distance = actor->getPosition().distancef(pos);
