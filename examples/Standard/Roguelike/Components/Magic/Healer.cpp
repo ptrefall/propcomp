@@ -23,12 +23,12 @@ Healer::~Healer()
 	//std::cout << "Healer is being destroyed!" << std::endl;
 }
 
-void Healer::applyEffect(EntityPtr wearer) {
-	if(wearer->hasEvent("Heal",1))
+void Healer::applyEffect(EntityPtr victim) {
+	if(victim->hasEvent("Heal",1))
 	{
 		if( !message.get().empty() )
-			Engine::getSingleton()->getGui()->message(TCODColor::lightCyan, message.get().c_str(),wearer->getName().c_str(), abs(amount.get()));
+			Engine::getSingleton()->getGui()->message(TCODColor::lightCyan, message.get().c_str(),victim->getName().c_str(), abs(amount.get()));
 
-		wearer->sendEvent1<float>("Heal", amount.get());
+		victim->sendEvent1<float>("Heal", amount.get());
 	}
 }

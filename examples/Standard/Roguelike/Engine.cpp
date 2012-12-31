@@ -57,10 +57,10 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 
 	auto playerEntity = std::make_shared<Entity>("player");
 	player = playerEntity->addComponent( std::make_shared<Actor>(playerEntity, render_system) );
-	playerEntity->addComponent( std::make_shared<Destructible>(playerEntity, "corpse of player", render_system) );
-	playerEntity->addComponent( std::make_shared<Attacker>(playerEntity, 5.0f) );
+	playerEntity->addComponent( std::make_shared<Destructible>(playerEntity, render_system) );
+	playerEntity->addComponent( std::make_shared<Attacker>(playerEntity) );
 	player_input = playerEntity->addComponent( std::make_shared<Player>(playerEntity, render_system) );
-	playerEntity->addComponent( std::make_shared<Container>(playerEntity, 26) );
+	playerEntity->addComponent( std::make_shared<Container>(playerEntity) );
 
 	playerEntity->get<Vec2i>("Position") = Vec2i(screenWidth/2,screenHeight/2);
 	playerEntity->get<int>("Character") = '@';
@@ -68,6 +68,9 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	playerEntity->get<float>("Defense") = 2.0f;
 	playerEntity->get<float>("MaxHP") = 30.0f;
 	playerEntity->get<float>("HP") = 30.0f;
+	playerEntity->get<std::string>("CorpseName") = "corpse of player";
+	playerEntity->get<float>("Power") = 5.0f;
+	playerEntity->get<int>("InventoryMaxSize") = 26;
 	entities.push_back(playerEntity);
 
 	auto mapEntity = std::make_shared<Entity>("Map");
@@ -123,12 +126,14 @@ EntityPtr Engine::createMonster(EntityPtr actor, const std::string &corpse_name,
 	if( !actor->hasComponent<Actor>() )
 		return nullptr; //If someone wants to be stupid, then act stupid back...
 
-	actor->addComponent( std::make_shared<Destructible>(actor, corpse_name, render_system) );
+	actor->addComponent( std::make_shared<Destructible>(actor, render_system) );
 	actor->addComponent( std::make_shared<Monster>(actor) );
-	actor->addComponent( std::make_shared<Attacker>(actor, power) );
+	actor->addComponent( std::make_shared<Attacker>(actor) );
 	actor->get<float>("Defense") = defense;
 	actor->get<float>("MaxHP") = maxHp;
 	actor->get<float>("HP") = maxHp;
+	actor->get<std::string>("CorpseName") = corpse_name;
+	actor->get<float>("Power") = power;
 	return actor;
 }
 

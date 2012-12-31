@@ -229,26 +229,33 @@ void Map::addItem(const Vec2i &pos) {
 		auto potion = engine->createActor("health potion", pos, '!', TCODColor::violet);
 		potion->addComponent( std::make_shared<Pickable>(potion, system) );
 		potion->addComponent( std::make_shared<Consumable>(potion) );
-		potion->addComponent( std::make_shared<Effect>(potion, nullptr) );
-		potion->addComponent( std::make_shared<Healer>(potion, 30.0f) );
+		potion->addComponent( std::make_shared<Effect>(potion) );
+		potion->addComponent( std::make_shared<Healer>(potion) );
 		potion->get<bool>("Blocks") = false;
+		potion->get<float>("Amount") = 30.0f;
 	}
 	else if( dice < 75 )
 	{
 		auto scroll = engine->createActor("scroll of lightning bolt", pos, '#', TCODColor::lightYellow);
 		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
 		scroll->addComponent( std::make_shared<Weave>(scroll) );
-		scroll->addComponent( std::make_shared<Effect>(scroll, std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER, 5.0f)) );
-		scroll->addComponent( std::make_shared<Healer>(scroll, -20.0f, "A lighting bolt strikes the %s with a loud thunder!\nThe damage is %g hit points.") );
+		auto effect = scroll->addComponent( std::make_shared<Effect>(scroll) );
+		scroll->addComponent( std::make_shared<Healer>(scroll) );
 		scroll->get<bool>("Blocks") = false;
+		scroll->get<float>("Amount") = -20.0f;
+		scroll->get<std::string>("Message") = "A lighting bolt strikes the %s with a loud thunder!\nThe damage is %g hit points.";
+		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER))->setRange(5.0f);
 	}
 	else
 	{
 		auto scroll = engine->createActor("scroll of fireball", pos, '#', TCODColor::lightYellow);
 		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
 		scroll->addComponent( std::make_shared<Weave>(scroll) );
-		scroll->addComponent( std::make_shared<Effect>(scroll, std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE, 3.0f)) );
-		scroll->addComponent( std::make_shared<Healer>(scroll, -12.0f, "The %s gets burned for %g hit points.") );
+		auto effect = scroll->addComponent( std::make_shared<Effect>(scroll) );
+		scroll->addComponent( std::make_shared<Healer>(scroll) );
 		scroll->get<bool>("Blocks") = false;
+		scroll->get<float>("Amount") = -12.0f;
+		scroll->get<std::string>("Message") = "The %s gets burned for %g hit points.";
+		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE))->setRange(3.0f);
 	}
 }

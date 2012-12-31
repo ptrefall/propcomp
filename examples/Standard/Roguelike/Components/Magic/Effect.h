@@ -22,7 +22,7 @@ public:
 
 	EntityPtr getOwner() { return owner.lock(); }
 
-	void setSelector(const TargetSelectorPtr &selector) { this->selector = selector; }
+	TargetSelectorPtr setSelector(TargetSelectorPtr selector) { this->selector = selector; return selector; }
 	TargetSelectorPtr getSelector() const { return selector; }
 
 	void use(EntityPtr wearer);
