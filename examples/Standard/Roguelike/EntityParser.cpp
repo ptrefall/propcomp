@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Entity.h"
 
+#include "Systems/PrefabSystem.h"
+
 #include "Components/Actor.h"
 #include "Components/Map.h"
 #include "Components/Destructible.h"
@@ -64,12 +66,9 @@ EntityParser::EntityParser()
 		inheritanceDepth.push_back(inheritanceDepth[i]->addStructure(inheritanceDepth[i]));
 	}
 
-	std::vector<EntityPtr> player_list;
-	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Player.cfg").c_str(), new EntityParserListener(player_list));
-	if( !player_list.empty() )
-		player = player_list[0];
-	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Monsters.cfg").c_str(), new EntityParserListener(monsters));
-	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Items.cfg").c_str(), new EntityParserListener(items));
+	parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Player.cfg").c_str(), new EntityParserListener());
+	//parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Monsters.cfg").c_str(), new EntityParserListener());
+	//parser->run((Engine::getSingleton()->getResourceDir() + "Entities/Items.cfg").c_str(), new EntityParserListener());
 }
 
 EntityParser::~EntityParser()
@@ -82,8 +81,8 @@ EntityParser::~EntityParser()
 // ENTITY PARSER LISTENER
 //
 ///////////////////////////////////////////////////
-EntityParserListener::EntityParserListener(std::vector<EntityPtr> &entities)
-	: ITCODParserListener(), entities(entities)
+EntityParserListener::EntityParserListener()
+	: ITCODParserListener(), name(std::string())
 {
 }
 
@@ -92,167 +91,89 @@ bool EntityParserListener::parserNewStruct(TCODParser *parser,const TCODParserSt
 	printf ("new structure type '%s' with name '%s'\n", str->getName(), name ? name : "NULL");
 	std::string struct_name = str->getName();
 	if(struct_name == "entity")
-		entities.push_back(std::make_shared<Entity>(name));
+	{
+		this->name = name;
+		components.clear();
+		properties.clear();
+		special_properties.clear();
+	}
     return true;
 }
 bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 {
 	printf ("found new flag '%s'\n",name);
-	if(entities.empty())
+	if(this->name.empty())
 		return false;
 
-	std::string flag_name = name;
-
-	auto engine = Engine::getSingleton();
-	auto render_system = engine->getRenderSystem();
-	auto entity = entities.back();
-
-	if(flag_name == "Actor")
-	{
-		entity->addComponent(std::make_shared<Actor>(entity, render_system));
-	}
-	else if(flag_name == "Ai")
-	{
-		//This component doesn't do anything yet... and might not ever do anything at all, 
-		//since Player and Monster components takes care of that logic right now. Might
-		//change that in the future though, as common behavior related to intelligence
-		//could merge in this component.
-	}
-	else if(flag_name == "Attacker")
-	{
-		entity->addComponent(std::make_shared<Attacker>(entity));
-	}
-	else if(flag_name == "Consumable")
-	{
-		entity->addComponent(std::make_shared<Consumable>(entity));
-	}
-	else if(flag_name == "Container")
-	{
-		entity->addComponent(std::make_shared<Container>(entity));
-	}
-	else if(flag_name == "Destructible")
-	{
-		entity->addComponent(std::make_shared<Destructible>(entity, render_system));
-	}
-	else if(flag_name == "Monster")
-	{
-		entity->addComponent(std::make_shared<Monster>(entity));
-	}
-	else if(flag_name == "Pickable")
-	{
-		entity->addComponent(std::make_shared<Pickable>(entity, render_system));
-	}
-	else if(flag_name == "Player")
-	{
-		entity->addComponent(std::make_shared<Player>(entity, render_system));
-	}
-		//Magic
-	else if(flag_name == "Effect")
-	{
-		entity->addComponent(std::make_shared<Effect>(entity));
-	}
-	else if(flag_name == "Healer")
-	{
-		entity->addComponent(std::make_shared<Healer>(entity));
-	}
-	else if(flag_name == "Weave")
-	{
-		entity->addComponent(std::make_shared<Weave>(entity));
-	}
+	components.push_back(name);
 	return true;
 }
 bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
 {
 	printf ("found new property '%s'\n",name);
-	if(entities.empty())
+	if(this->name.empty() || components.empty())
 		return false;
 
 	std::string prop_name = name;
 
 	auto engine = Engine::getSingleton();
-	auto entity = entities.back();
 
-	if(prop_name == "Character")
+	//Check for special types of properties first...
+	if(prop_name == "TargetSelector")
 	{
-		entity->get<int>(prop_name) = (int)value.c;
-	}
-	else if(prop_name == "Color")
-	{
-		entity->get<TCODColor>(prop_name) = value.col;
-	}
-	else if(prop_name == "Defense")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "MaxHP")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "HP")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "Power")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "InventoryMaxSize")
-	{
-		entity->get<int>(prop_name) = value.i;
-	}
-	else if(prop_name == "CorpseName")
-	{
-		entity->get<std::string>(prop_name) = value.s;
-	}
-
-	else if(prop_name == "Blocks")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "Amount")
-	{
-		entity->get<float>(prop_name) = value.f;
-	}
-	else if(prop_name == "Message")
-	{
-		entity->get<std::string>(prop_name) = value.s;
-	}
-	else if(prop_name == "TargetSelector")
-	{
-		//This property is slightly more advanced...
-		if(entity->hasComponent<Effect>())
-		{
-			auto effect = entity->getComponent<Effect>();
-			std::string selector_type = value.s;
-
-			if(selector_type == "ClosestMonster")
-				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER));
-			else if(selector_type == "SelectedMonster")
-				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_MONSTER));
-			else if(selector_type == "SelectedRange")
-				effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE));
-		}
+		auto property = new Totem::Property<std::string>(prop_name);
+		property->set(value.s, false);
+		special_properties.push_back(property);
 	}
 	else if(prop_name == "TargetRange")
 	{
-		//This property is slightly more advanced too...
-		if(entity->hasComponent<Effect>())
-		{
-			auto effect = entity->getComponent<Effect>();
-
-			//Note that TargetSelector property must have been defined before this property is set...
-			if(effect->getSelector())
-				effect->getSelector()->setRange(value.f);
-
-			//else we should throw an exception, or at least print a warning about it!
-		}
+		auto property = new Totem::Property<float>(prop_name);
+		property->set(value.f, false);
+		special_properties.push_back(property);
 	}
 
+	//Then we handle for generic types...
+	if(type == TCOD_TYPE_BOOL)
+	{
+		auto property = new Totem::Property<bool>(prop_name);
+		property->set(value.b, false);
+		properties.push_back(property);
+	}
+	else if(type == TCOD_TYPE_INT)
+	{
+		auto property = new Totem::Property<int>(prop_name);
+		property->set(value.i, false);
+		properties.push_back(property);
+	}
+	else if(type == TCOD_TYPE_FLOAT)
+	{
+		auto property = new Totem::Property<float>(prop_name);
+		property->set(value.f, false);
+		properties.push_back(property);
+	}
+	else if(type == TCOD_TYPE_STRING)
+	{
+		auto property = new Totem::Property<std::string>(prop_name);
+		property->set(value.s, false);
+		properties.push_back(property);
+	}
+	else if(type == TCOD_TYPE_COLOR)
+	{
+		auto property = new Totem::Property<TCODColor>(prop_name);
+		property->set(value.col, false);
+		properties.push_back(property);
+	}
 	return true;
 }
 bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
 {
 	printf ("end of structure type '%s'\n",name);
+	if( this->name.empty() || this->name != std::string(name) )
+		return false;
+
+	auto prefab_system = Engine::getSingleton()->getPrefabSystem();
+	prefab_system->createPrefab(this->name, components, properties, special_properties);
+
 	return true;
 }
 void EntityParserListener::error(const char *msg)

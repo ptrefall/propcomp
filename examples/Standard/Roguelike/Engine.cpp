@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "EntityParser.h"
+#include "Systems/PrefabSystem.h"
 #include "Systems/RenderSystem.h"
 #include "Utils/Vec2i.h"
 #include "Components/Actor.h"
@@ -46,6 +47,7 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	TCODConsole::setCustomFont((resource_dir+"terminal.png").c_str());
 	TCODConsole::initRoot(screenWidth,screenHeight, "Totem Roguelike", false);
 
+	prefab_system = std::make_shared<PrefabSystem>();
 	render_system = std::make_shared<RenderSystem>();
 
 	auto guiEntity = std::make_shared<Entity>("Gui");
@@ -53,8 +55,10 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	entities.push_back(guiEntity);
 
 	auto entityParser = std::make_shared<EntityParser>();
-	auto testPlayer = entityParser->getPlayer();
-
+	auto playerEntity = prefab_system->instantiate("player");
+	player = playerEntity->getComponent<Actor>();
+	player_input = playerEntity->getComponent<Player>();
+	/*
 	auto playerEntity = std::make_shared<Entity>("player");
 	player = playerEntity->addComponent( std::make_shared<Actor>(playerEntity, render_system) );
 	playerEntity->addComponent( std::make_shared<Destructible>(playerEntity, render_system) );
@@ -70,7 +74,7 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	playerEntity->get<float>("HP") = 30.0f;
 	playerEntity->get<std::string>("CorpseName") = "corpse of player";
 	playerEntity->get<float>("Power") = 5.0f;
-	playerEntity->get<int>("InventoryMaxSize") = 26;
+	playerEntity->get<int>("InventoryMaxSize") = 26;*/
 	entities.push_back(playerEntity);
 
 	auto mapEntity = std::make_shared<Entity>("Map");

@@ -7,6 +7,9 @@
 #include <string>
 #include <vector>
 
+class PrefabSystem;
+typedef std::shared_ptr<PrefabSystem> PrefabSystemPtr;
+
 class RenderSystem;
 typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 
@@ -45,6 +48,7 @@ public:
     void render();
 
 	const std::string &getResourceDir() const { return resource_dir; }
+	const PrefabSystemPtr &getPrefabSystem() const { return prefab_system; }
 	const RenderSystemPtr &getRenderSystem() const { return render_system; }
 
 	const ActorPtr &getPlayer() const { return player; }
@@ -86,6 +90,7 @@ private:
 
 	std::string resource_dir;
 	
+	PrefabSystemPtr prefab_system;
 	RenderSystemPtr render_system;
 
 	std::vector<EntityPtr> entities;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Totem/Property.h>
 #include <libtcod.hpp>
 #include <vector>
 
@@ -12,22 +13,14 @@ public:
 	EntityParser();
 	~EntityParser();
 
-	EntityPtr getPlayer() const { return player; }
-	const std::vector<EntityPtr> &getMonsters() const { return monsters; }
-	const std::vector<EntityPtr> &getItems() const { return items; }
-
 private:
 	TCODParser *parser;
-
-	EntityPtr player;
-	std::vector<EntityPtr> monsters;
-	std::vector<EntityPtr> items;
 };
 
 class EntityParserListener : public ITCODParserListener
 {
 public:
-	EntityParserListener(std::vector<EntityPtr> &entities);
+	EntityParserListener();
 
 	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
 	bool parserFlag(TCODParser *parser,const char *name) override;
@@ -36,5 +29,8 @@ public:
 	void error(const char *msg) override;
 
 private:
-	std::vector<EntityPtr> &entities;
+	std::string name;
+	std::vector<std::string> components;
+	std::vector<Totem::IProperty*> properties;
+	std::vector<Totem::IProperty*> special_properties;
 };
