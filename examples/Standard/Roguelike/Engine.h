@@ -13,11 +13,17 @@ typedef std::shared_ptr<PrefabSystem> PrefabSystemPtr;
 class RenderSystem;
 typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 
+class EntityParser;
+typedef std::shared_ptr<EntityParser> EntityParserPtr;
+
 class Entity;
 typedef std::shared_ptr<Entity> EntityPtr;
 
 class Actor;
 typedef std::shared_ptr<Actor> ActorPtr;
+
+class Pickable;
+typedef std::shared_ptr<Pickable> PickablePtr;
 
 class Map;
 typedef std::shared_ptr<Map> MapPtr;
@@ -44,6 +50,8 @@ public:
     ~Engine();
  
 	void init(const std::string &resource_dir, int screenWidth, int screenHeight);
+	void restart();
+	void terminate();
     void update();
     void render();
 
@@ -65,6 +73,7 @@ public:
 
 	void remove(const EntityPtr &entity);
 	void remove(const ActorPtr &actor);
+	void remove(const PickablePtr &pickable);
 
 	void add(const EntityPtr &entity);
 	void add(const ActorPtr &actor);
@@ -93,6 +102,7 @@ private:
 	
 	PrefabSystemPtr prefab_system;
 	RenderSystemPtr render_system;
+	EntityParserPtr entity_parser;
 
 	std::vector<EntityPtr> entities;
 	std::vector<ActorPtr> actors;
