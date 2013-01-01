@@ -58,23 +58,6 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	auto playerEntity = prefab_system->instantiate("player");
 	player = playerEntity->getComponent<Actor>();
 	player_input = playerEntity->getComponent<Player>();
-	/*
-	auto playerEntity = std::make_shared<Entity>("player");
-	player = playerEntity->addComponent( std::make_shared<Actor>(playerEntity, render_system) );
-	playerEntity->addComponent( std::make_shared<Destructible>(playerEntity, render_system) );
-	playerEntity->addComponent( std::make_shared<Attacker>(playerEntity) );
-	player_input = playerEntity->addComponent( std::make_shared<Player>(playerEntity, render_system) );
-	playerEntity->addComponent( std::make_shared<Container>(playerEntity) );
-
-	playerEntity->get<Vec2i>("Position") = Vec2i(screenWidth/2,screenHeight/2);
-	playerEntity->get<int>("Character") = '@';
-	playerEntity->get<TCODColor>("Color") = TCODColor::white;
-	playerEntity->get<float>("Defense") = 2.0f;
-	playerEntity->get<float>("MaxHP") = 30.0f;
-	playerEntity->get<float>("HP") = 30.0f;
-	playerEntity->get<std::string>("CorpseName") = "corpse of player";
-	playerEntity->get<float>("Power") = 5.0f;
-	playerEntity->get<int>("InventoryMaxSize") = 26;*/
 	entities.push_back(playerEntity);
 
 	auto mapEntity = std::make_shared<Entity>("Map");
