@@ -60,7 +60,9 @@ void Monster::moveOrAttack(const Vec2i &target_pos) {
 	// at melee range
 	if(distance < 2)
 	{
-		try { owner.lock()->sendEvent1<EntityPtr>("Attack", engine->getPlayer()->getOwner()); }catch(std::exception &/*e*/) {}
+		if(owner.lock()->hasEvent("Attack", 1))
+			owner.lock()->sendEvent1<EntityPtr>("Attack", engine->getPlayer()->getOwner());
+
 		return;
 	}
 	// if player is not in attack range, but in fov, walk towards him

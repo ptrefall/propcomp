@@ -64,8 +64,10 @@ void Attacker::attack(EntityPtr target) {
 			//Finally, check if target is dead, and give ourself a little extra HP and MaxHP for the effort :)
 			if(target->get<bool>("Dead").get())
 			{
-				maxHp += (float)((int)target->get<float>("MaxHP").get() / (int)power.get());
-				hp += (float)((int)target->get<float>("MaxHP").get() / (int)power.get());
+				maxHp += (float)((int)target->get<float>("MaxHP").get() / (int)(power.get() / rng->getInt(1,(int)power.get()/2)));
+				hp += (float)((int)target->get<float>("MaxHP").get() / (int)(power.get()/ rng->getInt(1,(int)power.get()/2)));
+				if(hp.get() > maxHp.get())
+					hp = maxHp.get();
 			}
 
         } 
