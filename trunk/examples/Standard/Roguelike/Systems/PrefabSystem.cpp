@@ -108,7 +108,7 @@ void PrefabSystem::addComponent(EntityPtr entity, const std::string &name)
 	}
 	else if(name == "Monster")
 	{
-		entity->addComponent(std::make_shared<Monster>(entity));
+		entity->addComponent(std::make_shared<Monster>(entity, engine->getMonsterSystem()));
 	}
 	else if(name == "Pickable")
 	{

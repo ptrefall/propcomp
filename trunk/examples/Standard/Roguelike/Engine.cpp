@@ -4,6 +4,7 @@
 #include "EntityParser.h"
 #include "Systems/PrefabSystem.h"
 #include "Systems/RenderSystem.h"
+#include "Systems/MonsterSystem.h"
 #include "Utils/Vec2i.h"
 #include "Components/Actor.h"
 #include "Components/Map.h"
@@ -49,6 +50,7 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 
 	prefab_system = std::make_shared<PrefabSystem>();
 	render_system = std::make_shared<RenderSystem>();
+	monster_system = std::make_shared<MonsterSystem>();
 	entity_parser = std::make_shared<EntityParser>();
 
 	restart();
@@ -112,6 +114,10 @@ void Engine::update()
 			entities[i]->updateComponents(1);
 			entities[i]->updateProperties();
 		}
+
+		//Update monsters' decissions after everything else, so that
+		//they can react to environmental changes, etc.
+		monster_system->think();
 	}
 }
 
@@ -139,7 +145,7 @@ EntityPtr Engine::createMonster(EntityPtr actor, const std::string &corpse_name,
 		return nullptr; //If someone wants to be stupid, then act stupid back...
 
 	actor->addComponent( std::make_shared<Destructible>(actor, render_system) );
-	actor->addComponent( std::make_shared<Monster>(actor) );
+	actor->addComponent( std::make_shared<Monster>(actor, monster_system) );
 	actor->addComponent( std::make_shared<Attacker>(actor) );
 	actor->get<float>("Defense") = defense;
 	actor->get<float>("MaxHP") = maxHp;
@@ -156,6 +162,9 @@ void Engine::remove(const EntityPtr &entity)
 
 	if(entity->hasComponent<Pickable>())
 		remove(entity->getComponent<Pickable>());
+
+	if(entity->hasComponent<Monster>())
+		remove(entity->getComponent<Monster>());
 
 	for(unsigned int i = 0; i < entities.size(); i++)
 	{
@@ -186,6 +195,11 @@ void Engine::remove(const ActorPtr &actor)
 void Engine::remove(const PickablePtr &pickable)
 {
 	render_system->remove(pickable.get());
+}
+
+void Engine::remove(const MonsterPtr &monster)
+{
+	monster_system->remove(monster.get());
 }
 
 void Engine::add(const EntityPtr &entity)
