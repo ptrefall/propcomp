@@ -49,12 +49,17 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 
 	prefab_system = std::make_shared<PrefabSystem>();
 	render_system = std::make_shared<RenderSystem>();
+	entity_parser = std::make_shared<EntityParser>();
 
+	restart();
+}
+
+void Engine::restart()
+{
 	auto guiEntity = std::make_shared<Entity>("Gui");
 	gui = guiEntity->addComponent( std::make_shared<Gui>(guiEntity, render_system) );
 	entities.push_back(guiEntity);
 
-	auto entityParser = std::make_shared<EntityParser>();
 	auto playerEntity = prefab_system->instantiate("player");
 	player = playerEntity->getComponent<Actor>();
 	player_input = playerEntity->getComponent<Player>();
@@ -65,12 +70,32 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	entities.push_back(mapEntity);
 
 	gui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
+	gameStatus = STARTUP;
+}
+
+void Engine::terminate()
+{
+	gui.reset();
+	player.reset();
+	player_input.reset();
+	map.reset();
+	while( !entities.empty() )
+	{
+		remove(entities[0]);
+	}
 }
 
 void Engine::update()
 {
 	if ( gameStatus == STARTUP ) 
 		map->computeFov();
+
+	else if(gameStatus == DEFEAT)
+	{
+		terminate();
+		restart();
+		return;
+	}
 
 	gameStatus=IDLE;
 
@@ -129,6 +154,9 @@ void Engine::remove(const EntityPtr &entity)
 	if(entity->hasComponent<Actor>())
 		remove(entity->getComponent<Actor>());
 
+	if(entity->hasComponent<Pickable>())
+		remove(entity->getComponent<Pickable>());
+
 	for(unsigned int i = 0; i < entities.size(); i++)
 	{
 		if(entities[i] == entity)
@@ -153,6 +181,11 @@ void Engine::remove(const ActorPtr &actor)
 			return;
 		}
 	}
+}
+
+void Engine::remove(const PickablePtr &pickable)
+{
+	render_system->remove(pickable.get());
 }
 
 void Engine::add(const EntityPtr &entity)

@@ -49,11 +49,16 @@ int main(int argc, char** argv)
 	auto engine = Engine::getSingleton();
 	engine->init(resource_dir, 80,43);
 	
+	try{
 	while( !TCODConsole::isWindowClosed() )
 	{
 		engine->update();
 		engine->render();
 		TCODConsole::flush();
+	}
+	}catch(std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
 	}
 
 	//system("pause");
