@@ -13,6 +13,9 @@ typedef std::shared_ptr<PrefabSystem> PrefabSystemPtr;
 class RenderSystem;
 typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 
+class MonsterSystem;
+typedef std::shared_ptr<MonsterSystem> MonsterSystemPtr;
+
 class EntityParser;
 typedef std::shared_ptr<EntityParser> EntityParserPtr;
 
@@ -24,6 +27,9 @@ typedef std::shared_ptr<Actor> ActorPtr;
 
 class Pickable;
 typedef std::shared_ptr<Pickable> PickablePtr;
+
+class Monster;
+typedef std::shared_ptr<Monster> MonsterPtr;
 
 class Map;
 typedef std::shared_ptr<Map> MapPtr;
@@ -58,6 +64,7 @@ public:
 	const std::string &getResourceDir() const { return resource_dir; }
 	const PrefabSystemPtr &getPrefabSystem() const { return prefab_system; }
 	const RenderSystemPtr &getRenderSystem() const { return render_system; }
+	const MonsterSystemPtr &getMonsterSystem() const { return monster_system; }
 
 	const ActorPtr &getPlayer() const { return player; }
 	const MapPtr &getMap() const { return map; }
@@ -74,6 +81,7 @@ public:
 	void remove(const EntityPtr &entity);
 	void remove(const ActorPtr &actor);
 	void remove(const PickablePtr &pickable);
+	void remove(const MonsterPtr &monster);
 
 	void add(const EntityPtr &entity);
 	void add(const ActorPtr &actor);
@@ -102,6 +110,7 @@ private:
 	
 	PrefabSystemPtr prefab_system;
 	RenderSystemPtr render_system;
+	MonsterSystemPtr monster_system;
 	EntityParserPtr entity_parser;
 
 	std::vector<EntityPtr> entities;

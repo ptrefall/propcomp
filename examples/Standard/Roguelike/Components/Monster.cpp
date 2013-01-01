@@ -4,10 +4,12 @@
 #include "Actor.h"
 #include "Gui.h"
 
+#include "../Systems/MonsterSystem.h"
+
 #include <iostream>
 
-Monster::Monster(const EntityWPtr &owner) 
-: Totem::Component<Monster, PropertyUserData>("Monster"), owner(owner)
+Monster::Monster(const EntityWPtr &owner, const MonsterSystemPtr &system) 
+: Totem::Component<Monster, PropertyUserData>("Monster"), owner(owner), system(system)
 {
 	user_data.entity = owner;
 	user_data.component = this;
@@ -16,11 +18,14 @@ Monster::Monster(const EntityWPtr &owner)
 	position = owner.lock()->add<Vec2i>("Position", Vec2i(0,0));
 
 	owner.lock()->registerToEvent0("Dying").connect(this, &Monster::OnDying);
+
+	system->add(this);
 }
 
 Monster::~Monster()
 {
 	//std::cout << "Monster is being destroyed!" << std::endl;
+	system->remove(this);
 }
 
 void Monster::update(const float &/*deltaTime*/)
@@ -35,6 +40,9 @@ void Monster::update(const float &/*deltaTime*/)
 void Monster::OnDying()
 {
 	Engine::getSingleton()->getGui()->message(TCODColor::lightGrey,"The %s is dead",owner.lock()->getName().c_str());
+	
+	//Stop monster from acting like a monster once it's dead!
+	system->remove(this);
 }
 
 void Monster::moveOrAttack(const Vec2i &target_pos) {
