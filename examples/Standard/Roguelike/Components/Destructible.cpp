@@ -44,9 +44,8 @@ void Destructible::takeDamage(float damage) {
 
 void Destructible::die() {
 
-	try{ owner.lock()->sendEvent0("Dying");
-	} catch(std::exception &/*e*/) {
-	}
+	if(owner.lock()->hasEvent("Dying", 0))
+		owner.lock()->sendEvent0("Dying");
 
     // transform the actor into a corpse!
     ch='%';
@@ -58,9 +57,8 @@ void Destructible::die() {
 
     // make sure corpses are drawn before living actors
 	system->add(owner);
-	try{ owner.lock()->sendEvent0("Dead");
-	} catch(std::exception &/*e*/) {
-	}
+	if(owner.lock()->hasEvent("Dead", 0))
+		owner.lock()->sendEvent0("Dead");
 }
 
 void Destructible::heal(float amount) 

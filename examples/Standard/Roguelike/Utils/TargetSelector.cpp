@@ -60,6 +60,11 @@ std::vector<ActorPtr> TargetSelector::selectTargets(const ActorPtr &wearer)
 				for (unsigned int i = 0; i < actors.size(); i++)
 				{
 					auto actor = actors[i];
+					
+					//Let's not pick ourselves...
+					if(actor->getOwner() == wearer->getOwner())
+						continue;
+
 					if ( actor->isAlive() && wearer->getPosition().distance(actor->getPosition()) <= range)
 						list.push_back(actor);
 				}

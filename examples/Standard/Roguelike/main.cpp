@@ -26,6 +26,7 @@ requirements or restrictions.
 
 #include <libtcod.hpp>
 #include <string>
+#include <iostream>
 
 #ifdef WIN32
 #include <Windows.h>
@@ -52,8 +53,9 @@ int main(int argc, char** argv)
 	{
 		engine->update();
 		engine->render();
-        TCODConsole::flush();
+		TCODConsole::flush();
 	}
+
 	//system("pause");
 	return 0;
 }
