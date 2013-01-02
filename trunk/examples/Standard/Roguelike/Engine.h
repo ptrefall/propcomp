@@ -41,7 +41,7 @@ class Gui;
 typedef std::shared_ptr<Gui> GuiPtr;
 
 class Engine; typedef std::shared_ptr<Engine> EnginePtr;
-class Engine 
+class Engine
 {
 public:
 	enum GameStatus {
@@ -60,6 +60,9 @@ public:
 	void terminate();
     void update();
     void render();
+
+	void save();
+	void load();
 
 	const std::string &getResourceDir() const { return resource_dir; }
 	const PrefabSystemPtr &getPrefabSystem() const { return prefab_system; }

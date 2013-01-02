@@ -3,6 +3,7 @@
 #include <Totem/Component.h>
 #include <Totem/Property.h>
 #include "../Entity.h"
+#include "../Utils/Persistent.h"
 
 #include <vector>
 #include <memory>
@@ -20,7 +21,7 @@ typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 class Gui;
 typedef std::shared_ptr<Gui> GuiPtr;
 
-class Gui : public Totem::Component<Gui, PropertyUserData>
+class Gui : public Totem::Component<Gui, PropertyUserData>, public Persistent
 {
 public:
 	Gui(const EntityWPtr &owner, const RenderSystemPtr &system);
@@ -31,6 +32,10 @@ public:
 	void render();
 
 	void message(const TCODColor &col, const char *text, ...);
+
+	//Defined in Persistent.cpp
+	void save(TCODZip &zip) override;
+	void load(TCODZip &zip) override;
 
 private:
 	EntityWPtr owner;

@@ -52,8 +52,6 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	render_system = std::make_shared<RenderSystem>();
 	monster_system = std::make_shared<MonsterSystem>();
 	entity_parser = std::make_shared<EntityParser>();
-
-	restart();
 }
 
 void Engine::restart()
@@ -289,4 +287,88 @@ ActorPtr Engine::getActor(const Vec2i &pos) const
 			return actor;
 	}
 	return nullptr;
+}
+
+void Engine::save()
+{
+	std::string path = resource_dir + "game.sav";
+	if( player->isDead() )
+		TCODSystem::deleteFile(path.c_str());
+	else
+	{
+		TCODZip zip;
+
+		//Save gui log
+		gui->getOwner()->save(zip);
+		gui->save(zip);
+
+		//Save player data
+		player->getOwner()->save(zip);
+
+		//Save map data
+		zip.putInt(map->getWidth());
+		zip.putInt(map->getHeight());
+		map->getOwner()->save(zip);
+		map->save(zip);
+
+		//Store number of entities, minus map, player and gui
+		zip.putInt(entities.size()-3);
+		for(unsigned int i = 0; i < entities.size(); i++)
+		{
+			auto entity = entities[i];
+			if(entity->hasComponent<Map>() || entity->hasComponent<Player>() || entity->hasComponent<Gui>())
+				continue;
+			zip.putString(entity->getName().c_str());
+			entity->save(zip);
+		}
+		
+		zip.saveToFile(path.c_str());
+	}
+}
+
+void Engine::load()
+{
+	std::string path = resource_dir + "game.sav";
+	if( TCODSystem::fileExists(path.c_str()) )
+	{
+		TCODZip zip;
+		zip.loadFromFile(path.c_str());
+
+		//Load gui
+		auto guiEntity = std::make_shared<Entity>("Gui");
+		gui = guiEntity->addComponent( std::make_shared<Gui>(guiEntity, render_system) );
+		guiEntity->load(zip);
+		gui->load(zip);
+		entities.push_back(guiEntity);
+
+		//Load player
+		auto playerEntity = prefab_system->instantiate("player");
+		player = playerEntity->getComponent<Actor>();
+		player_input = playerEntity->getComponent<Player>();
+		playerEntity->load(zip);
+		entities.push_back(playerEntity);
+
+		//Load map data
+		int width = zip.getInt();
+		int height = zip.getInt();
+		
+		auto mapEntity = std::make_shared<Entity>("Map");
+		map = mapEntity->addComponent( std::make_shared<Map>(mapEntity, width,height, render_system) );
+		mapEntity->load(zip);
+		map->load(zip);
+		entities.push_back(mapEntity);
+
+		int num_entities = zip.getInt();
+		for(int i = 0; i < num_entities; i++)
+		{
+			std::string entity_name = zip.getString();
+			auto entity = prefab_system->instantiate(entity_name);
+			entity->load(zip);
+			entities.push_back(entity);
+		}
+	}
+	else
+	{
+		restart();
+	}
 }

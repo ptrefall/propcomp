@@ -32,6 +32,8 @@ requirements or restrictions.
 #include <Totem/PropertyListContainer.h>
 #include <Totem/Extensions/EventSystem.h>
 
+#include "Utils/Persistent.h"
+
 #include <memory>
 #include <iostream>
 
@@ -49,7 +51,8 @@ class Entity
 	:	public Totem::ComponentContainer<PropertyUserData>, 
 		public Totem::PropertyContainer<PropertyUserData>, 
 		public Totem::PropertyListContainer<PropertyUserData>, 
-		public Totem::EventSystem<>
+		public Totem::EventSystem<>,
+		public Persistent
 {
 public:	
 	Entity(const std::string &name);
@@ -57,6 +60,11 @@ public:
 
 	const std::string &getName() const { return name; }
 	std::string updateName(const std::string &name) { auto oldName = this->name; this->name = name; return oldName; }
+
+	//Defined in Persistent.cpp
+	void save(TCODZip &zip) override;
+	void load(TCODZip &zip) override;
+
 private:
 	std::string name;
 };
