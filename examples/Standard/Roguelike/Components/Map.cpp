@@ -30,7 +30,6 @@ system(system), currentScentValue(SCENT_THRESHOLD), tiles(nullptr), map(nullptr)
 	system->set(this);
 
 	seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
-	init(true);
 }
 
 Map::~Map()
@@ -52,7 +51,7 @@ void Map::init(bool withEntities)
 	map=new TCODMap(width,height);
 
 	TCODBsp bsp(0,0,width,height);
-    bsp.splitRecursive(nullptr,8,ROOM_MIN_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
+    bsp.splitRecursive(rng,8,ROOM_MIN_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
     BspListener listener(this);
     bsp.traverseInvertedLevelOrder(&listener,(void*)withEntities);
 }
@@ -196,8 +195,6 @@ void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2, bool with
     } 
 	else 
 	{
-        auto rng=TCODRandom::getInstance();
-
 		// add monsters
 		int nbMonsters = rng->getInt(0,MAX_ROOM_MONSTERS);
 		while (nbMonsters > 0) 
@@ -221,7 +218,6 @@ void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2, bool with
 }
 
 void Map::addMonster(const Vec2i &pos) {
-    auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
 	auto prefab_system = engine->getPrefabSystem();
 	auto monster_system = engine->getMonsterSystem();
@@ -240,23 +236,27 @@ void Map::addMonster(const Vec2i &pos) {
 }
 
 void Map::addItem(const Vec2i &pos) {
-	auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
+	auto prefab_system = engine->getPrefabSystem();
+
+	EntityPtr item = nullptr;
 
 	auto dice = rng->getInt(0,100);
 	if ( dice < 50 ) 
 	{
-		auto potion = engine->createActor("health potion", pos, '!', TCODColor::violet);
+		item = prefab_system->instantiate("health potion");
+		/*auto potion = engine->createActor("health potion", pos, '!', TCODColor::violet);
 		potion->addComponent( std::make_shared<Pickable>(potion, system) );
 		potion->addComponent( std::make_shared<Consumable>(potion) );
 		potion->addComponent( std::make_shared<Effect>(potion) );
 		potion->addComponent( std::make_shared<Healer>(potion) );
 		potion->get<bool>("Blocks") = false;
-		potion->get<float>("Amount") = 30.0f;
+		potion->get<float>("Amount") = 30.0f;*/
 	}
 	else if( dice < 75 )
 	{
-		auto scroll = engine->createActor("scroll of lightning bolt", pos, '#', TCODColor::lightYellow);
+		item = prefab_system->instantiate("scroll of lightning bolt");
+		/*auto scroll = engine->createActor("scroll of lightning bolt", pos, '#', TCODColor::lightYellow);
 		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
 		scroll->addComponent( std::make_shared<Weave>(scroll) );
 		auto effect = scroll->addComponent( std::make_shared<Effect>(scroll) );
@@ -264,11 +264,12 @@ void Map::addItem(const Vec2i &pos) {
 		scroll->get<bool>("Blocks") = false;
 		scroll->get<float>("Amount") = -20.0f;
 		scroll->get<std::string>("Message") = "A lighting bolt strikes the %s with a loud thunder!\nThe damage is %g hit points.";
-		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER))->setRange(5.0f);
+		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::CLOSEST_MONSTER))->setRange(5.0f);*/
 	}
 	else
 	{
-		auto scroll = engine->createActor("scroll of fireball", pos, '#', TCODColor::lightYellow);
+		item = prefab_system->instantiate("scroll of fireball");
+		/*auto scroll = engine->createActor("scroll of fireball", pos, '#', TCODColor::lightYellow);
 		scroll->addComponent( std::make_shared<Pickable>(scroll, system) );
 		scroll->addComponent( std::make_shared<Weave>(scroll) );
 		auto effect = scroll->addComponent( std::make_shared<Effect>(scroll) );
@@ -276,6 +277,9 @@ void Map::addItem(const Vec2i &pos) {
 		scroll->get<bool>("Blocks") = false;
 		scroll->get<float>("Amount") = -12.0f;
 		scroll->get<std::string>("Message") = "The %s gets burned for %g hit points.";
-		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE))->setRange(3.0f);
+		effect->setSelector(std::make_shared<TargetSelector>(TargetSelector::SELECTED_RANGE))->setRange(3.0f);*/
 	}
+
+	if(item && item->hasProperty("Position"))
+		item->get<Vec2i>("Position") = pos;
 }

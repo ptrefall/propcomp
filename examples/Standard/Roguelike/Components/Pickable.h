@@ -32,4 +32,5 @@ private:
 	RenderSystemPtr system;
 	
 	Totem::Property<Vec2i> position;
+	Totem::Property<bool> on_ground;
 };

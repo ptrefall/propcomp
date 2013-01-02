@@ -24,19 +24,28 @@ public:
 	void set(Gui *gui)
 	{
 		this->gui = gui;
-		std::cout << "Set gui for Render System!" << std::endl;
+		if(gui)
+			std::cout << "Set gui for Render System!" << std::endl;
+		else
+			std::cout << "Removed gui for Render System!" << std::endl;
 	}
 
 	void set(Player *player)
 	{
 		this->player = player;
-		std::cout << "Set player for Render System!" << std::endl;
+		if(player)
+			std::cout << "Set player for Render System!" << std::endl;
+		else
+			std::cout << "Removed player for Render System!" << std::endl;
 	}
 
 	void set(Map *map)
 	{ 
 		this->map = map;
-		std::cout << "Set map for Render System!" << std::endl;
+		if(map)
+			std::cout << "Set map for Render System!" << std::endl;
+		else
+			std::cout << "Removed map for Render System!" << std::endl;
 	}
 
 	void add(Pickable *item)

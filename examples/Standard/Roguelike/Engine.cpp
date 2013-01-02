@@ -52,10 +52,12 @@ void Engine::init(const std::string &resource_dir, int screenWidth, int screenHe
 	render_system = std::make_shared<RenderSystem>();
 	monster_system = std::make_shared<MonsterSystem>();
 	entity_parser = std::make_shared<EntityParser>();
+	std::cout << "Engine init done!" << std::endl << std::endl;
 }
 
 void Engine::restart()
 {
+	std::cout << "Engine restarting!" << std::endl;
 	auto guiEntity = std::make_shared<Entity>("Gui");
 	gui = guiEntity->addComponent( std::make_shared<Gui>(guiEntity, render_system) );
 	entities.push_back(guiEntity);
@@ -63,18 +65,20 @@ void Engine::restart()
 	auto playerEntity = prefab_system->instantiate("player");
 	player = playerEntity->getComponent<Actor>();
 	player_input = playerEntity->getComponent<Player>();
-	entities.push_back(playerEntity);
 
 	auto mapEntity = std::make_shared<Entity>("Map");
 	map = mapEntity->addComponent( std::make_shared<Map>(mapEntity, screenWidth,screenHeight - PANEL_HEIGHT, render_system) );
+	map->init(true);
 	entities.push_back(mapEntity);
 
 	gui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 	gameStatus = STARTUP;
+	std::cout << "Engine restart done!" << std::endl << std::endl;
 }
 
 void Engine::terminate()
 {
+	std::cout << "Engine terminating!" << std::endl;
 	gui.reset();
 	player.reset();
 	player_input.reset();
@@ -83,6 +87,7 @@ void Engine::terminate()
 	{
 		remove(entities[0]);
 	}
+	std::cout << "Engine termination done!" << std::endl << std::endl;
 }
 
 void Engine::update()
@@ -291,6 +296,7 @@ ActorPtr Engine::getActor(const Vec2i &pos) const
 
 void Engine::save()
 {
+	std::cout << "Engine saves session!" << std::endl;
 	std::string path = resource_dir + "game.sav";
 	if( player->isDead() )
 		TCODSystem::deleteFile(path.c_str());
@@ -316,7 +322,11 @@ void Engine::save()
 		for(unsigned int i = 0; i < entities.size(); i++)
 		{
 			auto entity = entities[i];
-			if(entity->hasComponent<Map>() || entity->hasComponent<Player>() || entity->hasComponent<Gui>())
+
+			//If it's a map, a player, a gui, or it has the property OnGround, but it's not on the ground, then we ignore it
+			//since it's serialization is handled elsewhere...
+			if(entity->hasComponent<Map>() || entity->hasComponent<Player>() || entity->hasComponent<Gui>() ||
+				(entity->hasProperty("OnGround") && entity->get<bool>("OnGround") == false))
 				continue;
 			zip.putString(entity->getName().c_str());
 			entity->save(zip);
@@ -324,6 +334,8 @@ void Engine::save()
 		
 		zip.saveToFile(path.c_str());
 	}
+
+	std::cout << "Engine save done!" << std::endl << std::endl;
 }
 
 void Engine::load()
@@ -331,6 +343,7 @@ void Engine::load()
 	std::string path = resource_dir + "game.sav";
 	if( TCODSystem::fileExists(path.c_str()) )
 	{
+		std::cout << "Engine loads savegame!" << std::endl;
 		TCODZip zip;
 		zip.loadFromFile(path.c_str());
 
@@ -346,7 +359,6 @@ void Engine::load()
 		player = playerEntity->getComponent<Actor>();
 		player_input = playerEntity->getComponent<Player>();
 		playerEntity->load(zip);
-		entities.push_back(playerEntity);
 
 		//Load map data
 		int width = zip.getInt();
@@ -361,19 +373,33 @@ void Engine::load()
 		int num_entities = zip.getInt();
 		for(int i = 0; i < num_entities; i++)
 		{
+			std::cout << "Bytes remaining: " << zip.getRemainingBytes() << std::endl;
+			if(zip.getRemainingBytes() <= 4)
+			{
+				std::cout << "ERROR! Failed to load from save file. Terminating and starting a fresh game!" << std::endl << std::endl;
+				TCODSystem::deleteFile(path.c_str());
+				terminate();
+				restart();
+				return;
+			}
+
 			std::string entity_name = zip.getString();
 			auto entity = prefab_system->instantiate(entity_name);
 			if(entity)
 			{
 				entity->load(zip);
-				entities.push_back(entity);
+				//entities.push_back(entity);
 			}
 			else
 			{
-				std::cout << "ERROR! Failed to load from save file. Please delete the save file and start the game again." << std::endl;
+				std::cout << "ERROR! Failed to load from save file. Terminating and starting a fresh game!" << std::endl << std::endl;
+				TCODSystem::deleteFile(path.c_str());
+				terminate();
+				restart();
 				return;
 			}
 		}
+		std::cout << "Engine loading done!" << std::endl << std::endl;
 	}
 	else
 	{
