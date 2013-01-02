@@ -145,7 +145,7 @@ EntityPtr Engine::createMonster(EntityPtr actor, const std::string &corpse_name,
 		return nullptr; //If someone wants to be stupid, then act stupid back...
 
 	actor->addComponent( std::make_shared<Destructible>(actor, render_system) );
-	actor->addComponent( std::make_shared<Monster>(actor, monster_system) );
+	actor->addComponent( std::make_shared<Monster>(actor, GOBLIN_FAMILY, monster_system) );
 	actor->addComponent( std::make_shared<Attacker>(actor) );
 	actor->get<float>("Defense") = defense;
 	actor->get<float>("MaxHP") = maxHp;

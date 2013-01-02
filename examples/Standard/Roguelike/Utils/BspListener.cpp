@@ -10,7 +10,7 @@ BspListener::~BspListener()
 {
 }
 
-bool BspListener::visitNode(TCODBsp *node, void * /*userData*/)
+bool BspListener::visitNode(TCODBsp *node, void *userData)
 {
 	if ( node->isLeaf() ) 
 	{
@@ -21,7 +21,7 @@ bool BspListener::visitNode(TCODBsp *node, void * /*userData*/)
 		h=rng->getInt(ROOM_MIN_SIZE, node->h-2);
 		x=rng->getInt(node->x+1, node->x+node->w-w-1);
 		y=rng->getInt(node->y+1, node->y+node->h-h-1);
-		map->createRoom(roomNum == 0, Vec2i(x, y), Vec2i(x+w-1, y+h-1));
+		map->createRoom(roomNum == 0, Vec2i(x, y), Vec2i(x+w-1, y+h-1), (bool)userData);
 
 		if ( roomNum != 0 ) 
 		{

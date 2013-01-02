@@ -57,7 +57,7 @@ EntityPtr PrefabSystem::instantiate(const std::string &prefab_name)
 	
 	//Fill it with components
 	for(unsigned int i = 0; i < components.size(); i++)
-		addComponent(entity, components[i]);
+		addComponent(entity, components[i], specials);
 	
 	//Adjust it's properties
 	for(unsigned int i = 0; i < properties.size(); i++)
@@ -74,7 +74,7 @@ EntityPtr PrefabSystem::instantiate(const std::string &prefab_name)
 	return entity;
 }
 
-void PrefabSystem::addComponent(EntityPtr entity, const std::string &name)
+void PrefabSystem::addComponent(EntityPtr entity, const std::string &name, const std::vector<Totem::IProperty*> &specials)
 {
 	auto engine = Engine::getSingleton();
 	auto render_system = engine->getRenderSystem();
@@ -108,7 +108,19 @@ void PrefabSystem::addComponent(EntityPtr entity, const std::string &name)
 	}
 	else if(name == "Monster")
 	{
-		entity->addComponent(std::make_shared<Monster>(entity, engine->getMonsterSystem()));
+		Totem::IProperty *property = nullptr;
+		for(unsigned int i = 0; i < specials.size(); i++)
+		{
+			if(specials[i]->getName() == "Family")
+			{
+				property = specials[i];
+				break;
+			}
+		}
+		if(property && Totem::IProperty::isType<int>(*property))
+			entity->addComponent(std::make_shared<Monster>(entity, (MonsterFamily)static_cast<Totem::Property<int>*>(property)->get(), engine->getMonsterSystem()));
+		else
+			entity->addComponent(std::make_shared<Monster>(entity, GOBLIN_FAMILY, engine->getMonsterSystem()));
 	}
 	else if(name == "Pickable")
 	{

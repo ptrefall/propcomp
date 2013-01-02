@@ -48,7 +48,7 @@ private:
 		std::vector<Totem::IProperty*> special_properties;
 	};
 
-	void addComponent(EntityPtr entity, const std::string &name);
+	void addComponent(EntityPtr entity, const std::string &name, const std::vector<Totem::IProperty*> &specials);
 	void addProperty(EntityPtr entity, Totem::IProperty *property);
 	void addSpecialProperty(EntityPtr entity, Totem::IProperty *property);
 

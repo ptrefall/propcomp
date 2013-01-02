@@ -1,5 +1,8 @@
 #pragma once
 
+//Need to handle monsters as special entities...
+#include "Components/Monster.h"
+
 #include <Totem/Property.h>
 #include <libtcod.hpp>
 #include <vector>
@@ -30,6 +33,13 @@ public:
 	void error(const char *msg) override;
 
 private:
+	struct MonsterInfo
+	{
+		MonsterFamily family;
+		int level;
+
+		MonsterInfo() : family(GOBLIN_FAMILY), level(0) {}
+	};
 	struct EntityInfo
 	{
 		std::string name;
@@ -38,8 +48,10 @@ private:
 		std::vector<Totem::IProperty*> special_properties;
 		std::vector<EntityInfo> children;
 		EntityInfo *parent;
+		bool monsterSystemEntry;
+		MonsterInfo monsterInfo;
 
-		EntityInfo() : parent(nullptr) {}
+		EntityInfo() : parent(nullptr), monsterSystemEntry(false) {}
 	};
 	EntityInfo *info;
 };

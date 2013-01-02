@@ -44,7 +44,7 @@ void Attacker::attack(EntityPtr target) {
 
 				target->sendEvent1<float>("TakeDamage", power*critical);
 			}
-			else if(isCritical)
+			else if(isCritical && (rng->getInt(0,100) > 95))
 			{
 				float critical = rng->getFloat(1.0f,2.0f);
 				gui->message(TCODColor::darkGrey, "%s misses %s and hits himself for %g hit points!",
@@ -65,7 +65,7 @@ void Attacker::attack(EntityPtr target) {
 			if(target->get<bool>("Dead").get())
 			{
 				maxHp += (float)((int)target->get<float>("MaxHP").get() / (int)(power.get() / rng->getInt(1,(int)power.get()/2)));
-				hp += (float)((int)target->get<float>("MaxHP").get() / (int)(power.get()/ rng->getInt(1,(int)power.get()/2)));
+				hp += (float)((int)target->get<float>("MaxHP").get() / (int)(power.get()/ rng->getInt(1,(int)power.get()/4)));
 				if(hp.get() > maxHp.get())
 					hp = maxHp.get();
 			}

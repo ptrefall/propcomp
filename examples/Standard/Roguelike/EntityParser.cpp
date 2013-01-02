@@ -3,6 +3,7 @@
 #include "Entity.h"
 
 #include "Systems/PrefabSystem.h"
+#include "Systems/MonsterSystem.h"
 
 #include "Components/Actor.h"
 #include "Components/Map.h"
@@ -50,6 +51,8 @@ EntityParser::EntityParser()
 		->addProperty("Power", TCOD_TYPE_FLOAT, false)
 		->addProperty("InventoryMaxSize", TCOD_TYPE_INT, false)
 		->addProperty("CorpseName", TCOD_TYPE_STRING, false)
+		->addProperty("Level", TCOD_TYPE_INT, false)
+		->addProperty("Family", TCOD_TYPE_STRING, false)
 
 		->addProperty("Blocks", TCOD_TYPE_BOOL, false)
 		->addProperty("Amount", TCOD_TYPE_FLOAT, false)
@@ -130,6 +133,10 @@ bool EntityParserListener::parserFlag(TCODParser *parser,const char *name)
 	if(info->name.empty())
 		return false;
 
+	//Special handling of some types
+	if(std::string(name) == "Monster")
+		info->monsterSystemEntry = true;
+
 	info->components.push_back(name);
 	return true;
 }
@@ -156,12 +163,37 @@ bool EntityParserListener::parserProperty(TCODParser *parser,const char *name, T
 		property->set(value.f, false);
 		info->special_properties.push_back(property);
 	}
+	else if(prop_name == "Family")
+	{
+		auto property = new Totem::Property<int>(prop_name);
+		std::string family = value.s;
+		if(family == "Goblin" || family == "GOBLIN" || family == "goblin")
+		{
+			property->set((int)GOBLIN_FAMILY, false);
+			info->monsterInfo.family = GOBLIN_FAMILY;
+		}
+		else if(family == "Human" || family == "HUMAN" || family == "human")
+		{
+			property->set((int)HUMAN_FAMILY, false);
+			info->monsterInfo.family = HUMAN_FAMILY;
+		}
+		else
+		{
+			delete property;
+			return false;
+		}
+		info->special_properties.push_back(property);
+	}
+	else if(prop_name == "Level")
+	{
+		info->monsterInfo.level = value.i;
+	}
 
 	//Then we handle for generic types...
 	if(type == TCOD_TYPE_BOOL)
 	{
 		auto property = new Totem::Property<bool>(prop_name);
-		property->set(value.b, false);
+		property->set((bool)value.b, false);
 		info->properties.push_back(property);
 	}
 	else if(type == TCOD_TYPE_CHAR)
@@ -212,7 +244,16 @@ bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserSt
 		//If the root structure has children, then we define it as abstract. Thus only those structures with
 		//a parent can be defined as a prefab!
 		if(info->children.empty())
+		{
 			prefab_system->createPrefab(info->name, info->components, info->properties, info->special_properties);
+
+			//Check if this is a monster system entry
+			if(info->monsterSystemEntry)
+			{
+				auto monster_system = Engine::getSingleton()->getMonsterSystem();
+				monster_system->createFamilyPrefab(info->name, info->monsterInfo.family, info->monsterInfo.level);
+			}
+		}
 
 		//Reset the entity info, in case there are more root structures defined in the current file we're parsing.
 		info->name.clear();
@@ -220,6 +261,7 @@ bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserSt
 		info->properties.clear();
 		info->special_properties.clear();
 		info->children.clear();
+		info->monsterSystemEntry = false;
 	}
 	//Else, this is a child structure of the root, thus we need to make sure we get all the components of our parent
 	//structure as well as our own.
@@ -247,6 +289,13 @@ bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserSt
 
 		prefab_system->createPrefab(info->name, components, properties, special_properties);
 
+		//Check if this is a monster system entry
+		if(info->monsterSystemEntry || info->parent->monsterSystemEntry)
+		{
+			auto monster_system = Engine::getSingleton()->getMonsterSystem();
+			monster_system->createFamilyPrefab(info->name, info->monsterInfo.family, info->monsterInfo.level);
+		}
+
 		//Reset the current entity info and define the root structure as current info again, so that if there's
 		//any new components/properties defined after this on the root, then it will be added to the correct
 		//info structure (even though it wouldn't make much sense to do so). 
@@ -255,6 +304,7 @@ bool EntityParserListener::parserEndStruct(TCODParser *parser,const TCODParserSt
 		info->components.clear();
 		info->properties.clear();
 		info->special_properties.clear();
+		info->monsterSystemEntry = false;
 		info = info->parent;
 	}
 

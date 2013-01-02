@@ -34,6 +34,8 @@ public:
 	Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &system);
     virtual ~Map();
 
+	void init(bool withEntities);
+
 	EntityPtr getOwner() { return owner.lock(); }
 
 	bool isInFov(const Vec2i &pos) const;
@@ -59,7 +61,7 @@ protected:
 	TCODMap *map;
 	friend class BspListener;
 	void dig(const Vec2i &pos1, const Vec2i &pos2);
-    void createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2);
+    void createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2, bool withEntities);
 
 private:
 	EntityWPtr owner;
@@ -67,4 +69,7 @@ private:
 	RenderSystemPtr system;
 	
 	int width,height;
+
+	TCODRandom *rng;
+	long seed;
 };
