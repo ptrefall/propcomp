@@ -4,6 +4,7 @@
 #include <Totem/Property.h>
 #include "../Entity.h"
 #include "../Utils/Vec2i.h"
+#include "../Utils/Persistent.h"
 
 #include <libtcod.hpp>
 #include <memory>
@@ -28,7 +29,7 @@ typedef std::shared_ptr<RenderSystem> RenderSystemPtr;
 class Map;
 typedef std::shared_ptr<Map> MapPtr;
 
-class Map : public Totem::Component<Map, PropertyUserData>
+class Map : public Totem::Component<Map, PropertyUserData>, public Persistent
 {
 public:
 	Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &system);
@@ -55,6 +56,10 @@ public:
 
 	int getWidth() const { return width; }
 	int getHeight() const { return height; }
+
+	//Defined in Persistent.cpp
+	void save(TCODZip &zip) override;
+	void load(TCODZip &zip) override;
 
 protected:
 	Tile *tiles;
