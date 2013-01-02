@@ -13,7 +13,7 @@ Healer::Healer(const EntityWPtr &owner)
 	user_data.component = this;
 
 	amount = owner.lock()->add<float>("Amount", 1.0f);
-	message = owner.lock()->add<std::string>("Message", std::string());
+	message = owner.lock()->add<std::string>("HealerMessage", std::string());
 
 	owner.lock()->registerToEvent1<EntityPtr>("ApplyEffect").connect(this, &Healer::applyEffect);
 }

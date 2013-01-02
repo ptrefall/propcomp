@@ -56,7 +56,7 @@ EntityParser::EntityParser()
 
 		->addProperty("Blocks", TCOD_TYPE_BOOL, false)
 		->addProperty("Amount", TCOD_TYPE_FLOAT, false)
-		->addProperty("Message", TCOD_TYPE_STRING, false)
+		->addProperty("HealerMessage", TCOD_TYPE_STRING, false)
 		->addProperty("TargetSelector", TCOD_TYPE_STRING, false)
 		->addProperty("TargetRange", TCOD_TYPE_FLOAT, false);
 

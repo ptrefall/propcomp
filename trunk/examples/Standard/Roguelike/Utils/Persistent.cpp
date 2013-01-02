@@ -69,8 +69,9 @@ void Entity::save(TCODZip &zip)
 			else if(Totem::IProperty::isType<Vec2i>(property))
 			{
 				auto value = std::static_pointer_cast<Totem::Property<Vec2i>>(property)->get();
-				zip.putInt(value.x());
 				zip.putInt(value.y());
+				zip.putInt(value.x());
+				std::cout << "Serialize " << name << "'s " << property->getName() << " to: (" << value.x() << ", " << value.y() << ")." << std::endl;
 			}
 			else if(Totem::IProperty::isType<float>(property))
 			{
@@ -132,6 +133,8 @@ void Entity::load(TCODZip &zip)
 		else if(Totem::IProperty::isType<Vec2i>(property))
 		{
 			std::static_pointer_cast<Totem::Property<Vec2i>>(property)->set(Vec2i(zip.getInt(), zip.getInt()), false);
+			auto prop = std::static_pointer_cast<Totem::Property<Vec2i>>(property);
+			std::cout << "Deserialize " << name << "'s " << stored_name << " to: (" << prop->get().x() << ", " << prop->get().y() << ")." << std::endl;
 		}
 		else if(Totem::IProperty::isType<float>(property))
 		{
