@@ -11,6 +11,12 @@
 
 static const int TRACKING_TURNS=3;
 
+enum MonsterFamily
+{
+	HUMAN_FAMILY,
+	GOBLIN_FAMILY
+};
+
 class MonsterSystem;
 typedef std::shared_ptr<MonsterSystem> MonsterSystemPtr;
 
@@ -20,7 +26,7 @@ typedef std::shared_ptr<Monster> MonsterPtr;
 class Monster : public Totem::Component<Monster, PropertyUserData>
 {
 public:
-	Monster(const EntityWPtr &owner, const MonsterSystemPtr &system);
+	Monster(const EntityWPtr &owner, MonsterFamily family, const MonsterSystemPtr &system);
     virtual ~Monster();
 
 	void update(const float &/*deltaTime*/) override;
@@ -38,6 +44,8 @@ private:
 
 	Totem::Property<bool> dead;
 	Totem::Property<Vec2i> position;
+	Totem::Property<int> level;
 
+	MonsterFamily family;
 	int moveCount;
 };

@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "../Systems/PrefabSystem.h"
 #include "../Systems/RenderSystem.h"
+#include "../Systems/MonsterSystem.h"
 #include "../Engine.h"
 #include "../Utils/BspListener.h"
 #include "../Utils/TargetSelector.h"
@@ -18,22 +19,18 @@
 #include <iostream>
 
 Map::Map(const EntityWPtr &owner, int width, int height, const RenderSystemPtr &system) 
-: Totem::Component<Map, PropertyUserData>("Map"), owner(owner), width(width), height(height), system(system), currentScentValue(SCENT_THRESHOLD)
+:	Totem::Component<Map, PropertyUserData>("Map"), owner(owner), width(width), height(height), 
+system(system), currentScentValue(SCENT_THRESHOLD), tiles(nullptr), map(nullptr)
 {
 	user_data.entity = owner;
 	user_data.component = this;
 
-	tiles=new Tile[width*height];
-	map=new TCODMap(width,height);
-
-    TCODBsp bsp(0,0,width,height);
-    bsp.splitRecursive(nullptr,8,ROOM_MIN_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
-    BspListener listener(this);
-    bsp.traverseInvertedLevelOrder(&listener,nullptr);
-
 	owner.lock()->registerToEvent0("ComputeFOV").connect(this, &Map::computeFov);
 
 	system->set(this);
+
+	seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
+	init(true);
 }
 
 Map::~Map()
@@ -42,6 +39,22 @@ Map::~Map()
 	delete [] tiles;
 	delete map;
 	system->set(static_cast<Map*>(nullptr));
+}
+
+void Map::init(bool withEntities)
+{
+	if(tiles)	delete[] tiles;
+	if(map)		delete map;
+
+	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
+
+	tiles=new Tile[width*height];
+	map=new TCODMap(width,height);
+
+	TCODBsp bsp(0,0,width,height);
+    bsp.splitRecursive(nullptr,8,ROOM_MIN_SIZE,ROOM_MAX_SIZE,1.75f,1.75f);
+    BspListener listener(this);
+    bsp.traverseInvertedLevelOrder(&listener,(void*)withEntities);
 }
 
 void Map::render() const
@@ -162,7 +175,7 @@ void Map::dig(const Vec2i &pos1, const Vec2i &pos2)
 	}
 }
 
-void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2)
+void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2, bool withEntities)
 {
 	auto engine = Engine::getSingleton();
 
@@ -172,6 +185,10 @@ void Map::createRoom(bool first, const Vec2i &pos1, const Vec2i &pos2)
 	int y2 = pos2.y();
 
     dig (pos1,pos2);
+	
+	if(!withEntities)
+		return;
+
     if ( first ) 
 	{
         // put the player in the first room
@@ -207,14 +224,19 @@ void Map::addMonster(const Vec2i &pos) {
     auto rng = TCODRandom::getInstance();
 	auto engine = Engine::getSingleton();
 	auto prefab_system = engine->getPrefabSystem();
+	auto monster_system = engine->getMonsterSystem();
 	EntityPtr monster = nullptr;
 
-    if ( rng->getInt(0,100) < 80 ) 
-		monster = prefab_system->instantiate("orc");
-	else 
-		monster = prefab_system->instantiate("troll");
+	auto value = rng->getInt(0,1000);
+    if ( value < 800 )
+		monster = monster_system->instantiate(GOBLIN_FAMILY, 1);
+	else if(value < 990)
+		monster = monster_system->instantiate(GOBLIN_FAMILY, 2);
+	else
+		monster = monster_system->instantiate(GOBLIN_FAMILY, 3);
 
-	monster->get<Vec2i>("Position") = pos;
+	if(monster)
+		monster->get<Vec2i>("Position") = pos;
 }
 
 void Map::addItem(const Vec2i &pos) {

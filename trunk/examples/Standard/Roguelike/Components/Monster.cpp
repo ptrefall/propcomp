@@ -8,18 +8,19 @@
 
 #include <iostream>
 
-Monster::Monster(const EntityWPtr &owner, const MonsterSystemPtr &system) 
-: Totem::Component<Monster, PropertyUserData>("Monster"), owner(owner), system(system)
+Monster::Monster(const EntityWPtr &owner, MonsterFamily family, const MonsterSystemPtr &system) 
+: Totem::Component<Monster, PropertyUserData>("Monster"), owner(owner), system(system), family(family)
 {
 	user_data.entity = owner;
 	user_data.component = this;
 
 	dead = owner.lock()->add<bool>("Dead", false);
 	position = owner.lock()->add<Vec2i>("Position", Vec2i(0,0));
+	level = owner.lock()->add<int>("Level", 1);
 
 	owner.lock()->registerToEvent0("Dying").connect(this, &Monster::OnDying);
 
-	system->add(this);
+	system->add(this, family);
 }
 
 Monster::~Monster()
