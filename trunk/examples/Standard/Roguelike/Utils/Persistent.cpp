@@ -160,7 +160,16 @@ void Entity::load(TCODZip &zip)
 			{
 				std::string entity_name = zip.getString();
 				auto entity = Engine::getSingleton()->getPrefabSystem()->instantiate(entity_name);
-				entity->load(zip);
+				if(entity)
+				{
+					entity->load(zip);
+					entity_list->push_back(entity);
+				}
+				else
+				{
+					std::cout << "ERROR! Failed to load from save file. Please delete the save file and start the game again." << std::endl;
+					return;
+				}
 			}
 		}
 	}
