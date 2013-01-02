@@ -49,6 +49,8 @@ int main(int argc, char** argv)
 	auto engine = Engine::getSingleton();
 	engine->init(resource_dir, 80,43);
 	
+	try
+	{
 	engine->load();
 	while( !TCODConsole::isWindowClosed() )
 	{
@@ -57,6 +59,10 @@ int main(int argc, char** argv)
 		TCODConsole::flush();
 	}
 	engine->save();
+	}catch(std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
 	//system("pause");
 	return 0;

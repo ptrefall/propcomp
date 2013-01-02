@@ -363,8 +363,16 @@ void Engine::load()
 		{
 			std::string entity_name = zip.getString();
 			auto entity = prefab_system->instantiate(entity_name);
-			entity->load(zip);
-			entities.push_back(entity);
+			if(entity)
+			{
+				entity->load(zip);
+				entities.push_back(entity);
+			}
+			else
+			{
+				std::cout << "ERROR! Failed to load from save file. Please delete the save file and start the game again." << std::endl;
+				return;
+			}
 		}
 	}
 	else
