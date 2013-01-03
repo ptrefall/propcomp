@@ -11,12 +11,56 @@
 
 using namespace clan;
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &background)
-	: UIScreen(screen_manager), network(network), game(game), background(background.c_str())
+namespace
 {
-	//game->get_music_player()->play("Zombie/Music/MainTheme.ogg", true);
+	void connect_clicked(Widget *w, void *userData)
+	{
+		LoginScreen *screen_login = static_cast<LoginScreen*>(userData);
+		screen_login->on_connect_clicked();
+	}
 
-	//background = Image(gc, "Zombie/Backgrounds/login.png");
+	void login_clicked(Widget *w, void *userData)
+	{
+		LoginScreen *screen_login = static_cast<LoginScreen*>(userData);
+		screen_login->on_login_clicked();
+	}
+}
+
+LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &background)
+	: UIScreen(screen_manager), network(network), game(game), background(background.c_str()), 
+	  gui_console(screen_manager->get_window().get_width(), screen_manager->get_window().get_height())
+{
+	gui_console.setKeyColor(TCODColor(255,0,255));
+	Widget::setConsole(&gui_console);
+
+	StatusBar *status = new StatusBar(0,0, gui_console.getWidth(), 1);
+
+	ToolBar *tools=new ToolBar(10,15,15,"Player profile");
+	VBox *vbox = new VBox(0,0,0);
+	vbox->addWidget(new Label(0,0,""));
+	tools->addWidget(vbox);
+	vbox = new VBox(0,0,1);
+	
+	HBox *hbox = new HBox(0,0,1);
+	{
+		hbox->addWidget(new Label(0,0, "Username: "));
+		usn_label = new Label(0,0, "sphair", "Enter your username here stupid!");
+		hbox->addWidget(usn_label);
+	} vbox->addWidget(hbox);
+	
+	hbox = new HBox(0,0,1);
+	{
+		hbox->addWidget(new Label(0,0, "Password: "));
+		pwd_label = new Label(0,0, "*****", "Protect this password with your life!!!");
+		hbox->addWidget(pwd_label);
+	} vbox->addWidget(hbox);
+
+	vbox->addWidget(new Button("Log in", "Login with username and password", login_clicked, this));
+
+	tools->addWidget(vbox);
+	vbox = new VBox(0,0,1);
+	tools->addWidget(vbox);
+	
 
 /*#define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -147,6 +191,7 @@ void LoginScreen::on_activated()
 
 void LoginScreen::update()
 {
+	UIScreen::update();
 	/*Canvas canvas = get_canvas();
 
 	canvas.clear(Colorf::black);
@@ -157,7 +202,8 @@ void LoginScreen::update()
 
 	// check key presses
 	TCOD_key_t key;
-	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL);
+	TCOD_mouse_t mouse;
+	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS|TCOD_EVENT_MOUSE,&key,&mouse);
 	switch (key.vk) 
 	{
         case TCODK_UP :
@@ -172,12 +218,21 @@ void LoginScreen::update()
 		break;
 	};
 
-	UIScreen::update();
+	//Console::write_line("Mouse(%1, %2)", mouse.x, mouse.y);
+
+	Widget::updateWidgets(key, mouse);
 }
 
 void LoginScreen::render()
 {
 	background.blit2x(TCODConsole::root,0,0);
+
+	gui_console.setDefaultBackground(TCODColor(255,0,255));
+	gui_console.setDefaultForeground(TCODColor(255,255,255));
+	gui_console.clear();
+	Widget::renderWidgets();
+
+	TCODConsole::blit(&gui_console, 0,0, gui_console.getWidth(), gui_console.getHeight(), TCODConsole::root, 0,0, 1.0f, 1.0f);
 }
 
 void LoginScreen::connect()
@@ -194,6 +249,7 @@ void LoginScreen::connect()
 	std::string server = "localhost";
 	std::string port = "4556";
 
+	cl_log_event("Network", "Connecting to server " + server + ":" + port);
 	network.connect(server, port);
 }
 
@@ -204,12 +260,10 @@ void LoginScreen::on_connect_clicked()
 
 void LoginScreen::on_login_clicked()
 {
-	/*label_login_status->set_text("");
+	std::string username = "sphair";
+	std::string password = "p";
 
-	std::string username = input_username->get_text();
-	std::string password = input_password->get_text();
-
-	network.send_event(NetGameEvent(CTS_LOGIN, username, password));*/
+	network.send_event(NetGameEvent(CTS_LOGIN, username, password));
 }
 
 void LoginScreen::on_connected()
@@ -252,6 +306,7 @@ void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 
 void LoginScreen::on_event_login_success(const NetGameEvent &e)
 {
+	cl_log_event("Network", "Login success!");
 	//game->change_to_character_selection_screen();
 }
 

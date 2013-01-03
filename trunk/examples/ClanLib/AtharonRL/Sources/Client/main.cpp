@@ -11,9 +11,15 @@ int main(int argc, char **argv)
 
 		srand(clan::System::get_time());
 
-		clan::ConsoleLogger logger;
+		std::string base_dir = argv[0];
+		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
 
-		Game game(argv[0]);
+		clan::FileLogger logger(base_dir+"/log.txt");
+		clan::ConsoleLogger logger2;
+
+		Game game(base_dir);
 		game.run();
 
 		return 0;
