@@ -155,6 +155,23 @@ void LoginScreen::update()
 	Rect box(Point((canvas.get_width() - size.width) / 2, 0), size);
 	background.draw(canvas, box);*/
 
+	// check key presses
+	TCOD_key_t key;
+	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL);
+	switch (key.vk) 
+	{
+        case TCODK_UP :
+        break;
+		case TCODK_DOWN :
+		break;
+		case TCODK_TAB :
+		break;
+		case TCODK_ENTER :
+		break;
+		case TCODK_ESCAPE :
+		break;
+	};
+
 	UIScreen::update();
 }
 
