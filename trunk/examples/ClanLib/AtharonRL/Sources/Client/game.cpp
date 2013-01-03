@@ -17,7 +17,7 @@ Game::Game(const std::string &arg)
 
 	screen_manager.reset(new UIScreenManager("Atharon, the Roguelike", Rect(0,0, 80,43), false, base_dir+"/Resources/Fonts/terminal.png"));
 
-	screen_login = new LoginScreen(screen_manager.get(), this, network);
+	screen_login = new LoginScreen(screen_manager.get(), this, network, base_dir+"/Resources/Backgrounds/Login.png");
 	screen_loading = new LoadingScreen(screen_manager.get(), this, network);
 
 	slots.connect(network.sig_event_received(), this, &Game::on_event_received);

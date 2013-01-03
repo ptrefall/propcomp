@@ -14,9 +14,10 @@ class Game;
 class LoginScreen : public UIScreen
 {
 public:
-	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network);
+	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, const std::string &background);
 
 	void update();
+	void render();
 
 private:
 	void connect();
@@ -48,6 +49,7 @@ private:
 	std::string css_text;
 
 	//clan::Image background;
+	TCODImage background;
 
 	clan::NetGameClient &network;
 
