@@ -306,7 +306,6 @@ void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 
 void LoginScreen::on_event_login_success(const NetGameEvent &e)
 {
-	cl_log_event("Network", "Login success!");
 	//game->change_to_character_selection_screen();
 }
 

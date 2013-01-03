@@ -32,6 +32,8 @@ void Game::run()
 	{
 		screen_manager->update();
 		screen_manager->render();
+		network.process_events();
+		clan::KeepAlive();
 	}
 }
 
