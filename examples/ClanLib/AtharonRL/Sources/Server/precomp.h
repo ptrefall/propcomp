@@ -8,4 +8,6 @@
 
 #include <Totem/Totem.h>
 
+#include <LibTCOD/libtcod.hpp>
+
 #pragma warning(disable: 4355)

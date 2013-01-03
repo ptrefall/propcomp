@@ -10,7 +10,7 @@ class ServerUser;
 class Server
 {
 public:
-	Server();
+	Server(const std::string &base_dir);
 	~Server();
 
 	void run(clan::Event &stop_event);

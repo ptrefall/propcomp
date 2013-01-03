@@ -77,7 +77,9 @@ include(${CMAKE_SOURCE_DIR}/CMake/Macros.cmake)
 
 INCLUDE_DIRECTORIES(
 	${CMAKE_SOURCE_DIR}/Include
+	${CMAKE_SOURCE_DIR}/Include/LibTCOD/
 	${CMAKE_SOURCE_DIR}/Sources
+	Engine
 )
 
 ADD_SUBDIRECTORY(Sources)
