@@ -11,8 +11,8 @@
 
 using namespace clan;
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network)
-: UIScreen(screen_manager), network(network), game(game)
+LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &background)
+	: UIScreen(screen_manager), network(network), game(game), background(background.c_str())
 {
 	//game->get_music_player()->play("Zombie/Music/MainTheme.ogg", true);
 
@@ -156,6 +156,11 @@ void LoginScreen::update()
 	background.draw(canvas, box);*/
 
 	UIScreen::update();
+}
+
+void LoginScreen::render()
+{
+	background.blit2x(TCODConsole::root,0,0);
 }
 
 void LoginScreen::connect()
