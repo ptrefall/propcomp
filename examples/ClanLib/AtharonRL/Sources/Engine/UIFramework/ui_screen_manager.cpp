@@ -6,7 +6,7 @@
 using namespace clan;
 
 UIScreenManager::UIScreenManager(const std::string &title, clan::Rect window, bool fullscreen, const std::string &font)
-: current(nullptr)
+: current(nullptr), window(window)
 {
 	TCODConsole::setCustomFont(font.c_str());
 	TCODConsole::initRoot(window.get_width(), window.get_height(), title.c_str(), fullscreen);
@@ -18,7 +18,7 @@ UIScreenManager::~UIScreenManager()
 		delete screens.back();
 }
 
-bool UIScreenManager::isWindowClosed()
+bool UIScreenManager::is_window_closed()
 {
 	return TCODConsole::isWindowClosed();
 }

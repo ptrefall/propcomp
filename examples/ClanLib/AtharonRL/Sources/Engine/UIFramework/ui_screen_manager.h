@@ -19,12 +19,16 @@ public:
 	void update();
 	void render();
 
-	bool isWindowClosed();
+	bool is_window_closed();
+
+	const clan::Rect &get_window() const { return window; }
 
 private:
 	void add_screen(UIScreen *screen);
 	void remove_screen(UIScreen *screen);
 	void reset_mouse_position();
+
+	clan::Rect window;
 
 	//MouseMovement mouse_movement;
 	clan::Point mouse_movement_pos;

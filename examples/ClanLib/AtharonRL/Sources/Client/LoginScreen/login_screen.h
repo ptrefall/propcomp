@@ -19,13 +19,13 @@ public:
 	void update();
 	void render();
 
-private:
-	void connect();
-
-	void on_activated();
-
 	void on_login_clicked();
 	void on_connect_clicked();
+
+	void connect();
+
+private:
+	void on_activated();
 
 	void on_connected();
 	void on_disconnected();
@@ -46,9 +46,12 @@ private:
 	UILabel *label_login_status;
 	UIHtml *html_motd;*/
 
+	Label *usn_label;
+	Label *pwd_label;
+
 	std::string css_text;
 
-	//clan::Image background;
+	TCODConsole gui_console;
 	TCODImage background;
 
 	clan::NetGameClient &network;

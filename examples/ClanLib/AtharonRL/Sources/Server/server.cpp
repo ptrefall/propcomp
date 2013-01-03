@@ -3,7 +3,7 @@
 #include "server_user.h"
 //#include "GameWorld/server_player.h"
 #include "Engine/Network/netevents.h"
-//#include "Database/database_users.h"
+#include "Database/database_users.h"
 
 using namespace clan;
 
@@ -141,7 +141,7 @@ void Server::on_net_event_login(const NetGameEvent &e, ServerUser *user)
 	std::string user_name = e.get_argument(0);
 	std::string password = e.get_argument(1);
 
-	int user_id = 0;//DatabaseUsers::login(db, user_name, password);
+	int user_id = DatabaseUsers::login(db, user_name, password);
 	if(user_id)
 	{
 		try

@@ -12,5 +12,6 @@
 #include <Totem/Totem.h>
 
 #include <LibTCOD/libtcod.hpp>
+#include <LibTCOD/gui/gui.hpp>
 
 #pragma warning(disable: 4355)
