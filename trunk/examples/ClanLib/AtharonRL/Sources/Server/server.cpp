@@ -7,8 +7,8 @@
 
 using namespace clan;
 
-Server::Server()
-: db("Database/game.db")//, zone_manager(db), player_manager(db), character_manager(db, zone_manager), netevents_character(db, character_manager)
+Server::Server(const std::string &base_dir)
+: db(base_dir + "/Database/game.db")//, zone_manager(db), player_manager(db), character_manager(db, zone_manager), netevents_character(db, character_manager)
 {
 }
 

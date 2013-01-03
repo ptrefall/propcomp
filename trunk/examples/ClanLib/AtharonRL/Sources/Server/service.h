@@ -11,7 +11,7 @@ public:
 	void service_reload();
 
 private:
-	void worker_main();
+	void worker_main(std::string arg);
 
 	clan::Thread thread;
 	clan::Event stop_event;
