@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ClanLib/core.h>
+#include <ClanLib/display.h>
 #include <ClanLib/database.h>
 #include <ClanLib/sqlite.h>
 #include <ClanLib/network.h>
