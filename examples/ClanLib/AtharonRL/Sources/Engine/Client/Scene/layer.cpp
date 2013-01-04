@@ -2,7 +2,18 @@
 #include "layer.h"
 
 Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
+	: offset(description.offset), size(description.size), default_tile(description.default_tile),
+	  bitmap(bitmap.bitmap), glyph_size(bitmap.glyph_size), mapper(bitmap.mapper)
 {
+	tilemap.reserve(size.x);
+	for(int x = 0; x < size.x; x++)
+	{
+		tilemap[x].reserve(size.y);
+		for(int y = 0; y < size.y; y++)
+		{
+			tilemap[x].push_back(default_tile);
+		}
+	}
 }
 Layer::~Layer()
 {
@@ -10,6 +21,9 @@ Layer::~Layer()
 
 void Layer::set_background_color(const clan::Point &position, clan::Color color)
 {
+	if(position.x > size.x || position.y > size.y)
+		return;
+
 }
 
 void Layer::set_foreground_color(const clan::Point &position, clan::Color color)

@@ -6,13 +6,25 @@ struct TileData
 	clan::Color foreground_color;
 	int character;
 	//BlendType blender; //How character + foreground color interact with background color
+
+	TileData(const clan::Color &background_color, const clan::Color &foreground_color, int character) 
+		: background_color(background_color), foreground_color(foreground_color), character(character)
+	{
+	}
+
+	TileData(const TileData &data) 
+		: background_color(data.background_color), foreground_color(data.foreground_color), character(data.character)
+	{
+	}
+
+	TileData() {}
 };
 
 class TileCharacterMapper;
 struct LayerBitmap
 {
 	clan::Image bitmap;
-	clan::Point bitmap_character_size;
+	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
 };
 
@@ -20,7 +32,7 @@ struct LayerDescription
 {
 	clan::Point offset;
 	clan::Point size;
-	TileData *default_tile;
+	const TileData &default_tile;
 };
 
 class Layer
@@ -48,4 +60,15 @@ public:
 	//void clear(clan::Color background_color, clan::Color foreground_color, int character, BlendType blending);
 
 	void draw(clan::Canvas &canvas, int x, int y);
+
+private:
+	clan::Point offset;
+	clan::Point size;
+	TileData default_tile;
+	
+	clan::Image bitmap;
+	clan::Point glyph_size;
+	TileCharacterMapper *mapper;
+
+	std::vector<std::vector<TileData>> tilemap;
 };
