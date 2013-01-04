@@ -3,7 +3,7 @@
 #include "loading_screen.h"
 #include "game.h"
 //#include "Engine/UIFramework/ui_label.h"
-#include "Engine/Network/netevents.h"
+#include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
 

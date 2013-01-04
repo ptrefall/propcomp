@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "Engine/UIFramework/ui_screen_manager.h"
-#include "Engine/UIFramework/ui_screen.h"
+#include "Engine/Client/UIFramework/ui_screen_manager.h"
+#include "Engine/Client/UIFramework/ui_screen.h"
 
 class UILabel;
 class Game;

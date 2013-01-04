@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Engine/UIFramework/ui_screen_manager.h"
+#include "Engine/Client/UIFramework/ui_screen_manager.h"
 
 class LoginScreen;
 class LoadingScreen;
