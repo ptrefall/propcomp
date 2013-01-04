@@ -50,7 +50,7 @@ void Layer::set_character(const clan::Point &position, int character)
 	if( !valid(position) )
 		return;
 
-	tilemap[position.x][position.y].character = character;
+	tilemap[position.x][position.y].character = mapper->filter(character);
 }
 void Layer::set_character(const clan::Point &position, int character, clan::Color foreground_color)
 {
