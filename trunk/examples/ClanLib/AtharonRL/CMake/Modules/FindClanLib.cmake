@@ -21,6 +21,16 @@ FIND_LIBRARY(CL_DB_LIBRARY_RELEASE
   NAMES clanDatabase-static-mt
   PATHS ${CMAKE_SOURCE_DIR}/Lib/Win32/
     )
+	
+FIND_LIBRARY(CL_DISPLAY_LIBRARY_DEBUG
+  NAMES clanDisplay-static-mt-debug
+  PATHS ${CMAKE_SOURCE_DIR}/Lib/Win32/
+    )
+
+FIND_LIBRARY(CL_DISPLAY_LIBRARY_RELEASE
+  NAMES clanDisplay-static-mt
+  PATHS ${CMAKE_SOURCE_DIR}/Lib/Win32/
+    )
 
 FIND_LIBRARY(CL_NET_LIBRARY_DEBUG
   NAMES clanNetwork-static-mt-debug
