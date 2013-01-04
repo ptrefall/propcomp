@@ -64,6 +64,9 @@ public:
 
 	void draw(clan::Canvas &canvas, int x, int y);
 
+	void setZDepth(int zdepth) { this->zdepth = zdepth; }
+	int getZDepth() const { return zdepth; }
+
 private:
 	bool valid(const clan::Point &position);
 	clan::Point offset;
@@ -75,4 +78,6 @@ private:
 	TileCharacterMapper *mapper;
 
 	std::vector<std::vector<TileData>> tilemap;
+
+	int zdepth;
 };
