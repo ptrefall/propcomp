@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "layer_manager.h"
+#include "layer.h"
 
 LayerManager::LayerManager()
 {
@@ -28,4 +29,8 @@ void LayerManager::remove(const Layer &layer)
 }
 void LayerManager::draw(clan::Canvas &canvas, int x, int y)
 {
+	for(unsigned int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->draw(canvas, x,y);
+	}
 }
