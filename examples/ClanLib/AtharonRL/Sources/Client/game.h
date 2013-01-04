@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Engine/Client/UIFramework/ui_screen_manager.h"
+//#include "Engine/Client/UIFramework/ui_screen_manager.h"
 
 class LoginScreen;
 class LoadingScreen;
@@ -22,7 +22,7 @@ public:
 private:
 	void on_event_received(const clan::NetGameEvent &e);
 	
-	std::unique_ptr<UIScreenManager> screen_manager;
+	//std::unique_ptr<UIScreenManager> screen_manager;
 	clan::NetGameClient network;
 
 	std::string filename;
