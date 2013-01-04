@@ -8,3 +8,8 @@ TileCharacterMapper::TileCharacterMapper()
 TileCharacterMapper::~TileCharacterMapper()
 {
 }
+
+int TileCharacterMapper::filter(int character)
+{
+	return character;
+}
