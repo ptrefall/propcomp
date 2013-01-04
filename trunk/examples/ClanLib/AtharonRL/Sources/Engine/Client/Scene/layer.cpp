@@ -1,5 +1,6 @@
 #include "precomp.h"
 #include "layer.h"
+#include "tile_character_mapper.h"
 
 Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
 	: offset(description.offset), size(description.size), default_tile(description.default_tile),
