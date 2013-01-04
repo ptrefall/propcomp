@@ -33,6 +33,9 @@ struct LayerDescription
 	clan::Point offset;
 	clan::Point size;
 	const TileData &default_tile;
+
+	LayerDescription(const clan::Point &offset, const clan::Point &size, const TileData &default_tile) : offset(offset), size(size), default_tile(default_tile) {}
+	LayerDescription(const LayerDescription &descr) : offset(descr.offset), size(descr.size), default_tile(descr.default_tile) {}
 };
 
 class Layer
@@ -62,6 +65,7 @@ public:
 	void draw(clan::Canvas &canvas, int x, int y);
 
 private:
+	bool valid(const clan::Point &position);
 	clan::Point offset;
 	clan::Point size;
 	TileData default_tile;
