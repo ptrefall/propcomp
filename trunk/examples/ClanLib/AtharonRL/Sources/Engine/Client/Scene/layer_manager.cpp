@@ -14,7 +14,20 @@ void LayerManager::add(Layer &layer, int zdepth)
 	if(zdepth == -1)
 		layers.push_back(&layer);
 	else
-		layers.insert(layers.begin()+zdepth, &layer);
+	{
+		for(unsigned int i = 0; i < layers.size(); i++)
+		{
+			if(layers[i]->getZDepth() == -1 || zdepth < layers[i]->getZDepth())
+			{
+				layer.setZDepth(zdepth);
+				layers.insert(layers.begin()+i, &layer);
+				return;
+			}
+		}
+
+		layer.setZDepth(zdepth);
+		layers.push_back(&layer);
+	}
 }
 void LayerManager::remove(const Layer &layer)
 {
