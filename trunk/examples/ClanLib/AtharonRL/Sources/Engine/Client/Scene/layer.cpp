@@ -94,4 +94,5 @@ void Layer::clear(clan::Color background_color, clan::Color foreground_color, in
 
 void Layer::draw(clan::Canvas &canvas, int x, int y)
 {
+	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), clan::Colorf::white);
 }

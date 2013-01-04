@@ -3,10 +3,10 @@
 #include "login_screen.h"
 #include "game.h"
 /*
-#include "Engine/UIFramework/ui_button.h"
-#include "Engine/UIFramework/ui_lineedit.h"
-#include "Engine/UIFramework/ui_html.h"
-#include "Engine/UIFramework/ui_model_scene.h"*/
+#include "Engine/Client/UIFramework/ui_button.h"
+#include "Engine/Client/UIFramework/ui_lineedit.h"
+#include "Engine/Client/UIFramework/ui_html.h"
+#include "Engine/Client/UIFramework/ui_model_scene.h"*/
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
@@ -30,7 +30,7 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 	: UIScreen(screen_manager), network(network), game(game), background(background.c_str()), 
 	  gui_console(screen_manager->get_window().get_width(), screen_manager->get_window().get_height())
 {
-	gui_console.setKeyColor(TCODColor(255,0,255));
+	/*gui_console.setKeyColor(TCODColor(255,0,255));
 	Widget::setConsole(&gui_console);
 
 	StatusBar *status = new StatusBar(0,0, gui_console.getWidth(), 1);
@@ -59,7 +59,7 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 
 	tools->addWidget(vbox);
 	vbox = new VBox(0,0,1);
-	tools->addWidget(vbox);
+	tools->addWidget(vbox);*/
 	
 
 /*#define STRING2(x) #x
