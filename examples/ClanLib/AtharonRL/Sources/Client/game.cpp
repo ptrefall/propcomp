@@ -12,6 +12,8 @@ using namespace clan;
 Game::Game(const std::string &arg)
 : screen_login(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
 {
+	resources = new clan::ResourceManager(arg+"Resources/resources.xml");
+
 	ScreenInfo screen_info;
 	int primary_screen_index = 0;
 	std::vector<Rect> screen_boxes = screen_info.get_screen_geometries(primary_screen_index);
@@ -25,6 +27,7 @@ Game::Game(const std::string &arg)
 	screen_manager->hide_cursor();
 	screen_manager->maximize();
 
+	sound_output = SoundOutput(44100);
 	screen_login = new LoginScreen(screen_manager.get(), this, network, arg);
 	screen_character_selection = new CharacterSelectionScreen(screen_manager.get(), this, network, arg);
 	screen_loading = new LoadingScreen(screen_manager.get(), this, network, arg);
@@ -46,7 +49,7 @@ void Game::run()
 	InputContext ic = screen_manager->get_window().get_ic();
 	while (!ic.get_keyboard().get_keycode(keycode_escape))
 	{
-		//music_player.update();
+		music_player.update();
 		screen_manager->update();
 		KeepAlive::process();
 	}

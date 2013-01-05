@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources>
+<resources>
+	<section name="UI">
+		<image name="button_normal" file="Engine/GUIThemeAero/Images/button_normal.png" />
+	</section>
+</resources>

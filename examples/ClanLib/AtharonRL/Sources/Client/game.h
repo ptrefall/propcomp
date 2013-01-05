@@ -1,7 +1,8 @@
 
 #pragma once
 
-//#include "Engine/Client/UIFramework/ui_screen_manager.h"
+#include "Engine/Client/UIFramework/ui_screen_manager.h"
+#include "Engine/Client/Audio/music_player.h"
 
 class LoginScreen;
 class CharacterSelectionScreen;
@@ -21,11 +22,14 @@ public:
 	void change_to_loading_screen();
 	void change_to_game_screen();
 
+	MusicPlayer *get_music_player() { return &music_player; }
+
 private:
 	void on_event_received(const clan::NetGameEvent &e);
 	
-	//std::unique_ptr<UIScreenManager> screen_manager;
+	std::unique_ptr<UIScreenManager> screen_manager;
 	clan::NetGameClient network;
+	clan::ResourceManager *resources;
 
 	std::string filename;
 
@@ -33,6 +37,9 @@ private:
 	CharacterSelectionScreen *screen_character_selection;
 	LoadingScreen *screen_loading;
 	GameScreen *screen_ingame;
+
+	clan::SoundOutput sound_output;
+	MusicPlayer music_player;
 
 	clan::SlotContainer slots;
 };

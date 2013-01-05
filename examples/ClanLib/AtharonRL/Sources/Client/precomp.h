@@ -10,7 +10,8 @@
 #include <ClanLib/database.h>
 #include <ClanLib/sqlite.h>
 #include <ClanLib/network.h>
-//#include <ClanLib/vorbis.h>
+#include <ClanLib/sound.h>
+#include <ClanLib/vorbis.h>
 #include "Engine/Common/Performance/scope_timer.h"
 
 #include <Totem/Totem.h>
