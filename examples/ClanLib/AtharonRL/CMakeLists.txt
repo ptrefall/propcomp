@@ -43,7 +43,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/Bin)
 set(STATIC_STD_LIBS TRUE CACHE BOOL "TRUE to statically link to the standard libraries, FALSE to use them as DLLs")
 
 #define an option for choosing between uniform and multi-byte character sets
-set(UNIFORM_CHARACTER_SET FALSE CACHE BOOL "TRUE to build project with uniform character set, FALSE to build project with multi-byte character set.")
+set(UNIFORM_CHARACTER_SET TRUE CACHE BOOL "TRUE to build project with uniform character set, FALSE to build project with multi-byte character set.")
 
 if(MSVC)
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)

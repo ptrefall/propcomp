@@ -2,19 +2,21 @@
 #include "precomp.h"
 #include "loading_screen.h"
 #include "game.h"
-//#include "Engine/UIFramework/ui_label.h"
+#include "Engine/Client/UIFramework/window_manager.h"
+#include "Engine/Client/UIFramework/ui_label.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
 
-LoadingScreen::LoadingScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network)
+LoadingScreen::LoadingScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &arg)
 : UIScreen(screen_manager), game(game), network(network)
 {
-	//background = Image(gc, "Zombie/Backgrounds/character_select.jpg");
+	GraphicContext gc = screen_manager->get_window().get_gc();
+	background = Image(gc, arg+"Resources/Backgrounds/Login.png");
 
-	/*label = new UILabel(this);
+	label = new UILabel(this);
 	label->set_scaled_geometry(ScaledBox::center_box(0.0f, 0.0f, 127.5f, 25.0f));
-	label->set_text("Loading...");*/
+	label->set_text("Loading...");
 
 	hack_counter = 0;
 }
@@ -26,13 +28,13 @@ void LoadingScreen::on_activated()
 
 void LoadingScreen::update()
 {
-	/*Canvas canvas = get_canvas();
+	Canvas canvas = get_canvas();
 
 	canvas.clear(Colorf::black);
 	float scale = canvas.get_height() / (float)background.get_height();
 	Size size((int)(background.get_width() * scale), (int)(background.get_height() * scale));
 	Rect box(Point((canvas.get_width() - size.width) / 2, 0), size);
-	background.draw(canvas, box);*/
+	background.draw(canvas, box);
 
 	UIScreen::update();
 

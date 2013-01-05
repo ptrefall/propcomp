@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "server.h"
 #include "server_user.h"
-//#include "GameWorld/server_player.h"
+#include "GameWorld/server_player.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Database/database_users.h"
 
