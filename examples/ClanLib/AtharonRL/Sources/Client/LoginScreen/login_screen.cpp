@@ -14,7 +14,7 @@ using namespace clan;
 LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &arg)
 : UIScreen(screen_manager), network(network), game(game)
 {
-	//game->get_music_player()->play("Zombie/Music/MainTheme.ogg", true);
+	game->get_music_player()->play(arg+"Resources/Music/MainTheme.ogg", true);
 
 	GraphicContext gc = screen_manager->get_window().get_gc();
 
