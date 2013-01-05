@@ -1,15 +1,19 @@
 
 #include "precomp.h"
 #include "ui_screen_manager.h"
+#include "mouse_movement.h"
+#include "window_manager.h"
 #include <algorithm>
 
 using namespace clan;
 
-UIScreenManager::UIScreenManager(const std::string &title, clan::Rect window, bool fullscreen, const std::string &font)
-: current(nullptr), window(window)
+UIScreenManager::UIScreenManager(const DisplayWindowDescription &desc, const std::string &large_icon, const std::string &small_icon)
+: current(0)
 {
-	TCODConsole::setCustomFont(font.c_str());
-	TCODConsole::initRoot(window.get_width(), window.get_height(), title.c_str(), fullscreen);
+	window = DisplayWindow(desc);
+	
+	window.set_large_icon(ImageProviderFactory::load(large_icon));
+	window.set_small_icon(ImageProviderFactory::load(small_icon));
 }
 
 UIScreenManager::~UIScreenManager()
@@ -18,20 +22,14 @@ UIScreenManager::~UIScreenManager()
 		delete screens.back();
 }
 
-bool UIScreenManager::is_window_closed()
-{
-	return TCODConsole::isWindowClosed();
-}
-
 void UIScreenManager::hide_cursor()
 {
-	//window.hide_cursor();
+	window.hide_cursor();
 }
 
 void UIScreenManager::maximize()
 {
-	//window.maximize();
-	TCODConsole::setFullscreen(true);
+	window.maximize();
 }
 
 void UIScreenManager::add_screen(UIScreen *screen)
@@ -61,25 +59,33 @@ void UIScreenManager::update()
 	ScopeTimerResults::start();
 	if (current)
 	{
+		bool we_really_do_have_focus = window.has_focus();
+		if (window.get_hwnd() != ::GetForegroundWindow())
+			we_really_do_have_focus = false;
+
+		Point delta;
+		if (we_really_do_have_focus)
+		{
+			delta = mouse_movement.pos() - mouse_movement_pos;
+			mouse_movement_pos += delta;
+		}
+		else
+		{
+			mouse_movement_pos = mouse_movement.pos();
+		}
+		current->on_mouse_movement(delta.x, delta.y);
+		if (!current->get_wm_provider()->is_mouse_enabled())
+			reset_mouse_position();
 		current->update();
 	}
-	ScopeTimerResults::end();
-}
 
-void UIScreenManager::render()
-{
-	ScopeTimerResults::start();
-	if (current)
-	{
-		current->render();
-	}
-	TCODConsole::flush();
+	window.flip(0);
 	ScopeTimerResults::end();
 }
 
 void UIScreenManager::reset_mouse_position()
 {
-	/*bool we_really_do_have_focus = window.has_focus();
+	bool we_really_do_have_focus = window.has_focus();
 	if (window.get_hwnd() != ::GetForegroundWindow())
 		we_really_do_have_focus = false;
 
@@ -88,6 +94,6 @@ void UIScreenManager::reset_mouse_position()
 		Point client_pos(window.get_viewport().get_center());
 		Point screen_pos = window.client_to_screen(client_pos);
 		SetCursorPos(screen_pos.x, screen_pos.y);
-	}*/
+	}
 	//MouseMovement::has_focus = we_really_do_have_focus;
 }

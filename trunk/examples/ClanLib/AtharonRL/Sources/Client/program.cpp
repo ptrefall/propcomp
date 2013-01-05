@@ -28,6 +28,7 @@ int Program::main(const std::vector<std::string> &args)
 		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
 		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
 		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+		base_dir += "/";
 
 		Game game(base_dir);
 		game.run();
