@@ -106,6 +106,7 @@ private:
 
 	friend class DistanceJoint;
 	friend class RevoluteJoint;
+	friend class PrismaticJoint;
 };
 
 }

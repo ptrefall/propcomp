@@ -7,6 +7,7 @@
 #include <ClanLib/database.h>
 #include <ClanLib/sqlite.h>
 #include <ClanLib/network.h>
+#include <ClanLib/sound.h>
 #include <ClanLib/vorbis.h>
 #include <ClanLib/gui.h>
 #include <ClanLib/csslayout.h>
