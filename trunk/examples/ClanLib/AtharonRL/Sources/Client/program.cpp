@@ -17,8 +17,8 @@ int Program::main(const std::vector<std::string> &args)
 		SetupGL setup_gl;
 		SetupGUI setup_gui;
 		SetupNetwork setup_network;
-		//SetupSound setup_sound;
-		//SetupVorbis setup_vorbis;
+		SetupSound setup_sound;
+		SetupVorbis setup_vorbis;
 
 		srand(System::get_time());
 
