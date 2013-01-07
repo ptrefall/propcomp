@@ -8,11 +8,12 @@
 
 using namespace clan;
 
-LoadingScreen::LoadingScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &arg)
+LoadingScreen::LoadingScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), game(game), network(network)
 {
 	GraphicContext gc = screen_manager->get_window().get_gc();
-	background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	//background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	background = Image(gc, "Background/login", &resources);
 
 	label = new UILabel(this);
 	label->set_scaled_geometry(ScaledBox::center_box(0.0f, 0.0f, 127.5f, 25.0f));

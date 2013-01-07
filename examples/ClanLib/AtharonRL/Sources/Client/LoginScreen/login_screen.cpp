@@ -11,14 +11,16 @@
 
 using namespace clan;
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &arg)
+LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), network(network), game(game)
 {
-	game->get_music_player()->play(arg+"Resources/Music/MainTheme.ogg", true);
+	//resources.get_resource("Music/main_theme")
+	//game->get_music_player()->play(arg+"Resources/Music/MainTheme.ogg", true);
 
 	GraphicContext gc = screen_manager->get_window().get_gc();
 
-	background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	//background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	background = Image(gc, "Background/login", &resources);
 	background.set_linear_filter(false);
 
 #define STRING2(x) #x
@@ -27,12 +29,14 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 	//Font_System::register_font("Zombie/Fonts/Univers LT Std 49 Light Ultra Condensed.ttf", "Univers LT Std");
 
 	ScaledSprite sprite_button;
-	sprite_button.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/button_normal.png");
+	//sprite_button.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/button_normal.png");
+	sprite_button.image = Image(gc, "UI/button_normal", &resources);
 	sprite_button.set_border_width(12.0f, 12.0f, 12.0f, 12.0f);
 	sprite_button.set_slice(12, 12, 12, 12);
 
 	ScaledSprite sprite_lineedit;
-	sprite_lineedit.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/lineedit_normal.png");
+	//sprite_lineedit.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/lineedit_normal.png");
+	sprite_lineedit.image = Image(gc, "UI/lineedit_normal", &resources);
 	sprite_lineedit.set_border_width(12.0f, 12.0f, 12.0f, 12.0f);
 	sprite_lineedit.set_slice(12, 12, 12, 12);
 

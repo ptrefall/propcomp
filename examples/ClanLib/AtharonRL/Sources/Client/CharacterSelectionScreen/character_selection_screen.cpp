@@ -11,11 +11,12 @@
 
 using namespace clan;
 
-CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, const std::string &arg)
+CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), network(network), game(game), current_character(0)
 {
 	GraphicContext gc = screen_manager->get_window().get_gc();
-	background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	//background = Image(gc, arg+"Resources/Backgrounds/Login.png");
+	background = Image(gc, "Background/login", &resources);
 
 	button_create_new = new UIButton(this);
 	button_create_new->label.set_text("Create New Character");
@@ -41,7 +42,10 @@ CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manag
 		frame_character[i]->background.border_width_top = 4.0f;
 		frame_character[i]->background.border_width_bottom = 4.0f;
 		if (i == current_character)
-			frame_character[i]->background.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/XP/frame.png");
+		{
+			//frame_character[i]->background.image = Image(gc, arg+"Resources/Engine/GUIThemeAero/Images/XP/frame.png");
+			frame_character[i]->background.image = Image(gc, "UI/xp_frame", &resources);
+		}
 
 		button_character[i]->label.set_text(string_format("Character %1", i));
 		button_character[i]->set_scaled_geometry(ScaledBox::top_left_box(0.0f, 0.0f, 255.0f, 25.5f));
@@ -63,7 +67,8 @@ CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manag
 
 	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
 	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
-	auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
+	//auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
+	auto bitmap = LayerBitmap(Image(gc, "Font/font-10-img", &resources), Point(16,29), nullptr);
 	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
 	layer_manager->add(test_layer);
 

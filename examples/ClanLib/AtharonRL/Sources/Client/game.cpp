@@ -12,7 +12,53 @@ using namespace clan;
 Game::Game(const std::string &arg)
 : screen_login(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
 {
-	resources = new clan::ResourceManager(arg+"Resources/resources.xml");
+	std::string base_dir = clan::System::get_exe_path();
+	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
+
+	clan::VirtualFileSystem vfs(base_dir);
+	clan::VirtualDirectory vd(vfs, "Resources");
+
+	resources = new clan::ResourceManager(vd.open_file("resources.xml"), vd);
+	
+	auto font_dir = vd.open_directory("Fonts");
+	auto font_dir_list = font_dir.get_directory_listing();
+	while(true)
+	{
+		auto font_file = font_dir_list.get_filename();
+		if(font_file.find(".xml") == std::string::npos)
+		{
+			if( font_dir_list.next() == false )
+				break;
+			else
+				continue;
+		}
+
+		resources->add_resources(clan::ResourceManager(font_dir.open_file(font_file), font_dir));
+
+		if( font_dir_list.next() == false )
+			break;
+	}
+
+	auto engine_dir = vd.open_directory("Engine");
+	auto engine_dir_list = engine_dir.get_directory_listing();
+	while(true)
+	{
+		auto engine_file = engine_dir_list.get_filename();
+		if(engine_file.find(".xml") == std::string::npos)
+		{
+			if( engine_dir_list.next() == false )
+				break;
+			else
+				continue;
+		}
+
+		resources->add_resources(clan::ResourceManager(engine_dir.open_file(engine_file), engine_dir));
+
+		if( engine_dir_list.next() == false )
+			break;
+	}
 
 	ScreenInfo screen_info;
 	int primary_screen_index = 0;
@@ -28,9 +74,9 @@ Game::Game(const std::string &arg)
 	screen_manager->maximize();
 
 	sound_output = SoundOutput(44100);
-	screen_login = new LoginScreen(screen_manager.get(), this, network, arg);
-	screen_character_selection = new CharacterSelectionScreen(screen_manager.get(), this, network, arg);
-	screen_loading = new LoadingScreen(screen_manager.get(), this, network, arg);
+	screen_login = new LoginScreen(screen_manager.get(), this, network, *resources);
+	screen_character_selection = new CharacterSelectionScreen(screen_manager.get(), this, network, *resources);
+	screen_loading = new LoadingScreen(screen_manager.get(), this, network, *resources);
 
 	slots.connect(network.sig_event_received(), this, &Game::on_event_received);
 }

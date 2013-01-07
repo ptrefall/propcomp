@@ -14,7 +14,7 @@ class Game;
 class LoginScreen : public UIScreen
 {
 public:
-	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, const std::string &arg);
+	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources);
 
 	void update();
 
