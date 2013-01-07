@@ -6,9 +6,6 @@ PROJECT(${NAME})
 file(GLOB TOTEM_HEADER ${CMAKE_SOURCE_DIR}/Include/Totem/*.h)
 SOURCE_GROUP("Source Files\\Include\\Totem" FILES ${TOTEM_HEADER})
 
-file(GLOB CL_HEADER ${CMAKE_SOURCE_DIR}/Include/ClanLib/*.h)
-SOURCE_GROUP("Source Files\\Include\\ClanLib" FILES ${CL_HEADER})
-
 file(GLOB HEADER_FILES *.h)
 file(GLOB SOURCE_FILES *.cpp)
 SOURCE_GROUP("Source Files\\" FILES ${HEADER_FILES} ${SOURCE_FILES})
@@ -33,6 +30,10 @@ file(GLOB HEADER_FILES_CHARSELECT CharacterSelectionScreen/*.h)
 file(GLOB SOURCE_FILES_CHARSELECT CharacterSelectionScreen/*.cpp)
 SOURCE_GROUP("Source Files\\CharacterSelectionScreen\\" FILES ${HEADER_FILES_CHARSELECT} ${SOURCE_FILES_CHARSELECT})
 
+FIND_PACKAGE(ClanLib REQUIRED)
+file(GLOB CL_HEADER ${CL_DIR}/*.h)
+SOURCE_GROUP("Source Files\\Include\\ClanLib" FILES ${CL_HEADER})
+
 add_executable(${NAME} WIN32
 	${HEADER_FILES} ${SOURCE_FILES} 
 	${HEADER_FILES_GAMESCREEN} ${SOURCE_FILES_GAMESCREEN}
@@ -50,7 +51,6 @@ if (MSVC)
    set_source_files_properties(precomp.cpp PROPERTIES COMPILE_FLAGS "/Ycprecomp.h")
 endif(MSVC)
 
-FIND_PACKAGE(ClanLib REQUIRED)
 FIND_PACKAGE(LibTCOD REQUIRED)
 TARGET_LINK_LIBRARIES(${NAME} 
 	debug ${CL_APP_LIBRARY_DEBUG} 	 	optimized ${CL_APP_LIBRARY_RELEASE}
