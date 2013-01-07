@@ -9,31 +9,31 @@ LayerManager::~LayerManager()
 {
 }
 
-void LayerManager::add(Layer &layer, int zdepth)
+void LayerManager::add(const LayerPtr &layer, int zdepth)
 {
 	if(zdepth == -1)
-		layers.push_back(&layer);
+		layers.push_back(layer);
 	else
 	{
 		for(unsigned int i = 0; i < layers.size(); i++)
 		{
 			if(layers[i]->getZDepth() == -1 || zdepth < layers[i]->getZDepth())
 			{
-				layer.setZDepth(zdepth);
-				layers.insert(layers.begin()+i, &layer);
+				layer->setZDepth(zdepth);
+				layers.insert(layers.begin()+i, layer);
 				return;
 			}
 		}
 
-		layer.setZDepth(zdepth);
-		layers.push_back(&layer);
+		layer->setZDepth(zdepth);
+		layers.push_back(layer);
 	}
 }
-void LayerManager::remove(const Layer &layer)
+void LayerManager::remove(const LayerPtr &layer)
 {
 	for(unsigned int i = 0; i < layers.size(); i++)
 	{
-		if(layers[i] == &layer)
+		if(layers[i].get() == layer.get())
 		{
 			layers.erase(layers.begin()+i);
 			return;
