@@ -6,9 +6,6 @@ PROJECT(${NAME})
 file(GLOB TOTEM_HEADER ${CMAKE_SOURCE_DIR}/Include/Totem/*.h)
 SOURCE_GROUP("Source Files\\Include\\Totem" FILES ${TOTEM_HEADER})
 
-file(GLOB CL_HEADER ${CMAKE_SOURCE_DIR}/Include/ClanLib/*.h)
-SOURCE_GROUP("Source Files\\Include\\ClanLib" FILES ${CL_HEADER})
-
 file(GLOB HEADER_FILES *.h)
 file(GLOB SOURCE_FILES *.cpp)
 SOURCE_GROUP("Source Files\\" FILES ${HEADER_FILES} ${SOURCE_FILES})
@@ -41,6 +38,10 @@ SOURCE_GROUP("Source Files\\Common\\Performance\\" FILES ${HEADER_FILES_COMMON_P
 
 #ENGINE SERVER FILES
 #...
+
+FIND_PACKAGE(ClanLib REQUIRED)
+file(GLOB CL_HEADER ${CL_DIR}/*.h)
+SOURCE_GROUP("Source Files\\Include\\ClanLib" FILES ${CL_HEADER})
  
 add_library(${NAME} STATIC 
 	${HEADER_FILES} ${SOURCE_FILES} 
@@ -60,7 +61,6 @@ if (MSVC)
    set_source_files_properties(precomp.cpp PROPERTIES COMPILE_FLAGS "/Ycprecomp.h")
 endif(MSVC)
 
-FIND_PACKAGE(ClanLib REQUIRED)
 FIND_PACKAGE(LibTCOD REQUIRED)
 TARGET_LINK_LIBRARIES(${NAME} 
 	debug ${CL_CORE_LIBRARY_DEBUG} 	 optimized ${CL_CORE_LIBRARY_RELEASE}
