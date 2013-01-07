@@ -23,11 +23,11 @@ struct TileData
 class TileCharacterMapper;
 struct LayerBitmap
 {
-	clan::Image bitmap;
+	clan::Sprite bitmap;
 	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
 
-	LayerBitmap(const clan::Image &bitmap, const clan::Point &glyph_size, TileCharacterMapper *mapper)
+	LayerBitmap(const clan::Sprite &bitmap, const clan::Point &glyph_size, TileCharacterMapper *mapper)
 		: bitmap(bitmap), glyph_size(glyph_size), mapper(mapper)
 	{
 	}
@@ -78,7 +78,7 @@ private:
 	clan::Point size;
 	TileData default_tile;
 	
-	clan::Image bitmap;
+	clan::Sprite bitmap;
 	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
 
