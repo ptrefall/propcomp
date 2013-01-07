@@ -65,7 +65,7 @@ CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manag
 
 	layer_manager.reset(new LayerManager());
 
-	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
+	auto tile_data = TileData(Colorf::black, Colorf::red, '.');
 	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
 	//auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
 	//auto bitmap = LayerBitmap(Image(gc, "Font/font-10-img", &resources), Point(16,29), nullptr);
