@@ -6,7 +6,7 @@ Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
 	: offset(description.offset), size(description.size), default_tile(description.default_tile),
 	  bitmap(bitmap.bitmap), glyph_size(bitmap.glyph_size), mapper(bitmap.mapper)
 {
-	tilemap.reserve(size.x);
+	tilemap.resize(size.x);
 	for(int x = 0; x < size.x; x++)
 	{
 		tilemap[x].reserve(size.y);
@@ -94,5 +94,6 @@ void Layer::clear(clan::Color background_color, clan::Color foreground_color, in
 
 void Layer::draw(clan::Canvas &canvas, int x, int y)
 {
-	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), clan::Colorf::white);
+	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.background_color);
+	canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.foreground_color);
 }

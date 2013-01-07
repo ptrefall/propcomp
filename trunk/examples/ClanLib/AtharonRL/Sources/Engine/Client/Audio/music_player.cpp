@@ -4,7 +4,7 @@
 
 using namespace clan;
 
-//#define NO_MUSIC
+#define NO_MUSIC
 
 MusicPlayer::MusicPlayer()
 : current_song_index(0), loop(false)

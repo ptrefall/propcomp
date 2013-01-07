@@ -6,6 +6,7 @@
 #include "Engine/Client/UIFramework/ui_frame.h"
 #include "Engine/Client/UIFramework/ui_button.h"
 #include "Engine/Client/UIFramework/ui_lineedit.h"
+#include "Engine/Client/Scene/layer.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
@@ -58,6 +59,14 @@ CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manag
 	label_status->set_scaled_geometry(ScaledBox::bottom_center_box(0.0f, 60.0f, 400.0f, 25.5f));
 	label_status->set_align(UILabel::text_align_center);
 
+	layer_manager.reset(new LayerManager());
+
+	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
+	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
+	auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
+	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
+	layer_manager->add(test_layer);
+
 	slots.connect(network.sig_event_received(), this, &CharacterSelectionScreen::on_event_received);
 
 	netevents.func_event(STC_CHARACTER_LIST).set(this, &CharacterSelectionScreen::on_event_character_list);
@@ -83,6 +92,8 @@ void CharacterSelectionScreen::update()
 	Size size((int)(background.get_width() * scale), (int)(background.get_height() * scale));
 	Rect box(Point((canvas.get_width() - size.width) / 2, 0), size);
 	background.draw(canvas, box);
+
+	layer_manager->draw(canvas, 0,0);
 
 	UIScreen::update();
 }

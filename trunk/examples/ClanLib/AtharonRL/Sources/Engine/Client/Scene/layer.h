@@ -2,12 +2,12 @@
 
 struct TileData
 {
-	clan::Color background_color;
-	clan::Color foreground_color;
+	clan::Colorf background_color;
+	clan::Colorf foreground_color;
 	int character;
 	//BlendType blender; //How character + foreground color interact with background color
 
-	TileData(const clan::Color &background_color, const clan::Color &foreground_color, int character) 
+	TileData(const clan::Colorf &background_color, const clan::Colorf &foreground_color, int character) 
 		: background_color(background_color), foreground_color(foreground_color), character(character)
 	{
 	}
@@ -26,6 +26,11 @@ struct LayerBitmap
 	clan::Image bitmap;
 	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
+
+	LayerBitmap(const clan::Image &bitmap, const clan::Point &glyph_size, TileCharacterMapper *mapper)
+		: bitmap(bitmap), glyph_size(glyph_size), mapper(mapper)
+	{
+	}
 };
 
 struct LayerDescription
@@ -44,23 +49,23 @@ public:
 	Layer(const LayerDescription &description, const LayerBitmap &bitmap);
 	~Layer();
 
-	void set_background_color(const clan::Point &position, clan::Color color);
+	void set_background_color(const clan::Point &position, clan::Colorf color);
 
-	void set_foreground_color(const clan::Point &position, clan::Color color);
-	//void set_foreground_color(const clan::Point &position, clan::Color color, BlendType blending);
+	void set_foreground_color(const clan::Point &position, clan::Colorf color);
+	//void set_foreground_color(const clan::Point &position, clan::Colorf color, BlendType blending);
 
 	void set_character(const clan::Point &position, int character);
-	void set_character(const clan::Point &position, int character, clan::Color foreground_color);
-	//void set_character(const clan::Point &position, int character, clan::Color foreground_color, BlendType blending);
+	void set_character(const clan::Point &position, int character, clan::Colorf foreground_color);
+	//void set_character(const clan::Point &position, int character, clan::Colorf foreground_color, BlendType blending);
 
-	void set_tile(const clan::Point &position, clan::Color background_color, clan::Color foreground_color, int character);
-	//void set_tile(const clan::Point &position, clan::Color background_color, clan::Color foreground_color, int character, BlendType blending);
+	void set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character);
+	//void set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character, BlendType blending);
 	void set_tile(const clan::Point &position, const TileData &data);
 
 	void clear();
 	void clear(const TileData &default_data);
-	void clear(clan::Color background_color, clan::Color foreground_color, int character);
-	//void clear(clan::Color background_color, clan::Color foreground_color, int character, BlendType blending);
+	void clear(clan::Colorf background_color, clan::Colorf foreground_color, int character);
+	//void clear(clan::Colorf background_color, clan::Colorf foreground_color, int character, BlendType blending);
 
 	void draw(clan::Canvas &canvas, int x, int y);
 
