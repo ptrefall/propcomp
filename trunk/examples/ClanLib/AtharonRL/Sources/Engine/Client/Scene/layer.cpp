@@ -29,7 +29,7 @@ bool Layer::valid(const clan::Point &position)
 	else return true;
 }
 
-void Layer::set_background_color(const clan::Point &position, clan::Color color)
+void Layer::set_background_color(const clan::Point &position, clan::Colorf color)
 {
 	if( !valid(position) )
 		return;
@@ -37,7 +37,7 @@ void Layer::set_background_color(const clan::Point &position, clan::Color color)
 	tilemap[position.x][position.y].background_color = color;
 }
 
-void Layer::set_foreground_color(const clan::Point &position, clan::Color color)
+void Layer::set_foreground_color(const clan::Point &position, clan::Colorf color)
 {
 	if( !valid(position) )
 		return;
@@ -52,13 +52,13 @@ void Layer::set_character(const clan::Point &position, int character)
 
 	tilemap[position.x][position.y].character = mapper->filter(character);
 }
-void Layer::set_character(const clan::Point &position, int character, clan::Color foreground_color)
+void Layer::set_character(const clan::Point &position, int character, clan::Colorf foreground_color)
 {
 	set_foreground_color(position, foreground_color);
 	set_character(position, character);
 }
 
-void Layer::set_tile(const clan::Point &position, clan::Color background_color, clan::Color foreground_color, int character)
+void Layer::set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character)
 {
 	set_background_color(position, background_color);
 	set_foreground_color(position, foreground_color);
@@ -86,7 +86,7 @@ void Layer::clear(const TileData &default_data)
 	this->default_tile = default_data;
 	clear();
 }
-void Layer::clear(clan::Color background_color, clan::Color foreground_color, int character)
+void Layer::clear(clan::Colorf background_color, clan::Colorf foreground_color, int character)
 {
 	default_tile = TileData(background_color, foreground_color, character);
 	clear();
@@ -94,6 +94,6 @@ void Layer::clear(clan::Color background_color, clan::Color foreground_color, in
 
 void Layer::draw(clan::Canvas &canvas, int x, int y)
 {
-	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.background_color);
-	canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.foreground_color);
+	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.foreground_color);
+	canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.background_color);
 }
