@@ -7,6 +7,7 @@ Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
 	  bitmap(bitmap.bitmap), glyph_size(bitmap.glyph_size), mapper(bitmap.mapper)
 {
 	this->bitmap.set_frame(64);
+	this->bitmap.set_color(default_tile.foreground_color);
 	tilemap.resize(size.x);
 	for(int x = 0; x < size.x; x++)
 	{
@@ -95,7 +96,18 @@ void Layer::clear(clan::Colorf background_color, clan::Colorf foreground_color, 
 
 void Layer::draw(clan::Canvas &canvas, int x, int y)
 {
-	canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.foreground_color);
-	canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.background_color);
-	bitmap.draw(canvas, 250.0f, 150.0f);
+	//canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.foreground_color);
+	//canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.background_color);
+	for(int y = 0; y < size.y; y++)
+	{
+		for(int x = 0; x < size.x; x++)
+		{
+			auto &tile = tilemap[x][y];
+			canvas.fill(clan::Rectf(x*glyph_size.x, y*glyph_size.y, x*glyph_size.x+glyph_size.x, y*glyph_size.y+glyph_size.y), tile.background_color);
+			bitmap.set_color(tile.foreground_color);
+			//bitmap.set_alpha(0.5f);
+			bitmap.set_frame(tile.character);
+			bitmap.draw(canvas, x*glyph_size.x, y*glyph_size.y);
+		}
+	}
 }
