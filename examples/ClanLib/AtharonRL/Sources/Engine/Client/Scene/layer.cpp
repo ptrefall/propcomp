@@ -6,7 +6,7 @@ Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
 	: offset(description.offset), size(description.size), default_tile(description.default_tile),
 	  bitmap(bitmap.bitmap), glyph_size(bitmap.glyph_size), mapper(bitmap.mapper)
 {
-	this->bitmap.set_frame(0);
+	this->bitmap.set_frame(64);
 	tilemap.resize(size.x);
 	for(int x = 0; x < size.x; x++)
 	{
