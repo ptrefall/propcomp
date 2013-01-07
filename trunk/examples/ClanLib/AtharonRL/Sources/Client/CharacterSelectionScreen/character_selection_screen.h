@@ -15,7 +15,7 @@ class Layer;
 class CharacterSelectionScreen : public UIScreen
 {
 public:
-	CharacterSelectionScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, const std::string &arg);
+	CharacterSelectionScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources);
 
 	void update();
 

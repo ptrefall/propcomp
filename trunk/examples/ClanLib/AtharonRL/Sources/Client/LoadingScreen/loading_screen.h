@@ -10,7 +10,7 @@ class Game;
 class LoadingScreen : public UIScreen
 {
 public:
-	LoadingScreen(UIScreenManager *screen_manager, Game *game_test, clan::NetGameClient &network, const std::string &arg);
+	LoadingScreen(UIScreenManager *screen_manager, Game *game_test, clan::NetGameClient &network, clan::ResourceManager &resources);
 
 	virtual void update();
 	virtual void on_activated();

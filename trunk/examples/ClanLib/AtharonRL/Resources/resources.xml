@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources>
 <resources>
 	<section name="UI">
-		<image name="button_normal" file="Engine/GUIThemeAero/Images/button_normal.png" />
+		<image name="button_normal"><image-file file="Engine/GUIThemeAero/Images/button_normal.png" /></image>
+		<image name="lineedit_normal"><image-file file="Engine/GUIThemeAero/Images/lineedit_normal.png" /></image>
+		<image name="xp_frame"><image-file file="Engine/GUIThemeAero/Images/XP/frame.png" /></image>
+	</section>
+	<section name="Background">
+		<image name="login"><image-file file="Backgrounds/Login.png" /></image>
+	</section>
+	<section name="Music">
+		<sound name="main_theme" file="Music/MainTheme.ogg" />
 	</section>
 </resources>
