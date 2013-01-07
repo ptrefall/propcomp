@@ -68,7 +68,8 @@ CharacterSelectionScreen::CharacterSelectionScreen(UIScreenManager *screen_manag
 	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
 	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
 	//auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
-	auto bitmap = LayerBitmap(Image(gc, "Font/font-10-img", &resources), Point(16,29), nullptr);
+	//auto bitmap = LayerBitmap(Image(gc, "Font/font-10-img", &resources), Point(16,29), nullptr);
+	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), Point(16,29), nullptr);
 	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
 	layer_manager->add(test_layer);
 
