@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameWorld/player_manager.h"
-//#include "GameWorld/zone_manager.h"
+#include "GameWorld/zone_manager.h"
 #include "GameWorld/netevents_character.h"
 #include "GameWorld/character_manager.h"
 
@@ -30,7 +30,7 @@ private:
 	clan::NetGameServer network;
 	clan::NetGameEventDispatcher_v1<ServerUser *> netevents;
 
-	//ZoneManager zone_manager;
+	ZoneManager zone_manager;
 	PlayerManager player_manager;
 	CharacterManager character_manager;
 	NetEventsCharacter netevents_character;

@@ -18,11 +18,9 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 
 	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
 	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
-	//auto bitmap = LayerBitmap(Image(gc, arg+"Resources/Fonts/font-10.png"), Point(16,29), nullptr);
-	//auto bitmap = LayerBitmap(Image(gc, "Font/font-10-img", &resources), Point(16,29), nullptr);
 	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), Point(16,29), nullptr);
 	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
-	test_layer->set_tile(Point(12, 4), Colorf::aliceblue, Colorf::red, '@');
+	test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
 	layer_manager->add(test_layer);
 
 	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);

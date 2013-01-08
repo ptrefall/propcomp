@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
 
-INSERT INTO ZoneInstances (GameObjectContainerId, ZoneContinentName, ZoneInstanceName) VALUES (1, 'WoWMaps/ab.continent', 'Arathi Basin');
+INSERT INTO ZoneInstances (GameObjectContainerId, GenerationSeed) VALUES (1, -1);
 
 COMMIT;
