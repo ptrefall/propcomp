@@ -2,7 +2,7 @@
 #include "character_manager.h"
 #include "server_player.h"
 #include "server_character.h"
-//#include "zone.h"
+#include "zone.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Database/database_characters.h"
 #include "Database/database_gameobjects.h"
@@ -12,8 +12,8 @@ using namespace clan;
 /////////////////////////////////////////////////////////////////////////////
 // Construction:
 
-CharacterManager::CharacterManager(SqliteConnection &db/*, ZoneManager &zone_manager*/)
-: db(db)//, zone_manager(zone_manager)
+CharacterManager::CharacterManager(SqliteConnection &db, ZoneManager &zone_manager)
+: db(db), zone_manager(zone_manager)
 {
 }
 
@@ -52,21 +52,21 @@ void CharacterManager::initialize_character(int character_id, ServerPlayer *play
 		DatabaseCharacters::CharacterInfo character_info = DatabaseCharacters::get_info(db, character_id);
 		DatabaseGameObjects::GameObjectInfo gameobject_info = DatabaseGameObjects::get_info(db, character_info.gameobject_id);
 
-		/*Zone *zone = zone_manager.get_or_load_zone(gameobject_info.container_id);
+		Zone *zone = zone_manager.get_or_load_zone(gameobject_info.container_id);
 		if(zone == 0)
-			throw Exception(string_format("Unable to load zone %1", gameobject_info.container_id));*/
+			throw Exception(string_format("Unable to load zone %1", gameobject_info.container_id));
 
 		DatabaseGameObjects::set_gameobject_active_state(db, character_info.gameobject_id, true);
 
-		ServerGameObject *gameobject = nullptr; //zone->load_gameobject(character_info.gameobject_id);
-		//if(gameobject == 0)
-		//	throw Exception(string_format("Unable to load gameobject %1", character_info.gameobject_id));
+		ServerGameObject *gameobject = zone->load_gameobject(character_info.gameobject_id);
+		if(gameobject == 0)
+			throw Exception(string_format("Unable to load gameobject %1", character_info.gameobject_id));
 
 		player->send_event(NetGameEvent(STC_CHARACTER_LOGIN_SUCCESS));
 
 		ServerCharacter *character = player->create_character(character_info.id, character_info.name, gameobject);
 
-		//character->move_to_zone(zone, false);
+		character->move_to_zone(zone, false);
 	}
 	catch (Exception &e)
 	{

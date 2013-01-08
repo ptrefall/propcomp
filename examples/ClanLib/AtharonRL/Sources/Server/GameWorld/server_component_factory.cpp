@@ -11,8 +11,7 @@
 using namespace Totem;
 using namespace clan;
 
-ServerComponentFactory::ServerComponentFactory(/*CollisionWorld collision_world*/)
-//: collision_world(collision_world)
+ServerComponentFactory::ServerComponentFactory()
 {
 }
 

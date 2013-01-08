@@ -1,0 +1,128 @@
+#include "precomp.h"
+#include "zone_manager.h"
+#include "zone.h"
+#include "server_gameobject.h"
+#include "server_gameobject.h"
+#include "network_receiver_component.h"
+#include "Database/database_zone_instances.h"
+#include "Database/database_gameobjects.h"
+#include "Database/database_gameobject_containers.h"
+#include "Engine/Common/Network/netevents.h"
+
+using namespace Totem;
+using namespace clan;
+
+/////////////////////////////////////////////////////////////////////////////
+// Construction:
+
+ZoneManager::ZoneManager(SqliteConnection &db)
+: db(db)
+{
+	netevents.func_event(CTS_OBJECT_EVENT).set(this, &ZoneManager::on_net_event_object_event);
+}
+
+ZoneManager::~ZoneManager()
+{
+	for (size_t i = 0; i < zones.size(); i++)
+		delete zones[i];
+	zones.clear();
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Attributes:
+
+ServerGameObject *ZoneManager::find_gameobject(int gameobject_id) const
+{
+	for(size_t i = 0; i < zones.size(); ++i)
+	{
+		ServerGameObject *gameobject = zones[i]->find_gameobject(gameobject_id);
+		if(gameobject != 0)
+			return gameobject;
+	}	
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Operations:
+
+Zone *ZoneManager::get_or_load_zone(int zone_id)
+{
+	Zone *zone = find_zone(zone_id);
+	if(zone == 0)
+	{
+		if(DatabaseZoneInstances::is_zone_instantiated(db, zone_id))
+			zone = load_zone(zone_id);
+	}
+	return zone;
+}
+
+void ZoneManager::update()
+{
+	std::vector<Zone *>::iterator it;
+	for (it = zones.begin(); it != zones.end(); ++it)
+	{
+		Zone *zone = (*it);
+		zone->update();	
+	}
+}
+
+bool ZoneManager::dispatch_net_event(const NetGameEvent &event, ServerPlayer *player)
+{
+	return netevents.dispatch(event, player);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Implementation:
+
+void ZoneManager::on_net_event_object_event(const NetGameEvent &e, ServerPlayer *player)
+{
+	int gameobject_id = e.get_argument(0);
+
+	bool handled_event = false;
+
+	ServerGameObject *gameobject = find_gameobject(gameobject_id);
+	if(gameobject)
+	{
+		std::string event_name = e.get_argument(1);
+		NetGameEvent gameobject_event(event_name);
+		for (size_t i = 2; i < e.get_argument_count(); i++)
+			gameobject_event.add_argument(e.get_argument(i));
+
+		std::vector<std::shared_ptr<IComponent<>>> &components = gameobject->getComponents();
+		for(size_t i = 0; i < components.size(); ++i)
+		{
+			NetworkReceiverComponent *component = dynamic_cast<NetworkReceiverComponent *> (components[i].get());
+			if(component)
+			{
+				handled_event |= component->dispatch_net_event(gameobject_event, player);
+			}
+		}
+	}
+
+	if (!handled_event)
+		cl_log_event("Network", "Unhandled gameobject event: %1", e.to_string());
+}
+
+Zone *ZoneManager::find_zone(int zone_id)
+{
+	for (size_t i = 0; i < zones.size(); ++i)
+	{
+		if(zones[i]->get_id() == zone_id)
+			return zones[i];
+	}
+	return 0;
+}
+
+Zone *ZoneManager::load_zone(int zone_id)
+{
+	cl_log_event("Zones", "Loading existing zone %1", zone_id);
+
+	DatabaseZoneInstances::ZoneInstanceInfo zone_instance = DatabaseZoneInstances::get_info(db, zone_id);
+
+	Zone *zone = new Zone(db, zone_id, zone_instance.gameobject_container_id, zone_instance.generation_seed);
+	zones.push_back(zone);
+
+	cl_log_event("Zones", "Zone %1 loaded", zone_id);
+
+	return zone;
+}

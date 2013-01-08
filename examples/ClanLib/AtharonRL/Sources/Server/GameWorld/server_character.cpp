@@ -2,7 +2,7 @@
 #include "server_character.h"
 #include "server_player.h"
 #include "server_gameobject.h"
-//#include "zone.h"
+#include "zone.h"
 #include "Database/database_characters.h"
 #include "Engine/Common/Network/netevents.h"
 
@@ -32,7 +32,7 @@ void ServerCharacter::set_owner_gameobject(ServerGameObject *gameobject)
 
 void ServerCharacter::remove_from_zone()
 {
-	/*if(zone)
+	if(zone)
 	{
 		zone->remove_player(player);
 		zone->set_gameobject_inactive(owner_gameobject);
@@ -40,12 +40,12 @@ void ServerCharacter::remove_from_zone()
 		owner_gameobject->save_dirty_properties();
 
 		zone = 0;
-	}*/
+	}
 }
 
 void ServerCharacter::move_to_zone(Zone *new_zone, bool set_start_position)
 {
-	/*if(owner_gameobject == 0)
+	if(owner_gameobject == 0)
 		throw Exception("move_to_zone called without setting gameobject first");
 
 	if(zone != new_zone)
@@ -62,5 +62,5 @@ void ServerCharacter::move_to_zone(Zone *new_zone, bool set_start_position)
 		zone = new_zone;
 		zone->add_player(player);
 		zone->add_gameobject(owner_gameobject);
-	}*/
+	}
 }

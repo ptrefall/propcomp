@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "zone_manager.h"
+#include "zone_manager.h"
 
 class ServerPlayer;
 
@@ -8,7 +8,7 @@ class CharacterManager
 {
 // Construction:
 public:
-	CharacterManager(clan::SqliteConnection &db/*, ZoneManager &zone_manager*/);
+	CharacterManager(clan::SqliteConnection &db, ZoneManager &zone_manager);
 
 // Operations:
 public:
@@ -21,5 +21,5 @@ private:
 	void initialize_character(int character_id, ServerPlayer *player);
 
 	clan::SqliteConnection &db;
-	//ZoneManager &zone_manager;
+	ZoneManager &zone_manager;
 };

@@ -8,7 +8,7 @@
 using namespace clan;
 
 Server::Server(const std::string &base_dir)
-: db(base_dir + "/Database/game.db")/*, zone_manager(db)*/, player_manager(db), character_manager(db/*, zone_manager*/), netevents_character(db, character_manager)
+: db(base_dir + "/Database/game.db"), zone_manager(db), player_manager(db), character_manager(db, zone_manager), netevents_character(db, character_manager)
 {
 }
 
@@ -26,7 +26,7 @@ void Server::run(Event &stop_event)
 		initialize_network();
 
 		// Preload a zone for testing
-		//zone_manager.get_or_load_zone(1);
+		zone_manager.get_or_load_zone(1);
 
 		cl_log_event("Info", "Server initialized and running");
 
@@ -35,7 +35,7 @@ void Server::run(Event &stop_event)
 		{
 			try
 			{
-				//zone_manager.update();
+				zone_manager.update();
 
 				KeepAlive::process(10);
 			}
@@ -127,7 +127,7 @@ void Server::on_net_event_received(NetGameConnection *connection, const NetGameE
 			if(player)
 			{	
 				handled_event |= netevents_character.dispatch_net_event(e, player);
-				//handled_event |= zone_manager.dispatch_net_event(e, player);
+				handled_event |= zone_manager.dispatch_net_event(e, player);
 			}
 		}
 
