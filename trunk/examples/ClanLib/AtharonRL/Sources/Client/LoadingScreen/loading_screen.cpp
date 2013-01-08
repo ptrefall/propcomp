@@ -40,6 +40,6 @@ void LoadingScreen::update()
 	UIScreen::update();
 
 	// Make sure we draw this screen before we switch to game
-	if(hack_counter++ > 2)
+	if(hack_counter++ > 100)
 		game->change_to_game_screen();
 }

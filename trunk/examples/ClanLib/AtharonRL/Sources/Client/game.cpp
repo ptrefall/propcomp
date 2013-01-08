@@ -5,12 +5,12 @@
 #include "LoginScreen/login_screen.h"
 #include "CharacterSelectionScreen/character_selection_screen.h"
 #include "LoadingScreen/loading_screen.h"
-//#include "GameScreen/..."
+#include "GameScreen/game_screen.h"
 
 using namespace clan;
 
 Game::Game(const std::string &arg)
-: screen_login(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
+: screen_login(nullptr), screen_character_selection(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
 {
 	std::string base_dir = clan::System::get_exe_path();
 	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
@@ -84,7 +84,10 @@ Game::Game(const std::string &arg)
 Game::~Game()
 {
 	delete screen_login;
+	delete screen_character_selection;
 	delete screen_loading;
+	if(screen_ingame)
+		delete screen_ingame;
 }
 
 void Game::run()
@@ -120,9 +123,10 @@ void Game::change_to_loading_screen()
 
 void Game::change_to_game_screen()
 {
-	/*if (!screen_ingame)
-		screen_ingame = new GameScreen(this, "WoWMaps/ab.continent", network);
-	screen_ingame->set_active();*/
+	if (screen_ingame == nullptr)
+		screen_ingame = new GameScreen(screen_manager.get(), this, network, *resources);
+		//screen_ingame = new GameScreen(this, "WoWMaps/ab.continent", network);
+	screen_ingame->set_active();
 }
 
 void Game::on_event_received(const NetGameEvent &e)
