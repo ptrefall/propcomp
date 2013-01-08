@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "server_character.h"
 #include "server_player.h"
-//#include "server_gameobject.h"
+#include "server_gameobject.h"
 //#include "zone.h"
 #include "Database/database_characters.h"
 #include "Engine/Common/Network/netevents.h"
@@ -23,11 +23,11 @@ void ServerCharacter::set_owner_gameobject(ServerGameObject *gameobject)
 {
 	owner_gameobject = gameobject;
 
-	/*if(gameobject)
+	if(gameobject)
 	{
 		NetGameEvent event(STC_OBJECT_PLAYER_OWN, gameobject->get_id());
 		player->send_event(event);
-	}*/
+	}
 }
 
 void ServerCharacter::remove_from_zone()

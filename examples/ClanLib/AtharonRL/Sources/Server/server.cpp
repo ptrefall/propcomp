@@ -8,7 +8,7 @@
 using namespace clan;
 
 Server::Server(const std::string &base_dir)
-: db(base_dir + "/Database/game.db")//, zone_manager(db), player_manager(db), character_manager(db, zone_manager), netevents_character(db, character_manager)
+: db(base_dir + "/Database/game.db")/*, zone_manager(db)*/, player_manager(db), character_manager(db/*, zone_manager*/), netevents_character(db, character_manager)
 {
 }
 
@@ -105,7 +105,7 @@ void Server::on_client_disconnected(NetGameConnection *connection)
 	{
 		if(user->is_logged_in())
 		{
-			//player_manager.remove_player(connection);
+			player_manager.remove_player(connection);
 		}
 
 		delete user;
@@ -123,12 +123,12 @@ void Server::on_net_event_received(NetGameConnection *connection, const NetGameE
 
 		if (user->is_logged_in())
 		{
-			/*ServerPlayer *player = player_manager.find_player(connection);
+			ServerPlayer *player = player_manager.find_player(connection);
 			if(player)
 			{	
 				handled_event |= netevents_character.dispatch_net_event(e, player);
-				handled_event |= zone_manager.dispatch_net_event(e, player);
-			}*/
+				//handled_event |= zone_manager.dispatch_net_event(e, player);
+			}
 		}
 
 		if (!handled_event)
@@ -146,7 +146,7 @@ void Server::on_net_event_login(const NetGameEvent &e, ServerUser *user)
 	{
 		try
 		{
-			//player_manager.create_player(user_id, user->get_connection());
+			player_manager.create_player(user_id, user->get_connection());
 
 			user->set_logged_in();
 			user->send_event(NetGameEvent(STC_LOGIN_SUCCESS));
