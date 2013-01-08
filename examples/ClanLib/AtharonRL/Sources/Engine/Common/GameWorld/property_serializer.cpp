@@ -49,6 +49,14 @@ void PropertySerializer::create_and_add_property(GameObject *owner, int type_id,
 			property.set(result);
 			break;
 		}
+		case PropertySerializer::TYPE_CHAR:
+		{
+			char result;
+			from_string(value, result);
+			Property<char> property = owner->add<char>(name, result);
+			property.set(result);
+			break;
+		}
 		case PropertySerializer::TYPE_CL_STRING:
 		{
 			std::string result;
@@ -57,19 +65,11 @@ void PropertySerializer::create_and_add_property(GameObject *owner, int type_id,
 			property.set(result);
 			break;
 		}
-		case PropertySerializer::TYPE_CL_VEC3F:
+		case PropertySerializer::TYPE_CL_VEC2I:
 		{
-			Vec3f result;
+			Vec2i result;
 			from_string(value, result);
-			Property<Vec3f> property = owner->add<Vec3f>(name, result);
-			property.set(result);
-			break;
-		}
-		case PropertySerializer::TYPE_CL_QUATERNIONF:
-		{
-			Quaternionf result;
-			from_string(value, result);
-			Property<Quaternionf> property = owner->add<Quaternionf>(name, result);
+			Property<Vec2i> property = owner->add<Vec2i>(name, result);
 			property.set(result);
 			break;
 		}
@@ -118,13 +118,9 @@ PropertySerializer::PropertyType PropertySerializer::get_property_type(Totem::IP
 	{
 		return TYPE_CL_STRING;
 	}
-	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Vec3f>())
+	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Vec2i>())
 	{
-		return TYPE_CL_VEC3F;
-	}
-	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Quaternionf>())
-	{
-		return TYPE_CL_QUATERNIONF;
+		return TYPE_CL_VEC2I;
 	}
 //	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<ServerGameObject *>())
 //	{
@@ -163,20 +159,20 @@ std::string PropertySerializer::property_value_to_string(Totem::IProperty *prope
 		const double &value = static_cast<Totem::Property<double> *>(property)->get();
 		return StringHelp::double_to_text(value);
 	}
+	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<char>())
+	{
+		const char &value = static_cast<Totem::Property<char> *>(property)->get();
+		return StringHelp::int_to_text((int)value);
+	}
 	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<std::string>())
 	{
 		const std::string &value = static_cast<Totem::Property<std::string> *>(property)->get();
 		return value;
 	}
-	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Vec3f>())
+	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Vec2i>())
 	{
-		const Vec3f &value = static_cast<Totem::Property<Vec3f> *>(property)->get();
-		return string_format("%1 %2 %3", value.x, value.y, value.z);
-	}
-	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Quaternionf>())
-	{
-		const Quaternionf &value = static_cast<Totem::Property<Quaternionf> *>(property)->get();
-		return string_format("%1 %2 %3 %4", value.w, value.x, value.y, value.z);
+		const Vec2i &value = static_cast<Totem::Property<Vec2i> *>(property)->get();
+		return string_format("%1 %2", value.x, value.y);
 	}
 //	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<ServerGameObject *>())
 //	{
@@ -219,36 +215,26 @@ void PropertySerializer::from_string(const std::string &value, bool &result)
 	result = StringHelp::text_to_bool(value);
 }
 
+void PropertySerializer::from_string(const std::string &value, char &result)
+{
+	result = value.c_str()[0];
+}
+
 void PropertySerializer::from_string(const std::string &value, std::string &result)
 {
 	result = value;
 }
 
-void PropertySerializer::from_string(const std::string &value, Vec3f &result)
+void PropertySerializer::from_string(const std::string &value, Vec2i &result)
 {
 	std::vector<std::string> values = StringHelp::split_text(value, " ");
-	if(values.size() != 3)
-		throw Exception("Vec3f from_string failed");
+	if(values.size() != 2)
+		throw Exception("Vec2i from_string failed");
 
-	float x = StringHelp::text_to_float(values[0]);
-	float y = StringHelp::text_to_float(values[1]);
-	float z = StringHelp::text_to_float(values[2]);
+	int x = StringHelp::text_to_int(values[0]);
+	int y = StringHelp::text_to_int(values[1]);
 
-	result = Vec3f(x, y, z);
-}
-
-void PropertySerializer::from_string(const std::string &value, Quaternionf &result)
-{
-	std::vector<std::string> values = StringHelp::split_text(value, " ");
-	if(values.size() != 4)
-		throw Exception("Quaternionf from_string failed");
-
-	float w = StringHelp::text_to_float(values[0]);
-	float x = StringHelp::text_to_float(values[1]);
-	float y = StringHelp::text_to_float(values[2]);
-	float z = StringHelp::text_to_float(values[3]);
-
-	result = Quaternionf(w, x, y, z);
+	result = Vec2i(x, y);
 }
 
 /*void PropertySerializer::from_string(const std::string &value, (ServerGameObject *)&result)

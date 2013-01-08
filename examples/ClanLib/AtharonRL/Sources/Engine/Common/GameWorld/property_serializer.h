@@ -12,9 +12,9 @@ public:
 		TYPE_FLOAT = 3,
 		TYPE_BOOL = 4,
 		TYPE_DOUBLE = 5,
+		TYPE_CHAR = 6,
 		TYPE_CL_STRING = 100,
-		TYPE_CL_VEC3F = 101,			// x y z
-		TYPE_CL_QUATERNIONF = 102,		// w x y z
+		TYPE_CL_VEC2I = 101,			// x y
 		TYPE_SERVERGAMEOBJECT = 1000	// id
 	};
 
@@ -36,7 +36,7 @@ public:
 	static void from_string(const std::string &value, float &result);
 	static void from_string(const std::string &value, double &result);
 	static void from_string(const std::string &value, bool &result);
+	static void from_string(const std::string &value, char &result);
 	static void from_string(const std::string &value, std::string &result);
-	static void from_string(const std::string &value, clan::Vec3f &result);
-	static void from_string(const std::string &value, clan::Quaternionf &result);
+	static void from_string(const std::string &value, clan::Vec2i &result);
 };
