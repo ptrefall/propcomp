@@ -3,7 +3,6 @@
 
 #include "Engine/Client/UIFramework/ui_screen_manager.h"
 #include "Engine/Client/UIFramework/ui_screen.h"
-#include "Engine/Client/Scene/layer_manager.h"
 
 class UIFrame;
 class UIButton;
@@ -47,7 +46,4 @@ private:
 	size_t current_character;
 	UIButton *button_join;
 	UILabel *label_status;
-
-	std::unique_ptr<LayerManager> layer_manager;
-	std::shared_ptr<Layer> test_layer;
 };
