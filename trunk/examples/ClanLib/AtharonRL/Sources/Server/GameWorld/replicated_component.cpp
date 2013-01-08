@@ -50,6 +50,15 @@ void ReplicatedComponent::replicate_property(Totem::Property<bool> &property, Re
 		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_bool_value_changed, iproperty);
 }
 
+void ReplicatedComponent::replicate_property(Totem::Property<char> &property, ReplicationMode mode)
+{
+	IProperty *iproperty = &property;
+	properties[iproperty] = false;
+
+	if(mode == REPLICATE_ON_CHANGE)
+		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_char_value_changed, iproperty);
+}
+
 void ReplicatedComponent::replicate_property(Totem::Property<std::string> &property, ReplicationMode mode)
 {
 	IProperty *iproperty = &property;
@@ -59,22 +68,13 @@ void ReplicatedComponent::replicate_property(Totem::Property<std::string> &prope
 		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_string_value_changed, iproperty);
 }
 
-void ReplicatedComponent::replicate_property(Totem::Property<Vec3f> &property, ReplicationMode mode)
+void ReplicatedComponent::replicate_property(Totem::Property<Vec2i> &property, ReplicationMode mode)
 {
 	IProperty *iproperty = &property;
 	properties[iproperty] = false;
 
 	if(mode == REPLICATE_ON_CHANGE)
-		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_vec3f_value_changed, iproperty);
-}
-
-void ReplicatedComponent::replicate_property(Totem::Property<Quaternionf> &property, ReplicationMode mode)
-{
-	IProperty *iproperty = &property;
-	properties[iproperty] = false;
-
-	if(mode == REPLICATE_ON_CHANGE)
-		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_quaternionf_value_changed, iproperty);
+		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_vec2i_value_changed, iproperty);
 }
 
 std::vector<Totem::IProperty *> ReplicatedComponent::get_tracked_properties()
@@ -145,12 +145,12 @@ void ReplicatedComponent::on_cl_string_value_changed(const std::string &old_valu
 	properties[property] = true;
 }
 
-void ReplicatedComponent::on_cl_vec3f_value_changed(const Vec3f &old_value, const Vec3f &new_value, Totem::IProperty *property)
+void ReplicatedComponent::on_cl_vec2i_value_changed(const Vec2i &old_value, const Vec2i &new_value, Totem::IProperty *property)
 {
 	properties[property] = true;
 }
 
-void ReplicatedComponent::on_cl_quaternionf_value_changed(const Quaternionf &old_value, const Quaternionf &new_value, Totem::IProperty *property)
+void ReplicatedComponent::on_char_value_changed(const char &old_value, const char &new_value, Totem::IProperty *property)
 {
 	properties[property] = true;
 }
