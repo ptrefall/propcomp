@@ -30,10 +30,10 @@ private:
 	clan::NetGameServer network;
 	clan::NetGameEventDispatcher_v1<ServerUser *> netevents;
 
-	/*ZoneManager zone_manager;
+	//ZoneManager zone_manager;
 	PlayerManager player_manager;
 	CharacterManager character_manager;
-	NetEventsCharacter netevents_character;*/
+	NetEventsCharacter netevents_character;
 
 	clan::SqliteConnection db;
 };

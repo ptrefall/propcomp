@@ -1,6 +1,6 @@
 
 #include "precomp.h"
-#include "login_screen.h"
+#include "game_screen.h"
 #include "game.h"
 #include "Engine/Client/UIFramework/window_manager.h"
 #include "Engine/Client/UIFramework/ui_button.h"
@@ -11,10 +11,11 @@
 
 using namespace clan;
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
+GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), network(network), game(game)
 {
-	game->get_music_player()->play("Music/main_theme", resources);
+	//resources.get_resource("Music/main_theme")
+	//game->get_music_player()->play(arg+"Resources/Music/MainTheme.ogg", true);
 
 	GraphicContext gc = screen_manager->get_window().get_gc();
 
@@ -42,7 +43,7 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 	button_connect = new UIButton(this);
 	button_connect->background = sprite_button;
 	button_connect->set_scaled_geometry(ScaledBox::bottom_center_box(0.0f, 110.0f, 100.0f, 37.0f));
-	button_connect->func_clicked().set(this, &LoginScreen::on_connect_clicked);
+	button_connect->func_clicked().set(this, &GameScreen::on_connect_clicked);
 	button_connect->set_visible(false);
 
 	UILabel *label_button_connect = new UILabel(button_connect);
@@ -85,7 +86,7 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 	button_login = new UIButton(frame_login);
 	button_login->background = sprite_button;
 	button_login->set_scaled_geometry(ScaledBox::center_left_box(320.0f, 0, 65.0f, 37.0f));
-	button_login->func_clicked().set(this, &LoginScreen::on_login_clicked);
+	button_login->func_clicked().set(this, &GameScreen::on_login_clicked);
 
 	UILabel *label_button_login = new UILabel(button_login);
 	label_button_login->set_text("LOG IN");
@@ -111,13 +112,13 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 	html_motd = new UIHtml(this);
 	html_motd->set_scaled_geometry(ScaledBox::top_left_box(50.0f, 100.0f, 300.0f, 500.0f));
 
-	slots.connect(network.sig_connected(), this, &LoginScreen::on_connected);
-	slots.connect(network.sig_disconnected(), this, &LoginScreen::on_disconnected);
-	slots.connect(network.sig_event_received(), this, &LoginScreen::on_event_received);
+	slots.connect(network.sig_connected(), this, &GameScreen::on_connected);
+	slots.connect(network.sig_disconnected(), this, &GameScreen::on_disconnected);
+	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
 
-	netevents.func_event(STC_MOTD).set(this, &LoginScreen::on_event_motd);
-	netevents.func_event(STC_LOGIN_FAIL).set(this, &LoginScreen::on_event_login_fail);
-	netevents.func_event(STC_LOGIN_SUCCESS).set(this, &LoginScreen::on_event_login_success);
+	netevents.func_event(STC_MOTD).set(this, &GameScreen::on_event_motd);
+	netevents.func_event(STC_LOGIN_FAIL).set(this, &GameScreen::on_event_login_fail);
+	netevents.func_event(STC_LOGIN_SUCCESS).set(this, &GameScreen::on_event_login_success);
 
 	UIModelScene *model_scene = new UIModelScene(this);
 	model_scene->set_scaled_geometry(ScaledBox::top_right_box(50.0f, 100.0f, 400.0f, 300.0f));
@@ -145,13 +146,13 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 #endif
 }
 
-void LoginScreen::on_activated()
+void GameScreen::on_activated()
 {
 	UIScreen::on_activated();
 	connect();
 }
 
-void LoginScreen::update()
+void GameScreen::update()
 {
 	Canvas canvas = get_canvas();
 
@@ -166,7 +167,7 @@ void LoginScreen::update()
 	UIScreen::update();
 }
 
-void LoginScreen::connect()
+void GameScreen::connect()
 {
 	std::string html =
 		"<html>"
@@ -183,12 +184,12 @@ void LoginScreen::connect()
 	network.connect(server, port);
 }
 
-void LoginScreen::on_connect_clicked()
+void GameScreen::on_connect_clicked()
 {
 	connect();
 }
 
-void LoginScreen::on_login_clicked()
+void GameScreen::on_login_clicked()
 {
 	label_login_status->set_text("");
 
@@ -198,7 +199,7 @@ void LoginScreen::on_login_clicked()
 	network.send_event(NetGameEvent(CTS_LOGIN, username, password));
 }
 
-void LoginScreen::on_connected()
+void GameScreen::on_connected()
 {
 	cl_log_event("Network", "Connected");
 
@@ -207,7 +208,7 @@ void LoginScreen::on_connected()
 	button_connect->set_visible(false);
 }
 
-void LoginScreen::on_disconnected()
+void GameScreen::on_disconnected()
 {
 	cl_log_event("Network", "Disconnected");
 
@@ -224,24 +225,24 @@ void LoginScreen::on_disconnected()
 	button_connect->set_visible(true);
 }
 
-void LoginScreen::on_event_received(const NetGameEvent &e)
+void GameScreen::on_event_received(const NetGameEvent &e)
 {
 	netevents.dispatch(e);
 }
 
-void LoginScreen::on_event_login_fail(const NetGameEvent &e)
+void GameScreen::on_event_login_fail(const NetGameEvent &e)
 {
 	std::string reason = e.get_argument(0);
 
 	label_login_status->set_text(reason);
 }
 
-void LoginScreen::on_event_login_success(const NetGameEvent &e)
+void GameScreen::on_event_login_success(const NetGameEvent &e)
 {
 	game->change_to_character_selection_screen();
 }
 
-void LoginScreen::on_event_motd(const NetGameEvent &e)
+void GameScreen::on_event_motd(const NetGameEvent &e)
 {
 	std::string html = e.get_argument(0);
 

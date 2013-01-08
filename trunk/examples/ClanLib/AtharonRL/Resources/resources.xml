@@ -9,6 +9,6 @@
 		<image name="login"><image-file file="Backgrounds/Login.png" /></image>
 	</section>
 	<section name="Music">
-		<sound name="main_theme" file="Music/MainTheme.ogg" />
+		<sample name="main_theme" file="Music/DarkWinds_0.OGG" format="" stream="true"/>
 	</section>
 </resources>

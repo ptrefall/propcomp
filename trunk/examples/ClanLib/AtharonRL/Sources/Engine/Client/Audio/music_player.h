@@ -6,6 +6,7 @@ class MusicPlayer
 public:
 	MusicPlayer();
 	void play(const std::string &filename, bool looping = false);
+	void play(const std::string &resource_id, clan::ResourceManager &resources, bool looping = false);
 	void play(std::vector<std::string> playlist, bool looping = false);
 	void stop();
 	void update();

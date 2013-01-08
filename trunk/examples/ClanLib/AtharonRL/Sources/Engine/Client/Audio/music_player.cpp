@@ -4,7 +4,7 @@
 
 using namespace clan;
 
-#define NO_MUSIC
+//#define NO_MUSIC
 
 MusicPlayer::MusicPlayer()
 : current_song_index(0), loop(false)
@@ -16,6 +16,18 @@ void MusicPlayer::play(const std::string &filename, bool looping)
 	std::vector<std::string> playlist;
 	playlist.push_back(filename);
 	play(playlist, looping);
+}
+
+void MusicPlayer::play(const std::string &resource_id, ResourceManager &resources, bool looping)
+{
+#ifndef NO_MUSIC
+	stop();
+	playlist.clear();
+	loop = looping;
+	current_song_index = 0;
+	current_song = clan::SoundBuffer(resource_id, &resources);
+	current_session = current_song.play();
+#endif
 }
 
 void MusicPlayer::play(std::vector<std::string> new_playlist, bool looping)
