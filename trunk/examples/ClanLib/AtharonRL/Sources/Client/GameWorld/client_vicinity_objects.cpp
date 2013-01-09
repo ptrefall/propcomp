@@ -1,1 +1,153 @@
 #include "precomp.h"
+#include "client_vicinity_objects.h"
+#include "client_gameobject.h"
+#include "client_zone.h"
+//#include "client_component_factory.h"
+#include "Engine/Common/Network/netevents.h"
+#include "Engine/Common/GameWorld/property_serializer.h"
+
+using namespace clan;
+
+ClientVicinityObjects::ClientVicinityObjects(ClientZone *zone, std::shared_ptr<ClientComponentFactory> component_factory)
+: player_gameobject_id(0), zone(zone), component_factory(component_factory)
+{
+	netevents.func_event(STC_OBJECT_CREATE).set(this, &ClientVicinityObjects::on_net_event_object_create);
+	netevents.func_event(STC_OBJECT_DESTROY).set(this, &ClientVicinityObjects::on_net_event_object_destroy);
+	netevents.func_event(STC_OBJECT_PLAYER_OWN).set(this, &ClientVicinityObjects::on_net_event_object_player_own);
+	netevents.func_event(STC_OBJECT_EVENT).set(this, &ClientVicinityObjects::on_net_event_object_event);
+}
+
+ClientVicinityObjects::~ClientVicinityObjects()
+{
+	clear();
+}
+
+bool ClientVicinityObjects::dispatch_net_event(const NetGameEvent &event)
+{
+	return netevents.dispatch(event);
+}
+
+void ClientVicinityObjects::add_object(ClientGameObject *object)
+{
+	visible_objects.push_back(object);
+}
+
+void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
+{
+	/*int a = 0;
+
+	int id = e.get_argument(a++);
+	std::string name = e.get_argument(a++);
+
+	cl_log_event("Game", "Creating object %1 %2", id, name);
+
+	ClientGameObject *gameobject = new ClientGameObject(zone, id, name);
+
+	unsigned int component_count = e.get_argument(a++);
+	for(size_t c = 0; c < component_count; ++c)
+	{
+		std::string component_type = e.get_argument(a++);
+		std::string component_name = e.get_argument(a++);
+
+		component_factory->create_and_add_component(gameobject, component_type, component_name);
+		cl_log_event("Game", "- Component %1 %2", component_type, component_name);
+
+		unsigned int property_count = e.get_argument(a++);
+		for(size_t p = 0; p < property_count; ++p)
+		{
+			int property_type = e.get_argument(a++);
+			std::string property_name = e.get_argument(a++);
+			std::string property_value = e.get_argument(a++);
+
+			PropertySerializer::create_and_add_property(gameobject, property_type, property_name, property_value);
+//			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
+		}
+	}
+
+	add_object(gameobject);
+
+	if(player_gameobject_id == id)
+		world->camera_target = gameobject;*/
+}
+
+void ClientVicinityObjects::on_net_event_object_destroy(const NetGameEvent &e)
+{
+	/*int id = e.get_argument(0);
+	for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	{
+		ClientGameObject *gameobject = *it;
+		if (gameobject->get_id() == id)
+		{
+			gameobject->destroy();
+			break;
+		}
+	}*/
+}
+
+void ClientVicinityObjects::on_net_event_object_player_own(const NetGameEvent &e)
+{
+	/*player_gameobject_id = e.get_argument(0);
+
+	ClientGameObject *gameobject = find_gameobject(player_gameobject_id);
+	if(gameobject)
+		world->camera_target = gameobject;*/
+}
+
+void ClientVicinityObjects::on_net_event_object_event(const NetGameEvent &e)
+{
+	/*int gameobject_id = e.get_argument(0);
+
+	bool handled_event = false;
+
+	ClientGameObject *gameobject = find_gameobject(gameobject_id);
+	if(gameobject)
+	{
+		std::string event_name = e.get_argument(1);
+		NetGameEvent gameobject_event(event_name);
+		for (size_t i = 2; i < e.get_argument_count(); i++)
+			gameobject_event.add_argument(e.get_argument(i));
+
+		handled_event = gameobject->dispatch_net_event(gameobject_event);
+	}
+
+	if (!handled_event)
+		cl_log_event("Network", "Unhandled gameobject event: %1", e.to_string());*/
+}
+
+ClientGameObject *ClientVicinityObjects::find_gameobject(int id)
+{
+	/*for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	{
+		ClientGameObject *gameobject = *it;
+		if (gameobject->get_id() == id)
+			return gameobject;
+	}*/
+	return 0;
+}
+
+void ClientVicinityObjects::clear()
+{
+	/*for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	{
+		ClientGameObject *gameobject = *it;
+		delete gameobject;
+	}
+	visible_objects.clear();*/
+}
+
+void ClientVicinityObjects::update(float time_elapsed)
+{
+	/*for (size_t i = 0; i < visible_objects.size(); i++)
+	{
+		visible_objects[i]->update(time_elapsed);
+	}
+	
+	for (size_t i = visible_objects.size(); i > 0; i--)
+	{
+		if (visible_objects[i-1]->is_destroyed())
+		{
+			delete visible_objects[i-1];
+			visible_objects.erase(visible_objects.begin() + (i-1));
+		}
+	}*/
+}
