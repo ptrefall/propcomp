@@ -24,6 +24,8 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	layer_manager->add(test_layer);
 
 	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
+
+	zone.reset(new ClientZone(this, network));
 }
 
 void GameScreen::on_activated()
