@@ -18,6 +18,7 @@ public:
 	void maximize();
 
 	void set_active(UIScreen *screen);
+	bool is_active(const UIScreen *screen) const;
 	void update();
 
 private:

@@ -12,6 +12,8 @@ using namespace clan;
 GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), network(network), game(game)
 {
+	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
+
 	GraphicContext gc = screen_manager->get_window().get_gc();
 
 	layer_manager.reset(new LayerManager());
@@ -22,8 +24,6 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
 	test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
 	layer_manager->add(test_layer);
-
-	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
 
 	zone.reset(new ClientZone(this, network));
 }
@@ -44,5 +44,5 @@ void GameScreen::update()
 
 void GameScreen::on_event_received(const NetGameEvent &e)
 {
-	netevents.dispatch(e);
+	zone->dispatch_net_event(e);
 }

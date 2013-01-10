@@ -89,6 +89,10 @@ void ClientVicinityObjects::on_net_event_object_player_own(const NetGameEvent &e
 {
 	player_gameobject_id = e.get_argument(0);
 
+	//The flow of events is such that this should return nullptr for now...
+	//but might as well check to be 110% sure :P
+	//The most important thing here is to define the player_gameobject_id
+	//then we set the camera target when we start creating gameobjects.
 	auto gameobject = find_gameobject(player_gameobject_id);
 	if(gameobject)
 		zone->set_camera_target(gameobject);

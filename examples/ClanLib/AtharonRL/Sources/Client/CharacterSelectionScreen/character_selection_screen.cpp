@@ -122,8 +122,8 @@ void CharacterSelectionScreen::on_event_character_list(const NetGameEvent &e)
 
 void CharacterSelectionScreen::on_event_character_login_success(const NetGameEvent &e)
 {
-	game->change_to_loading_screen();
-	//game->change_to_game_screen();
+	//game->change_to_loading_screen();
+	game->change_to_game_screen();
 }
 
 void CharacterSelectionScreen::on_event_character_login_fail(const NetGameEvent &e)

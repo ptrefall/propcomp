@@ -12,7 +12,6 @@ LoadingScreen::LoadingScreen(UIScreenManager *screen_manager, Game *game, NetGam
 : UIScreen(screen_manager), game(game), network(network)
 {
 	GraphicContext gc = screen_manager->get_window().get_gc();
-	//background = Image(gc, arg+"Resources/Backgrounds/Login.png");
 	background = Image(gc, "Background/login", &resources);
 
 	label = new UILabel(this);

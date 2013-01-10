@@ -54,6 +54,11 @@ void UIScreenManager::set_active(UIScreen *screen)
 	}
 }
 
+bool UIScreenManager::is_active(const UIScreen *screen) const
+{
+	return current == screen;
+}
+
 void UIScreenManager::update()
 {
 	ScopeTimerResults::start();

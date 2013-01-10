@@ -24,7 +24,7 @@ Game::Game(const std::string &arg)
 	
 	auto font_dir = vd.open_directory("Fonts");
 	auto font_dir_list = font_dir.get_directory_listing();
-	while(true)
+	while(!font_dir_list.is_null())
 	{
 		auto font_file = font_dir_list.get_filename();
 		if(font_file.find(".xml") == std::string::npos)
