@@ -1,6 +1,6 @@
 #pragma once
 
-class ClientGameObject;
+class ClientGameObject; typedef std::shared_ptr<ClientGameObject> ClientGameObjectPtr;
 class ClientZone;
 class ClientComponentFactory;
 
@@ -13,13 +13,13 @@ public:
 
 // Attributes:
 public:
-	ClientGameObject *find_gameobject(int id);
+	ClientGameObjectPtr find_gameobject(int id);
 
 // Operations:
 public:
 	bool dispatch_net_event(const clan::NetGameEvent &event);
 
-	void add_object(ClientGameObject *object);
+	void add_object(const ClientGameObjectPtr &object);
 
 	void update(float time_elapsed);
 
@@ -32,7 +32,7 @@ private:
 	void on_net_event_object_player_own(const clan::NetGameEvent &e);
 	void on_net_event_object_event(const clan::NetGameEvent &e);
 
-	std::vector<ClientGameObject *> visible_objects;
+	std::vector<ClientGameObjectPtr> visible_objects;
 
 	clan::NetGameEventDispatcher_v0 netevents;
 

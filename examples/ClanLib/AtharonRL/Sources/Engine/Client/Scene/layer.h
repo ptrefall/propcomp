@@ -18,6 +18,17 @@ struct TileData
 	}
 
 	TileData() {}
+
+	TileData &operator=(const TileData &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		background_color = rhs.background_color;
+		foreground_color = rhs.foreground_color;
+		character = rhs.character;
+		return *this;
+	}
 };
 
 class TileCharacterMapper;
@@ -37,10 +48,21 @@ struct LayerDescription
 {
 	clan::Point offset;
 	clan::Point size;
-	const TileData &default_tile;
+	TileData &default_tile;
 
-	LayerDescription(const clan::Point &offset, const clan::Point &size, const TileData &default_tile) : offset(offset), size(size), default_tile(default_tile) {}
+	LayerDescription(const clan::Point &offset, const clan::Point &size, TileData &default_tile) : offset(offset), size(size), default_tile(default_tile) {}
 	LayerDescription(const LayerDescription &descr) : offset(descr.offset), size(descr.size), default_tile(descr.default_tile) {}
+
+	LayerDescription &operator=(const LayerDescription &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		offset = rhs.offset;
+		size = rhs.size;
+		default_tile = rhs.default_tile;
+		return *this; 
+	}
 };
 
 class Layer
