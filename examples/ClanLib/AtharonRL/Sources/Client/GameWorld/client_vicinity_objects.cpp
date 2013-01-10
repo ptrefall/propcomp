@@ -43,13 +43,14 @@ void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 
 	auto gameobject = std::shared_ptr<ClientGameObject>(new ClientGameObject(zone, id, name));
 
-	/*unsigned int component_count = e.get_argument(a++);
+	unsigned int component_count = e.get_argument(a++);
 	for(size_t c = 0; c < component_count; ++c)
 	{
 		std::string component_type = e.get_argument(a++);
 		std::string component_name = e.get_argument(a++);
 
-		component_factory->create_and_add_component(gameobject, component_type, component_name);
+		//TODO: Should fix so that entire engine uses shared_ptr instead of raw pointer!!!
+		component_factory->create_and_add_component(gameobject.get(), component_type, component_name);
 		cl_log_event("Game", "- Component %1 %2", component_type, component_name);
 
 		unsigned int property_count = e.get_argument(a++);
@@ -59,10 +60,10 @@ void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 			std::string property_name = e.get_argument(a++);
 			std::string property_value = e.get_argument(a++);
 
-			PropertySerializer::create_and_add_property(gameobject, property_type, property_name, property_value);
-//			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
+			PropertySerializer::create_and_add_property(gameobject.get(), property_type, property_name, property_value);
+			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
 		}
-	}*/
+	}
 
 	add_object(gameobject);
 
