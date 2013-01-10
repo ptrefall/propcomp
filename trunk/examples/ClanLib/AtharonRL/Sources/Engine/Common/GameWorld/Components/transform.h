@@ -7,7 +7,7 @@ class Transform : public Totem::Component<Transform>
 {
 public:
 	Transform(GameObject *owner, const std::string &name = std::string());
-	virtual ~Transform();
+	virtual ~Transform() {}
 
 	static std::string getType() { return "Transform"; }
 
