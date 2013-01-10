@@ -8,24 +8,27 @@ INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, IsActive, Descript
 
 -- SPIDER
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, IsActive, Description) VALUES (11, 1, 1, 'Orc');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Monster");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 6, 	"Character", "o");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Transform");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 2, 	"Visual", "1");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 101, "Position", "10 10");
 
 -- TRIGGER
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, IsActive, Description) VALUES (12, 1, 1, 'Trigger');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (12, "Collider");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 101, "Position", "15 2");
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (12, "TriggerDisplayText");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 100, "DisplayTextOnEnter", "You entered the trigger");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 100, "DisplayTextOnExit", "You left the trigger");
+--INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, IsActive, Description) VALUES (12, 1, 1, 'Trigger');
+--INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (12, "Collider");
+--INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 101, "Position", "15 2");
+--INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (12, "TriggerDisplayText");
+--INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 100, "DisplayTextOnEnter", "You entered the trigger");
+--INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (12, 100, "DisplayTextOnExit", "You left the trigger");
 
 -- PLAYER ECO
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, IsActive, Description) VALUES (1, 1, 0, 'Eco');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Monster");
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "ClickMoveController");
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "NumpadMoveController");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 6, 	"Character", "@");
+--INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Monster");
+--INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "ClickMoveController");
+--INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "NumpadMoveController");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Transform");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 2, 	"Visual", "0");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 101, 	"Position", "12 15");
 
 -- TYPE_UNSIGNED_INT = 1,
