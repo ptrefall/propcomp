@@ -1,20 +1,23 @@
 #include "precomp.h"
 #include "component_serializer.h"
 
+#include "Components/looks.h"
+#include "Components/transform.h"
+
 using namespace Totem;
 using namespace clan;
 
 std::string ComponentSerializer::get_component_type(std::shared_ptr<Totem::IComponent<>> component)
 {
-	/*if(Component<FirstPersonMoveController>::isType(component))
+	if(IComponent<>::isType<Looks>(component))
 	{
-		return FirstPersonMoveController::getType();
+		return Looks::getType();
 	}
-	else if(Component<ClickMoveController>::isType(component))
+	else if(IComponent<>::isType<Transform>(component))
 	{
-		return ClickMoveController::getType();
+		return Transform::getType();
 	}
-	else if(Component<MeshObject>::isType(component))
+	/*else if(Component<MeshObject>::isType(component))
 	{
 		return MeshObject::getType();
 	}
@@ -25,8 +28,8 @@ std::string ComponentSerializer::get_component_type(std::shared_ptr<Totem::IComp
 	else if(Component<TriggerDisplayText>::isType(component))
 	{
 		return TriggerDisplayText::getType();
-	}
-	else*/
+	}*/
+	else
 	{
 		throw Exception("ComponentSerializer::get_component_type - Unable to get type for component " + component->getRuntimeTypeId());
 	}
