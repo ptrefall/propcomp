@@ -24,6 +24,16 @@ public:
 	void remove_player(ServerPlayer *player);
 	void kick_player(ServerPlayer *player, const std::string &reason);
 
+	PlayerManager &operator=(const PlayerManager &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		players = rhs.players;
+		db = rhs.db;
+		return *this;
+	}
+
 // Implementation:
 private:
 	std::vector<ServerPlayer *> players;

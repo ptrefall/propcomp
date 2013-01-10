@@ -24,6 +24,16 @@ public:
 
 	void send_event(const clan::NetGameEvent &event);
 
+	ServerPlayer &operator=(const ServerPlayer &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		user_id = rhs.user_id;
+		character = rhs.character;
+		return *this;
+	}
+
 // Implementation:
 private:
 	clan::NetGameConnection *connection;

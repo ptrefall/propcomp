@@ -1,17 +1,17 @@
 #include "precomp.h"
 #include "component_serializer.h"
 
-#include "Components/looks.h"
-#include "Components/transform.h"
+#include "Engine/Common/GameWorld/Components/visual.h"
+#include "Engine/Common/GameWorld/Components/transform.h"
 
 using namespace Totem;
 using namespace clan;
 
 std::string ComponentSerializer::get_component_type(std::shared_ptr<Totem::IComponent<>> component)
 {
-	if(IComponent<>::isType<Looks>(component))
+	if(IComponent<>::isType<Visual>(component))
 	{
-		return Looks::getType();
+		return Visual::getType();
 	}
 	else if(IComponent<>::isType<Transform>(component))
 	{

@@ -18,6 +18,17 @@ public:
 
 	bool dispatch_net_event(const clan::NetGameEvent &event, ServerPlayer *player);
 
+	ZoneManager &operator=(const ZoneManager &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		zones = rhs.zones;
+		netevents = rhs.netevents;
+		db = rhs.db;
+		return *this;
+	}
+
 private:
 	Zone *find_zone(int zone_id);
 	Zone *load_zone(int zone_id);
