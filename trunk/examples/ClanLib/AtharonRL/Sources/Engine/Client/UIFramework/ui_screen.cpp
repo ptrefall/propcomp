@@ -46,6 +46,11 @@ void UIScreen::set_active()
 	manager->set_active(this);
 }
 
+bool UIScreen::is_active() const
+{
+	return manager->is_active(this);
+}
+
 void UIScreen::enable_mouse(bool enable)
 {
 	static_cast<WindowManagerProvider*>(wm.get_provider())->enable_mouse(enable);

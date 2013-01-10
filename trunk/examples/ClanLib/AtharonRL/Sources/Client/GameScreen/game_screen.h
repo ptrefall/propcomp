@@ -26,7 +26,6 @@ private:
 
 	clan::NetGameClient &network;
 	clan::SlotContainer slots;
-	clan::NetGameEventDispatcher_v0 netevents;
 
 	std::unique_ptr<LayerManager> layer_manager;
 	std::shared_ptr<Layer> test_layer;

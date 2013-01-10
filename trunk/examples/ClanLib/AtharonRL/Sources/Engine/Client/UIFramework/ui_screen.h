@@ -25,6 +25,7 @@ public:
 	bool get_keycode(int code);
 
 	void set_active();
+	bool is_active() const;
 	void enable_mouse(bool enable);
 	virtual void update();
 
