@@ -2,7 +2,7 @@
 #include "client_vicinity_objects.h"
 #include "client_gameobject.h"
 #include "client_zone.h"
-//#include "client_component_factory.h"
+#include "client_component_factory.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Engine/Common/GameWorld/property_serializer.h"
 
@@ -27,23 +27,23 @@ bool ClientVicinityObjects::dispatch_net_event(const NetGameEvent &event)
 	return netevents.dispatch(event);
 }
 
-void ClientVicinityObjects::add_object(ClientGameObject *object)
+void ClientVicinityObjects::add_object(const ClientGameObjectPtr &object)
 {
 	visible_objects.push_back(object);
 }
 
 void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 {
-	/*int a = 0;
+	int a = 0;
 
 	int id = e.get_argument(a++);
 	std::string name = e.get_argument(a++);
 
 	cl_log_event("Game", "Creating object %1 %2", id, name);
 
-	ClientGameObject *gameobject = new ClientGameObject(zone, id, name);
+	auto gameobject = std::shared_ptr<ClientGameObject>(new ClientGameObject(zone, id, name));
 
-	unsigned int component_count = e.get_argument(a++);
+	/*unsigned int component_count = e.get_argument(a++);
 	for(size_t c = 0; c < component_count; ++c)
 	{
 		std::string component_type = e.get_argument(a++);
@@ -62,44 +62,45 @@ void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 			PropertySerializer::create_and_add_property(gameobject, property_type, property_name, property_value);
 //			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
 		}
-	}
+	}*/
 
 	add_object(gameobject);
 
 	if(player_gameobject_id == id)
-		world->camera_target = gameobject;*/
+		zone->set_camera_target(gameobject);
 }
 
 void ClientVicinityObjects::on_net_event_object_destroy(const NetGameEvent &e)
 {
-	/*int id = e.get_argument(0);
-	for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	int id = e.get_argument(0);
+	for (auto it = visible_objects.begin(); it != visible_objects.end(); ++it)
 	{
-		ClientGameObject *gameobject = *it;
+		auto gameobject = *it;
 		if (gameobject->get_id() == id)
 		{
+			//Erases the gameobject from the visible_objects list in the update function
 			gameobject->destroy();
 			break;
 		}
-	}*/
+	}
 }
 
 void ClientVicinityObjects::on_net_event_object_player_own(const NetGameEvent &e)
 {
-	/*player_gameobject_id = e.get_argument(0);
+	player_gameobject_id = e.get_argument(0);
 
-	ClientGameObject *gameobject = find_gameobject(player_gameobject_id);
+	auto gameobject = find_gameobject(player_gameobject_id);
 	if(gameobject)
-		world->camera_target = gameobject;*/
+		zone->set_camera_target(gameobject);
 }
 
 void ClientVicinityObjects::on_net_event_object_event(const NetGameEvent &e)
 {
-	/*int gameobject_id = e.get_argument(0);
+	int gameobject_id = e.get_argument(0);
 
 	bool handled_event = false;
 
-	ClientGameObject *gameobject = find_gameobject(gameobject_id);
+	auto gameobject = find_gameobject(gameobject_id);
 	if(gameobject)
 	{
 		std::string event_name = e.get_argument(1);
@@ -111,33 +112,28 @@ void ClientVicinityObjects::on_net_event_object_event(const NetGameEvent &e)
 	}
 
 	if (!handled_event)
-		cl_log_event("Network", "Unhandled gameobject event: %1", e.to_string());*/
+		cl_log_event("Network", "Unhandled gameobject event: %1", e.to_string());
 }
 
-ClientGameObject *ClientVicinityObjects::find_gameobject(int id)
+ClientGameObjectPtr ClientVicinityObjects::find_gameobject(int id)
 {
-	/*for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	for (auto it = visible_objects.begin(); it != visible_objects.end(); ++it)
 	{
-		ClientGameObject *gameobject = *it;
+		auto gameobject = *it;
 		if (gameobject->get_id() == id)
 			return gameobject;
-	}*/
+	}
 	return 0;
 }
 
 void ClientVicinityObjects::clear()
 {
-	/*for (std::vector<ClientGameObject *>::iterator it = visible_objects.begin(); it != visible_objects.end(); ++it)
-	{
-		ClientGameObject *gameobject = *it;
-		delete gameobject;
-	}
-	visible_objects.clear();*/
+	visible_objects.clear(); //Shared ptr only needs to clear list
 }
 
 void ClientVicinityObjects::update(float time_elapsed)
 {
-	/*for (size_t i = 0; i < visible_objects.size(); i++)
+	for (size_t i = 0; i < visible_objects.size(); i++)
 	{
 		visible_objects[i]->update(time_elapsed);
 	}
@@ -145,9 +141,6 @@ void ClientVicinityObjects::update(float time_elapsed)
 	for (size_t i = visible_objects.size(); i > 0; i--)
 	{
 		if (visible_objects[i-1]->is_destroyed())
-		{
-			delete visible_objects[i-1];
-			visible_objects.erase(visible_objects.begin() + (i-1));
-		}
-	}*/
+			visible_objects.erase(visible_objects.begin() + (i-1)); //Shared ptr only needs to erase from list
+	}
 }

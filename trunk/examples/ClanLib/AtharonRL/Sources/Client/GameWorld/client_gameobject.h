@@ -16,3 +16,6 @@ public:
 private:
 	ClientZone *zone;
 };
+
+typedef std::shared_ptr<GameObject> GameObjectPtr;
+typedef std::shared_ptr<ClientGameObject> ClientGameObjectPtr;

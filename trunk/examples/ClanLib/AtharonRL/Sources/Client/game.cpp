@@ -43,7 +43,7 @@ Game::Game(const std::string &arg)
 
 	auto engine_dir = vd.open_directory("Engine");
 	auto engine_dir_list = engine_dir.get_directory_listing();
-	while(true)
+	while(!engine_dir_list.is_null())
 	{
 		auto engine_file = engine_dir_list.get_filename();
 		if(engine_file.find(".xml") == std::string::npos)
