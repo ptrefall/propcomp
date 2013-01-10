@@ -1,0 +1,17 @@
+
+#pragma once
+
+#include "Engine/Common/GameWorld/Components/transform.h"
+#include "Server/GameWorld/replicated_component.h"
+
+class ServerTransform : public Totem::Component<ServerTransform>, public ReplicatedComponent
+{
+public:
+	ServerTransform(GameObject *owner, const std::string &name = std::string());
+	virtual ~ServerTransform();
+
+	static std::string getType() { return "Transform"; }
+
+protected:
+	Totem::Property<clan::Vec2i> position_property;
+};

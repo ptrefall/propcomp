@@ -18,10 +18,10 @@ class Visual : public Totem::Component<Visual>
 {
 public:
 	Visual(GameObject *owner, const std::string &name = std::string());
-	virtual ~Visual();
+	virtual ~Visual() {}
 
 	static std::string getType() { return "Visual"; }
 
 protected:
-	Totem::Property<int> looks_property;
+	Totem::Property<int> visual_property;
 };

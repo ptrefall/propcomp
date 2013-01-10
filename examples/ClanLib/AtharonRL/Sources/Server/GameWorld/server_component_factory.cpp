@@ -1,8 +1,8 @@
 #include "precomp.h"
 #include "server_component_factory.h"
 #include "server_gameobject.h"
-#include "Engine/Common/GameWorld/Components/visual.h"
-#include "Engine/Common/GameWorld/Components/transform.h"
+#include "Components/server_visual.h"
+#include "Components/server_transform.h"
 
 using namespace Totem;
 using namespace clan;
@@ -13,13 +13,13 @@ ServerComponentFactory::ServerComponentFactory()
 
 void ServerComponentFactory::create_and_add_component(ServerGameObject *owner, const std::string &type, const std::string &name)
 {
-	if(type == Visual::getType())
+	if(type == ServerVisual::getType())
 	{
-		owner->addComponent(std::make_shared<Visual>(owner, name));
+		owner->addComponent(std::make_shared<ServerVisual>(owner, name));
 	}
-	else if(type == Transform::getType())
+	else if(type == ServerTransform::getType())
 	{
-		owner->addComponent(std::make_shared<Transform>(owner, name));
+		owner->addComponent(std::make_shared<ServerTransform>(owner, name));
 	}
 	/*else if(type == MeshObject::getType())
 	{
