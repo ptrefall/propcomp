@@ -21,6 +21,19 @@ public:
 
 	void send_event(const clan::NetGameEvent &event, clan::NetGameConnection *player_connection);
 
+	ServerGameObject &operator=(const ServerGameObject &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		container_id = rhs.container_id;
+		persist_changes = rhs.persist_changes;
+		zone = rhs.zone;
+		slots = rhs.slots;
+		db = rhs.db;
+		return *this;
+	}
+
 private:
 	void on_property_added(std::shared_ptr<Totem::IProperty> property);
 	void on_property_removed(std::shared_ptr<Totem::IProperty> property);

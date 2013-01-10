@@ -55,8 +55,8 @@ void ServerCharacter::move_to_zone(Zone *new_zone, bool set_start_position)
 		if(set_start_position)
 		{
 			// Get start position somehow
-			// Vec3f start_pos = Vec3f(302,423,43);
-			// owner_gameobject->GetProperty<Vec3f>("Position") = start_pos;
+			Vec2i start_pos = Vec2i(0,0);
+			owner_gameobject->get<Vec2i>("Position") = start_pos;
 		}
 
 		zone = new_zone;

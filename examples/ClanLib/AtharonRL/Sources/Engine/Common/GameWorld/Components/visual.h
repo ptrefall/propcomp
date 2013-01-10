@@ -17,7 +17,7 @@ enum GameObjectVisual
 class Visual : public Totem::Component<Visual>
 {
 public:
-	Visual(GameObject &owner, const std::string &name = std::string());
+	Visual(GameObject *owner, const std::string &name = std::string());
 	virtual ~Visual();
 
 	static std::string getType() { return "Visual"; }

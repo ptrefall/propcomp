@@ -14,6 +14,17 @@ public:
 public:
 	bool dispatch_net_event(const clan::NetGameEvent &event, ServerPlayer *player);
 
+	NetEventsCharacter &operator=(const NetEventsCharacter &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		netevents = rhs.netevents;
+		character_manager = rhs.character_manager;
+		db = rhs.db;
+		return *this;
+	}
+
 // Events:
 private:
 	void on_net_event_character_get_list(const clan::NetGameEvent &e, ServerPlayer *player);

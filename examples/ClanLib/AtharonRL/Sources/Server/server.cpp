@@ -30,7 +30,7 @@ void Server::run(Event &stop_event)
 
 		cl_log_event("Info", "Server initialized and running");
 
-		int lastTime = System::get_time();
+		//int lastTime = System::get_time();
 		while (!stop_event.wait(0))
 		{
 			try
@@ -74,7 +74,7 @@ void Server::on_client_connected(NetGameConnection *connection)
 	cl_log_event("Network", "Client connected");
 
 	// Create user and attach it to connection
-	ServerUser *user = new ServerUser(connection);
+	/*ServerUser *user =*/ new ServerUser(connection);
 
 	std::string html =
 		"<html>"

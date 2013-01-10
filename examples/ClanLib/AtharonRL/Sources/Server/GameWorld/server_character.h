@@ -23,6 +23,20 @@ public:
 	void move_to_zone(Zone *new_zone, bool set_start_position);
 	void remove_from_zone();
 
+	ServerCharacter &operator=(const ServerCharacter &rhs)
+	{
+		if(this == &rhs)
+			return *this;
+
+		player = rhs.player;
+		character_id = rhs.character_id;
+		zone = rhs.zone;
+		character_name = rhs.character_name;
+		owner_gameobject = rhs.owner_gameobject;
+		db = rhs.db;
+		return *this;
+	}
+
 // Implementation:
 private:
 	void set_owner_gameobject(ServerGameObject *gameobject);
