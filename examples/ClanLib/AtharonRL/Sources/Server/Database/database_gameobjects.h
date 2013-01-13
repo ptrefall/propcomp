@@ -7,7 +7,7 @@ public:
 	{
 		int gameobject_id;
 		int container_id;
-		bool is_active;
+		bool load_by_default;
 		std::string description;
 	};
 
@@ -49,5 +49,5 @@ public:
 	static void add_property(clan::SqliteConnection &db, int gameobject_id, int property_type, const std::string &property_name, const std::string &property_value);
 	static void remove_property(clan::SqliteConnection &db, int gameobject_id, const std::string &property_name);
 
-	static void set_gameobject_active_state(clan::SqliteConnection &db, int gameobject_id, bool active);
+	static void set_gameobject_load_state(clan::SqliteConnection &db, int gameobject_id, bool load_by_default);
 };

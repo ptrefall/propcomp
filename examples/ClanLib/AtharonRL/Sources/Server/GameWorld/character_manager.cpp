@@ -56,7 +56,7 @@ void CharacterManager::initialize_character(int character_id, ServerPlayer *play
 		if(zone == 0)
 			throw Exception(string_format("Unable to load zone %1", gameobject_info.container_id));
 
-		DatabaseGameObjects::set_gameobject_active_state(db, character_info.gameobject_id, true);
+		DatabaseGameObjects::set_gameobject_load_state(db, character_info.gameobject_id, false);
 
 		ServerGameObject *gameobject = zone->load_gameobject(character_info.gameobject_id);
 		if(gameobject == 0)

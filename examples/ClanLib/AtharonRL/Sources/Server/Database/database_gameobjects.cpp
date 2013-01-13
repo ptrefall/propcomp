@@ -11,7 +11,7 @@ DatabaseGameObjects::GameObjectInfo DatabaseGameObjects::get_info(SqliteConnecti
 	if(gameobject_id == 0)
 		throw Exception("Lacking gameobject_id");
 
-	DBCommand command = db.create_command("SELECT GameObjectContainerId, IsActive, Description FROM GameObjects WHERE GameObjectId=?1");
+	DBCommand command = db.create_command("SELECT GameObjectContainerId, LoadByDefault, Description FROM GameObjects WHERE GameObjectId=?1");
 	command.set_input_parameter_int(1, gameobject_id);
 
 	DBReader reader = db.execute_reader(command);
@@ -20,7 +20,7 @@ DatabaseGameObjects::GameObjectInfo DatabaseGameObjects::get_info(SqliteConnecti
 		GameObjectInfo gameobject;
 		gameobject.gameobject_id = gameobject_id;
 		gameobject.container_id = reader.get_column_int(0);
-		gameobject.is_active = reader.get_column_bool(1);
+		gameobject.load_by_default = reader.get_column_bool(1);
 		gameobject.description = reader.get_column_string(2);
 
 		return gameobject;
@@ -184,14 +184,14 @@ void DatabaseGameObjects::remove_property(SqliteConnection &db, int gameobject_i
 	db.execute_non_query(command);
 }
 
-void DatabaseGameObjects::set_gameobject_active_state(SqliteConnection &db, int gameobject_id, bool active)
+void DatabaseGameObjects::set_gameobject_load_state(SqliteConnection &db, int gameobject_id, bool load_by_default)
 {
 	if(gameobject_id == 0)
 		throw Exception("Lacking gameobject_id");
 
-	DBCommand command = db.create_command("UPDATE GameObjects SET IsActive=?2 WHERE GameObjectId=?1");
+	DBCommand command = db.create_command("UPDATE GameObjects SET LoadByDefault=?2 WHERE GameObjectId=?1");
 	command.set_input_parameter_int(1, gameobject_id);
-	command.set_input_parameter_bool(2, active);
+	command.set_input_parameter_bool(2, load_by_default);
 
 	db.execute_non_query(command);
 }

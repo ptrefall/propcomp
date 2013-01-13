@@ -58,7 +58,7 @@ void ServerGameObjectContainer::load_from_database(std::shared_ptr<ServerCompone
 {
 	cl_log_event("Zones", "Loading gameobjects in container %1", container_id);
 
-	std::vector<int> gameobject_ids = DatabaseGameObjectContainers::get_active_gameobject_ids_in_container(db, container_id);
+	std::vector<int> gameobject_ids = DatabaseGameObjectContainers::get_load_by_default_gameobject_ids_in_container(db, container_id);
 	for(size_t i = 0; i < gameobject_ids.size(); ++i)
 	{
 		ServerGameObject *gameobject = load_gameobject_from_database(gameobject_ids[i], component_factory);
@@ -71,8 +71,8 @@ void ServerGameObjectContainer::load_from_database(std::shared_ptr<ServerCompone
 ServerGameObject *ServerGameObjectContainer::load_gameobject_from_database(int gameobject_id, std::shared_ptr<ServerComponentFactory> component_factory)
 {
 	DatabaseGameObjects::GameObjectInfo info = DatabaseGameObjects::get_info(db, gameobject_id);
-	if(info.is_active == false)
-		throw Exception("GameObject is not active");
+	//if(info.load_by_default == false)
+	//	throw Exception("GameObject should not be loaded at server startup (load_by_default must be true)");
 
 	std::vector<DatabaseGameObjects::GameObjectComponentInfo> components = DatabaseGameObjects::get_components(db, gameobject_id);
 	std::vector<DatabaseGameObjects::GameObjectPropertyInfo> properties = DatabaseGameObjects::get_properties(db, gameobject_id);
@@ -150,7 +150,9 @@ bool ServerGameObjectContainer::set_inactive(ServerGameObject *gameobject)
 	if (it != gameobjects.end())
 	{
 		gameobjects.erase(it);
-		DatabaseGameObjects::set_gameobject_active_state(db, gameobject->get_id(), false);
+		//FIXME: Should probably not change a default load here, since that's about how objects are loaded at
+		//server startup, and not which objects in the database are active right now...
+		//DatabaseGameObjects::set_gameobject_load_state(db, gameobject->get_id(), false);
 		return true;
 	}
 	return false;

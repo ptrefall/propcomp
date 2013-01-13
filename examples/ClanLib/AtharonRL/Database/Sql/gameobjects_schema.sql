@@ -4,7 +4,7 @@ CREATE TABLE GameObjects
 (
 	GameObjectId INT NOT NULL,
 	GameObjectContainerId INT,
-	IsActive INT DEFAULT(1),
+	LoadByDefault INT DEFAULT(1),
 	Description TEXT,
 
 	PRIMARY KEY(GameObjectId)
