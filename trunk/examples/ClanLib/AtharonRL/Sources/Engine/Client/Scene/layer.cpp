@@ -96,18 +96,18 @@ void Layer::clear(clan::Colorf background_color, clan::Colorf foreground_color, 
 
 void Layer::draw(clan::Canvas &canvas, int /*x*/, int /*y*/)
 {
-	//canvas.fill(clan::Rectf(240.0f, 140.0f, 440.0f, 340.0f), default_tile.foreground_color);
-	//canvas.fill(clan::Rectf(250.0f, 150.0f, 430.0f, 330.0f), default_tile.background_color);
-	for(int y = 0; y < size.y; y++)
+	for(int x = 0; x < size.x; x++)
 	{
-		for(int x = 0; x < size.x; x++)
+		for(int y = 0; y < size.y; y++)
 		{
+			float dx = x*(float)glyph_size.x;
+			float dy = y*(float)glyph_size.y;
+
 			auto &tile = tilemap[x][y];
-			canvas.fill(clan::Rectf(x*(float)glyph_size.x, y*(float)glyph_size.y, x*(float)glyph_size.x+glyph_size.x, y*(float)glyph_size.y+glyph_size.y), tile.background_color);
+			canvas.fill(clan::Rectf(dx, dy, dx+(float)glyph_size.x, dy+(float)glyph_size.y), tile.background_color);
 			bitmap.set_color(tile.foreground_color);
-			//bitmap.set_alpha(0.5f);
 			bitmap.set_frame(tile.character);
-			bitmap.draw(canvas, x*glyph_size.x, y*glyph_size.y);
+			bitmap.draw(canvas, dx, dy);
 		}
 	}
 }
