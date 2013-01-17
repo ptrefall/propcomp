@@ -1,6 +1,7 @@
 #pragma once
 
 class GameObject; typedef std::shared_ptr<GameObject> GameObjectPtr;
+class ClientCamera; typedef std::shared_ptr<ClientCamera> ClientCameraPtr;
 class UIScreen;
 class ClientVicinityObjects;
 class ClientComponentFactory;
@@ -32,10 +33,14 @@ public:
 		return *this;
 	}
 
+	clan::Signal_v1<const ClientCameraPtr &> &sig_draw();
+
 private:
+	LayerManagerPtr layer_manager;
 	std::shared_ptr<ClientVicinityObjects> objects;
 	std::shared_ptr<ClientComponentFactory> component_factory;
 
 	clan::NetGameClient &network;
 	GameObjectPtr camera_target;
+	ClientCameraPtr camera;
 };

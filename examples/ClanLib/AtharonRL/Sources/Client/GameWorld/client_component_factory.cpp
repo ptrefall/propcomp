@@ -7,8 +7,8 @@
 using namespace Totem;
 using namespace clan;
 
-ClientComponentFactory::ClientComponentFactory(UIScreen *screen, const LayerManagerPtr &layer_manager)
-: screen(screen), layer_manager(layer_manager)
+ClientComponentFactory::ClientComponentFactory(UIScreen *screen, ClientZone *zone, const LayerManagerPtr &layer_manager)
+: screen(screen), layer_manager(layer_manager), zone(zone)
 {
 }
 
@@ -16,7 +16,7 @@ void ClientComponentFactory::create_and_add_component(ClientGameObject *owner, c
 {
 	if(type == ClientVisual::getType())
 	{
-		owner->addComponent(std::make_shared<ClientVisual>(owner, name, layer_manager));
+		owner->addComponent(std::make_shared<ClientVisual>(owner, name, zone, layer_manager));
 	}
 	else if(type == ClientTransform::getType())
 	{
