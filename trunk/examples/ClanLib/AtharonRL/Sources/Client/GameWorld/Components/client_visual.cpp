@@ -49,7 +49,7 @@ void ClientVisual::on_draw(const ClientCameraPtr &camera)
 		character = '%'; break;
 	};
 
-	auto view_space_position = position_property.get() - camera->get_position();
+	auto view_space_position = position_property.get() - camera->get_view() + camera->get_projection();
 	character_layer->set_tile(view_space_position, TileData(Colorf::black, Colorf::yellow, character));
 }
 

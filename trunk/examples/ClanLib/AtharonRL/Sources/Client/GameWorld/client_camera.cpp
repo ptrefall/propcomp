@@ -5,6 +5,7 @@
 
 using namespace clan;
 
-ClientCamera::ClientCamera()
+ClientCamera::ClientCamera(const Point &projection)
+	: projection(projection)
 {
 }
