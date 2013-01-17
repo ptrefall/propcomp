@@ -2,7 +2,8 @@
 #include "layer_manager.h"
 #include "layer.h"
 
-LayerManager::LayerManager()
+LayerManager::LayerManager(const clan::Point &screen_size)
+	: screen_size(screen_size)
 {
 }
 LayerManager::~LayerManager()

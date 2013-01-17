@@ -14,7 +14,8 @@ ClientZone::ClientZone(UIScreen *screen, clan::NetGameClient &network, const Lay
 {
 	component_factory = std::make_shared<ClientComponentFactory>(screen, this, layer_manager);
 	objects = std::make_shared<ClientVicinityObjects>(this, component_factory);
-	camera = std::make_shared<ClientCamera>();
+
+	camera = std::make_shared<ClientCamera>(layer_manager->get_screen_size()/2); //project to center of layer buffer
 }
 
 ClientZone::~ClientZone()
@@ -25,7 +26,7 @@ void ClientZone::tick(float time_elapsed)
 {
 	objects->update(time_elapsed);
 	if(camera_target && camera_target->hasProperty("Position"))
-		camera->set_position(camera_target->get<Vec2i>("Position").get());
+		camera->set_view(camera_target->get<Vec2i>("Position").get());
 
 	sig_draw.invoke(camera);
 }

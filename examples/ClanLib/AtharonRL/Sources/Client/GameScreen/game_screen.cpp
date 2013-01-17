@@ -15,12 +15,14 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
 
 	GraphicContext gc = screen_manager->get_window().get_gc();
-
-	layer_manager.reset(new LayerManager());
+	
+	auto glyph_size = Point(16,29);
+	auto layer_screen_size = Point(gc.get_width() / glyph_size.x, gc.get_height() / glyph_size.y);
+	layer_manager.reset(new LayerManager(layer_screen_size));
 
 	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
-	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
-	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), Point(16,29), nullptr);
+	auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
+	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
 	test_layer = std::shared_ptr<Layer>(new Layer("Character", description, bitmap));
 	//test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
 	layer_manager->add(test_layer);
