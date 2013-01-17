@@ -26,19 +26,19 @@ void ClientVisual::update(const float &delta_time)
 	switch(visual_property.get())
 	{
 	case GOV_CHARACTER:
-		character = '@';
+		character = '@'; break;
 	case GOV_ORC:
-		character = 'o';
+		character = 'o'; break;
 	case GOV_TROLL:
-		character = 'T';
+		character = 'T'; break;
 	case GOV_ITEM:
-		character = '[';
+		character = '['; break;
 	case GOV_SCROLL:
-		character = '#';
+		character = '#'; break;
 	case GOV_POTION:
-		character = '!';
+		character = '!'; break;
 	case GOV_CORPSE:
-		character = '%';
+		character = '%'; break;
 	};
 	character_layer->set_tile(position_property.get(), TileData(Colorf::black, Colorf::yellow, character));
 }
