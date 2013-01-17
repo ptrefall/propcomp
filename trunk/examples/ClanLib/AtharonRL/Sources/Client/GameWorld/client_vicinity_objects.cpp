@@ -3,6 +3,7 @@
 #include "client_gameobject.h"
 #include "client_zone.h"
 #include "client_component_factory.h"
+#include "Components/client_visual.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Engine/Common/GameWorld/property_serializer.h"
 

@@ -51,6 +51,14 @@ LayerPtr LayerManager::get(const std::string &layer_name)
 	return nullptr;
 }
 
+void LayerManager::clear()
+{
+	for(unsigned int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->clear();
+	}
+}
+
 void LayerManager::draw(clan::Canvas &canvas, int x, int y)
 {
 	for(unsigned int i = 0; i < layers.size(); i++)
