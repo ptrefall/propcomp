@@ -5,10 +5,10 @@
 
 using namespace clan;
 
-ClientZone::ClientZone(UIScreen *screen, clan::NetGameClient &network)
+ClientZone::ClientZone(UIScreen *screen, clan::NetGameClient &network, const LayerManagerPtr &layer_manager)
 	: network(network)
 {
-	component_factory = std::make_shared<ClientComponentFactory>(screen);
+	component_factory = std::make_shared<ClientComponentFactory>(screen, layer_manager);
 	objects = std::make_shared<ClientVicinityObjects>(this, component_factory);
 }
 

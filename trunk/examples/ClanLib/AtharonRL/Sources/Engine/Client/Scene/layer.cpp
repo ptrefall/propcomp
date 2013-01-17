@@ -2,8 +2,8 @@
 #include "layer.h"
 #include "tile_character_mapper.h"
 
-Layer::Layer(const LayerDescription &description, const LayerBitmap &bitmap)
-	: offset(description.offset), size(description.size), default_tile(description.default_tile),
+Layer::Layer(const std::string &name, const LayerDescription &description, const LayerBitmap &bitmap)
+	: name(name), offset(description.offset), size(description.size), default_tile(description.default_tile),
 	  bitmap(bitmap.bitmap), glyph_size(bitmap.glyph_size), mapper(bitmap.mapper)
 {
 	this->bitmap.set_frame(64);

@@ -68,7 +68,7 @@ struct LayerDescription
 class Layer
 {
 public:
-	Layer(const LayerDescription &description, const LayerBitmap &bitmap);
+	Layer(const std::string &name, const LayerDescription &description, const LayerBitmap &bitmap);
 	~Layer();
 
 	void set_background_color(const clan::Point &position, clan::Colorf color);
@@ -91,10 +91,14 @@ public:
 
 	void draw(clan::Canvas &canvas, int x, int y);
 
-	void setZDepth(int zdepth) { this->zdepth = zdepth; }
-	int getZDepth() const { return zdepth; }
+	void set_zdepth(int zdepth) { this->zdepth = zdepth; }
+	int get_zdepth() const { return zdepth; }
+
+	const std::string &get_layer_name() const { return name; }
 
 private:
+	std::string name;
+
 	bool valid(const clan::Point &position);
 	clan::Point offset;
 	clan::Point size;

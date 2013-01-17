@@ -12,6 +12,7 @@ public:
 
 	void add(const LayerPtr &layer, int zdepth = -1); //If zdepth is -1, it's pushed to the back of the layer list
 	void remove(const LayerPtr &layer);
+	LayerPtr get(const std::string &layer_name);
 
 	void draw(clan::Canvas &canvas, int x, int y);
 
