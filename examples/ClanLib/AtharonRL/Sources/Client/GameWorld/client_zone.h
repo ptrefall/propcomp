@@ -4,11 +4,12 @@ class GameObject; typedef std::shared_ptr<GameObject> GameObjectPtr;
 class UIScreen;
 class ClientVicinityObjects;
 class ClientComponentFactory;
+class LayerManager; typedef std::shared_ptr<LayerManager> LayerManagerPtr;
 
 class ClientZone
 {
 public:
-	ClientZone(UIScreen *screen, clan::NetGameClient &network);
+	ClientZone(UIScreen *screen, clan::NetGameClient &network, const LayerManagerPtr &layer_manager);
 	~ClientZone();
 
 	void tick(float time_elapsed);

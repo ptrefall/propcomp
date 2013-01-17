@@ -62,8 +62,8 @@ void Zone::add_player(ServerPlayer *player)
 
 	players[player] = vicinity_objects;
 
-	//NetGameEvent zone_event(STC_ZONE, get_continent_name());
-	//player->send_event(zone_event);
+	NetGameEvent zone_event(STC_ZONE);
+	player->send_event(zone_event);
 }
 
 void Zone::remove_player(ServerPlayer *player)

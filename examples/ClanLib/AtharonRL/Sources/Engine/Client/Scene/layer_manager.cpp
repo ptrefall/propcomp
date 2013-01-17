@@ -17,15 +17,15 @@ void LayerManager::add(const LayerPtr &layer, int zdepth)
 	{
 		for(unsigned int i = 0; i < layers.size(); i++)
 		{
-			if(layers[i]->getZDepth() == -1 || zdepth < layers[i]->getZDepth())
+			if(layers[i]->get_zdepth() == -1 || zdepth < layers[i]->get_zdepth())
 			{
-				layer->setZDepth(zdepth);
+				layer->set_zdepth(zdepth);
 				layers.insert(layers.begin()+i, layer);
 				return;
 			}
 		}
 
-		layer->setZDepth(zdepth);
+		layer->set_zdepth(zdepth);
 		layers.push_back(layer);
 	}
 }
@@ -40,6 +40,17 @@ void LayerManager::remove(const LayerPtr &layer)
 		}
 	}
 }
+
+LayerPtr LayerManager::get(const std::string &layer_name)
+{
+	for(unsigned int i = 0; i < layers.size(); i++)
+	{
+		if(layers[i]->get_layer_name() == layer_name)
+			return layers[i];
+	}
+	return nullptr;
+}
+
 void LayerManager::draw(clan::Canvas &canvas, int x, int y)
 {
 	for(unsigned int i = 0; i < layers.size(); i++)

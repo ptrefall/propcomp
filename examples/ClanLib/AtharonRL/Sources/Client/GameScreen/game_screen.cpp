@@ -21,11 +21,11 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	auto tile_data = TileData(Colorf::black, Colorf::white, '.');
 	auto description = LayerDescription(Point(0,0), Point(80,50), tile_data);
 	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), Point(16,29), nullptr);
-	test_layer = std::shared_ptr<Layer>(new Layer(description, bitmap));
+	test_layer = std::shared_ptr<Layer>(new Layer("Character", description, bitmap));
 	test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
 	layer_manager->add(test_layer);
 
-	zone.reset(new ClientZone(this, network));
+	zone.reset(new ClientZone(this, network, layer_manager));
 }
 
 void GameScreen::on_activated()
@@ -35,6 +35,8 @@ void GameScreen::on_activated()
 
 void GameScreen::update()
 {
+	zone->tick(0.0167f);
+
 	Canvas canvas = get_canvas();
 	canvas.clear(Colorf::black);
 	layer_manager->draw(canvas, 0,0);

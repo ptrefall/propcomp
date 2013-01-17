@@ -27,7 +27,7 @@ private:
 	clan::NetGameClient &network;
 	clan::SlotContainer slots;
 
-	std::unique_ptr<LayerManager> layer_manager;
+	std::shared_ptr<LayerManager> layer_manager;
 	std::shared_ptr<Layer> test_layer;
 
 	std::unique_ptr<ClientZone> zone;
