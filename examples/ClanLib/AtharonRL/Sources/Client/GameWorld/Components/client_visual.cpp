@@ -17,7 +17,7 @@ ClientVisual::ClientVisual(GameObject *owner, const std::string &name, ClientZon
 	character_layer = layer_manager->get("Character");
 	dungeon_layer = layer_manager->get("Dungeon");
 
-	slots.connect(zone->sig_draw(), this, &ClientVisual::on_draw);
+	slots.connect(zone->sig_draw, this, &ClientVisual::on_draw);
 }
 
 ClientVisual::~ClientVisual()

@@ -27,7 +27,7 @@ void ClientZone::tick(float time_elapsed)
 	if(camera_target && camera_target->hasProperty("Position"))
 		camera->set_position(camera_target->get<Vec2i>("Position").get());
 
-	sig_draw().invoke(camera);
+	sig_draw.invoke(camera);
 }
 
 bool ClientZone::dispatch_net_event(const NetGameEvent &event)

@@ -33,7 +33,7 @@ public:
 		return *this;
 	}
 
-	clan::Signal_v1<const ClientCameraPtr &> &sig_draw();
+	clan::Signal_v1<const ClientCameraPtr &> sig_draw;
 
 private:
 	LayerManagerPtr layer_manager;
