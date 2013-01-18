@@ -12,14 +12,14 @@ struct TileData
 	{
 	}
 
-	TileData(const TileData &data) 
+	/*TileData(const TileData &data) 
 		: background_color(data.background_color), foreground_color(data.foreground_color), character(data.character)
 	{
 	}
-
+	*/
 	TileData() {}
 
-	TileData &operator=(const TileData &rhs)
+	/*TileData &operator=(const TileData &rhs)
 	{
 		if(this == &rhs)
 			return *this;
@@ -28,8 +28,9 @@ struct TileData
 		foreground_color = rhs.foreground_color;
 		character = rhs.character;
 		return *this;
-	}
+	}*/
 };
+typedef std::shared_ptr<TileData> TileDataPtr;
 
 class TileCharacterMapper;
 struct LayerBitmap
@@ -48,9 +49,9 @@ struct LayerDescription
 {
 	clan::Point offset;
 	clan::Point size;
-	TileData &default_tile;
+	TileDataPtr default_tile;
 
-	LayerDescription(const clan::Point &offset, const clan::Point &size, TileData &default_tile) : offset(offset), size(size), default_tile(default_tile) {}
+	LayerDescription(const clan::Point &offset, const clan::Point &size, const TileDataPtr &default_tile) : offset(offset), size(size), default_tile(default_tile) {}
 	LayerDescription(const LayerDescription &descr) : offset(descr.offset), size(descr.size), default_tile(descr.default_tile) {}
 
 	LayerDescription &operator=(const LayerDescription &rhs)
@@ -82,10 +83,10 @@ public:
 
 	void set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character);
 	//void set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character, BlendType blending);
-	void set_tile(const clan::Point &position, const TileData &data);
+	void set_tile(const clan::Point &position, const TileDataPtr &data);
 
 	void clear();
-	void clear(const TileData &default_data);
+	void clear(const TileDataPtr &default_data);
 	void clear(clan::Colorf background_color, clan::Colorf foreground_color, int character);
 	//void clear(clan::Colorf background_color, clan::Colorf foreground_color, int character, BlendType blending);
 
@@ -104,13 +105,13 @@ private:
 
 	clan::Point offset;
 	clan::Point size;
-	TileData default_tile;
+	TileDataPtr default_tile;
 	
 	clan::Sprite bitmap;
 	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
 
-	std::vector<TileData> tilemap;
+	std::vector<TileDataPtr> tilemap;
 
 	int zdepth;
 };
