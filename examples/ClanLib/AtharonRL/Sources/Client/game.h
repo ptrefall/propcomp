@@ -25,6 +25,8 @@ public:
 	MusicPlayer *get_music_player() { return &music_player; }
 
 private:
+	void add_resources_in_directory(clan::ResourceManager &resources, clan::VirtualDirectory &vd, const std::string &directory);
+
 	void on_event_received(const clan::NetGameEvent &e);
 	
 	std::unique_ptr<UIScreenManager> screen_manager;
