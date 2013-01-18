@@ -7,8 +7,8 @@
 using namespace Totem;
 using namespace clan;
 
-ClientComponentFactory::ClientComponentFactory(UIScreen *screen, ClientZone *zone, const LayerManagerPtr &layer_manager)
-: screen(screen), layer_manager(layer_manager), zone(zone)
+ClientComponentFactory::ClientComponentFactory(ClientZone *zone, const LayerManagerPtr &layer_manager)
+: layer_manager(layer_manager), zone(zone)
 {
 }
 

@@ -8,12 +8,14 @@
 
 class Game;
 
-class GameScreen : public UIScreen
+class GameScreen /*: public UIScreen*/
 {
 public:
 	GameScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources);
 
 	void update();
+	void draw(clan::Canvas &canvas);
+
 
 private:
 	void on_activated();
