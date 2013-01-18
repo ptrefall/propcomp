@@ -8,15 +8,9 @@ Layer::Layer(const std::string &name, const LayerDescription &description, const
 {
 	this->bitmap.set_frame(64);
 	this->bitmap.set_color(default_tile.foreground_color);
-	tilemap.resize(size.x);
-	for(int x = 0; x < size.x; x++)
-	{
-		tilemap[x].reserve(size.y);
-		for(int y = 0; y < size.y; y++)
-		{
-			tilemap[x].push_back(default_tile);
-		}
-	}
+	tilemap.resize(size.x*size.y);
+	for(int i = 0; i < size.x*size.y; i++)
+		tilemap.push_back(default_tile);
 }
 Layer::~Layer()
 {
@@ -31,12 +25,17 @@ bool Layer::valid(const clan::Point &position)
 	else return true;
 }
 
+int Layer::to_index(const clan::Point &position)
+{
+	return (position.y*size.x)+position.x;
+}
+
 void Layer::set_background_color(const clan::Point &position, clan::Colorf color)
 {
 	if( !valid(position) )
 		return;
 
-	tilemap[position.x][position.y].background_color = color;
+	tilemap[to_index(position)].background_color = color;
 }
 
 void Layer::set_foreground_color(const clan::Point &position, clan::Colorf color)
@@ -44,7 +43,7 @@ void Layer::set_foreground_color(const clan::Point &position, clan::Colorf color
 	if( !valid(position) )
 		return;
 
-	tilemap[position.x][position.y].foreground_color = color;
+	tilemap[to_index(position)].foreground_color = color;
 }
 
 void Layer::set_character(const clan::Point &position, int character)
@@ -52,7 +51,7 @@ void Layer::set_character(const clan::Point &position, int character)
 	if( !valid(position) )
 		return;
 
-	tilemap[position.x][position.y].character = mapper->filter(character);
+	tilemap[to_index(position)].character = mapper->filter(character);
 }
 void Layer::set_character(const clan::Point &position, int character, clan::Colorf foreground_color)
 {
@@ -79,7 +78,7 @@ void Layer::clear()
 	{
 		for(int y = 0; y < size.y; y++)
 		{
-			tilemap[x][y] = default_tile;
+			tilemap[to_index(clan::Point(x,y))] = default_tile;
 		}
 	}
 }
@@ -103,7 +102,7 @@ void Layer::draw(clan::Canvas &canvas, int /*x*/, int /*y*/)
 			float dx = x*(float)glyph_size.x;
 			float dy = y*(float)glyph_size.y;
 
-			auto &tile = tilemap[x][y];
+			auto &tile = tilemap[to_index(clan::Point(x,y))];
 			canvas.fill(clan::Rectf(dx, dy, dx+(float)glyph_size.x, dy+(float)glyph_size.y), tile.background_color);
 			bitmap.set_color(tile.foreground_color);
 			bitmap.set_frame(tile.character);

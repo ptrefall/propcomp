@@ -100,6 +100,8 @@ private:
 	std::string name;
 
 	bool valid(const clan::Point &position);
+	int to_index(const clan::Point &position);
+
 	clan::Point offset;
 	clan::Point size;
 	TileData default_tile;
@@ -108,7 +110,7 @@ private:
 	clan::Point glyph_size;
 	TileCharacterMapper *mapper;
 
-	std::vector<std::vector<TileData>> tilemap;
+	std::vector<TileData> tilemap;
 
 	int zdepth;
 };
