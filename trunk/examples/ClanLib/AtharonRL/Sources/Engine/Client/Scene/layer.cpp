@@ -76,6 +76,9 @@ void Layer::set_character(const clan::Point &position, int character, clan::Colo
 
 void Layer::set_tile(const clan::Point &position, clan::Colorf background_color, clan::Colorf foreground_color, int character)
 {
+	if( !valid(position) )
+		return;
+
 	int index = to_index(position);
 	auto old_tile = tilemap[index];
 	if(old_tile == default_tile)
@@ -91,6 +94,9 @@ void Layer::set_tile(const clan::Point &position, clan::Colorf background_color,
 }
 void Layer::set_tile(const clan::Point &position, const TileDataPtr &data)
 {
+	if( !valid(position) )
+		return;
+
 	int index = to_index(position);
 	auto old_tile = tilemap[index];
 	if(old_tile == default_tile)
