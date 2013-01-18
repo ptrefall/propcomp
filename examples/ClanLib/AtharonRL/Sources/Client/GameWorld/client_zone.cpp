@@ -9,10 +9,10 @@
 
 using namespace clan;
 
-ClientZone::ClientZone(UIScreen *screen, clan::NetGameClient &network, const LayerManagerPtr &layer_manager)
-	: network(network), layer_manager(layer_manager)
+ClientZone::ClientZone(clan::NetGameClient &network, const LayerManagerPtr &layer_manager)
+: network(network), layer_manager(layer_manager)
 {
-	component_factory = std::make_shared<ClientComponentFactory>(screen, this, layer_manager);
+	component_factory = std::make_shared<ClientComponentFactory>(this, layer_manager);
 	objects = std::make_shared<ClientVicinityObjects>(this, component_factory);
 
 	camera = std::make_shared<ClientCamera>(layer_manager->get_screen_size()/2); //project to center of layer buffer

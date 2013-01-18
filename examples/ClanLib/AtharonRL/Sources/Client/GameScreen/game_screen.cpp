@@ -10,7 +10,7 @@
 using namespace clan;
 
 GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
-: UIScreen(screen_manager), network(network), game(game)
+: /*UIScreen(screen_manager), */network(network), game(game)
 {
 	slots.connect(network.sig_event_received(), this, &GameScreen::on_event_received);
 
@@ -28,12 +28,12 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	//test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
 	layer_manager->add(test_layer);
 
-	zone.reset(new ClientZone(this, network, layer_manager));
+	zone.reset(new ClientZone(network, layer_manager));
 }
 
 void GameScreen::on_activated()
 {
-	UIScreen::on_activated();
+//	UIScreen::on_activated();
 }
 
 void GameScreen::update()
@@ -43,11 +43,15 @@ void GameScreen::update()
 
 	zone->tick(0.0167f);
 
-	Canvas canvas = get_canvas();
-	canvas.clear(Colorf::black);
-	layer_manager->draw(canvas, 0,0);
+//	UIScreen::update();
+}
 
-	UIScreen::update();
+void GameScreen::draw(Canvas &canvas)
+{
+//	Canvas canvas = get_canvas();
+
+	canvas.clear();
+	layer_manager->draw(canvas, 0,0);
 }
 
 void GameScreen::on_event_received(const NetGameEvent &e)

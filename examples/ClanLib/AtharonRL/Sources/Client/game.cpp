@@ -79,14 +79,25 @@ void Game::add_resources_in_directory(clan::ResourceManager &resources, clan::Vi
 
 void Game::run()
 {
-	screen_manager->get_window().show();
-	change_to_login_screen();
+	DisplayWindow window = screen_manager->get_window();
+
+	window.show();
+//	change_to_login_screen();
+	change_to_game_screen();
+
+	Canvas canvas(window);
 
 	InputContext ic = screen_manager->get_window().get_ic();
 	while (!ic.get_keyboard().get_keycode(keycode_escape))
 	{
 		music_player.update();
-		screen_manager->update();
+//		screen_manager->update();
+
+		screen_ingame->update();
+		screen_ingame->draw(canvas);
+		
+		canvas.flip(1);
+
 		KeepAlive::process();
 	}
 
@@ -112,7 +123,8 @@ void Game::change_to_game_screen()
 {
 	if (screen_ingame == nullptr)
 		screen_ingame = new GameScreen(screen_manager.get(), this, network, *resources);
-	screen_ingame->set_active();
+	
+//	screen_ingame->set_active();
 }
 
 void Game::on_event_received(const NetGameEvent &e)
