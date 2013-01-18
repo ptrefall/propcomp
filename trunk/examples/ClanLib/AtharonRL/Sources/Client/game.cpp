@@ -22,43 +22,8 @@ Game::Game(const std::string &arg)
 
 	resources = new clan::ResourceManager(vd.open_file("resources.xml"), vd);
 	
-	auto font_dir = vd.open_directory("Fonts");
-	auto font_dir_list = font_dir.get_directory_listing();
-	while(!font_dir_list.is_null())
-	{
-		auto font_file = font_dir_list.get_filename();
-		if(font_file.find(".xml") == std::string::npos)
-		{
-			if( font_dir_list.next() == false )
-				break;
-			else
-				continue;
-		}
-
-		resources->add_resources(clan::ResourceManager(font_dir.open_file(font_file), font_dir));
-
-		if( font_dir_list.next() == false )
-			break;
-	}
-
-	auto engine_dir = vd.open_directory("Engine");
-	auto engine_dir_list = engine_dir.get_directory_listing();
-	while(!engine_dir_list.is_null())
-	{
-		auto engine_file = engine_dir_list.get_filename();
-		if(engine_file.find(".xml") == std::string::npos)
-		{
-			if( engine_dir_list.next() == false )
-				break;
-			else
-				continue;
-		}
-
-		resources->add_resources(clan::ResourceManager(engine_dir.open_file(engine_file), engine_dir));
-
-		if( engine_dir_list.next() == false )
-			break;
-	}
+	add_resources_in_directory(*resources, vd, "Fonts");
+	add_resources_in_directory(*resources, vd, "Engine");
 
 	ScreenInfo screen_info;
 	int primary_screen_index = 0;
@@ -88,6 +53,28 @@ Game::~Game()
 	delete screen_loading;
 	if(screen_ingame)
 		delete screen_ingame;
+}
+
+void Game::add_resources_in_directory(clan::ResourceManager &resources, clan::VirtualDirectory &vd, const std::string &directory)
+{
+	auto dir = vd.open_directory(directory);
+	auto dir_list = dir.get_directory_listing();
+	while(!dir_list.is_null())
+	{
+		auto file = dir_list.get_filename();
+		if(file.find(".xml") == std::string::npos)
+		{
+			if( dir_list.next() == false )
+				break;
+			else
+				continue;
+		}
+
+		resources.add_resources(clan::ResourceManager(dir.open_file(file), dir));
+
+		if( dir_list.next() == false )
+			break;
+	}
 }
 
 void Game::run()
