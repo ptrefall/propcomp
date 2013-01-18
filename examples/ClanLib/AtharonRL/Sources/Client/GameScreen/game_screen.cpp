@@ -20,7 +20,7 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	auto layer_screen_size = Point((gc.get_width() / glyph_size.x) - 2, (gc.get_height() / glyph_size.y) - 2);
 	layer_manager.reset(new LayerManager(layer_screen_size));
 
-	auto tile_data = TileData(Colorf::black, Colorf::white, '8');
+	auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '8');
 	auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
 	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
 	test_layer = std::shared_ptr<Layer>(new Layer("Character", description, bitmap));

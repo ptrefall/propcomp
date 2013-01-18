@@ -50,6 +50,7 @@ void ClientVisual::on_draw(const ClientCameraPtr &camera)
 	};
 
 	auto view_space_position = position_property.get() - camera->get_view() + camera->get_projection();
-	character_layer->set_tile(view_space_position, TileData(Colorf::black, Colorf::yellow, character));
+	auto tile = std::make_shared<TileData>(Colorf::black, Colorf::yellow, character);
+	character_layer->set_tile(view_space_position, tile);
 }
 
