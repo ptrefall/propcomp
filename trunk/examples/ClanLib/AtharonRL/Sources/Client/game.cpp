@@ -125,7 +125,6 @@ void Game::change_to_game_screen()
 {
 	if (screen_ingame == nullptr)
 		screen_ingame = new GameScreen(screen_manager.get(), this, network, *resources);
-		//screen_ingame = new GameScreen(this, "WoWMaps/ab.continent", network);
 	screen_ingame->set_active();
 }
 
