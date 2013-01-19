@@ -1,16 +1,11 @@
 BEGIN TRANSACTION;
 
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (2, 1, 0, 'Tyrell');
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (3, 1, 0, 'Nightwind');
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (4, 1, 0, 'Sphair');
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (5, 1, 0, 'Judas');
-INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (6, 1, 0, 'Woody');
 
--- SPIDER
+-- ORC
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (11, 1, 1, 'Orc');
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Visual");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Transform");
-INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 2, 	"Visual", "1");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 2, "Visual", "1");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 101, "Position", "10 10");
 
 -- TRIGGER
@@ -23,13 +18,19 @@ INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 1
 
 -- PLAYER ECO
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (1, 1, 0, 'Eco');
---INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Monster");
---INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "ClickMoveController");
---INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "NumpadMoveController");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Visual");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Transform");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 2, 	"Visual", "0");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 101, 	"Position", "12 15");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 102, 	"ColorForeground", "1 0 0 1");
+
+-- PLAYER Woody
+INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (2, 1, 0, 'Woody');
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (2, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (2, "Transform");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 2, 	"Visual", "0");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 101, 	"Position", "12 12");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 102, 	"ColorForeground", "0 1 0 1");
 
 -- TYPE_UNSIGNED_INT = 1,
 -- TYPE_INT = 2,
@@ -39,6 +40,6 @@ INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 10
 -- TYPE_CHAR = 6,
 -- TYPE_CL_STRING = 100,
 -- TYPE_CL_VEC2I = 101,				// x y z
--- TYPE_SERVERGAMEOBJECT = 1000		// id
+-- TYPE_CL_COLORF = 102,			// r g b a
 
 COMMIT;

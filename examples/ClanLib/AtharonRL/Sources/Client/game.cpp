@@ -9,7 +9,7 @@
 
 using namespace clan;
 
-Game::Game(const std::string &arg)
+Game::Game(const std::string &arg, bool sphair)
 : screen_login(nullptr), screen_character_selection(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
 {
 	std::string base_dir = clan::System::get_exe_path();
@@ -31,15 +31,16 @@ Game::Game(const std::string &arg)
 
 	OpenGLWindowDescription desc;
 	desc.set_title("Atharon, the Roguelike Client");
-	desc.set_size(Size(screen_boxes[primary_screen_index].get_width() * 90 / 100, (screen_boxes[primary_screen_index].get_height() - 50) * 90 / 100), true);
+//	desc.set_size(Size(screen_boxes[primary_screen_index].get_width() * 90 / 100, (screen_boxes[primary_screen_index].get_height() - 50) * 90 / 100), true);
+	desc.set_size(Size(400,400), true);
 	desc.set_allow_resize(true);
 
 	screen_manager.reset(new UIScreenManager(desc, arg+"Resources/Icons/gameide-48.png", arg+"Resources/Icons/gameide-16.png"));
-	screen_manager->hide_cursor();
-	screen_manager->maximize();
+//	screen_manager->hide_cursor();
+//	screen_manager->maximize();
 
 	sound_output = SoundOutput(44100);
-	screen_login = new LoginScreen(screen_manager.get(), this, network, *resources);
+	screen_login = new LoginScreen(screen_manager.get(), this, network, *resources, sphair);
 	screen_character_selection = new CharacterSelectionScreen(screen_manager.get(), this, network, *resources);
 	screen_loading = new LoadingScreen(screen_manager.get(), this, network, *resources);
 

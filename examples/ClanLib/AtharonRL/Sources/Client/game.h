@@ -12,7 +12,7 @@ class GameScreen;
 class Game
 {
 public:
-	Game(const std::string &arg);
+	Game(const std::string &arg, bool sphair);
 	~Game();
 
 	void run();
