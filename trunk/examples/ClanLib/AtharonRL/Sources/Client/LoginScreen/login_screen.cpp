@@ -11,6 +11,8 @@
 
 using namespace clan;
 
+#define HACK_LOGIN
+
 LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
 : UIScreen(screen_manager), network(network), game(game)
 {
@@ -188,6 +190,11 @@ void LoginScreen::on_connect_clicked()
 	connect();
 }
 
+void LoginScreen::login_hack()
+{
+	network.send_event(NetGameEvent(CTS_LOGIN, "sphair", "p"));
+}
+
 void LoginScreen::on_login_clicked()
 {
 	label_login_status->set_text("");
@@ -200,6 +207,9 @@ void LoginScreen::on_login_clicked()
 
 void LoginScreen::on_connected()
 {
+#ifdef HACK_LOGIN
+	return;
+#endif
 	cl_log_event("Network", "Connected");
 
 	html_motd->clear();
@@ -209,6 +219,9 @@ void LoginScreen::on_connected()
 
 void LoginScreen::on_disconnected()
 {
+#ifdef HACK_LOGIN
+	return;
+#endif
 	cl_log_event("Network", "Disconnected");
 
 	std::string html =
@@ -231,6 +244,9 @@ void LoginScreen::on_event_received(const NetGameEvent &e)
 
 void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 {
+#ifdef HACK_LOGIN
+	return;
+#endif
 	std::string reason = e.get_argument(0);
 
 	label_login_status->set_text(reason);
@@ -238,11 +254,19 @@ void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 
 void LoginScreen::on_event_login_success(const NetGameEvent &e)
 {
+#ifdef HACK_LOGIN
+	network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 1));
+	game->change_to_game_screen();
+#else
 	game->change_to_character_selection_screen();
+#endif
 }
 
 void LoginScreen::on_event_motd(const NetGameEvent &e)
 {
+#ifdef HACK_LOGIN
+	return;
+#endif
 	std::string html = e.get_argument(0);
 
 	html_motd->set_document(html, css_text);
