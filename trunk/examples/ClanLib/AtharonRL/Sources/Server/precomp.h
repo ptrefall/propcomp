@@ -5,6 +5,7 @@
 #include <ClanLib/database.h>
 #include <ClanLib/sqlite.h>
 #include <ClanLib/network.h>
+#include <ClanLib/display.h>
 
 #include <Totem/Totem.h>
 
