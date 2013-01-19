@@ -13,7 +13,7 @@
 
 #define CTS_OBJECT_EVENT				"ObjectEvent"			// (int gameObjectId, string eventName, [marshalledEvent]...)
 
-#define CTS_GAMEOBJECT_MOVETO			"PlayerMoveTo"			// (float x, float y, float z)
+#define CTS_PLAYER_MOVE					"PlayerMove"			// (int delta_x, int delta_y)
 
 // Server to Client (STC) Events
 

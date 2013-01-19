@@ -77,6 +77,15 @@ void ReplicatedComponent::replicate_property(Totem::Property<Vec2i> &property, R
 		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_vec2i_value_changed, iproperty);
 }
 
+void ReplicatedComponent::replicate_property(Totem::Property<Colorf> &property, ReplicationMode mode)
+{
+	IProperty *iproperty = &property;
+	properties[iproperty] = false;
+
+	if(mode == REPLICATE_ON_CHANGE)
+		slots.connect(property.valueChanged(), this, &ReplicatedComponent::on_cl_colorf_value_changed, iproperty);
+}
+
 std::vector<Totem::IProperty *> ReplicatedComponent::get_tracked_properties()
 {
 	std::vector<IProperty *> results;
@@ -146,6 +155,11 @@ void ReplicatedComponent::on_cl_string_value_changed(const std::string &old_valu
 }
 
 void ReplicatedComponent::on_cl_vec2i_value_changed(const Vec2i &old_value, const Vec2i &new_value, Totem::IProperty *property)
+{
+	properties[property] = true;
+}
+
+void ReplicatedComponent::on_cl_colorf_value_changed(const Colorf &old_value, const Colorf &new_value, Totem::IProperty *property)
 {
 	properties[property] = true;
 }

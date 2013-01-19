@@ -120,7 +120,7 @@ void Zone::tick(float time_elapsed)
 	static float total_time = 0;
 	total_time += time_elapsed;
 
-	if(total_time > 10.0f)
+//	if(total_time > 10.0f)
 	{
 		sync_dirty_properties();
 		save_dirty_properties();

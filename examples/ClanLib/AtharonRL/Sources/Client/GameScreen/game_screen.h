@@ -21,8 +21,13 @@ private:
 	void on_activated();
 
 	void on_event_received(const clan::NetGameEvent &e);
+	void on_key_down(const clan::InputEvent &event);
+
+	void move(int delta_x, int delta_y);
 
 	Game *game;
+
+	bool is_awaiting_response;
 
 	std::string css_text;
 
