@@ -2,16 +2,19 @@ FIND_PATH(CL_DIR core.h
       ${CMAKE_SOURCE_DIR}/Include/ClanLib/
 	  "D:/Development/C++ Packets/ClanLib3.0/Include/ClanLib/"
 	  "D:/Development/3rdParty/ClanLib/include/ClanLib/"
+	  "H:/SourceCompile/includeClanLib30/ClanLib"
     )
 	
 FIND_PATH(CL_INCLUDE ClanLib/core.h
 	  ${CMAKE_SOURCE_DIR}/Include/
+	  "H:/SourceCompile/includeClanLib30"
 	  "D:/Development/C++ Packets/ClanLib3.0/Include/"
 	  "D:/Development/3rdParty/ClanLib/include/"
 	)
 	
 SET(LIB_PATHS 
 	"${CMAKE_SOURCE_DIR}/Lib/Win32/" 
+	"H:/SourceCompile/libClanLib30/Win32"
 	"D:/Development/C++ Packets/ClanLib3.0/Lib/Win32/"
 	"D:/Development/3rdParty/ClanLib/lib/Win32/")
 

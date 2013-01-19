@@ -43,14 +43,15 @@ void GameScreen::on_activated()
 
 void GameScreen::on_key_down(const InputEvent &event)
 {
-	if(event.id == keycode_numpad4)
-	{
-		move(-1,0);
-	}
-	else if(event.id == keycode_numpad6)
-	{
-		move(1,0);
-	}
+	if(event.id == keycode_numpad1) move(-1,1);
+	else if(event.id == keycode_numpad2) move(0,1);
+	else if(event.id == keycode_numpad3) move(1,1);
+	else if(event.id == keycode_numpad4) move(-1,0);
+	else if(event.id == keycode_numpad5) move(0,0);
+	else if(event.id == keycode_numpad6) move(1,0);
+	else if(event.id == keycode_numpad7) move(-1,-1);
+	else if(event.id == keycode_numpad8) move(0,-1);
+	else if(event.id == keycode_numpad9) move(1,-1);
 }
 
 void GameScreen::move(int delta_x, int delta_y)
