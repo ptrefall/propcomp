@@ -31,6 +31,7 @@ private:
 	void on_net_event_object_destroy(const clan::NetGameEvent &e);
 	void on_net_event_object_player_own(const clan::NetGameEvent &e);
 	void on_net_event_object_event(const clan::NetGameEvent &e);
+	void on_net_event_object_update(const clan::NetGameEvent &e);
 
 	std::vector<ClientGameObjectPtr> visible_objects;
 

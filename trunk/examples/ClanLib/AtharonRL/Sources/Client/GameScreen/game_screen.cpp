@@ -29,11 +29,35 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	layer_manager->add(test_layer);
 
 	zone.reset(new ClientZone(network, layer_manager));
+
+	InputContext ic = screen_manager->get_window().get_ic();
+	slots.connect(ic.get_keyboard().sig_key_down(), this, &GameScreen::on_key_down);
+
+	is_awaiting_response = false;
 }
 
 void GameScreen::on_activated()
 {
 //	UIScreen::on_activated();
+}
+
+void GameScreen::on_key_down(const InputEvent &event)
+{
+	if(event.id == keycode_numpad4)
+	{
+		move(-1,0);
+	}
+	else if(event.id == keycode_numpad6)
+	{
+		move(1,0);
+	}
+}
+
+void GameScreen::move(int delta_x, int delta_y)
+{
+	cl_log_event("GameScreen", "Move");
+	is_awaiting_response = true;
+	network.send_event(NetGameEvent(CTS_PLAYER_MOVE, delta_x, delta_y));
 }
 
 void GameScreen::update()

@@ -3,6 +3,7 @@
 #include "GameWorld/player_manager.h"
 #include "GameWorld/zone_manager.h"
 #include "GameWorld/netevents_character.h"
+#include "GameWorld/netevents_player.h"
 #include "GameWorld/character_manager.h"
 
 class ServerUser;
@@ -52,6 +53,7 @@ private:
 	PlayerManager player_manager;
 	CharacterManager character_manager;
 	NetEventsCharacter netevents_character;
+	NetEventsPlayer netevents_player;
 
 	clan::SqliteConnection db;
 };

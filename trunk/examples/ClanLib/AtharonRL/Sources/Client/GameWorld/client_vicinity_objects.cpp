@@ -13,6 +13,7 @@ ClientVicinityObjects::ClientVicinityObjects(ClientZone *zone, std::shared_ptr<C
 : player_gameobject_id(0), zone(zone), component_factory(component_factory)
 {
 	netevents.func_event(STC_OBJECT_CREATE).set(this, &ClientVicinityObjects::on_net_event_object_create);
+	netevents.func_event(STC_OBJECT_UPDATE).set(this, &ClientVicinityObjects::on_net_event_object_update);
 	netevents.func_event(STC_OBJECT_DESTROY).set(this, &ClientVicinityObjects::on_net_event_object_destroy);
 	netevents.func_event(STC_OBJECT_PLAYER_OWN).set(this, &ClientVicinityObjects::on_net_event_object_player_own);
 	netevents.func_event(STC_OBJECT_EVENT).set(this, &ClientVicinityObjects::on_net_event_object_event);
@@ -70,6 +71,30 @@ void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 
 	if(player_gameobject_id == id)
 		zone->set_camera_target(gameobject);
+}
+
+void ClientVicinityObjects::on_net_event_object_update(const NetGameEvent &e)
+{
+	int a = 0;
+
+	int id = e.get_argument(a++);
+
+	cl_log_event("Game", "Updating object %1", id);
+
+	auto gameobject = find_gameobject(player_gameobject_id);
+	if(gameobject)
+	{
+		unsigned int property_count = e.get_argument(a++);
+		for(size_t p = 0; p < property_count; ++p)
+		{
+			int property_type = e.get_argument(a++);
+			std::string property_name = e.get_argument(a++);
+			std::string property_value = e.get_argument(a++);
+
+			PropertySerializer::create_and_add_property(gameobject.get(), property_type, property_name, property_value);
+			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
+		}
+	}
 }
 
 void ClientVicinityObjects::on_net_event_object_destroy(const NetGameEvent &e)
