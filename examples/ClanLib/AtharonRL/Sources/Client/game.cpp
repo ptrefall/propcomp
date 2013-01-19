@@ -82,6 +82,10 @@ void Game::run()
 	DisplayWindow window = screen_manager->get_window();
 
 	window.show();
+
+	screen_login->connect();
+	screen_login->login_hack();
+
 //	change_to_login_screen();
 	change_to_game_screen();
 

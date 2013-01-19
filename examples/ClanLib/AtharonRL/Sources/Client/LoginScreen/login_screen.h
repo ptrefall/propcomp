@@ -18,9 +18,10 @@ public:
 
 	void update();
 
-private:
+public:
 	void connect();
-
+	void login_hack();
+private:
 	void on_activated();
 
 	void on_login_clicked();

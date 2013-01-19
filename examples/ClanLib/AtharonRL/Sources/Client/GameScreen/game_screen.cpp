@@ -17,8 +17,8 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	GraphicContext gc = screen_manager->get_window().get_gc();
 	
 	auto glyph_size = Point(16,29);
-	//auto layer_screen_size = Point((gc.get_width() / glyph_size.x) - 2, (gc.get_height() / glyph_size.y) - 2);
-	auto layer_screen_size = Point(3,2);
+	auto layer_screen_size = Point((gc.get_width() / glyph_size.x), (gc.get_height() / glyph_size.y));
+	//auto layer_screen_size = Point(3,2);
 	layer_manager.reset(new LayerManager(layer_screen_size));
 
 	auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '8');
