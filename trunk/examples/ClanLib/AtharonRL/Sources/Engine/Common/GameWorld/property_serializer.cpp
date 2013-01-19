@@ -73,15 +73,14 @@ void PropertySerializer::create_and_add_property(GameObject *owner, int type_id,
 			property.set(result);
 			break;
 		}
-//		case PropertySerializer::TYPE_SERVERGAMEOBJECT:
-//		{
-//			throw Exception("PropertySerializer::create_and_add_property: ServerGameObject not supported yet");
-//			ServerGameObject *result;
-//			from_string(value, result);
-//			Property<ServerGameObject *> property = owner->add<ServerGameObject *>(name, result);
-//			property.set(result);
-//			break;
-//		}
+		case PropertySerializer::TYPE_CL_COLORF:
+		{
+			Colorf result;
+			from_string(value, result);
+			Property<Colorf> property = owner->add<Colorf>(name, result);
+			property.set(result);
+			break;
+		}
 		default:
 			throw Exception(string_format("PropertySerializer::create_and_add_property - Unknown property type %1", type_id));
 	}
@@ -122,10 +121,10 @@ PropertySerializer::PropertyType PropertySerializer::get_property_type(Totem::IP
 	{
 		return TYPE_CL_VEC2I;
 	}
-//	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<ServerGameObject *>())
-//	{
-//		return TYPE_SERVERGAMEOBJECT;
-//	}
+	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Colorf>())
+	{
+		return TYPE_CL_COLORF;
+	}
 	else 
 	{
 		throw Exception("PropertySerializer::get_property_type: Unknown type " + property->getName());
@@ -174,11 +173,11 @@ std::string PropertySerializer::property_value_to_string(Totem::IProperty *prope
 		const Vec2i &value = static_cast<Totem::Property<Vec2i> *>(property)->get();
 		return string_format("%1 %2", value.x, value.y);
 	}
-//	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<ServerGameObject *>())
-//	{
-//		auto &value = static_cast<Totem::Property<ServerGameObject *> *>(property)->get();
-//		return StringHelp::int_to_text(value->get_id());
-//	}
+	else if(property->getRuntimeTypeId() == Totem::IProperty::getRuntimeTypeId<Colorf>())
+	{
+		const Colorf &value = static_cast<Totem::Property<Colorf> *>(property)->get();
+		return string_format("%1 %2 %3 %4", value.r, value.g, value.b, value.a);
+	}
 	else 
 	{
 		throw Exception("PropertySerializer::property_value_to_string: Unknown type " + property->getName());
@@ -237,8 +236,16 @@ void PropertySerializer::from_string(const std::string &value, Vec2i &result)
 	result = Vec2i(x, y);
 }
 
-/*void PropertySerializer::from_string(const std::string &value, (ServerGameObject *)&result)
+void PropertySerializer::from_string(const std::string &value, Colorf &result)
 {
-	throw Exception("from_string ServerGameObject *: Not supported");
+	std::vector<std::string> values = StringHelp::split_text(value, " ");
+	if(values.size() != 4)
+		throw Exception("Colorf from_string failed");
+
+	float r = StringHelp::text_to_float(values[0]);
+	float g = StringHelp::text_to_float(values[1]);
+	float b = StringHelp::text_to_float(values[2]);
+	float a = StringHelp::text_to_float(values[3]);
+
+	result = Colorf(r, g, b, a);
 }
-*/

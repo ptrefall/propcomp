@@ -15,7 +15,7 @@ public:
 		TYPE_CHAR = 6,
 		TYPE_CL_STRING = 100,
 		TYPE_CL_VEC2I = 101,			// x y
-		TYPE_SERVERGAMEOBJECT = 1000	// id
+		TYPE_CL_COLORF = 102			// r g b a
 	};
 
 public:
@@ -39,4 +39,5 @@ public:
 	static void from_string(const std::string &value, char &result);
 	static void from_string(const std::string &value, std::string &result);
 	static void from_string(const std::string &value, clan::Vec2i &result);
+	static void from_string(const std::string &value, clan::Colorf &result);
 };
