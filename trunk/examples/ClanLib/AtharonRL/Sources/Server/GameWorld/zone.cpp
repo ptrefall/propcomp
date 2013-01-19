@@ -111,21 +111,21 @@ void Zone::update()
 	int ticks = tick_timer.update();
 	for (int i = 0; i < ticks; i++)
 		tick(tick_timer.get_tick_length());
+
+//	static float total_time = 0;
+//	total_time += time_elapsed;
+	//	if(total_time > 10.0f)
+	{
+		sync_dirty_properties();
+		save_dirty_properties();
+//		total_time = 0.0f;
+	}
 }
 
 void Zone::tick(float time_elapsed)
 {
 	gameobjects.update(time_elapsed);
 
-	static float total_time = 0;
-	total_time += time_elapsed;
-
-//	if(total_time > 10.0f)
-	{
-		sync_dirty_properties();
-		save_dirty_properties();
-		total_time = 0.0f;
-	}
 }
 
 ServerGameObject *Zone::load_gameobject(int gameobject_id)

@@ -37,22 +37,6 @@ public:
 
 	ServerGameObject *load_gameobject(int gameobject_id);
 
-//	void gameobject_position_changed(ServerGameObject *gameobject);
-
-	Zone &operator=(const Zone &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		zone_id = rhs.zone_id;
-		generation_seed = rhs.generation_seed;
-		tick_timer = rhs.tick_timer;
-		players = rhs.players;
-		component_factory = rhs.component_factory;
-		gameobjects = rhs.gameobjects;
-		return *this;
-	}
-
 private:
 	void tick(float time_elapsed);
 

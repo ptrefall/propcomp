@@ -119,8 +119,11 @@ void ZoneVicinityObjects::sync_gameobjects()
 			}
 		}
 
-		if(has_dirty_properties)
+		if(has_dirty_properties) {
+			int p = (int)connection;
+			cl_log_event("Debug", "Sending dirty props to %1", p);
 			connection->send_event(create_event);
+		}
 	}
 }
 
