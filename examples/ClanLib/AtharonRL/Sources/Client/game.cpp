@@ -91,10 +91,16 @@ void Game::run()
 	change_to_game_screen();
 
 	Canvas canvas(window);
+	
+	bool exit = false;
+	Slot slot = window.sig_window_close().connect_functor([&exit] { exit = true; });
 
 	InputContext ic = screen_manager->get_window().get_ic();
-	while (!ic.get_keyboard().get_keycode(keycode_escape))
+	while (!exit)
 	{
+		if(ic.get_keyboard().get_keycode(keycode_escape))
+			exit = true;
+
 		music_player.update();
 //		screen_manager->update();
 
