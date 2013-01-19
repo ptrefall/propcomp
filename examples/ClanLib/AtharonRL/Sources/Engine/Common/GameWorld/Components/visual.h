@@ -24,4 +24,7 @@ public:
 
 protected:
 	Totem::Property<int> visual_property;
+
+	Totem::Property<clan::Colorf> color_background_property;
+	Totem::Property<clan::Colorf> color_foreground_property;
 };
