@@ -30,7 +30,11 @@ int Program::main(const std::vector<std::string> &args)
 		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
 		base_dir += "/";
 
-		Game game(base_dir);
+		bool use_sphair = true;
+		if(args.size() > 1)
+			use_sphair = false;
+
+		Game game(base_dir, use_sphair);
 		game.run();
 
 		return 0;

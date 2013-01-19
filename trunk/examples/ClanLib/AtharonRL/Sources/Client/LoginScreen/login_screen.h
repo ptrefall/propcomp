@@ -14,13 +14,14 @@ class Game;
 class LoginScreen : public UIScreen
 {
 public:
-	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources);
+	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources, bool sphair);
 
 	void update();
 
 public:
 	void connect();
 	void login_hack();
+
 private:
 	void on_activated();
 
@@ -45,6 +46,8 @@ private:
 	UILineEdit *input_password;
 	UILabel *label_login_status;
 	UIHtml *html_motd;
+
+	bool sphair;
 
 	std::string css_text;
 

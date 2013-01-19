@@ -126,6 +126,8 @@ void Server::on_net_event_received(NetGameConnection *connection, const NetGameE
 			ServerPlayer *player = player_manager.find_player(connection);
 			if(player)
 			{	
+				cl_log_event("Network", "Player: %1", player->get_user_id());
+
 				handled_event |= netevents_player.dispatch_net_event(e, player);
 				handled_event |= netevents_character.dispatch_net_event(e, player);
 				handled_event |= zone_manager.dispatch_net_event(e, player);

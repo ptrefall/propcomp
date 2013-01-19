@@ -13,8 +13,8 @@ using namespace clan;
 
 #define HACK_LOGIN
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources)
-: UIScreen(screen_manager), network(network), game(game)
+LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources, bool sphair)
+: UIScreen(screen_manager), network(network), game(game), sphair(sphair)
 {
 	game->get_music_player()->play("Music/main_theme", resources);
 
@@ -192,7 +192,10 @@ void LoginScreen::on_connect_clicked()
 
 void LoginScreen::login_hack()
 {
-	network.send_event(NetGameEvent(CTS_LOGIN, "sphair", "p"));
+	if(sphair)
+		network.send_event(NetGameEvent(CTS_LOGIN, "sphair", "p"));
+	else
+		network.send_event(NetGameEvent(CTS_LOGIN, "ptrefall", "p"));
 }
 
 void LoginScreen::on_login_clicked()
@@ -255,7 +258,10 @@ void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 void LoginScreen::on_event_login_success(const NetGameEvent &e)
 {
 #ifdef HACK_LOGIN
-	network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 1));
+	if(sphair)
+		network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 1));
+	else
+		network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 2));
 	game->change_to_game_screen();
 #else
 	game->change_to_character_selection_screen();
