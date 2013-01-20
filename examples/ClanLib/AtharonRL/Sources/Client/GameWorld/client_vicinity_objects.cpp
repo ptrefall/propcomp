@@ -100,7 +100,7 @@ void ClientVicinityObjects::on_net_event_object_update(const NetGameEvent &e)
 void ClientVicinityObjects::on_net_event_object_destroy(const NetGameEvent &e)
 {
 	int id = e.get_argument(0);
-	auto gameobject = find_gameobject(player_gameobject_id);
+	auto gameobject = find_gameobject(id);
 	if(gameobject)
 	{
 		//Erases the gameobject from the visible_objects list in the update function
