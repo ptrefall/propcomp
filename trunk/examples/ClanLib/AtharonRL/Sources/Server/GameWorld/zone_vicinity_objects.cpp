@@ -81,6 +81,25 @@ void ZoneVicinityObjects::add_visible_object(ServerGameObject *gameobject)
 	connection->send_event(create_event);
 }
 
+void ZoneVicinityObjects::sync_gameobjects_clear_dirty()
+{
+	for (size_t i = 0; i < visible_objects.size(); i++)
+	{
+		ServerGameObject *gameobject = visible_objects[i];
+
+		auto &components = gameobject->getComponents();
+		for(auto it = components.begin(); it != components.end(); ++it)
+		{
+			std::shared_ptr<IComponent<>> comp = (*it);
+			ReplicatedComponent *replicated_component = dynamic_cast<ReplicatedComponent *> (comp.get());
+			if(replicated_component)
+			{
+				replicated_component->clear_dirty_properties();
+			}
+		}
+	}
+}
+
 void ZoneVicinityObjects::sync_gameobjects()
 {
 	// TODO; support component properties
@@ -112,7 +131,6 @@ void ZoneVicinityObjects::sync_gameobjects()
 						create_event.add_argument(dirty_properties[i]->getName());
 						create_event.add_argument(PropertySerializer::property_value_to_string(dirty_properties[i]));
 					}
-					replicated_component->clear_dirty_properties();
 
 					cl_log_event("Debug", "Replicated updated component %1 on gameobject %2", ComponentSerializer::get_component_type(comp), gameobject->get_name());
 				}
@@ -120,8 +138,6 @@ void ZoneVicinityObjects::sync_gameobjects()
 		}
 
 		if(has_dirty_properties) {
-			int p = (int)connection;
-			cl_log_event("Debug", "Sending dirty props to %1", p);
 			connection->send_event(create_event);
 		}
 	}

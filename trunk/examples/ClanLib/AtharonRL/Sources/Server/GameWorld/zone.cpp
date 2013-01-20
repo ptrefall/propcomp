@@ -121,7 +121,6 @@ void Zone::update()
 void Zone::tick(float time_elapsed)
 {
 	gameobjects.update(time_elapsed);
-
 }
 
 ServerGameObject *Zone::load_gameobject(int gameobject_id)
@@ -165,5 +164,11 @@ void Zone::sync_dirty_properties()
 	{
 		ZoneVicinityObjects *objects = it->second;
 		objects->sync_gameobjects();
+	}
+
+	for(it = players.begin(); it != players.end(); ++it)
+	{
+		ZoneVicinityObjects *objects = it->second;
+		objects->sync_gameobjects_clear_dirty();
 	}
 }

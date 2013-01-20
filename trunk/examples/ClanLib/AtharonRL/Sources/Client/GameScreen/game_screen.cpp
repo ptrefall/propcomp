@@ -56,7 +56,6 @@ void GameScreen::on_key_down(const InputEvent &event)
 
 void GameScreen::move(int delta_x, int delta_y)
 {
-	cl_log_event("GameScreen", "Move");
 	is_awaiting_response = true;
 	network.send_event(NetGameEvent(CTS_PLAYER_MOVE, delta_x, delta_y));
 }
