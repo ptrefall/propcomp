@@ -82,8 +82,6 @@ void Zone::add_gameobject(ServerGameObject *gameobject)
 {
 	if(gameobjects.add(gameobject))
 	{
-		gameobject->set_zone(this);
-
 		notify_players_object_added(gameobject);
 	}
 }
@@ -93,8 +91,6 @@ void Zone::remove_gameobject(ServerGameObject *gameobject)
 	if(gameobjects.remove(gameobject))
 	{
 		notify_players_object_removed(gameobject);
-
-		gameobject->set_zone(0);
 	}
 }
 

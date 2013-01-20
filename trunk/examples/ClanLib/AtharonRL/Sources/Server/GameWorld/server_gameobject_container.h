@@ -40,17 +40,6 @@ public:
 	// Returns true is gameobject was removed, false otherwise (does not exists in container)
 	bool set_inactive(ServerGameObject *gameobject);
 
-	ServerGameObjectContainer &operator=(const ServerGameObjectContainer &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		gameobjects = rhs.gameobjects;
-		container_id = rhs.container_id;
-		db = rhs.db;
-		return *this;
-	}
-
 // Implementation:
 protected:
 	std::vector<ServerGameObject *> gameobjects;
