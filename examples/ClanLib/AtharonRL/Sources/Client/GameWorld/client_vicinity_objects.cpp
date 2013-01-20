@@ -63,7 +63,7 @@ void ClientVicinityObjects::on_net_event_object_create(const NetGameEvent &e)
 			std::string property_value = e.get_argument(a++);
 
 			PropertySerializer::create_and_add_property(gameobject.get(), property_type, property_name, property_value);
-			cl_log_event("Game", "- Property %1 %2", property_name, property_value);
+			cl_log_event("Game", "  - Property %1 %2", property_name, property_value);
 		}
 	}
 
@@ -81,7 +81,7 @@ void ClientVicinityObjects::on_net_event_object_update(const NetGameEvent &e)
 
 	cl_log_event("Game", "Updating object %1", id);
 
-	auto gameobject = find_gameobject(player_gameobject_id);
+	auto gameobject = find_gameobject(id);
 	if(gameobject)
 	{
 		unsigned int property_count = e.get_argument(a++);
@@ -100,15 +100,11 @@ void ClientVicinityObjects::on_net_event_object_update(const NetGameEvent &e)
 void ClientVicinityObjects::on_net_event_object_destroy(const NetGameEvent &e)
 {
 	int id = e.get_argument(0);
-	for (auto it = visible_objects.begin(); it != visible_objects.end(); ++it)
+	auto gameobject = find_gameobject(player_gameobject_id);
+	if(gameobject)
 	{
-		auto gameobject = *it;
-		if (gameobject->get_id() == id)
-		{
-			//Erases the gameobject from the visible_objects list in the update function
-			gameobject->destroy();
-			break;
-		}
+		//Erases the gameobject from the visible_objects list in the update function
+		gameobject->destroy();
 	}
 }
 
