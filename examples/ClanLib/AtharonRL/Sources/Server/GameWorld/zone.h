@@ -7,6 +7,7 @@
 
 class ServerPlayer;
 class ServerGameObject;
+class ZoneMap;
 
 class Zone
 {
@@ -54,6 +55,7 @@ private:
 
 	int zone_id;
 	int generation_seed;
+	std::shared_ptr<ZoneMap> map;
 
 	TickTimer tick_timer;
 };
