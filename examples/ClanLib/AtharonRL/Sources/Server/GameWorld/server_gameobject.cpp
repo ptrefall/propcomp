@@ -11,17 +11,12 @@ using namespace Totem;
 using namespace clan;
 
 ServerGameObject::ServerGameObject(int id, const std::string &name, SqliteConnection &db)
-: GameObject(id, name), db(db), persist_changes(false), zone(0)
+: GameObject(id, name), db(db), persist_changes(false)
 {
 	slots.connect(propertyAdded(), this, &ServerGameObject::on_property_added);
 	slots.connect(propertyRemoved(), this, &ServerGameObject::on_property_removed);
 	slots.connect(componentAdded(), this, &ServerGameObject::on_component_added);
 	slots.connect(componentRemoved(), this, &ServerGameObject::on_component_removed);
-}
-
-void ServerGameObject::set_zone(Zone *zone)
-{
-	this->zone = zone;
 }
 
 void ServerGameObject::set_container_id(int container_id)
