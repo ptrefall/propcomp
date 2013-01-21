@@ -3,6 +3,7 @@
 #include "../server_player.h"
 #include "../server_character.h"
 #include "../server_gameobject.h"
+#include "../zone_vicinity_objects.h"
 
 using namespace clan;
 
@@ -38,12 +39,12 @@ void ZoneMap::set_properties(const Vec2i &pos, bool transparent, bool walkable)
 		it->second->map->setProperties(pos.x, pos.y, transparent, walkable);
 }
 
-void ZoneMap::add_player(ServerPlayer *player)
+void ZoneMap::add_player(ServerPlayer *player, ZoneVicinityObjects *vicinity_objects)
 {
 	if(player_map_info.find(player) != player_map_info.end())
 		return;
 
-	player_map_info[player] = new PlayerMapInfo(size, map);
+	player_map_info[player] = new PlayerMapInfo(size, map, vicinity_objects);
 }
 
 void ZoneMap::remove_player(ServerPlayer *player)
@@ -96,12 +97,34 @@ bool ZoneMap::is_explored_by(ServerPlayer *player, const clan::Vec2i &position) 
 	return it->second->tiles[to_index(position)].explored;
 }
 
-bool ZoneMap::can_walk(const clan::Vec2i &position) const
+bool ZoneMap::can_walk(ServerPlayer *player, const clan::Vec2i &position) const
 {
 	if( is_wall(position) )
 		return false;
 
 	//TODO: Iterate over list of all game objects and check for collisions...
+	auto it = player_map_info.find(player);
+	if(it == player_map_info.end())
+		return false;
+
+	auto &objects = it->second->vicinity_objects->get_visible_objects();
+	for(unsigned int i = 0; i < objects.size(); i++)
+	{
+		auto go = objects[i];
+		
+		Vec2i go_position = Vec2i(0,0);
+		if(go->hasProperty("Position"))
+			go_position = go->get<Vec2i>("Position").get();
+
+		bool tile_blocker = true;
+		if(go->hasProperty("TileBlocker"))
+			tile_blocker = go->get<bool>("TileBlocker").get();
+
+		//Check if there's a blocking game object in this position,
+		//if so, we can't walk there!
+		if(tile_blocker && go_position == position)
+			return false;
+	}
 
 	return true;
 }
