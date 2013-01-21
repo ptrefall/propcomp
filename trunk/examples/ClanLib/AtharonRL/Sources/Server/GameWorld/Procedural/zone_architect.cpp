@@ -16,7 +16,7 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 		h = rng->getInt(room_min_size, node->h-2);
 		x = rng->getInt(node->x+1, node->x+node->w-w-1);
 		y = rng->getInt(node->y+1, node->y+node->h-h-1);
-		architect->create_room(room_num == 0, Vec2i(x, y), Vec2i(x+w-1, y+h-1), (bool)userData);
+		architect->create_room(room_num == 0, Vec2i(x, y), Vec2i(x+w-1, y+h-1), ((userData) ? *static_cast<bool*>(userData) : true) );
 
 		if ( room_num != 0 ) 
 		{
@@ -80,7 +80,7 @@ void ZoneArchitect::dig(const Vec2i &pos1, const Vec2i &pos2)
 	{
 		for (int tiley=y1; tiley <= y2; tiley++) 
 		{
-			map->setProperties(Vec2i(tilex,tiley),true,true);
+			map->set_properties(Vec2i(tilex,tiley),true,true);
 		}
 	}
 }
