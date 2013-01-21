@@ -13,6 +13,7 @@ public:
 // Attributes:
 public:
 	ServerGameObject *find(int id) const;
+	const std::vector<ServerGameObject *> &get_visible_objects() const;
 
 // Operations:
 public:

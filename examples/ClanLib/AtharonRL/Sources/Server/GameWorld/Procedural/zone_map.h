@@ -3,6 +3,7 @@
 #include <libtcod.hpp>
 
 class ServerPlayer;
+class ZoneVicinityObjects;
 
 class ZoneMap
 {
@@ -15,13 +16,13 @@ public:
 
 	void set_properties(const clan::Vec2i &pos, bool transparent, bool walkable);
 
-	void add_player(ServerPlayer *player);
+	void add_player(ServerPlayer *player, ZoneVicinityObjects *vicinity_objects);
 	void remove_player(ServerPlayer *player);
 
 	bool is_in_fov_of(ServerPlayer *player, const clan::Vec2i &position) const;
 	bool is_wall(const clan::Vec2i &position) const;
 	bool is_explored_by(ServerPlayer *player, const clan::Vec2i &position) const;
-	bool can_walk(const clan::Vec2i &position) const;
+	bool can_walk(ServerPlayer *player, const clan::Vec2i &position) const;
 
 	void compute_fov_of(ServerPlayer *player) const;
 
@@ -46,12 +47,14 @@ private:
 	{
 		Tile *tiles;
 		TCODMap *map;
+		ZoneVicinityObjects *vicinity_objects;
 
-		PlayerMapInfo(const clan::Vec2i &size, const TCODMap *source_map)
+		PlayerMapInfo(const clan::Vec2i &size, const TCODMap *source_map, ZoneVicinityObjects *vicinity_objects)
 		{
 			tiles = new Tile[size.x*size.y];
 			map = new TCODMap(size.x, size.y);
 			map->copy(source_map);
+			this->vicinity_objects = vicinity_objects;
 		}
 
 		~PlayerMapInfo()

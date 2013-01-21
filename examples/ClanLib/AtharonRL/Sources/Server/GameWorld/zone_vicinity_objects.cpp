@@ -34,6 +34,11 @@ ServerGameObject *ZoneVicinityObjects::find(int id) const
 	return 0;
 }
 
+const std::vector<ServerGameObject *> &ZoneVicinityObjects::get_visible_objects() const
+{
+	return visible_objects;
+}
+
 void ZoneVicinityObjects::add_visible_object(ServerGameObject *gameobject)
 {
 	// TODO; What about shared properties?

@@ -71,12 +71,16 @@ void Zone::add_player(ServerPlayer *player)
 
 	players[player] = vicinity_objects;
 
+	map->add_player(player, vicinity_objects);
+
 	NetGameEvent zone_event(STC_ZONE);
 	player->send_event(zone_event);
 }
 
 void Zone::remove_player(ServerPlayer *player)
 {
+	map->remove_player(player);
+
 	std::map<ServerPlayer *, ZoneVicinityObjects *>::iterator it;
 	it = players.find(player);
 	if (it != players.end())
