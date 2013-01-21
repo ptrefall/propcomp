@@ -17,8 +17,7 @@ Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int 
 	component_factory = std::make_shared<ServerComponentFactory>();
 	
 	//We set up an empty 100x100 map, and then let the ZoneArchitect fill it with rooms and corridors!
-	//TODO: Nothing is persisted, and the ZoneMap doesn't respect multiple players yet, nor is the ZoneMap
-	//      data synced to the server yet either :P Server-only so far!
+	//TODO: Nothing is persisted, nor is the ZoneMap data synced to the client yet either :P Server-only so far!
 	map.reset(new ZoneMap(Vec2i(100,100)));
 	ZoneArchitect architect(map, generation_seed);
 	architect.generate(false);
