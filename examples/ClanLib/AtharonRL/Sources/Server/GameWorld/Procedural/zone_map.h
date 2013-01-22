@@ -8,13 +8,13 @@ class ZoneVicinityObjects;
 class ZoneMap
 {
 public:
-	ZoneMap(const clan::Vec2i &size);
+	ZoneMap(clan::SqliteConnection &db, const clan::Vec2i &size);
 	~ZoneMap();
 
 	int get_width() const { return size.x; }
 	int get_height() const { return size.y; }
 
-	void set_properties(const clan::Vec2i &pos, bool transparent, bool walkable);
+	void set_properties(const clan::Vec2i &pos, bool transparent, bool walkable, bool architected = false);
 
 	void add_player(ServerPlayer *player, ZoneVicinityObjects *vicinity_objects);
 	void remove_player(ServerPlayer *player);
@@ -28,12 +28,17 @@ public:
 
 	unsigned int get_scent_of(ServerPlayer *player, const clan::Vec2i &position) const;
 
+	void load_from_database();
+	void save_dirty_tiles();
+
 private:
 	bool valid(const clan::Vec2i &position) const;
 	unsigned int to_index(const clan::Vec2i &position) const;
 
 	clan::Vec2i size;
 	TCODMap *map;
+
+	clan::SqliteConnection &db;
 
 	//This needs to be modified to work per player...
 	struct Tile 
@@ -64,4 +69,6 @@ private:
 		}
 	};
 	std::map<ServerPlayer*, PlayerMapInfo*> player_map_info;
+
+	std::vector<clan::Vec2i> dirty_tiles;
 };

@@ -15,14 +15,20 @@ Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int 
   generation_seed(generation_seed)
 {
 	component_factory = std::make_shared<ServerComponentFactory>();
-	
-	//We set up an empty 100x100 map, and then let the ZoneArchitect fill it with rooms and corridors!
-	//TODO: Nothing is persisted, nor is the ZoneMap data synced to the client yet either :P Server-only so far!
-	map.reset(new ZoneMap(Vec2i(100,100)));
-	ZoneArchitect architect(map, generation_seed);
-	architect.generate(false);
 
 	gameobjects.load_from_database(component_factory);
+
+	//We set up an empty 100x100 map, and then let the ZoneArchitect fill it with rooms and corridors!
+	//TODO: Nothing is persisted, nor is the ZoneMap data synced to the client yet either :P Server-only so far!
+	//		In addition, the architect spawns no game objects at this point. When we start dealing with that, then
+	//		it probably needs to take in the component factory and the gameobjects list.
+	map.reset(new ZoneMap(db, Vec2i(100,100)));
+	ZoneArchitect architect(generation_seed);
+	
+	if(gameobjects.is_empty())
+		architect.generate(map, true);
+	else
+		architect.generate(map, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////

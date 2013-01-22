@@ -23,12 +23,12 @@ private:
 class ZoneArchitect
 {
 public:
-	ZoneArchitect(const ZoneMapPtr &map, int seed);
+	ZoneArchitect(int seed);
 	~ZoneArchitect();
 
 	//Only generate with entities the first time, later the entities
 	//are stored and persisted in the database!
-	void generate(bool withEntities);
+	void generate(const ZoneMapPtr &map, bool withEntities);
 
 protected:
 	friend class BspTraversalListener;

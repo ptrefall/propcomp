@@ -35,8 +35,8 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 	return false;
 }
 
-ZoneArchitect::ZoneArchitect(const ZoneMapPtr &map, int seed)
-	: map(map), seed(seed), room_min_size(3), room_max_size(20)
+ZoneArchitect::ZoneArchitect(int seed)
+	: seed(seed), room_min_size(3), room_max_size(20)
 {
 	if(seed == -1)
 		seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
@@ -47,8 +47,9 @@ ZoneArchitect::~ZoneArchitect()
 {
 }
 
-void ZoneArchitect::generate(bool withEntities)
+void ZoneArchitect::generate(const ZoneMapPtr &map, bool withEntities)
 {
+	this->map = map;
 	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
 
 	TCODBsp bsp(0,0,map->get_width(),map->get_height());
@@ -80,7 +81,7 @@ void ZoneArchitect::dig(const Vec2i &pos1, const Vec2i &pos2)
 	{
 		for (int tiley=y1; tiley <= y2; tiley++) 
 		{
-			map->set_properties(Vec2i(tilex,tiley),true,true);
+			map->set_properties(Vec2i(tilex,tiley),true,true, true);
 		}
 	}
 }
