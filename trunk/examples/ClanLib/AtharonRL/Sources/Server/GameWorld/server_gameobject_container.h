@@ -19,6 +19,8 @@ public:
 	ServerGameObject *find(int id) const;
 
 	int get_container_id() const { return container_id; }
+	unsigned int get_size() const { return gameobjects.size(); }
+	bool is_empty() const { return gameobjects.empty(); }
 
 // Operations:
 public:
