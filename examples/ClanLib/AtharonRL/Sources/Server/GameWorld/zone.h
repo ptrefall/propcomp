@@ -1,13 +1,14 @@
 #pragma once
 
 #include "zone_vicinity_objects.h"
+#include "zone_vicinity_map.h"
 #include "server_gameobject_container.h"
 #include "server_component_factory.h"
 #include "Engine/Common/GameWorld/tick_timer.h"
 
 class ServerPlayer;
 class ServerGameObject;
-class ZoneMap;
+class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
 class Zone
 {
@@ -43,19 +44,31 @@ private:
 
 	void notify_players_object_added(ServerGameObject *gameobject);
 	void notify_players_object_removed(ServerGameObject *gameobject);
+	void notify_players_map_changed();
 
 	void save_dirty_properties();
 	void sync_dirty_properties();
 
+	void save_map();
+	void sync_map();
+
 	ServerGameObjectContainer gameobjects;
 
-	std::map<ServerPlayer *, ZoneVicinityObjects *> players;
+	struct ZoneVicinity
+	{
+		ZoneVicinityObjects *objects;
+		ZoneVicinityMap *map;
+
+		ZoneVicinity(ZoneVicinityMap *map, ZoneVicinityObjects *objects) : map(map), objects(objects) {}
+		~ZoneVicinity() { delete map; delete objects; }
+	};
+	std::map<ServerPlayer *, ZoneVicinity *> players;
 
 	std::shared_ptr<ServerComponentFactory> component_factory;
 
 	int zone_id;
 	int generation_seed;
-	std::shared_ptr<ZoneMap> map;
+	ZoneMapPtr map;
 
 	TickTimer tick_timer;
 };

@@ -51,7 +51,7 @@ ServerGameObject *Zone::find_gameobject(int gameobject_id) const
 
 ServerPlayer *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
 {
-	std::map<ServerPlayer *, ZoneVicinityObjects *>::const_iterator it;
+	std::map<ServerPlayer *, ZoneVicinity *>::const_iterator it;
 	for(it = players.begin(); it != players.end(); ++it)
 	{
 		ServerPlayer *player = it->first;
@@ -74,28 +74,27 @@ void Zone::add_player(ServerPlayer *player)
 	for (std::vector<ServerGameObject *>::const_iterator it = objects.begin(); it != objects.end(); ++it)
 		vicinity_objects->add_gameobject((*it));
 
-	players[player] = vicinity_objects;
+	ZoneVicinityMap *vicinity_map = new ZoneVicinityMap(this, map, player, player->get_connection());
+	ZoneVicinity *vicinity = new ZoneVicinity(vicinity_map, vicinity_objects);
+
+	players[player] = vicinity;
 
 	map->add_player(player, vicinity_objects);
 
 	NetGameEvent zone_event(STC_ZONE);
 	player->send_event(zone_event);
-
-	//TODO: Need to sync ZoneMap to player view here too, so question is whether this should
-	//		be part of the vicinity_objects, where we deal with syncing objects to the client,
-	//		or whether we should have a seperate class to deal with this, like zone_vicinity_map...
 }
 
 void Zone::remove_player(ServerPlayer *player)
 {
 	map->remove_player(player);
 
-	std::map<ServerPlayer *, ZoneVicinityObjects *>::iterator it;
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
 	it = players.find(player);
 	if (it != players.end())
 	{
-		ZoneVicinityObjects *vicinity_objects = it->second;
-		delete vicinity_objects;
+		ZoneVicinity *vicinity = it->second;
+		delete vicinity;
 		players.erase(it);
 	}
 }
@@ -134,6 +133,8 @@ void Zone::update()
 //	total_time += time_elapsed;
 	//	if(total_time > 10.0f)
 	{
+		sync_map();
+		save_map();
 		sync_dirty_properties();
 		save_dirty_properties();
 //		total_time = 0.0f;
@@ -142,6 +143,7 @@ void Zone::update()
 
 void Zone::tick(float time_elapsed)
 {
+	map->update(time_elapsed);
 	gameobjects.update(time_elapsed);
 }
 
@@ -156,22 +158,32 @@ ServerGameObject *Zone::load_gameobject(int gameobject_id)
 
 void Zone::notify_players_object_added(ServerGameObject *gameobject)
 {
-	std::map<ServerPlayer *, ZoneVicinityObjects *>::iterator it;
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
 	for(it = players.begin(); it != players.end(); ++it)
 	{
-		ZoneVicinityObjects *objects = it->second;
+		ZoneVicinityObjects *objects = it->second->objects;
 		objects->add_gameobject(gameobject);
 	}
 }
 
 void Zone::notify_players_object_removed(ServerGameObject *gameobject)
 {
-	std::map<ServerPlayer *, ZoneVicinityObjects *>::iterator it;
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
 	for(it = players.begin(); it != players.end(); ++it)
 	{
-		ZoneVicinityObjects *objects = it->second;
+		ZoneVicinityObjects *objects = it->second->objects;
 		objects->remove_gameobject(gameobject);
 	}
+}
+
+void Zone::notify_players_map_changed()
+{
+	/*std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
+	for(it = players.begin(); it != players.end(); ++it)
+	{
+		ZoneVicinityMap *map = it->second->map;
+		map->
+	}*/
 }
 
 void Zone::save_dirty_properties()
@@ -181,16 +193,37 @@ void Zone::save_dirty_properties()
 
 void Zone::sync_dirty_properties()
 {
-	std::map<ServerPlayer *, ZoneVicinityObjects *>::iterator it;
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
 	for(it = players.begin(); it != players.end(); ++it)
 	{
-		ZoneVicinityObjects *objects = it->second;
+		ZoneVicinityObjects *objects = it->second->objects;
 		objects->sync_gameobjects();
 	}
 
 	for(it = players.begin(); it != players.end(); ++it)
 	{
-		ZoneVicinityObjects *objects = it->second;
+		ZoneVicinityObjects *objects = it->second->objects;
 		objects->sync_gameobjects_clear_dirty();
+	}
+}
+
+void Zone::save_map()
+{
+	map->save_dirty_tiles();
+}
+
+void Zone::sync_map()
+{
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
+	for(it = players.begin(); it != players.end(); ++it)
+	{
+		ZoneVicinityMap *vicinity_map = it->second->map;
+		vicinity_map->sync_map();
+	}
+
+	for(it = players.begin(); it != players.end(); ++it)
+	{
+		ZoneVicinityMap *vicinity_map = it->second->map;
+		vicinity_map->sync_map_clear_dirty();
 	}
 }

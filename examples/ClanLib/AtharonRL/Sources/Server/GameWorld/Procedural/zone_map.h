@@ -11,6 +11,8 @@ public:
 	ZoneMap(clan::SqliteConnection &db, const clan::Vec2i &size);
 	~ZoneMap();
 
+	void update(float time_elapsed);
+
 	int get_width() const { return size.x; }
 	int get_height() const { return size.y; }
 
@@ -25,6 +27,7 @@ public:
 	bool can_walk(ServerPlayer *player, const clan::Vec2i &position) const;
 
 	void compute_fov_of(ServerPlayer *player) const;
+	void compute_fov() const;
 
 	unsigned int get_scent_of(ServerPlayer *player, const clan::Vec2i &position) const;
 
