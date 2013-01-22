@@ -20,6 +20,10 @@ ZoneVicinityMap::~ZoneVicinityMap()
 	visible_map_tiles.clear();
 }
 
+void ZoneVicinityMap::update(float time_elapsed)
+{
+
+}
 
 void ZoneVicinityMap::sync_map_clear_dirty()
 {
