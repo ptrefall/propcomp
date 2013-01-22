@@ -16,6 +16,7 @@ public:
 
 // Operations:
 public:
+	void update(float time_elapsed);
 	void sync_map();
 	void sync_map_clear_dirty();
 
