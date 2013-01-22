@@ -1,31 +1,16 @@
 
 #pragma once
 
-#include <memory>
-
-class IMapTile
-{
-public:
-	IMapTile(bool transparent, bool walkable, const clan::Vec2i &position) : transparent(transparent), walkable(walkable), position(position) {}
-	virtual ~IMapTile() {}
-	
-	bool is_transparent() const { return transparent; }
-	bool is_walkable() const { return walkable; }
-	clan::Vec2i get_position() const { return position; }
-
-	void set_transparent(bool transparent = true) { this->transparent = transparent; }
-	void set_walkable(bool walkable = true) { this->walkable = walkable; }
-	void set_position(const clan::Vec2i &position) { this->position = position; }
-
-protected:
-	bool transparent;
-	bool walkable;
-	clan::Vec2i position;
-};
-typedef std::shared_ptr<IMapTile> IMapTilePtr;
+#include "map_tile_interface.h"
 
 class FieldOfView
 {
 public:
-	static std::vector<IMapTilePtr> find_visible_tiles(const std::vector<IMapTilePtr> &map, clan::Vec2i size);
+	enum FieldOfViewAlgorithm
+	{
+		FOV_SHADOWCASTING = 0
+	};
+	static std::vector<IMapTilePtr> find_visible_tiles(	const std::vector<IMapTilePtr> &map, const clan::Vec2i &map_size, 
+														const clan::Vec2i &source_position, int max_radius = 0, 
+														bool light_walls = true, FieldOfViewAlgorithm algorithm = FOV_SHADOWCASTING);
 };
