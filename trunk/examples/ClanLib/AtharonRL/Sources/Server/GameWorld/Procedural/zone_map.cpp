@@ -18,6 +18,11 @@ ZoneMap::~ZoneMap()
 	delete map;
 }
 
+void ZoneMap::update(float time_elapsed)
+{
+	compute_fov();
+}
+
 bool ZoneMap::valid(const Vec2i &position) const
 {
 	if(position.x < 0 || position.y < 0 || position.x >= size.x || position.y >= size.y)
@@ -74,7 +79,7 @@ bool ZoneMap::is_in_fov_of(ServerPlayer *player, const clan::Vec2i &position) co
 	auto it = player_map_info.find(player);
 	if(it == player_map_info.end())
 		return false;
-
+	
 	if(it->second->map->isInFov(position.x, position.y))
 	{
 		it->second->tiles[to_index(position)].explored = true;
@@ -181,6 +186,12 @@ void ZoneMap::compute_fov_of(ServerPlayer *player) const
 			}
 		}
 	}
+}
+
+void ZoneMap::compute_fov() const
+{
+	for(auto it = player_map_info.begin(); it != player_map_info.end(); ++it)
+		compute_fov_of(it->first);
 }
 
 unsigned int ZoneMap::get_scent_of(ServerPlayer *player, const clan::Vec2i &position) const
