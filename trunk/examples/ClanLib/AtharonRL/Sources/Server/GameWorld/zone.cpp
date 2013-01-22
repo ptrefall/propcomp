@@ -80,6 +80,10 @@ void Zone::add_player(ServerPlayer *player)
 
 	NetGameEvent zone_event(STC_ZONE);
 	player->send_event(zone_event);
+
+	//TODO: Need to sync ZoneMap to player view here too, so question is whether this should
+	//		be part of the vicinity_objects, where we deal with syncing objects to the client,
+	//		or whether we should have a seperate class to deal with this, like zone_vicinity_map...
 }
 
 void Zone::remove_player(ServerPlayer *player)
