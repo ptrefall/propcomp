@@ -1,6 +1,7 @@
 #pragma once
 
 #include <libtcod.hpp>
+#include "Engine/Server/GameWorld/map_tile_interface.h"
 
 class ServerPlayer;
 class ZoneVicinityObjects;
@@ -40,6 +41,9 @@ private:
 
 	clan::Vec2i size;
 	TCODMap *map;
+	std::vector<clan::Vec2i> dirty_tiles;
+	//std::vector<IMapTilePtr> map;
+	//std::vector<IMapTilePtr> dirty_tiles;
 
 	clan::SqliteConnection &db;
 
@@ -72,6 +76,4 @@ private:
 		}
 	};
 	std::map<ServerPlayer*, PlayerMapInfo*> player_map_info;
-
-	std::vector<clan::Vec2i> dirty_tiles;
 };
