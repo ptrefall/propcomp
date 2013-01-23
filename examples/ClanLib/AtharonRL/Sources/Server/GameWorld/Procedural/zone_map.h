@@ -16,64 +16,38 @@ public:
 
 	int get_width() const { return size.x; }
 	int get_height() const { return size.y; }
+	const clan::Vec2i &get_size() const { return size; }
 
-	void set_properties(const clan::Vec2i &pos, bool transparent, bool walkable, bool architected = false);
+	//Position of the tile
+	//Transparent: Can we see tiles behind this tile?
+	//Walkable: Can we step on this tile?
+	//Architected: Is the call to this function invoked from the procedural architect? 
+	//			   Or is it a player/monster/item/Other event?
+	void set_properties(const clan::Vec2i &position, bool transparent, bool walkable, bool architected = false);
 
-	void add_player(ServerPlayer *player, ZoneVicinityObjects *vicinity_objects);
-	void remove_player(ServerPlayer *player);
-
-	bool is_in_fov_of(ServerPlayer *player, const clan::Vec2i &position) const;
+	//Is wall simply checks if the tile is walkable
 	bool is_wall(const clan::Vec2i &position) const;
-	bool is_explored_by(ServerPlayer *player, const clan::Vec2i &position) const;
-	bool can_walk(ServerPlayer *player, const clan::Vec2i &position) const;
 
-	void compute_fov_of(ServerPlayer *player) const;
-	void compute_fov() const;
-
-	unsigned int get_scent_of(ServerPlayer *player, const clan::Vec2i &position) const;
+	//Can walk checks for is wall, but in addition checks for
+	//potential game objects that might hinder/block us from
+	//stepping onto it
+	bool can_walk(const clan::Vec2i &position) const;
 
 	void load_from_database();
 	void save_dirty_tiles();
+
+protected:
+	friend class ZoneVicinityMap;
+	const std::vector<IMapTilePtr> &get_tiles() const { return tiles; }
 
 private:
 	bool valid(const clan::Vec2i &position) const;
 	unsigned int to_index(const clan::Vec2i &position) const;
 
 	clan::Vec2i size;
-	TCODMap *map;
-	std::vector<clan::Vec2i> dirty_tiles;
-	//std::vector<IMapTilePtr> map;
-	//std::vector<IMapTilePtr> dirty_tiles;
+
+	std::vector<IMapTilePtr> tiles;
+	std::vector<IMapTilePtr> dirty_tiles;
 
 	clan::SqliteConnection &db;
-
-	//This needs to be modified to work per player...
-	struct Tile 
-	{
-		bool explored; // has the player already seen this tile ?
-		unsigned int scent; // amount of player scent on this cell
-		Tile() : explored(false), scent(0) {}
-	};
-
-	struct PlayerMapInfo
-	{
-		Tile *tiles;
-		TCODMap *map;
-		ZoneVicinityObjects *vicinity_objects;
-
-		PlayerMapInfo(const clan::Vec2i &size, const TCODMap *source_map, ZoneVicinityObjects *vicinity_objects)
-		{
-			tiles = new Tile[size.x*size.y];
-			map = new TCODMap(size.x, size.y);
-			map->copy(source_map);
-			this->vicinity_objects = vicinity_objects;
-		}
-
-		~PlayerMapInfo()
-		{
-			delete[] tiles;
-			delete map;
-		}
-	};
-	std::map<ServerPlayer*, PlayerMapInfo*> player_map_info;
 };
