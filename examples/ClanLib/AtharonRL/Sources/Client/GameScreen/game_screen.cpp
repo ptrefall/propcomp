@@ -22,7 +22,7 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	layer_manager.reset(new LayerManager(layer_screen_size));
 
 	{
-		auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '.');
+		auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '#');
 		auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
 		auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
 		dungeon_layer = std::shared_ptr<Layer>(new Layer("Dungeon", description, bitmap));
