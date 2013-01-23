@@ -1,11 +1,11 @@
 #include "precomp.h"
 #include "zone_vicinity_map.h"
 #include "zone.h"
-#include "Procedural/zone_map.h"
+#include "zone_map.h"
 #include "server_player.h"
 #include "server_gameobject.h"
 #include "server_character.h"
-#include "Procedural/zone_map.h"
+#include "zone_map.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Engine/Server/GameWorld/field_of_view.h"
 #include <algorithm>
@@ -36,7 +36,7 @@ void ZoneVicinityMap::update(float time_elapsed)
 
 }
 
-void ZoneVicinityMap::sync_map_clear_dirty()
+void ZoneVicinityMap::clear_dirty_map()
 {
 	/*for (unsigned int i = 0; i < visible_tiles.size(); i++)
 	{

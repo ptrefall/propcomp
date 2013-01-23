@@ -86,7 +86,7 @@ void ZoneVicinityObjects::add_visible_object(ServerGameObject *gameobject)
 	connection->send_event(create_event);
 }
 
-void ZoneVicinityObjects::sync_gameobjects_clear_dirty()
+void ZoneVicinityObjects::clear_dirty_gameobjects()
 {
 	for (size_t i = 0; i < visible_objects.size(); i++)
 	{

@@ -5,7 +5,7 @@
 
 using namespace clan;
 
-std::vector<IMapTilePtr> FieldOfView::find_visible_tiles(const std::vector<IMapTilePtr> &map, const clan::Vec2i &map_size, 
+std::vector<ServerMapTilePtr> FieldOfView::find_visible_tiles(const std::vector<ServerMapTilePtr> &map, const clan::Vec2i &map_size, 
 														const clan::Vec2i &source_position, int max_radius, bool light_walls, 
 														FieldOfViewAlgorithm algorithm)
 {
@@ -17,6 +17,6 @@ std::vector<IMapTilePtr> FieldOfView::find_visible_tiles(const std::vector<IMapT
 			return fov.find_visible_tiles(map, map_size, source_position, max_radius, light_walls);
 		}break;
 	default:
-		return std::vector<IMapTilePtr>();
+		return std::vector<ServerMapTilePtr>();
 	};
 }

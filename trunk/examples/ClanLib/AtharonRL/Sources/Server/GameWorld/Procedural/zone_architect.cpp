@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "zone_architect.h"
-#include "zone_map.h"
+#include "../zone_map.h"
 
 using namespace clan;
 

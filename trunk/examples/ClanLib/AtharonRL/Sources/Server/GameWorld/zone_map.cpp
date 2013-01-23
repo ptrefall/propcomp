@@ -1,9 +1,9 @@
 #include "precomp.h"
 #include "zone_map.h"
-#include "../server_player.h"
-#include "../server_character.h"
-#include "../server_gameobject.h"
-#include "../zone_vicinity_objects.h"
+#include "server_player.h"
+#include "server_character.h"
+#include "server_gameobject.h"
+#include "zone_vicinity_objects.h"
 
 using namespace clan;
 
@@ -36,7 +36,7 @@ unsigned int ZoneMap::to_index(const clan::Vec2i &position) const
 
 void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walkable, bool architected)
 {
-	IMapTilePtr tile;
+	ServerMapTilePtr tile;
 
 	auto index = to_index(position);
 	if(index <= tiles.size())
@@ -48,7 +48,7 @@ void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walka
 	}
 	else
 	{
-		tile = std::make_shared<IMapTile>(position, transparent, walkable);
+		tile = std::make_shared<ServerMapTile>(position, transparent, walkable);
 		tiles.push_back(tile);
 	}
 
@@ -103,6 +103,11 @@ bool ZoneMap::can_walk(const clan::Vec2i &position) const
 	}*/
 
 	return true;
+}
+
+void ZoneMap::clear_dirty_tiles()
+{
+	dirty_tiles.clear();
 }
 
 void ZoneMap::load_from_database()

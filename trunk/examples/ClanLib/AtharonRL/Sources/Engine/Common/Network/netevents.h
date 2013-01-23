@@ -41,3 +41,8 @@
 #define STC_OBJECT_DESTROY				"ObjectDestroy"			// (int gameObjectId)
 #define STC_OBJECT_PLAYER_OWN			"ObjectPlayerOwn"		// (int gameObjectId)
 #define STC_OBJECT_EVENT				"ObjectEvent"			// (int gameObjectId, string eventName, [marshalledEvent]...)
+
+#define STC_MAP_CREATE					"MapCreate"				// ()
+#define STC_MAP_UPDATE					"MapUpdate"				// ()
+#define STC_MAP_DESTROY					"MapDestroy"			// ()
+#define STC_MAP_EVENT					"MapEvent"				// ()
