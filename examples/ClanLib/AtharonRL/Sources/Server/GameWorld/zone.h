@@ -46,8 +46,8 @@ private:
 	void notify_players_object_removed(ServerGameObject *gameobject);
 	void notify_players_map_changed();
 
-	void save_dirty_properties();
-	void sync_dirty_properties();
+	void save_gameobjects();
+	void sync_gameobjects();
 
 	void save_map();
 	void sync_map();

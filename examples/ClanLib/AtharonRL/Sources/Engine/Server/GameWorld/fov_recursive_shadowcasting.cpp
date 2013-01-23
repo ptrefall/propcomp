@@ -23,10 +23,10 @@ FOVRecursiveShadowcasting::~FOVRecursiveShadowcasting()
 {
 }
 
-std::vector<IMapTilePtr> FOVRecursiveShadowcasting::find_visible_tiles(	const std::vector<IMapTilePtr> &map, const clan::Vec2i &map_size, 
+std::vector<ServerMapTilePtr> FOVRecursiveShadowcasting::find_visible_tiles(	const std::vector<ServerMapTilePtr> &map, const clan::Vec2i &map_size, 
 																		const clan::Vec2i &source_position, int max_radius, bool light_walls)
 {
-	std::vector<IMapTilePtr> vicinity_map;
+	std::vector<ServerMapTilePtr> vicinity_map;
 
 	if ( max_radius == 0 ) 
 	{
@@ -55,12 +55,12 @@ std::vector<IMapTilePtr> FOVRecursiveShadowcasting::find_visible_tiles(	const st
 	return vicinity_map;
 }
 
-void FOVRecursiveShadowcasting::cast_light(const std::vector<IMapTilePtr> &map, const clan::Vec2i &map_size, const clan::Vec2i &source_position, 
+void FOVRecursiveShadowcasting::cast_light(const std::vector<ServerMapTilePtr> &map, const clan::Vec2i &map_size, const clan::Vec2i &source_position, 
 				int row, float start, float end, 
 				int radius, int r2, 
 				int xx, int xy, int yx, int yy, 
 				int id, bool light_walls,
-				std::vector<IMapTilePtr> &vicinity_map)
+				std::vector<ServerMapTilePtr> &vicinity_map)
 {
 	float new_start = 0.0f;
 	

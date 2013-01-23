@@ -1,7 +1,7 @@
 #pragma once
 
 #include <libtcod.hpp>
-#include "Engine/Server/GameWorld/map_tile_interface.h"
+#include "Engine/Server/GameWorld/server_map_tile.h"
 
 class ServerPlayer;
 class ZoneVicinityObjects;
@@ -33,12 +33,17 @@ public:
 	//stepping onto it
 	bool can_walk(const clan::Vec2i &position) const;
 
+	const std::vector<ServerMapTilePtr> &get_dirty_tiles() const { return dirty_tiles; }
+	void clear_dirty_tiles();
+
 	void load_from_database();
 	void save_dirty_tiles();
 
+
+
 protected:
 	friend class ZoneVicinityMap;
-	const std::vector<IMapTilePtr> &get_tiles() const { return tiles; }
+	const std::vector<ServerMapTilePtr> &get_tiles() const { return tiles; }
 
 private:
 	bool valid(const clan::Vec2i &position) const;
@@ -46,8 +51,8 @@ private:
 
 	clan::Vec2i size;
 
-	std::vector<IMapTilePtr> tiles;
-	std::vector<IMapTilePtr> dirty_tiles;
+	std::vector<ServerMapTilePtr> tiles;
+	std::vector<ServerMapTilePtr> dirty_tiles;
 
 	clan::SqliteConnection &db;
 };

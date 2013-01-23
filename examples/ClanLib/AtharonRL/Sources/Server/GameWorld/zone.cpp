@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "zone.h"
-#include "Procedural/zone_map.h"
+#include "zone_map.h"
 #include "Procedural/zone_architect.h"
 #include "server_player.h"
 #include "server_gameobject.h"
@@ -131,8 +131,8 @@ void Zone::update()
 	{
 		sync_map();
 		save_map();
-		sync_dirty_properties();
-		save_dirty_properties();
+		sync_gameobjects();
+		save_gameobjects();
 //		total_time = 0.0f;
 	}
 }
@@ -182,12 +182,12 @@ void Zone::notify_players_map_changed()
 	}*/
 }
 
-void Zone::save_dirty_properties()
+void Zone::save_gameobjects()
 {
 	gameobjects.save_dirty_properties();
 }
 
-void Zone::sync_dirty_properties()
+void Zone::sync_gameobjects()
 {
 	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
 	for(it = players.begin(); it != players.end(); ++it)
@@ -199,7 +199,7 @@ void Zone::sync_dirty_properties()
 	for(it = players.begin(); it != players.end(); ++it)
 	{
 		ZoneVicinityObjects *objects = it->second->objects;
-		objects->sync_gameobjects_clear_dirty();
+		objects->clear_dirty_gameobjects();
 	}
 }
 
@@ -220,6 +220,6 @@ void Zone::sync_map()
 	for(it = players.begin(); it != players.end(); ++it)
 	{
 		ZoneVicinityMap *vicinity_map = it->second->map;
-		vicinity_map->sync_map_clear_dirty();
+		vicinity_map->clear_dirty_map();
 	}
 }
