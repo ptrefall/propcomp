@@ -39,8 +39,13 @@ void ClientZone::tick(float time_elapsed)
 bool ClientZone::dispatch_net_event(const NetGameEvent &event)
 {
 //	cl_log_event("Game", "Event: %1", event.to_string());
+	bool handled = objects->dispatch_net_event(event);
 
-	return objects->dispatch_net_event(event);
+	if( !handled )
+		handled = map->dispatch_net_event(event);
+
+
+	return handled;
 }
 
 void ClientZone::send_event(const NetGameEvent &event)

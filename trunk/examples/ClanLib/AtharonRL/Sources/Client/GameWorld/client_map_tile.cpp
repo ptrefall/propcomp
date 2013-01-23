@@ -8,7 +8,7 @@
 ClientMapTile::ClientMapTile(const clan::Vec2i &position, ClientZone *zone, const LayerManagerPtr &layer_manager)
 	: MapTileInterface(position), layer_manager(layer_manager)
 {
-	dungeon_layer = layer_manager->get("Dungeon");
+	dungeon_layer = layer_manager->get("Character");
 }
 
 ClientMapTile::~ClientMapTile()
