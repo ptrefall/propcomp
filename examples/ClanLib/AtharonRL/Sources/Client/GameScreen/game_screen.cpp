@@ -21,12 +21,20 @@ GameScreen::GameScreen(UIScreenManager *screen_manager, Game *game, NetGameClien
 	//auto layer_screen_size = Point(3,2);
 	layer_manager.reset(new LayerManager(layer_screen_size));
 
-	auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '.');
-	auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
-	auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
-	test_layer = std::shared_ptr<Layer>(new Layer("Character", description, bitmap));
-	//test_layer->set_tile(Point(12, 4), Colorf::blueviolet, Colorf::red, '@');
-	layer_manager->add(test_layer);
+	{
+		auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, '.');
+		auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
+		auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
+		dungeon_layer = std::shared_ptr<Layer>(new Layer("Dungeon", description, bitmap));
+		layer_manager->add(dungeon_layer);
+	}
+	{
+		auto tile_data = std::make_shared<TileData>(Colorf::black, Colorf::white, ' ');
+		auto description = LayerDescription(Point(0,0), layer_manager->get_screen_size(), tile_data);
+		auto bitmap = LayerBitmap(Sprite(gc, "Font/font-10", &resources), glyph_size, nullptr);
+		character_layer = std::shared_ptr<Layer>(new Layer("Character", description, bitmap));
+		layer_manager->add(character_layer);
+	}
 
 	zone.reset(new ClientZone(network, layer_manager));
 

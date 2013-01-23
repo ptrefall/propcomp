@@ -81,7 +81,7 @@ void FOVRecursiveShadowcasting::cast_light(const std::vector<ServerMapTilePtr> &
 			current_position.x = source_position.x + dx*xx + dy*xy;
 			current_position.y = source_position.y + dx*yx + dy*yy;
 
-			if(current_position < map_size) 
+			if(current_position.x >= 0 && current_position.y >= 0 && current_position.x < map_size.x && current_position.y < map_size.y) 
 			{
 				int offset = to_index(current_position, map_size.x);
 				float l_slope = (dx-0.5f) / (dy+0.5f);

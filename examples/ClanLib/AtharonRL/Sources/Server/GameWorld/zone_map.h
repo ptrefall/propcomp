@@ -12,6 +12,7 @@ public:
 	ZoneMap(clan::SqliteConnection &db, const clan::Vec2i &size);
 	~ZoneMap();
 
+	void clear();
 	void update(float time_elapsed);
 
 	int get_width() const { return size.x; }

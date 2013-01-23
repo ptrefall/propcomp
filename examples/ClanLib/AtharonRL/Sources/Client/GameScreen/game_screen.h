@@ -35,7 +35,8 @@ private:
 	clan::SlotContainer slots;
 
 	std::shared_ptr<LayerManager> layer_manager;
-	std::shared_ptr<Layer> test_layer;
+	std::shared_ptr<Layer> dungeon_layer;
+	std::shared_ptr<Layer> character_layer;
 
 	std::unique_ptr<ClientZone> zone;
 };
