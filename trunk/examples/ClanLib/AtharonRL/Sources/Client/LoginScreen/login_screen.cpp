@@ -5,7 +5,6 @@
 #include "Engine/Client/UIFramework/window_manager.h"
 #include "Engine/Client/UIFramework/ui_button.h"
 #include "Engine/Client/UIFramework/ui_lineedit.h"
-#include "Engine/Client/UIFramework/ui_html.h"
 #include "Engine/Client/UIFramework/ui_model_scene.h"
 #include "Engine/Common/Network/netevents.h"
 
@@ -110,9 +109,6 @@ LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameCli
 		"ul { margin-left: 12px; }"
 		"li { color: #d5ab5b; }";
 
-	html_motd = new UIHtml(this);
-	html_motd->set_scaled_geometry(ScaledBox::top_left_box(50.0f, 100.0f, 300.0f, 500.0f));
-
 	slots.connect(network.sig_connected(), this, &LoginScreen::on_connected);
 	slots.connect(network.sig_disconnected(), this, &LoginScreen::on_disconnected);
 	slots.connect(network.sig_event_received(), this, &LoginScreen::on_event_received);
@@ -163,8 +159,6 @@ void LoginScreen::update()
 	Rect box(Point((canvas.get_width() - size.width) / 2, 0), size);
 	background.draw(canvas, box);
 
-	html_motd->render(canvas, box);
-
 	UIScreen::update();
 }
 
@@ -176,8 +170,6 @@ void LoginScreen::connect()
 		"<div>Connecting...</div>"
 		"</body>"
 		"</html>";
-
-	html_motd->set_document(html, css_text);
 
 	std::string server = "localhost";
 	std::string port = "4556";
@@ -215,7 +207,6 @@ void LoginScreen::on_connected()
 #endif
 	cl_log_event("Network", "Connected");
 
-	html_motd->clear();
 	frame_login->set_visible(true);
 	button_connect->set_visible(false);
 }
@@ -235,7 +226,6 @@ void LoginScreen::on_disconnected()
 		"</body>"
 		"</html>";
 
-	html_motd->set_document(html, css_text);
 	frame_login->set_visible(false);
 	button_connect->set_visible(true);
 }
@@ -274,6 +264,4 @@ void LoginScreen::on_event_motd(const NetGameEvent &e)
 	return;
 #endif
 	std::string html = e.get_argument(0);
-
-	html_motd->set_document(html, css_text);
 }
