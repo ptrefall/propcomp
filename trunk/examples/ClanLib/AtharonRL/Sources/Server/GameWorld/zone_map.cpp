@@ -11,10 +11,25 @@ ZoneMap::ZoneMap(clan::SqliteConnection &db, const clan::Vec2i &size)
 	: db(db), size(size)
 {
 	tiles.reserve(size.x*size.y);
+	clear();
 }
 
 ZoneMap::~ZoneMap()
 {
+}
+
+void ZoneMap::clear()
+{
+	tiles.clear();
+	for(int y = 0; y < size.y; y++)
+	{
+		for(int x = 0; x < size.x; x++)
+		{
+			//Clear to a completely opaque, non-walkable block of stone that we can carve our dungeons from.
+			auto tile = std::make_shared<ServerMapTile>(Vec2i(x,y), false, false);
+			tiles.push_back(tile);
+		}
+	}
 }
 
 void ZoneMap::update(float time_elapsed)
@@ -48,6 +63,7 @@ void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walka
 	}
 	else
 	{
+		//This shouldn't really ever happen :P
 		tile = std::make_shared<ServerMapTile>(position, transparent, walkable);
 		tiles.push_back(tile);
 	}

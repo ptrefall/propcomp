@@ -140,6 +140,13 @@ void Zone::update()
 void Zone::tick(float time_elapsed)
 {
 	map->update(time_elapsed);
+
+	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
+	for(it = players.begin(); it != players.end(); ++it)
+	{
+		it->second->map->update(time_elapsed);
+	}
+
 	gameobjects.update(time_elapsed);
 }
 

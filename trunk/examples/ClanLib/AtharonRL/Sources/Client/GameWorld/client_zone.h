@@ -3,6 +3,7 @@
 class GameObject; typedef std::shared_ptr<GameObject> GameObjectPtr;
 class ClientCamera; typedef std::shared_ptr<ClientCamera> ClientCameraPtr;
 class ClientVicinityObjects;
+class ClientVicinityMap;
 class ClientComponentFactory;
 class LayerManager; typedef std::shared_ptr<LayerManager> LayerManagerPtr;
 
@@ -37,6 +38,7 @@ public:
 private:
 	LayerManagerPtr layer_manager;
 	std::shared_ptr<ClientVicinityObjects> objects;
+	std::shared_ptr<ClientVicinityMap> map;
 	std::shared_ptr<ClientComponentFactory> component_factory;
 
 	clan::NetGameClient &network;

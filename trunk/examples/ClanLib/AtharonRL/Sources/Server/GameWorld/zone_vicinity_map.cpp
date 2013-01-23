@@ -33,7 +33,8 @@ bool ZoneVicinityMap::valid(const Vec2i &position) const
 
 void ZoneVicinityMap::update(float time_elapsed)
 {
-
+	//Call this from here for now...
+	compute_vicinity();
 }
 
 void ZoneVicinityMap::clear_dirty_map()
@@ -46,12 +47,23 @@ void ZoneVicinityMap::clear_dirty_map()
 
 void ZoneVicinityMap::sync_map()
 {
-	// TODO; support component properties
+	if(visible_tiles.empty())
+		return;
 
-	/*for (unsigned int i = 0; i < visible_tiles.size(); i++)
+	NetGameEvent create_event(STC_MAP_UPDATE);
+	create_event.add_argument(visible_tiles.size());
+
+	//Iterate over all visible tiles
+	for (unsigned int i = 0; i < visible_tiles.size(); i++)
 	{
 		auto tile = visible_tiles[i];
-	}*/
+		create_event.add_argument(tile->get_position().x);
+		create_event.add_argument(tile->get_position().y);
+		//TODO: Need some more information about the tile... like what background color is it?
+		//		does it have a foreground color and a character associated with it? etc...
+	}
+
+	connection->send_event(create_event);
 }
 
 void ZoneVicinityMap::compute_vicinity()

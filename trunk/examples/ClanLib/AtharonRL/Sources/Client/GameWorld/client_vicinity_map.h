@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Client/GameWorld/client_map_tile.h"
+#include "client_map_tile.h"
 class ClientZone;
 
 class ClientVicinityMap
 {
 // Construction:
 public:
-	ClientVicinityMap(ClientZone *zone);
+	ClientVicinityMap(ClientZone *zone, const LayerManagerPtr &layer_manager);
 	~ClientVicinityMap();
 
 // Attributes:
@@ -18,6 +18,7 @@ public:
 	bool dispatch_net_event(const clan::NetGameEvent &event);
 	
 	void update(float time_elapsed);
+	void draw(const ClientCameraPtr &camera);
 	
 	void clear();
 
@@ -35,4 +36,5 @@ private:
 	int player_gameobject_id;
 
 	ClientZone *zone;
+	LayerManagerPtr layer_manager;
 };

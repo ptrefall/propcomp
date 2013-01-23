@@ -5,8 +5,8 @@
 
 using namespace clan;
 
-ClientVicinityMap::ClientVicinityMap(ClientZone *zone)
-: player_gameobject_id(0), zone(zone)
+ClientVicinityMap::ClientVicinityMap(ClientZone *zone, const LayerManagerPtr &layer_manager)
+: player_gameobject_id(0), zone(zone), layer_manager(layer_manager)
 {
 	netevents.func_event(STC_MAP_CREATE).set(this, &ClientVicinityMap::on_net_event_map_create);
 	netevents.func_event(STC_MAP_UPDATE).set(this, &ClientVicinityMap::on_net_event_map_update);
@@ -65,6 +65,21 @@ void ClientVicinityMap::on_net_event_map_create(const NetGameEvent &e)
 
 void ClientVicinityMap::on_net_event_map_update(const NetGameEvent &e)
 {
+	//TODO: Should really ensure reuse of tiles here instead of clearing the entire list,
+	//		which will cause a delete on all the tiles, then instanciate new tiles based
+	//		on the event arguments...
+	int a = 0;
+	visible_tiles.clear();
+
+	cl_log_event("Game", "Updating map");
+
+	unsigned int tile_count = e.get_argument(a++);
+	for(unsigned int i = 0; i < tile_count; ++i)
+	{
+		Vec2i tile_position = Vec2i(e.get_argument(a++), e.get_argument(a++));
+		auto tile = std::make_shared<ClientMapTile>(tile_position, zone, layer_manager);
+		visible_tiles.push_back(tile);
+	}
 	/*int a = 0;
 
 	int id = e.get_argument(a++);
@@ -130,10 +145,12 @@ void ClientVicinityMap::update(float time_elapsed)
 	{
 		visible_tiles[i]->update(time_elapsed);
 	}
-	
-	for (size_t i = visible_tiles.size(); i > 0; i--)
+}
+
+void ClientVicinityMap::draw(const ClientCameraPtr &camera)
+{
+	for (size_t i = 0; i < visible_tiles.size(); i++)
 	{
-		if (visible_tiles[i-1]->is_destroyed())
-			visible_tiles.erase(visible_tiles.begin() + (i-1)); //Shared ptr only needs to erase from list
+		visible_tiles[i]->draw(camera);
 	}
 }
