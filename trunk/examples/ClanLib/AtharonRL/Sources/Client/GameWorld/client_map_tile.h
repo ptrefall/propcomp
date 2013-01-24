@@ -12,7 +12,7 @@ class ClientMapTile; typedef std::shared_ptr<ClientMapTile> ClientMapTilePtr;
 class ClientMapTile : public MapTileInterface
 {
 public:
-	ClientMapTile(const clan::Vec2i &position, ClientZone *zone, const LayerManagerPtr &layer_manager);
+	ClientMapTile(const clan::Vec2i &position, bool walkable, ClientZone *zone, const LayerManagerPtr &layer_manager);
 	virtual ~ClientMapTile();
 
 	void update(float time_elapsed);
@@ -21,4 +21,5 @@ public:
 protected:
 	LayerManagerPtr layer_manager;
 	LayerPtr dungeon_layer;
+	bool walkable;
 };

@@ -59,6 +59,7 @@ void ZoneVicinityMap::sync_map()
 		auto tile = visible_tiles[i];
 		create_event.add_argument(tile->get_position().x);
 		create_event.add_argument(tile->get_position().y);
+		create_event.add_argument((int)tile->is_walkable());
 		//TODO: Need some more information about the tile... like what background color is it?
 		//		does it have a foreground color and a character associated with it? etc...
 	}
