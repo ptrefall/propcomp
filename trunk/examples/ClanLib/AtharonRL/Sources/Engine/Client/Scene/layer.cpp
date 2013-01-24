@@ -145,7 +145,7 @@ void Layer::draw(clan::Canvas &canvas, int /*x*/, int /*y*/)
 			if(tile->character == ' ')
 				continue;
 
-			canvas.fill(clan::Rectf(dx, dy, dx+(float)glyph_size.x, dy+(float)glyph_size.y), tile->background_color);
+			canvas.draw_fill(clan::Rectf(dx, dy, dx+(float)glyph_size.x, dy+(float)glyph_size.y), tile->background_color);
 			bitmap.set_color(tile->foreground_color);
 			bitmap.set_frame(tile->character);
 			bitmap.draw(canvas, dx, dy);

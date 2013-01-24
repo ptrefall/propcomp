@@ -25,7 +25,7 @@ void ScaledSprite::render(Canvas &canvas, Rect border_box, float scale)
 	int y[4] = { border_image_area.top, border_image_area.top + grid_top, border_image_area.bottom - grid_bottom, border_image_area.bottom };
 
 	if (color.a != 0.0f)
-		canvas.fill(Rect(x[0], y[0], x[3], y[3]), color);
+		canvas.draw_fill(Rect(x[0], y[0], x[3], y[3]), color);
 
 	if (image.is_null())
 		return;
