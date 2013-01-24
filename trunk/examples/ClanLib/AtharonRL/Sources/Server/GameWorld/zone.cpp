@@ -129,10 +129,8 @@ void Zone::update()
 //	total_time += time_elapsed;
 	//	if(total_time > 10.0f)
 	{
-		sync_map();
-		save_map();
-		sync_gameobjects();
-		save_gameobjects();
+		sync();
+		save();
 //		total_time = 0.0f;
 	}
 }
@@ -189,44 +187,43 @@ void Zone::notify_players_map_changed()
 	}*/
 }
 
-void Zone::save_gameobjects()
+void Zone::save()
 {
+	map->save_dirty_tiles();
 	gameobjects.save_dirty_properties();
 }
 
-void Zone::sync_gameobjects()
+void Zone::sync()
 {
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
+	//Sync map
 	{
-		ZoneVicinityObjects *objects = it->second->objects;
-		objects->sync_gameobjects();
+		std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
+		for(it = players.begin(); it != players.end(); ++it)
+		{
+			ZoneVicinityMap *vicinity_map = it->second->map;
+			vicinity_map->sync_map();
+		}
+
+		for(it = players.begin(); it != players.end(); ++it)
+		{
+			ZoneVicinityMap *vicinity_map = it->second->map;
+			vicinity_map->clear_dirty_map();
+		}
 	}
 
-	for(it = players.begin(); it != players.end(); ++it)
+	//Sync gameobjects
 	{
-		ZoneVicinityObjects *objects = it->second->objects;
-		objects->clear_dirty_gameobjects();
-	}
-}
+		std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
+		for(it = players.begin(); it != players.end(); ++it)
+		{
+			ZoneVicinityObjects *objects = it->second->objects;
+			objects->sync_gameobjects();
+		}
 
-void Zone::save_map()
-{
-	map->save_dirty_tiles();
-}
-
-void Zone::sync_map()
-{
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ZoneVicinityMap *vicinity_map = it->second->map;
-		vicinity_map->sync_map();
-	}
-
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ZoneVicinityMap *vicinity_map = it->second->map;
-		vicinity_map->clear_dirty_map();
+		for(it = players.begin(); it != players.end(); ++it)
+		{
+			ZoneVicinityObjects *objects = it->second->objects;
+			objects->clear_dirty_gameobjects();
+		}
 	}
 }
