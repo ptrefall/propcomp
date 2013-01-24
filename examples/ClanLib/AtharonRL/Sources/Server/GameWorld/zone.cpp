@@ -22,7 +22,7 @@ Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int 
 	//TODO: Nothing is persisted, nor is the ZoneMap data synced to the client yet either :P Server-only so far!
 	//		In addition, the architect spawns no game objects at this point. When we start dealing with that, then
 	//		it probably needs to take in the component factory and the gameobjects list.
-	map.reset(new ZoneMap(db, Vec2i(100,100)));
+	map.reset(new ZoneMap(db, Vec2i(40,40)));
 	ZoneArchitect architect(generation_seed);
 	
 	if(gameobjects.is_empty())

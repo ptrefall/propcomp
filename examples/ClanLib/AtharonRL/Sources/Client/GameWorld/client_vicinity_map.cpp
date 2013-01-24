@@ -77,7 +77,9 @@ void ClientVicinityMap::on_net_event_map_update(const NetGameEvent &e)
 	for(unsigned int i = 0; i < tile_count; ++i)
 	{
 		Vec2i tile_position = Vec2i(e.get_argument(a++), e.get_argument(a++));
-		auto tile = std::make_shared<ClientMapTile>(tile_position, zone, layer_manager);
+		int walkable = e.get_argument(a++);
+
+		auto tile = std::make_shared<ClientMapTile>(tile_position, (bool)walkable, zone, layer_manager);
 		visible_tiles.push_back(tile);
 	}
 	/*int a = 0;
