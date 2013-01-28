@@ -10,7 +10,7 @@ class ZoneVicinityMap
 {
 // Construction:
 public:
-	ZoneVicinityMap(Zone *zone, const ZoneMapPtr &map, ServerPlayer *player, clan::NetGameConnection *connection);
+	ZoneVicinityMap(const ZoneMapPtr &map, ServerPlayer *player, clan::NetGameConnection *connection);
 	~ZoneVicinityMap();
 
 // Attributes:
@@ -40,7 +40,6 @@ public:
 private:
 	bool valid(const clan::Vec2i &position) const;
 
-	Zone *zone;
 	ZoneMapPtr map;
 	ServerPlayer *player;
 	clan::NetGameConnection *connection;

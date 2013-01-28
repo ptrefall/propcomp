@@ -6,6 +6,7 @@
 #include "zone_vicinity_objects.h"
 #include "zone_vicinity_map.h"
 #include "server_gameobject_container.h"
+#include "server_player_container.h"
 #include "server_component_factory.h"
 #include "Engine/Common/GameWorld/tick_timer.h"
 
@@ -49,26 +50,16 @@ private:
 	void notify_players_object_removed(ServerGameObject *gameobject);
 	void notify_players_map_changed();
 
-	void sync();
 	void save();
 
+	ServerPlayerContainer players;
 	ServerGameObjectContainer gameobjects;
-
-	struct ZoneVicinity
-	{
-		ZoneVicinityObjects *objects;
-		ZoneVicinityMap *map;
-
-		ZoneVicinity(ZoneVicinityMap *map, ZoneVicinityObjects *objects) : map(map), objects(objects) {}
-		~ZoneVicinity() { delete map; delete objects; }
-	};
-	std::map<ServerPlayer *, ZoneVicinity *> players;
+	ZoneMapPtr map;
 
 	std::shared_ptr<ServerComponentFactory> component_factory;
 
 	int zone_id;
 	int generation_seed;
-	ZoneMapPtr map;
 
 	TickTimer tick_timer;
 };

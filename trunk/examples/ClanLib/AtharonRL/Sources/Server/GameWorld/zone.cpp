@@ -51,15 +51,7 @@ ServerGameObject *Zone::find_gameobject(int gameobject_id) const
 
 ServerPlayer *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
 {
-	std::map<ServerPlayer *, ZoneVicinity *>::const_iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ServerPlayer *player = it->first;
-		ServerCharacter *character = player->get_character();
-		if(character->get_owner_gameobject() == gameobject)
-			return player;
-	}
-	return 0;
+	return players.find_player_with_gameobject(gameobject);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -67,32 +59,12 @@ ServerPlayer *Zone::find_player_with_gameobject(ServerGameObject *gameobject) co
 
 void Zone::add_player(ServerPlayer *player)
 {
-	ZoneVicinityObjects *vicinity_objects = new ZoneVicinityObjects(this, player->get_connection());
-
-	// TODO: For now just add all objects to visibility
-	const std::vector<ServerGameObject *> &objects = gameobjects.get_all();
-	for (std::vector<ServerGameObject *>::const_iterator it = objects.begin(); it != objects.end(); ++it)
-		vicinity_objects->add_gameobject((*it));
-
-	ZoneVicinityMap *vicinity_map = new ZoneVicinityMap(this, map, player, player->get_connection());
-	ZoneVicinity *vicinity = new ZoneVicinity(vicinity_map, vicinity_objects);
-
-	players[player] = vicinity;
-
-	NetGameEvent zone_event(STC_ZONE);
-	player->send_event(zone_event);
+	players.add_player(player, gameobjects, map);
 }
 
 void Zone::remove_player(ServerPlayer *player)
 {
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	it = players.find(player);
-	if (it != players.end())
-	{
-		ZoneVicinity *vicinity = it->second;
-		delete vicinity;
-		players.erase(it);
-	}
+	players.remove_player(player);
 }
 
 void Zone::add_gameobject(ServerGameObject *gameobject)
@@ -129,7 +101,7 @@ void Zone::update()
 //	total_time += time_elapsed;
 	//	if(total_time > 10.0f)
 	{
-		sync();
+		players.sync();
 		save();
 //		total_time = 0.0f;
 	}
@@ -137,14 +109,8 @@ void Zone::update()
 
 void Zone::tick(float time_elapsed)
 {
-	map->update(time_elapsed);
-
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		it->second->map->update(time_elapsed);
-	}
-
+	//map->update(time_elapsed);
+	players.update(time_elapsed);
 	gameobjects.update(time_elapsed);
 }
 
@@ -159,71 +125,22 @@ ServerGameObject *Zone::load_gameobject(int gameobject_id)
 
 void Zone::notify_players_object_added(ServerGameObject *gameobject)
 {
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ZoneVicinityObjects *objects = it->second->objects;
-		objects->add_gameobject(gameobject);
-	}
+	players.notify_players_object_added(gameobject);
 }
 
 void Zone::notify_players_object_removed(ServerGameObject *gameobject)
 {
-	std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ZoneVicinityObjects *objects = it->second->objects;
-		objects->remove_gameobject(gameobject);
-	}
+	players.notify_players_object_removed(gameobject);
 }
 
 void Zone::notify_players_map_changed()
 {
-	/*std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-	for(it = players.begin(); it != players.end(); ++it)
-	{
-		ZoneVicinityMap *map = it->second->map;
-		map->
-	}*/
+	players.notify_players_map_changed();
 }
 
 void Zone::save()
 {
-	map->save_dirty_tiles();
+	//map->save_dirty_tiles();
 	gameobjects.save_dirty_properties();
-}
-
-void Zone::sync()
-{
-	//Sync map
-	{
-		std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-		for(it = players.begin(); it != players.end(); ++it)
-		{
-			ZoneVicinityMap *vicinity_map = it->second->map;
-			vicinity_map->sync_map();
-		}
-
-		for(it = players.begin(); it != players.end(); ++it)
-		{
-			ZoneVicinityMap *vicinity_map = it->second->map;
-			vicinity_map->clear_dirty_map();
-		}
-	}
-
-	//Sync gameobjects
-	{
-		std::map<ServerPlayer *, ZoneVicinity *>::iterator it;
-		for(it = players.begin(); it != players.end(); ++it)
-		{
-			ZoneVicinityObjects *objects = it->second->objects;
-			objects->sync_gameobjects();
-		}
-
-		for(it = players.begin(); it != players.end(); ++it)
-		{
-			ZoneVicinityObjects *objects = it->second->objects;
-			objects->clear_dirty_gameobjects();
-		}
-	}
+	players.save();
 }

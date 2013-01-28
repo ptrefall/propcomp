@@ -7,7 +7,7 @@ class ZoneVicinityObjects
 {
 // Construction:
 public:
-	ZoneVicinityObjects(Zone *zone, clan::NetGameConnection *connection);
+	ZoneVicinityObjects(clan::NetGameConnection *connection);
 	~ZoneVicinityObjects();
 
 // Attributes:
@@ -29,8 +29,6 @@ private:
 	void add_visible_object(ServerGameObject *object);
 	void remove_visible_object(ServerGameObject *object);
 	bool is_object_in_visibility(ServerGameObject *gameobject) const;
-
-	Zone *zone;
 
 	clan::NetGameConnection *connection;
 
