@@ -16,24 +16,6 @@ public:
 
 	void run(clan::Event &stop_event);
 
-	Server &operator=(const Server &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		slots = rhs.slots;
-		network = rhs.network;
-		netevents = rhs.netevents;
-
-		zone_manager = rhs.zone_manager;
-		player_manager = rhs.player_manager;
-		character_manager = rhs.character_manager;
-		netevents_character = rhs.netevents_character;
-
-		db = rhs.db;
-		return *this;
-	}
-
 private:
 	void initialize_network();
 
