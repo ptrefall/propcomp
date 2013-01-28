@@ -1,8 +1,12 @@
 #pragma once
 
+#include "server_gameobject_container.h"
+
 #include <libtcod.hpp>
 #include <memory>
+
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
+
 class ZoneArchitect;
 
 class BspTraversalListener : public ITCODBspCallback
@@ -28,12 +32,13 @@ public:
 
 	//Only generate with entities the first time, later the entities
 	//are stored and persisted in the database!
-	void generate(const ZoneMapPtr &map, bool withEntities);
+	void generate(const ZoneMapPtr &map);
+	void generate(const ZoneMapPtr &map, ServerGameObjectContainer *&gameobjects);
 
 protected:
 	friend class BspTraversalListener;
-	void dig(const clan::Vec2i &pos1, const clan::Vec2i &pos2);
-    void create_room(bool first, const clan::Vec2i &pos1, const clan::Vec2i &pos2, bool withEntities);
+	void dig(const clan::Vec2i &position, const clan::Vec2i &bounds);
+    void create_room(bool first, const clan::Vec2i &position, const clan::Vec2i &bounds);
 	int get_room_min_size() const { return room_min_size; }
 	int get_room_max_size() const { return room_max_size; }
 	TCODRandom *get_rng() const { return rng; }
@@ -44,4 +49,5 @@ private:
 	ZoneMapPtr map;
 	int seed;
 	TCODRandom *rng;
+	ServerGameObjectContainer *gameobjects;
 };

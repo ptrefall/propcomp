@@ -28,8 +28,12 @@ public:
 	ServerGameObject *find_gameobject(int gameobject_id) const;
 	ServerPlayer *find_player_with_gameobject(ServerGameObject *gameobject) const;
 
+
+
 // Operations:
 public:
+	void set_map(const ZoneMapPtr &map);
+
 	void add_player(ServerPlayer *player);
 	void remove_player(ServerPlayer *player);
 
@@ -42,6 +46,7 @@ public:
 	void send_event(const clan::NetGameEvent &event);
 
 	ServerGameObject *load_gameobject(int gameobject_id);
+	const ServerGameObjectContainer *get_gameobjects() const { return &gameobjects; }
 
 private:
 	void tick(float time_elapsed);

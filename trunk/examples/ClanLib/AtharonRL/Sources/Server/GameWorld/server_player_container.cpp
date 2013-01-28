@@ -104,13 +104,13 @@ void ServerPlayerContainer::sync()
 		for(it = players.begin(); it != players.end(); ++it)
 		{
 			ZoneVicinityMap *vicinity_map = it->second->map;
-			vicinity_map->sync_map();
+			vicinity_map->sync_dirty_tiles();
 		}
 
 		for(it = players.begin(); it != players.end(); ++it)
 		{
 			ZoneVicinityMap *vicinity_map = it->second->map;
-			vicinity_map->clear_dirty_map();
+			vicinity_map->clear_dirty_tiles();
 		}
 	}
 
@@ -120,7 +120,7 @@ void ServerPlayerContainer::sync()
 		for(it = players.begin(); it != players.end(); ++it)
 		{
 			ZoneVicinityObjects *objects = it->second->objects;
-			objects->sync_gameobjects();
+			objects->sync_dirty_gameobjects();
 		}
 
 		for(it = players.begin(); it != players.end(); ++it)

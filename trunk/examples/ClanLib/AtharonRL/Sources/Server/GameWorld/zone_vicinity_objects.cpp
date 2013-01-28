@@ -105,7 +105,7 @@ void ZoneVicinityObjects::clear_dirty_gameobjects()
 	}
 }
 
-void ZoneVicinityObjects::sync_gameobjects()
+void ZoneVicinityObjects::sync_dirty_gameobjects()
 {
 	// TODO; support component properties
 
