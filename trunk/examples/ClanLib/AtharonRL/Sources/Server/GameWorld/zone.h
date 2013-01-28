@@ -1,5 +1,8 @@
 #pragma once
 
+//TODO: Need to refactor this class substantially. Zone should really be a container of players, gameobjects and the map of a zone...
+//		right now it handles way too much logic!
+
 #include "zone_vicinity_objects.h"
 #include "zone_vicinity_map.h"
 #include "server_gameobject_container.h"
