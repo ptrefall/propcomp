@@ -1,6 +1,8 @@
 #include "precomp.h"
 #include "zone_manager.h"
 #include "zone.h"
+#include "zone_map.h"
+#include "zone_architect.h"
 #include "server_gameobject.h"
 #include "server_gameobject.h"
 #include "network_receiver_component.h"
@@ -121,6 +123,19 @@ Zone *ZoneManager::load_zone(int zone_id)
 
 	Zone *zone = new Zone(db, zone_id, zone_instance.gameobject_container_id, zone_instance.generation_seed);
 	zones.push_back(zone);
+
+	//TODO: This generates an actual seed if the zone has never been generated before... need to store it back into the db!
+	ZoneArchitect architect(zone_instance.generation_seed);
+
+	//TODO: Is this a good enough way to handle generation of zone content? Or should this really be
+	//		pushed into a Zone via it's constructor? If so, we need to pull out the component_factory
+	//		and the creation of the ServerGameObjectContainer here, so that we can do all necessary loading
+	//		prior to feeding the zone with content...
+	ZoneMapPtr map;
+	map.reset(new ZoneMap(db, Vec2i(40,40)));
+	architect.generate(map);
+	//architect.generate(map, zone->get_gameobjects());
+	zone->set_map(map);
 
 	cl_log_event("Zones", "Zone %1 loaded", zone_id);
 

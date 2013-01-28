@@ -1,7 +1,6 @@
 #include "precomp.h"
 #include "zone.h"
 #include "zone_map.h"
-#include "Procedural/zone_architect.h"
 #include "server_player.h"
 #include "server_gameobject.h"
 #include "server_character.h"
@@ -17,18 +16,6 @@ Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int 
 	component_factory = std::make_shared<ServerComponentFactory>();
 
 	gameobjects.load_from_database(component_factory);
-
-	//We set up an empty 100x100 map, and then let the ZoneArchitect fill it with rooms and corridors!
-	//TODO: Nothing is persisted, nor is the ZoneMap data synced to the client yet either :P Server-only so far!
-	//		In addition, the architect spawns no game objects at this point. When we start dealing with that, then
-	//		it probably needs to take in the component factory and the gameobjects list.
-	map.reset(new ZoneMap(db, Vec2i(40,40)));
-	ZoneArchitect architect(generation_seed);
-	
-	if(gameobjects.is_empty())
-		architect.generate(map, true);
-	else
-		architect.generate(map, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -56,6 +43,11 @@ ServerPlayer *Zone::find_player_with_gameobject(ServerGameObject *gameobject) co
 
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
+
+void Zone::set_map(const ZoneMapPtr &map)
+{
+	this->map = map;
+}
 
 void Zone::add_player(ServerPlayer *player)
 {

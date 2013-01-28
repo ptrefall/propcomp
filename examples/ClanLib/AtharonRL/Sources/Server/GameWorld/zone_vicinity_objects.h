@@ -17,7 +17,7 @@ public:
 
 // Operations:
 public:
-	void sync_gameobjects();
+	void sync_dirty_gameobjects();
 	void clear_dirty_gameobjects();
 
 	void gameobject_position_changed(ServerGameObject *gameobject);

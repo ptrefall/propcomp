@@ -29,8 +29,8 @@ public:
 // Operations:
 public:
 	void update(float time_elapsed);
-	void sync_map();
-	void clear_dirty_map();
+	void sync_dirty_tiles();
+	void clear_dirty_tiles();
 
 	//Computes new list of visible tiles, and marks any newly discovered tiles
 	//that is then stored in tile memory

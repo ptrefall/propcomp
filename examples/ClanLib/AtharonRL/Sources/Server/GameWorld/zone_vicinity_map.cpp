@@ -37,7 +37,7 @@ void ZoneVicinityMap::update(float time_elapsed)
 	compute_vicinity();
 }
 
-void ZoneVicinityMap::clear_dirty_map()
+void ZoneVicinityMap::clear_dirty_tiles()
 {
 	/*for (unsigned int i = 0; i < visible_tiles.size(); i++)
 	{
@@ -45,7 +45,7 @@ void ZoneVicinityMap::clear_dirty_map()
 	}*/
 }
 
-void ZoneVicinityMap::sync_map()
+void ZoneVicinityMap::sync_dirty_tiles()
 {
 	if(visible_tiles.empty())
 		return;
