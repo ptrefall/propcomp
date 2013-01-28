@@ -13,8 +13,8 @@
 using namespace Totem;
 using namespace clan;
 
-ZoneVicinityMap::ZoneVicinityMap(Zone *zone, const ZoneMapPtr &map, ServerPlayer *player, NetGameConnection *connection)
-: zone(zone), map(map), player(player), connection(connection) 
+ZoneVicinityMap::ZoneVicinityMap(const ZoneMapPtr &map, ServerPlayer *player, NetGameConnection *connection)
+: map(map), player(player), connection(connection) 
 {
 }
 
@@ -95,7 +95,7 @@ void ZoneVicinityMap::compute_vicinity()
 
 	//Find all visible tiles
 	//visible_tiles = FieldOfView::find_visible_tiles(map->get_tiles(), map->get_size(), position, radius, true, FieldOfView::FOV_SHADOWCASTING);
-	visible_tiles = map->get_tiles();
+	visible_tiles = map->get_all_tiles();
 
 	//Check if we discovered some new tiles
 	for(unsigned int i = 0; i < visible_tiles.size(); i++)

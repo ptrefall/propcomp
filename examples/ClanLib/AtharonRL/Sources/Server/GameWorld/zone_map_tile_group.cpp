@@ -21,3 +21,7 @@ void ZoneMapTileGroup::add(const std::vector<ServerMapTilePtr> &tiles)
 void ZoneMapTileGroup::remove(const ServerMapTilePtr &tile)
 {
 }
+
+void ZoneMapTileGroup::calculate_bounds()
+{
+}

@@ -16,6 +16,8 @@ public:
 	void remove(const ServerMapTilePtr &tile);
 
 private:
+	void calculate_bounds();
+
 	std::string name;
 	std::string prefab;
 

@@ -11,8 +11,8 @@
 using namespace Totem;
 using namespace clan;
 
-ZoneVicinityObjects::ZoneVicinityObjects(Zone *zone, NetGameConnection *connection)
-: zone(zone), connection(connection) 
+ZoneVicinityObjects::ZoneVicinityObjects(NetGameConnection *connection)
+: connection(connection) 
 {
 }
 
