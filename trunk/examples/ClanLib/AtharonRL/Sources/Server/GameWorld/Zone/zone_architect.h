@@ -27,13 +27,13 @@ private:
 class ZoneArchitect
 {
 public:
-	ZoneArchitect(int seed);
+	ZoneArchitect();
 	~ZoneArchitect();
 
 	//Only generate with entities the first time, later the entities
 	//are stored and persisted in the database!
-	void generate(const ZoneMapPtr &map);
-	void generate(const ZoneMapPtr &map, GameObjectContainer *&gameobjects);
+	int generate(int seed, const ZoneMapPtr &map);
+	int generate(int seed, const ZoneMapPtr &map, GameObjectContainer *&gameobjects);
 
 protected:
 	friend class BspTraversalListener;
@@ -47,7 +47,6 @@ private:
 	int room_min_size;
 	int room_max_size;
 	ZoneMapPtr map;
-	int seed;
 	TCODRandom *rng;
 	GameObjectContainer *gameobjects;
 };

@@ -21,6 +21,7 @@ public:
 private:
 	Zone *find_zone(int zone_id);
 	Zone *load_zone(int zone_id);
+	Zone *instansiate_zone();
 
 	void on_net_event_object_event(const clan::NetGameEvent &e, Player *player);
 

@@ -50,3 +50,4 @@ protected:
 
 	clan::SqliteConnection &db;
 };
+typedef std::shared_ptr<GameObjectContainer> GameObjectContainerPtr;

@@ -8,14 +8,9 @@
 
 using namespace clan;
 
-Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int generation_seed)
-: gameobjects(db, gameobjects_container_id), 
-  zone_id(zone_id), 
-  generation_seed(generation_seed)
+Zone::Zone(SqliteConnection &db, int zone_id, const GameObjectContainerPtr &gameobjects, const ZoneMapPtr &map, const ComponentFactoryPtr &component_factory)
+: zone_id(zone_id), gameobjects(gameobjects), map(map), component_factory(component_factory)
 {
-	component_factory = std::make_shared<ComponentFactory>();
-
-	gameobjects.load_from_database(component_factory);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,14 +21,9 @@ int Zone::get_id() const
 	return zone_id;
 }
 
-int Zone::get_generation_seed() const
-{ 
-	return generation_seed; 
-}
-
 ServerGameObject *Zone::find_gameobject(int gameobject_id) const
 {
-	return gameobjects.find(gameobject_id);
+	return gameobjects->find(gameobject_id);
 }
 
 Player *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
@@ -43,11 +33,6 @@ Player *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
 
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
-
-void Zone::set_map(const ZoneMapPtr &map)
-{
-	this->map = map;
-}
 
 void Zone::add_player(Player *player)
 {
@@ -61,7 +46,7 @@ void Zone::remove_player(Player *player)
 
 void Zone::add_gameobject(ServerGameObject *gameobject)
 {
-	if(gameobjects.add(gameobject))
+	if(gameobjects->add(gameobject))
 	{
 		notify_players_object_added(gameobject);
 	}
@@ -69,7 +54,7 @@ void Zone::add_gameobject(ServerGameObject *gameobject)
 
 void Zone::remove_gameobject(ServerGameObject *gameobject)
 {
-	if(gameobjects.remove(gameobject))
+	if(gameobjects->remove(gameobject))
 	{
 		notify_players_object_removed(gameobject);
 	}
@@ -77,7 +62,7 @@ void Zone::remove_gameobject(ServerGameObject *gameobject)
 
 void Zone::set_gameobject_inactive(ServerGameObject *gameobject)
 {
-	if(gameobjects.set_inactive(gameobject))
+	if(gameobjects->set_inactive(gameobject))
 	{
 		notify_players_object_removed(gameobject);
 	}
@@ -103,12 +88,12 @@ void Zone::tick(float time_elapsed)
 {
 	//map->update(time_elapsed);
 	players.update(time_elapsed);
-	gameobjects.update(time_elapsed);
+	gameobjects->update(time_elapsed);
 }
 
 ServerGameObject *Zone::load_gameobject(int gameobject_id)
 {
-	ServerGameObject *gameobject = gameobjects.load_gameobject_from_database(gameobject_id, component_factory);
+	ServerGameObject *gameobject = gameobjects->load_gameobject_from_database(gameobject_id, component_factory);
 	return gameobject;
 }
 
@@ -133,6 +118,6 @@ void Zone::notify_players_map_changed()
 void Zone::save()
 {
 	//map->save_dirty_tiles();
-	gameobjects.save_dirty_properties();
+	gameobjects->save_dirty_properties();
 	players.save();
 }

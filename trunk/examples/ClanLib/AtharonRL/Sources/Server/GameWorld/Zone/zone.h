@@ -18,12 +18,12 @@ class Zone
 {
 // Construction:
 public:
-	Zone(clan::SqliteConnection &db, int zone_id, int gameobjects_container_id, int generation_seed);
+	//Loading existing zone
+	Zone(clan::SqliteConnection &db, int zone_id, const GameObjectContainerPtr &gameobjects, const ZoneMapPtr &map, const ComponentFactoryPtr &component_factory);
 
 // Attributes:
 public:
 	int get_id() const;
-	int get_generation_seed() const;
 
 	ServerGameObject *find_gameobject(int gameobject_id) const;
 	Player *find_player_with_gameobject(ServerGameObject *gameobject) const;
@@ -32,8 +32,6 @@ public:
 
 // Operations:
 public:
-	void set_map(const ZoneMapPtr &map);
-
 	void add_player(Player *player);
 	void remove_player(Player *player);
 
@@ -46,7 +44,7 @@ public:
 	void send_event(const clan::NetGameEvent &event);
 
 	ServerGameObject *load_gameobject(int gameobject_id);
-	const GameObjectContainer *get_gameobjects() const { return &gameobjects; }
+	const GameObjectContainerPtr &get_gameobjects() const { return gameobjects; }
 
 private:
 	void tick(float time_elapsed);
@@ -58,13 +56,12 @@ private:
 	void save();
 
 	ZonePlayerManager players;
-	GameObjectContainer gameobjects;
+	GameObjectContainerPtr gameobjects;
 	ZoneMapPtr map;
 
 	ComponentFactoryPtr component_factory;
 
 	int zone_id;
-	int generation_seed;
 
 	TickTimer tick_timer;
 };
