@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameWorld/gameobject_container.h"
+#include "Engine/Server/GameWorld/server_map_tile.h"
 
 #include <libtcod.hpp>
 #include <memory>
@@ -37,10 +38,15 @@ public:
 
 protected:
 	friend class BspTraversalListener;
-	void dig(const clan::Vec2i &position, const clan::Vec2i &bounds);
-    void create_room(bool first, const clan::Vec2i &position, const clan::Vec2i &bounds);
+	
+	void dig(const clan::Vec2i &position, const clan::Vec2i &bounds, std::vector<ServerMapTilePtr> &tiles);
+    
+	void create_room(bool first, const clan::Vec2i &position, const clan::Vec2i &bounds);
+	void create_corridor(const clan::Vec2i &position1, const clan::Vec2i &bounds1, const clan::Vec2i &position2, const clan::Vec2i &bounds2);
+	
 	int get_room_min_size() const { return room_min_size; }
 	int get_room_max_size() const { return room_max_size; }
+	
 	TCODRandom *get_rng() const { return rng; }
 
 private:

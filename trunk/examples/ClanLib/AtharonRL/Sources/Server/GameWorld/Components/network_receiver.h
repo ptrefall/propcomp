@@ -3,6 +3,8 @@
 
 class Player;
 
+//TODO: Implement this as a proper Totem component
+
 class NetworkReceiver
 {
 public:

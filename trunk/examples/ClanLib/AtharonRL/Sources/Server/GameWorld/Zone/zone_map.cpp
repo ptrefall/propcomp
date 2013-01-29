@@ -42,12 +42,12 @@ unsigned int ZoneMap::to_index(const clan::Vec2i &position) const
 	return position.y*size.x + position.x;
 }
 
-void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walkable, bool architected)
+ServerMapTilePtr ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walkable, bool architected)
 {
 	ServerMapTilePtr tile;
 
 	if( !valid(position) )
-		return;
+		return nullptr;
 
 	tile = tiles[ to_index(position) ];
 	tile->set_position(position);
@@ -60,6 +60,8 @@ void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walka
 	//the dungeon can be regenerated later with all the changes to it's features.
 	if( !architected )
 		dirty_tiles.push_back(tile);
+
+	return tile;
 }
 
 void ZoneMap::add_section(const ZoneMapSectionPtr &section)

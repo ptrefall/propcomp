@@ -13,6 +13,10 @@ Zone::Zone(SqliteConnection &db, int zone_id, const GameObjectContainerPtr &game
 {
 }
 
+Zone::~Zone()
+{
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // Attributes:
 
