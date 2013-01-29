@@ -17,7 +17,7 @@ Property<PropertyType>::Property(const std::string &name)
 }
 
 template<class PropertyType>
-inline void Property<PropertyType>::set(const PropertyType& value, bool invokeValueChanged = true) 
+inline void Property<PropertyType>::set(const PropertyType& value, bool invokeValueChanged) 
 { 
 	if(data->value != value)
 	{
