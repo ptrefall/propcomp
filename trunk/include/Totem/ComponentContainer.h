@@ -47,7 +47,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(IComponent<UserData>::isType<ComponentType>(components[i]))
+			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
 			{
 				if(!name.empty())
 				{
@@ -68,7 +68,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(IComponent<UserData>::isType<ComponentType>(components[i]))
+			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
 			{
 				if(!name.empty())
 				{
@@ -97,7 +97,7 @@ public:
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
 		{
-			if(IComponent<UserData>::isType<ComponentType>(components[i]))
+			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
 			{
 				if(!name.empty())
 				{
