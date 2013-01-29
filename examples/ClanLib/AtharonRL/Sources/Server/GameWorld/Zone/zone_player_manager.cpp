@@ -28,12 +28,12 @@ Player *ZonePlayerManager::find_player_with_gameobject(ServerGameObject *gameobj
 	return nullptr;
 }
 
-void ZonePlayerManager::add_player(Player *player, const GameObjectContainer &gameobjects, const ZoneMapPtr &map)
+void ZonePlayerManager::add_player(Player *player, const GameObjectContainerPtr &gameobjects, const ZoneMapPtr &map)
 {
 	ZoneVicinityObjects *vicinity_objects = new ZoneVicinityObjects(player->get_connection());
 
 	// TODO: For now just add all objects to visibility
-	const std::vector<ServerGameObject *> &objects = gameobjects.get_all();
+	auto &objects = gameobjects->get_all();
 	for (auto it = objects.begin(); it != objects.end(); ++it)
 		vicinity_objects->add_gameobject((*it));
 

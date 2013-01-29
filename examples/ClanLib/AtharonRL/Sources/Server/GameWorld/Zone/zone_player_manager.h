@@ -8,7 +8,7 @@
 #include "zone_vicinity_map.h"
 
 class Player;
-class GameObjectContainer;
+class GameObjectContainer; typedef std::shared_ptr<GameObjectContainer> GameObjectContainerPtr;
 class ServerGameObject;
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
@@ -20,7 +20,7 @@ public:
 
 	Player *find_player_with_gameobject(ServerGameObject *gameobject) const;
 
-	void add_player(Player *player, const GameObjectContainer &gameobjects, const ZoneMapPtr &map);
+	void add_player(Player *player, const GameObjectContainerPtr &gameobjects, const ZoneMapPtr &map);
 	void remove_player(Player *player);
 
 	void update(float time_elapsed);

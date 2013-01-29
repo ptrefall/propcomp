@@ -5,6 +5,7 @@
 #include "zone_architect.h"
 #include "GameWorld/player.h"
 #include "GameWorld/server_gameobject.h"
+#include "GameWorld/gameobject_container.h"
 #include "GameWorld/Components/network_receiver.h"
 #include "Database/database_zone_instances.h"
 #include "Database/database_gameobjects.h"
@@ -121,23 +122,34 @@ Zone *ZoneManager::load_zone(int zone_id)
 
 	DatabaseZoneInstances::ZoneInstanceInfo zone_instance = DatabaseZoneInstances::get_info(db, zone_id);
 
-	Zone *zone = new Zone(db, zone_id, zone_instance.gameobject_container_id, zone_instance.generation_seed);
+	//Create content objects
+	ZoneMapPtr map = std::make_shared<ZoneMap>(db, Vec2i(40,40));
+	ComponentFactoryPtr component_factory = std::make_shared<ComponentFactory>();
+	GameObjectContainerPtr gameobjects = std::make_shared<GameObjectContainer>(db, zone_instance.gameobject_container_id);
+
+	//Generate map content
+	ZoneArchitect architect;
+	int generated_seed = architect.generate(zone_instance.generation_seed, map);
+
+	//Load persisted gameobjects
+	gameobjects->load_from_database(component_factory);
+
+	//Create the zone
+	Zone *zone = new Zone(db, zone_id, gameobjects, map, component_factory);
 	zones.push_back(zone);
 
-	//TODO: This generates an actual seed if the zone has never been generated before... need to store it back into the db!
-	ZoneArchitect architect(zone_instance.generation_seed);
-
-	//TODO: Is this a good enough way to handle generation of zone content? Or should this really be
-	//		pushed into a Zone via it's constructor? If so, we need to pull out the component_factory
-	//		and the creation of the ServerGameObjectContainer here, so that we can do all necessary loading
-	//		prior to feeding the zone with content...
-	ZoneMapPtr map;
-	map.reset(new ZoneMap(db, Vec2i(40,40)));
-	architect.generate(map);
-	//architect.generate(map, zone->get_gameobjects());
-	zone->set_map(map);
+	if(generated_seed != zone_instance.generation_seed)
+	{
+		//This should never happen when loading... well... it does for now, but it the future this shouldn't happen :P 
+	}
 
 	cl_log_event("Zones", "Zone %1 loaded", zone_id);
 
 	return zone;
+}
+
+Zone *ZoneManager::instansiate_zone()
+{
+	//TODO...
+	return nullptr;
 }

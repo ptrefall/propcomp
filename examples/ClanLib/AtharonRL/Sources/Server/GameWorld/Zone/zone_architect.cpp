@@ -40,20 +40,20 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 	return false;
 }
 
-ZoneArchitect::ZoneArchitect(int seed)
-	: seed(seed), room_min_size(3), room_max_size(20), gameobjects(nullptr)
+ZoneArchitect::ZoneArchitect()
+	: room_min_size(3), room_max_size(20), gameobjects(nullptr)
 {
-	if(seed == -1)
-		seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
-
 }
 
 ZoneArchitect::~ZoneArchitect()
 {
 }
 
-void ZoneArchitect::generate(const ZoneMapPtr &map)
+int ZoneArchitect::generate(int seed, const ZoneMapPtr &map)
 {
+	if(seed == -1)
+		seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
+
 	this->map = map;
 	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
 
@@ -61,12 +61,14 @@ void ZoneArchitect::generate(const ZoneMapPtr &map)
     bsp.splitRecursive(rng, 8, room_min_size, room_max_size, 1.75f, 1.75f);
     BspTraversalListener listener(this);
     bsp.traverseInvertedLevelOrder(&listener, nullptr);
+
+	return seed;
 }
 
-void ZoneArchitect::generate(const ZoneMapPtr &map, GameObjectContainer *&gameobjects)
+int ZoneArchitect::generate(int seed, const ZoneMapPtr &map, GameObjectContainer *&gameobjects)
 {
 	this->gameobjects = gameobjects;
-	generate(map);
+	return generate(seed, map);
 }
 
 void ZoneArchitect::dig(const Vec2i &position, const Vec2i &bounds)
