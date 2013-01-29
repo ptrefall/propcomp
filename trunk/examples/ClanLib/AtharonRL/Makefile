@@ -7,7 +7,6 @@ Server = \
 	Sources/Server/service.o \
 	Sources/Server/server.o \
 	Sources/Server/server_user.o \
-	Sources/Server/service.o \
 	Sources/Server/Database/database_characters.o \
 	Sources/Server/Database/database_email.o \
 	Sources/Server/Database/database_gameobject_containers.o \
