@@ -1,9 +1,9 @@
 #include "precomp.h"
 #include "zone.h"
 #include "zone_map.h"
-#include "server_player.h"
-#include "server_gameobject.h"
-#include "server_character.h"
+#include "GameWorld/server_player.h"
+#include "GameWorld/server_gameobject.h"
+#include "GameWorld/server_character.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;

@@ -2,10 +2,9 @@
 #include "zone_vicinity_map.h"
 #include "zone.h"
 #include "zone_map.h"
-#include "server_player.h"
-#include "server_gameobject.h"
-#include "server_character.h"
-#include "zone_map.h"
+#include "GameWorld/server_player.h"
+#include "GameWorld/server_gameobject.h"
+#include "GameWorld/server_character.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Engine/Server/GameWorld/field_of_view.h"
 #include <algorithm>

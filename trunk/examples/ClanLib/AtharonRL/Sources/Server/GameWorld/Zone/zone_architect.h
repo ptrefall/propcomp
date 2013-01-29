@@ -1,6 +1,6 @@
 #pragma once
 
-#include "server_gameobject_container.h"
+#include "GameWorld/server_gameobject_container.h"
 
 #include <libtcod.hpp>
 #include <memory>

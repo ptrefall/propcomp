@@ -2,7 +2,7 @@
 #include "server_character.h"
 #include "server_player.h"
 #include "server_gameobject.h"
-#include "zone.h"
+#include "Zone/zone.h"
 #include "Database/database_characters.h"
 #include "Engine/Common/Network/netevents.h"
 

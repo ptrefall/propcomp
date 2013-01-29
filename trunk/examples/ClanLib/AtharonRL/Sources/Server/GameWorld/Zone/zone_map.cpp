@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "zone_map.h"
-#include "zone_map_tile_group.h"
+#include "zone_map_section.h"
 
 using namespace clan;
 
@@ -60,4 +60,12 @@ void ZoneMap::set_properties(const Vec2i &position, bool transparent, bool walka
 	//the dungeon can be regenerated later with all the changes to it's features.
 	if( !architected )
 		dirty_tiles.push_back(tile);
+}
+
+void ZoneMap::add_section(const ZoneMapSectionPtr &section)
+{
+}
+
+void ZoneMap::remove_section(const ZoneMapSectionPtr &section)
+{
 }
