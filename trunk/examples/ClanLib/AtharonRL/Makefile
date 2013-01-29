@@ -36,7 +36,14 @@ Server = \
 	Sources/Server/GameWorld/Zone/zone_vicinity_objects.o \
 	Sources/Server/GameWorld/Zones/dungeon.o \
 	Sources/Server/GameWorld/Zones/dungeon_level.o \
-	Sources/Server/GameWorld/Zones/town.o
+	Sources/Server/GameWorld/Zones/town.o \
+	Sources/Engine/Common/GameWorld/gameobject.o \
+	Sources/Engine/Common/GameWorld/property_serializer.o \
+	Sources/Engine/Common/GameWorld/component_serializer.o \
+	Sources/Engine/Common/GameWorld/tick_timer.o \
+	Sources/Engine/Common/GameWorld/tick_timer.o \
+	Sources/Engine/Common/GameWorld/Components/ascii_visual.o \
+	Sources/Engine/Common/GameWorld/Components/transform.o
 
 all: server
 
