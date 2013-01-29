@@ -14,25 +14,27 @@ Server = \
 	Server/Database/database_gameobjects.o \
 	Server/Database/database_users.o \
 	Server/Database/database_zone_instances.o \
+	Server/GameWorld/character.o \
 	Server/GameWorld/character_manager.o \
-	Server/GameWorld/netevents_character.o \
-	Server/GameWorld/netevents_player.o \
-	Server/GameWorld/network_receiver_component.o \
+	Server/GameWorld/component_factory.o \
+	Server/GameWorld/gameobject_container.o \
+	Server/GameWorld/player.o \
 	Server/GameWorld/player_manager.o \
 	Server/GameWorld/replicated_component.o \
-	Server/GameWorld/server_character.o \
-	Server/GameWorld/server_component_factory.o \
 	Server/GameWorld/server_gameobject.o \
-	Server/GameWorld/server_gameobject_container.o \
-	Server/GameWorld/server_player.o \
-	Server/GameWorld/zone.o \
-	Server/GameWorld/zone_manager.o \
-	Server/GameWorld/zone_vicinity_map.o \
-	Server/GameWorld/zone_vicinity_objects.o \
+	Server/GameWorld/Components/network_receiver.o \
 	Server/GameWorld/Components/server_transform.o \
 	Server/GameWorld/Components/server_visual.o \
-	Server/GameWorld/Procedural/zone_architect.o \
-	Server/GameWorld/Procedural/zone_map.o \
+	Server/GameWorld/Netevents/netevents_character.o \
+	Server/GameWorld/Netevents/netevents_player.o \
+	Server/GameWorld/Zone/zone.o \
+	Server/GameWorld/Zone/zone_architect.o \
+	Server/GameWorld/Zone/zone_manager.o \
+	Server/GameWorld/Zone/zone_map.o \
+	Server/GameWorld/Zone/zone_map_section.o \
+	Server/GameWorld/Zone/zone_player_manager.o \
+	Server/GameWorld/Zone/zone_vicinity_map.o \
+	Server/GameWorld/Zone/zone_vicinity_objects.o \
 	Server/GameWorld/Zones/dungeon.o \
 	Server/GameWorld/Zones/dungeon_level.o \
 	Server/GameWorld/Zones/town.o
