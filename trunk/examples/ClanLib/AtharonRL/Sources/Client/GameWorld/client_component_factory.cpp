@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "client_component_factory.h"
 #include "client_gameobject.h"
-#include "Components/client_visual.h"
+#include "Components/client_ascii_visual.h"
 #include "Components/client_transform.h"
 
 using namespace Totem;
@@ -14,9 +14,9 @@ ClientComponentFactory::ClientComponentFactory(ClientZone *zone, const LayerMana
 
 void ClientComponentFactory::create_and_add_component(ClientGameObject *owner, const std::string &type, const std::string &name)
 {
-	if(type == ClientVisual::getType())
+	if(type == ClientAsciiVisual::getType())
 	{
-		owner->addComponent(std::make_shared<ClientVisual>(owner, name, zone, layer_manager));
+		owner->addComponent(std::make_shared<ClientAsciiVisual>(owner, name, zone, layer_manager));
 	}
 	else if(type == ClientTransform::getType())
 	{
