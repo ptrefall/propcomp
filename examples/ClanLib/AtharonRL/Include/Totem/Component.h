@@ -26,7 +26,7 @@ public:
 	{
 	}
 
-	unsigned int getRuntimeTypeId() const override { return IComponent<UserData>::getRuntimeTypeId<ComponentType>(); }
+	unsigned int getRuntimeTypeId() const override { return IComponent<UserData>::template getRuntimeTypeId<ComponentType>(); }
 	const std::string &getName() const override { return name; }
 
 	Component &operator= (const Component &rhs)
