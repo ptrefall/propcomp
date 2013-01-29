@@ -35,7 +35,7 @@ void NetEventsCharacter::on_net_event_character_get_list(const NetGameEvent &e, 
 
 	NetGameEvent event(STC_CHARACTER_LIST);
 
-	int character_count = characters.size();
+	unsigned int character_count = characters.size();
 	event.add_argument(character_count);
 	for(size_t i = 0; i < character_count; ++i)
 	{
