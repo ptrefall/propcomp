@@ -1,6 +1,4 @@
 #pragma once
-#include "precomp.h"
-
  
 #include <functional>
 
@@ -13,13 +11,30 @@
 namespace Totem
 {
 
-template<typename HashFunction>
+template <unsigned int N, unsigned int I>
+struct HashFNV1a
+{
+        FORCE_INLINE static unsigned int hash(const char (&str)[N])
+        {
+                return (HashFNV1a<N, I-1>::hash(str) ^ str[I-1])*16777619u;
+        }
+};
+
+template <unsigned int N>
+struct HashFNV1a<N, 1>
+{
+        FORCE_INLINE static unsigned int hash(const char (&str)[N])
+        {
+                return (2166136261u ^ str[0])*16777619u;
+        }
+};
+
 class HashedString
 {
 public:
 	template<unsigned int N>
 	FORCE_INLINE HashedString(const char (&value)[N])
-		: hashId(HashFunction::hash<N>(value)), str(value)
+		: hashId(HashFNV1a<N,N>::hash(value)), str(value)
 	{
 	}
 
@@ -31,7 +46,7 @@ private:
 	std::string str;
 };
 
-class HashFNV1a
+/*class HashFNV1a
 {
 public:
 	template<unsigned int N>
@@ -40,13 +55,13 @@ public:
 		return (hash<N-1>((const char(&)[N-1])value)^ value[N-1]) * 16777619u;
 	}
 
-	template<>
-	FORCE_INLINE static unsigned int hash<1>(const char (&value)[1])
+	template<N, 1>
+	FORCE_INLINE static unsigned int hash(const char (&value)[N])
 	{
 		return (2166136261u^ value[0]) * 16777619u;
 	}
 };
-
-typedef HashedString<HashFNV1a> HashedString1;
+*/
+typedef HashedString HashedString1;
 
 }
