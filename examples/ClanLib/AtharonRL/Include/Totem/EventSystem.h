@@ -422,7 +422,7 @@ inline clan::Signal_v0 &EventSystem<EventFactory>::registerToEvent0(HashedString
 	auto it = events0.find(hash_id);
 	if(it == events0.end())
 	{
-		auto signal = EventFactory::createEvent();
+		auto signal = EventFactory::template createEvent();
 		events0[hash_id] = signal;
 		return signal->signal;
 	}
@@ -440,7 +440,7 @@ inline clan::Signal_v1<T> &EventSystem<EventFactory>::registerToEvent1(HashedStr
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
 	{
-		auto signal = EventFactory::createEvent<T>();
+		auto signal = EventFactory::template createEvent<T>();
 		events1[type.getId()] = signal;
 		return signal->signal;
 	}
@@ -464,7 +464,7 @@ inline clan::Signal_v2<T, U> &EventSystem<EventFactory>::registerToEvent2(Hashed
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
 	{
-		auto signal = EventFactory::createEvent<T,U>();
+		auto signal = EventFactory::template createEvent<T,U>();
 		events2[type.getId()] = signal;
 		return signal->signal;
 	}
@@ -488,7 +488,7 @@ inline clan::Signal_v3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(Has
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
 	{
-		auto signal = EventFactory::createEvent<T,U,V>();
+		auto signal = EventFactory::template createEvent<T,U,V>();
 		events3[type.getId()] = signal;
 		return signal->signal;
 	}
@@ -512,7 +512,7 @@ inline clan::Signal_v4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4(
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
 	{
-		auto signal = EventFactory::createEvent<T,U,V,W>();
+		auto signal = EventFactory::template createEvent<T,U,V,W>();
 		events4[type.getId()] = signal;
 		return signal->signal;
 	}
@@ -536,7 +536,7 @@ inline clan::Signal_v5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEven
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
 	{
-		auto signal = EventFactory::createEvent<T,U,V,W,X>();
+		auto signal = EventFactory::template createEvent<T,U,V,W,X>();
 		events5[type.getId()] = signal;
 		return signal->signal;
 	}
@@ -560,7 +560,7 @@ inline clan::Signal_v6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerToE
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
 	{
-		auto signal = EventFactory::createEvent<T,U,V,W,X,Y>();
+		auto signal = EventFactory::template createEvent<T,U,V,W,X,Y>();
 		events6[type.getId()] = signal;
 		return signal->signal;
 	}
