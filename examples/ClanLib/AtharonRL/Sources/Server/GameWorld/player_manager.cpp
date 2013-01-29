@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "player_manager.h"
-#include "server_player.h"
-#include "server_character.h"
+#include "player.h"
+#include "character.h"
 #include "Database/database_users.h"
 #include "Engine/Common/Network/netevents.h"
 #include <algorithm>
@@ -26,7 +26,7 @@ PlayerManager::~PlayerManager()
 /////////////////////////////////////////////////////////////////////////////
 // Attributes:
 
-ServerPlayer *PlayerManager::find_player(int user_id) const
+Player *PlayerManager::find_player(int user_id) const
 {
 	for(size_t i = 0; i < players.size(); ++i)
 	{
@@ -36,7 +36,7 @@ ServerPlayer *PlayerManager::find_player(int user_id) const
 	return 0;
 }
 
-ServerPlayer *PlayerManager::find_player(NetGameConnection *connection) const
+Player *PlayerManager::find_player(NetGameConnection *connection) const
 {
 	for(size_t i = 0; i < players.size(); ++i)
 	{
@@ -46,7 +46,7 @@ ServerPlayer *PlayerManager::find_player(NetGameConnection *connection) const
 	return 0;
 }
 
-ServerPlayer *PlayerManager::find_player_with_character(int character_id) const
+Player *PlayerManager::find_player_with_character(int character_id) const
 {
 	for(size_t i = 0; i < players.size(); ++i)
 	{
@@ -61,15 +61,15 @@ ServerPlayer *PlayerManager::find_player_with_character(int character_id) const
 
 void PlayerManager::create_player(int user_id, NetGameConnection *connection)
 {
-	ServerPlayer *existing_player = find_player(user_id);
+	Player *existing_player = find_player(user_id);
 	if(existing_player)
 		kick_player(existing_player, "You logged in from somewhere else");
 
-	ServerPlayer *player = new ServerPlayer(db, user_id, connection);
+	Player *player = new Player(db, user_id, connection);
 	players.push_back(player);
 }
 
-void PlayerManager::kick_player(ServerPlayer *player, const std::string &reason)
+void PlayerManager::kick_player(Player *player, const std::string &reason)
 {
 	player->send_event(NetGameEvent(STC_LOGOUT, reason));
 
@@ -78,15 +78,15 @@ void PlayerManager::kick_player(ServerPlayer *player, const std::string &reason)
 
 void PlayerManager::remove_player(NetGameConnection *connection)
 {
-	ServerPlayer *player = find_player(connection);
+	Player *player = find_player(connection);
 
 	if(player)
 		remove_player(player);
 }
 
-void PlayerManager::remove_player(ServerPlayer *player)
+void PlayerManager::remove_player(Player *player)
 {
-	std::vector<ServerPlayer *>::iterator it = std::find(players.begin(), players.end(), player);
+	auto it = std::find(players.begin(), players.end(), player);
 	if (it != players.end())
 		players.erase(it);
 

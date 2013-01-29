@@ -1,6 +1,6 @@
 #include "precomp.h"
 #include "netevents_character.h"
-#include "server_player.h"
+#include "GameWorld/player.h"
 #include "Database/database_characters.h"
 #include "Engine/Common/Network/netevents.h"
 
@@ -21,7 +21,7 @@ NetEventsCharacter::NetEventsCharacter(SqliteConnection &db, CharacterManager &c
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
 
-bool NetEventsCharacter::dispatch_net_event(const NetGameEvent &event, ServerPlayer *player)
+bool NetEventsCharacter::dispatch_net_event(const NetGameEvent &event, Player *player)
 {
 	return netevents.dispatch(event, player);
 }
@@ -29,9 +29,9 @@ bool NetEventsCharacter::dispatch_net_event(const NetGameEvent &event, ServerPla
 /////////////////////////////////////////////////////////////////////////////
 // Events:
 
-void NetEventsCharacter::on_net_event_character_get_list(const NetGameEvent &e, ServerPlayer *player)
+void NetEventsCharacter::on_net_event_character_get_list(const NetGameEvent &e, Player *player)
 {
-	std::vector<DatabaseCharacters::AvailableCharacterInfo> characters = DatabaseCharacters::get_available_characters(db, player->get_user_id());
+	auto characters = DatabaseCharacters::get_available_characters(db, player->get_user_id());
 
 	NetGameEvent event(STC_CHARACTER_LIST);
 	event.add_argument(characters.size());
@@ -44,19 +44,19 @@ void NetEventsCharacter::on_net_event_character_get_list(const NetGameEvent &e, 
 	player->send_event(event);
 }
 
-void NetEventsCharacter::on_net_event_character_login(const NetGameEvent &e, ServerPlayer *player)
+void NetEventsCharacter::on_net_event_character_login(const NetGameEvent &e, Player *player)
 {
 	int requested_character_id = e.get_argument(0);
 
 	character_manager.login_character(requested_character_id, player);
 }
 
-void NetEventsCharacter::on_net_event_character_logout(const NetGameEvent &e, ServerPlayer *player)
+void NetEventsCharacter::on_net_event_character_logout(const NetGameEvent &e, Player *player)
 {
 	player->send_event(NetGameEvent(STC_CHARACTER_LOGOUT, "By request"));
 }
 
-void NetEventsCharacter::on_net_event_character_create(const NetGameEvent &e, ServerPlayer *player)
+void NetEventsCharacter::on_net_event_character_create(const NetGameEvent &e, Player *player)
 {
 	std::string character_name = e.get_argument(0);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 class Zone;
-class ServerPlayer;
+class Player;
 class ServerGameObject;
 
 class ZoneManager
@@ -16,17 +16,17 @@ public:
 
 	void update();
 
-	bool dispatch_net_event(const clan::NetGameEvent &event, ServerPlayer *player);
+	bool dispatch_net_event(const clan::NetGameEvent &event, Player *player);
 
 private:
 	Zone *find_zone(int zone_id);
 	Zone *load_zone(int zone_id);
 
-	void on_net_event_object_event(const clan::NetGameEvent &e, ServerPlayer *player);
+	void on_net_event_object_event(const clan::NetGameEvent &e, Player *player);
 
 	clan::SqliteConnection &db;
 
 	std::vector<Zone *> zones;
 
-	clan::NetGameEventDispatcher_v1<ServerPlayer *> netevents;
+	clan::NetGameEventDispatcher_v1<Player *> netevents;
 };

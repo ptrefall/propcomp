@@ -63,7 +63,7 @@ void ZoneArchitect::generate(const ZoneMapPtr &map)
     bsp.traverseInvertedLevelOrder(&listener, nullptr);
 }
 
-void ZoneArchitect::generate(const ZoneMapPtr &map, ServerGameObjectContainer *&gameobjects)
+void ZoneArchitect::generate(const ZoneMapPtr &map, GameObjectContainer *&gameobjects)
 {
 	this->gameobjects = gameobjects;
 	generate(map);

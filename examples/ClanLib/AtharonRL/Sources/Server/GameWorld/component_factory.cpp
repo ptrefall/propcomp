@@ -1,5 +1,5 @@
 #include "precomp.h"
-#include "server_component_factory.h"
+#include "component_factory.h"
 #include "server_gameobject.h"
 #include "Components/server_visual.h"
 #include "Components/server_transform.h"
@@ -7,11 +7,11 @@
 using namespace Totem;
 using namespace clan;
 
-ServerComponentFactory::ServerComponentFactory()
+ComponentFactory::ComponentFactory()
 {
 }
 
-void ServerComponentFactory::create_and_add_component(ServerGameObject *owner, const std::string &type, const std::string &name)
+void ComponentFactory::create_and_add_component(ServerGameObject *owner, const std::string &type, const std::string &name)
 {
 	if(type == ServerVisual::getType())
 	{
@@ -35,6 +35,6 @@ void ServerComponentFactory::create_and_add_component(ServerGameObject *owner, c
 	}*/
 	else
 	{
-		throw Exception("ServerComponentFactory::create_and_add_component - Unknown component type " + type);
+		throw Exception("ComponentFactory::create_and_add_component - Unknown component type " + type);
 	}
 }

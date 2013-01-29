@@ -1,10 +1,10 @@
 #pragma once
 
 #include "GameWorld/player_manager.h"
-#include "GameWorld/Zone/zone_manager.h"
-#include "GameWorld/netevents_character.h"
-#include "GameWorld/netevents_player.h"
 #include "GameWorld/character_manager.h"
+#include "GameWorld/Zone/zone_manager.h"
+#include "GameWorld/Netevents/netevents_character.h"
+#include "GameWorld/Netevents/netevents_player.h"
 
 class ServerUser;
 

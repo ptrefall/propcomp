@@ -1,6 +1,6 @@
 #pragma once
 
-class ServerPlayer;
+class Player;
 
 class PlayerManager
 {
@@ -11,32 +11,22 @@ public:
 
 // Attributes:
 public:
-	ServerPlayer *find_player(int user_id) const;
-	ServerPlayer *find_player(clan::NetGameConnection *connection) const;
-	ServerPlayer *find_player_with_character(int character_id) const;
+	Player *find_player(int user_id) const;
+	Player *find_player(clan::NetGameConnection *connection) const;
+	Player *find_player_with_character(int character_id) const;
 
-	const std::vector<ServerPlayer *> &get_players() const { return players; }
+	const std::vector<Player *> &get_players() const { return players; }
 
 // Operations:
 public:
 	void create_player(int user_id, clan::NetGameConnection *connection);
 	void remove_player(clan::NetGameConnection *connection);
-	void remove_player(ServerPlayer *player);
-	void kick_player(ServerPlayer *player, const std::string &reason);
-
-	PlayerManager &operator=(const PlayerManager &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		players = rhs.players;
-		db = rhs.db;
-		return *this;
-	}
+	void remove_player(Player *player);
+	void kick_player(Player *player, const std::string &reason);
 
 // Implementation:
 private:
-	std::vector<ServerPlayer *> players;
+	std::vector<Player *> players;
 
 	clan::SqliteConnection &db;
 };

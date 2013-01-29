@@ -1,9 +1,9 @@
 #include "precomp.h"
 #include "zone_player_manager.h"
-#include "GameWorld/server_player.h"
-#include "GameWorld/server_character.h"
+#include "GameWorld/player.h"
+#include "GameWorld/character.h"
 #include "GameWorld/server_gameobject.h"
-#include "GameWorld/server_gameobject_container.h"
+#include "GameWorld/gameobject_container.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
@@ -16,19 +16,19 @@ ZonePlayerManager::~ZonePlayerManager()
 {
 }
 
-ServerPlayer *ZonePlayerManager::find_player_with_gameobject(ServerGameObject *gameobject) const
+Player *ZonePlayerManager::find_player_with_gameobject(ServerGameObject *gameobject) const
 {
 	for(auto it = players.begin(); it != players.end(); ++it)
 	{
-		ServerPlayer *player = it->first;
-		ServerCharacter *character = player->get_character();
+		Player *player = it->first;
+		Character *character = player->get_character();
 		if(character->get_owner_gameobject() == gameobject)
 			return player;
 	}
 	return nullptr;
 }
 
-void ZonePlayerManager::add_player(ServerPlayer *player, const ServerGameObjectContainer &gameobjects, const ZoneMapPtr &map)
+void ZonePlayerManager::add_player(Player *player, const GameObjectContainer &gameobjects, const ZoneMapPtr &map)
 {
 	ZoneVicinityObjects *vicinity_objects = new ZoneVicinityObjects(player->get_connection());
 
@@ -46,7 +46,7 @@ void ZonePlayerManager::add_player(ServerPlayer *player, const ServerGameObjectC
 	player->send_event(zone_event);
 }
 
-void ZonePlayerManager::remove_player(ServerPlayer *player)
+void ZonePlayerManager::remove_player(Player *player)
 {
 	auto it = players.find(player);
 	if (it != players.end())

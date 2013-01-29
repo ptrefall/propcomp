@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameWorld/server_gameobject_container.h"
+#include "GameWorld/gameobject_container.h"
 
 #include <libtcod.hpp>
 #include <memory>
@@ -33,7 +33,7 @@ public:
 	//Only generate with entities the first time, later the entities
 	//are stored and persisted in the database!
 	void generate(const ZoneMapPtr &map);
-	void generate(const ZoneMapPtr &map, ServerGameObjectContainer *&gameobjects);
+	void generate(const ZoneMapPtr &map, GameObjectContainer *&gameobjects);
 
 protected:
 	friend class BspTraversalListener;
@@ -49,5 +49,5 @@ private:
 	ZoneMapPtr map;
 	int seed;
 	TCODRandom *rng;
-	ServerGameObjectContainer *gameobjects;
+	GameObjectContainer *gameobjects;
 };

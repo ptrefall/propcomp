@@ -3,9 +3,9 @@
 #include "zone.h"
 #include "zone_map.h"
 #include "zone_architect.h"
+#include "GameWorld/player.h"
 #include "GameWorld/server_gameobject.h"
-#include "GameWorld/server_gameobject.h"
-#include "../network_receiver_component.h"
+#include "GameWorld/Components/network_receiver.h"
 #include "Database/database_zone_instances.h"
 #include "Database/database_gameobjects.h"
 #include "Database/database_gameobject_containers.h"
@@ -68,7 +68,7 @@ void ZoneManager::update()
 	}
 }
 
-bool ZoneManager::dispatch_net_event(const NetGameEvent &event, ServerPlayer *player)
+bool ZoneManager::dispatch_net_event(const NetGameEvent &event, Player *player)
 {
 	return netevents.dispatch(event, player);
 }
@@ -76,7 +76,7 @@ bool ZoneManager::dispatch_net_event(const NetGameEvent &event, ServerPlayer *pl
 /////////////////////////////////////////////////////////////////////////////
 // Implementation:
 
-void ZoneManager::on_net_event_object_event(const NetGameEvent &e, ServerPlayer *player)
+void ZoneManager::on_net_event_object_event(const NetGameEvent &e, Player *player)
 {
 	int gameobject_id = e.get_argument(0);
 
@@ -90,10 +90,10 @@ void ZoneManager::on_net_event_object_event(const NetGameEvent &e, ServerPlayer 
 		for (size_t i = 2; i < e.get_argument_count(); i++)
 			gameobject_event.add_argument(e.get_argument(i));
 
-		std::vector<std::shared_ptr<IComponent<>>> &components = gameobject->getComponents();
+		auto &components = gameobject->getComponents();
 		for(size_t i = 0; i < components.size(); ++i)
 		{
-			NetworkReceiverComponent *component = dynamic_cast<NetworkReceiverComponent *> (components[i].get());
+			NetworkReceiver *component = dynamic_cast<NetworkReceiver *> (components[i].get());
 			if(component)
 			{
 				handled_event |= component->dispatch_net_event(gameobject_event, player);

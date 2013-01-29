@@ -1,8 +1,8 @@
 #include "precomp.h"
 #include "netevents_player.h"
-#include "server_player.h"
-#include "server_character.h"
-#include "server_gameobject.h"
+#include "GameWorld/player.h"
+#include "GameWorld/character.h"
+#include "GameWorld/server_gameobject.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
@@ -18,7 +18,7 @@ NetEventsPlayer::NetEventsPlayer()
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
 
-bool NetEventsPlayer::dispatch_net_event(const NetGameEvent &event, ServerPlayer *player)
+bool NetEventsPlayer::dispatch_net_event(const NetGameEvent &event, Player *player)
 {
 	return netevents.dispatch(event, player);
 }
@@ -26,7 +26,7 @@ bool NetEventsPlayer::dispatch_net_event(const NetGameEvent &event, ServerPlayer
 /////////////////////////////////////////////////////////////////////////////
 // Events:
 
-void NetEventsPlayer::on_net_event_player_move(const NetGameEvent &e, ServerPlayer *player)
+void NetEventsPlayer::on_net_event_player_move(const NetGameEvent &e, Player *player)
 {
 	auto delta_move = Vec2i(e.get_argument(0), e.get_argument(1));
 
