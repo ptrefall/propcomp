@@ -1,4 +1,4 @@
-CXXFLAGS = -g -I . `pkg-config --cflags clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-3.0 clanNetwork-3.0`
+CXXFLAGS = -std=c++0x -g -I . -I Include -I Sources/Server -I Sources -I Include/LibTCOD `pkg-config --cflags clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-3.0 clanNetwork-3.0`
 libs = `pkg-config --libs clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-2.4 clanNetwork-3.0` -lpthread -ldl
 
 Server = \
@@ -39,9 +39,6 @@ Server = \
 	Sources/Server/GameWorld/Zones/dungeon_level.o \
 	Sources/Server/GameWorld/Zones/town.o
 
-Engine = \
-	Server/precomp.o
-	
 all: server
 
 clean:
@@ -53,6 +50,6 @@ OUTPUT_OPTION = -o $@
 %.o: %.cxx
 	$(COMPILE.cxx) $< $(OUTPUT_OPTION)
 
-server: $(Server) $(Engine)
-	g++ -o server $(Server) $Engine) $(libs)
+server: $(Server) 
+	g++ -o server $(Server) $(libs)
 	echo All done
