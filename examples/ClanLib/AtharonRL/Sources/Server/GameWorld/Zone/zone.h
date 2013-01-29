@@ -20,6 +20,7 @@ class Zone
 public:
 	//Loading existing zone
 	Zone(clan::SqliteConnection &db, int zone_id, const GameObjectContainerPtr &gameobjects, const ZoneMapPtr &map, const ComponentFactoryPtr &component_factory);
+	~Zone();
 
 // Attributes:
 public:

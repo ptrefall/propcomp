@@ -2,7 +2,8 @@
 #include "precomp.h"
 #include "zone_map_section.h"
 
-ZoneMapSection::ZoneMapSection(const clan::Vec2i &position, const clan::Vec2i &size)
+ZoneMapSection::ZoneMapSection(const std::string &name, const clan::Point &position, const clan::Point &bounds, const std::string &prefab)
+	: name(name), position(position), bounds(bounds), prefab(prefab)
 {
 }
 
@@ -22,6 +23,6 @@ void ZoneMapSection::remove(const ServerMapTilePtr &tile)
 {
 }
 
-void ZoneMapSection::calculate_bounds()
+void ZoneMapSection::recalculate_bounds()
 {
 }

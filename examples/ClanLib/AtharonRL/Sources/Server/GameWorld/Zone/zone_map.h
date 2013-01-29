@@ -11,7 +11,7 @@ public:
 	ZoneMap(clan::SqliteConnection &db, const clan::Vec2i &size);
 	~ZoneMap();
 
-	void set_properties(const clan::Vec2i &position, bool transparent, bool walkable, bool architected);
+	ServerMapTilePtr set_properties(const clan::Vec2i &position, bool transparent, bool walkable, bool architected);
 
 	int get_width() const { return size.x; }
 	int get_height() const { return size.y; }

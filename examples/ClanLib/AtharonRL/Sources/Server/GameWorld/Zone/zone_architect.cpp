@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "zone_architect.h"
 #include "zone_map.h"
+#include "zone_map_section.h"
 
 using namespace clan;
 
@@ -10,6 +11,7 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 	{
 		int x,y,w,h;
 		int room_min_size = architect->get_room_min_size();
+		
 		// dig a room
 		TCODRandom *rng = architect->get_rng();
 		w = rng->getInt(room_min_size, node->w-2);
@@ -24,10 +26,7 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 		if ( room_num != 0 ) 
 		{
 			// dig a corridor from last room
-			//TODO: Should make a function for create_corridor on the architect instead
-			//		of this...
-			architect->dig( Vec2i(last_x,last_y), Vec2i(x+w/2,last_y) );
-			architect->dig( Vec2i(x+w/2,last_y), Vec2i(x+w/2,y+h/2) );
+			architect->create_corridor(Vec2i(last_x,last_y), Vec2i(x+w/2,last_y), Vec2i(x+w/2,last_y), Vec2i(x+w/2,y+h/2));
 		}
 		else
 		{
@@ -71,7 +70,7 @@ int ZoneArchitect::generate(int seed, const ZoneMapPtr &map, GameObjectContainer
 	return generate(seed, map);
 }
 
-void ZoneArchitect::dig(const Vec2i &position, const Vec2i &bounds)
+void ZoneArchitect::dig(const Vec2i &position, const Vec2i &bounds, std::vector<ServerMapTilePtr> &tiles)
 {
 	//TODO: Should change this logic, so that the concept of a position and boundaries
 	//		are actually true. Right now it follows more the concept of a rectangle...
@@ -92,11 +91,14 @@ void ZoneArchitect::dig(const Vec2i &position, const Vec2i &bounds)
         y2=y1;
         y1=tmp;
     }
+
 	for (int tilex=x1; tilex <= x2; tilex++) 
 	{
 		for (int tiley=y1; tiley <= y2; tiley++) 
 		{
-			map->set_properties(Vec2i(tilex,tiley),true,true, true);
+			auto tile = map->set_properties(Vec2i(tilex,tiley),true,true, true);
+			if(tile != nullptr)
+				tiles.push_back(tile);
 		}
 	}
 }
@@ -108,12 +110,37 @@ void ZoneArchitect::create_room(bool first, const Vec2i &position, const Vec2i &
 	int y1 = position.y;
 	int y2 = bounds.y;*/
 
-    dig (position,bounds);
+	std::vector<ServerMapTilePtr> tiles;
+    dig (position,bounds, tiles);
 
-	//TODO: Need to add a map tile group here to the map...
+	//Register room as a map section
+	auto section = std::make_shared<ZoneMapSection>("room", position, bounds);
+	section->add(tiles);
+	map->add_section(section);
 
 	if(gameobjects == nullptr)
 		return;
 
 	//TODO: We need to add some entities to the room here, like items, monsters, etc
+}
+
+void ZoneArchitect::create_corridor(const clan::Vec2i &position1, const clan::Vec2i &bounds1, const clan::Vec2i &position2, const clan::Vec2i &bounds2)
+{
+	//TODO: Should probably merge this into a single corridor section, though I'm not entirely sure about exactly what's done here... :P
+	std::vector<ServerMapTilePtr> tiles1;
+	dig(position1, bounds1, tiles1);
+	auto section1 = std::make_shared<ZoneMapSection>("corridor", position1, bounds1);
+	section1->add(tiles1);
+	map->add_section(section1);
+
+	std::vector<ServerMapTilePtr> tiles2;
+	dig(position2, bounds2, tiles2);
+	auto section2 = std::make_shared<ZoneMapSection>("corridor", position1, bounds1);
+	section2->add(tiles2);
+	map->add_section(section2);
+
+	if(gameobjects == nullptr)
+		return;
+
+	//TODO: We might want to add some entities to the corridor here, like items, monsters, etc
 }

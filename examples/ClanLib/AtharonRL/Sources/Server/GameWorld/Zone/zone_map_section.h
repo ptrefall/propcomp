@@ -8,15 +8,20 @@ class ServerMapTile; typedef std::shared_ptr<ServerMapTile> ServerMapTilePtr;
 class ZoneMapSection
 {
 public:
-	ZoneMapSection(const clan::Vec2i &position, const clan::Vec2i &size);
+	ZoneMapSection(const std::string &name, const clan::Point &position, const clan::Point &bounds, const std::string &prefab = std::string());
 	~ZoneMapSection();
 
 	void add(const ServerMapTilePtr &tile);
 	void add(const std::vector<ServerMapTilePtr> &tiles);
 	void remove(const ServerMapTilePtr &tile);
 
+	const std::string &get_name() const { return name; }
+	const std::string &get_prefab() const { return prefab; }
+	const clan::Point &get_position() const { return position; }
+	const clan::Point &get_bounds() const { return bounds; }
+
 private:
-	void calculate_bounds();
+	void recalculate_bounds();
 
 	std::string name;
 	std::string prefab;

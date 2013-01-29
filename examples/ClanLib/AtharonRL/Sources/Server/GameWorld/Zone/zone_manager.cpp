@@ -51,18 +51,23 @@ ServerGameObject *ZoneManager::find_gameobject(int gameobject_id) const
 Zone *ZoneManager::get_or_load_zone(int zone_id)
 {
 	Zone *zone = find_zone(zone_id);
-	if(zone == 0)
+	if(zone == nullptr)
 	{
 		if(DatabaseZoneInstances::is_zone_instantiated(db, zone_id))
+		{
 			zone = load_zone(zone_id);
+		}
+		else
+		{
+			zone = instansiate_zone();
+		}
 	}
 	return zone;
 }
 
 void ZoneManager::update()
 {
-	std::vector<Zone *>::iterator it;
-	for (it = zones.begin(); it != zones.end(); ++it)
+	for (auto it = zones.begin(); it != zones.end(); ++it)
 	{
 		Zone *zone = (*it);
 		zone->update();	
