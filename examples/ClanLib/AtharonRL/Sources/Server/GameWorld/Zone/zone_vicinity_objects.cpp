@@ -72,8 +72,9 @@ void ZoneVicinityObjects::add_visible_object(ServerGameObject *gameobject)
 			create_event.add_argument(comp->getName());
 
 			std::vector<IProperty *> dirty_properties = replicated_component->get_tracked_properties();
-			create_event.add_argument(dirty_properties.size());
-			for(size_t i = 0; i < dirty_properties.size(); ++i)
+			int dirty_properties_count = dirty_properties.size();
+			create_event.add_argument(dirty_properties_count);
+			for(size_t i = 0; i < dirty_properties_count; ++i)
 			{
 				create_event.add_argument(PropertySerializer::get_property_type(dirty_properties[i]));
 				create_event.add_argument(dirty_properties[i]->getName());
@@ -129,8 +130,9 @@ void ZoneVicinityObjects::sync_dirty_gameobjects()
 				{
 					has_dirty_properties = true;
 
-					create_event.add_argument(dirty_properties.size());
-					for(size_t i = 0; i < dirty_properties.size(); ++i)
+					int dirty_properties_count = dirty_properties.size();
+					create_event.add_argument(dirty_properties_count);
+					for(size_t i = 0; i < dirty_properties_count; ++i)
 					{
 						create_event.add_argument(PropertySerializer::get_property_type(dirty_properties[i]));
 						create_event.add_argument(dirty_properties[i]->getName());
