@@ -41,7 +41,6 @@ Server = \
 	Sources/Engine/Common/GameWorld/property_serializer.o \
 	Sources/Engine/Common/GameWorld/component_serializer.o \
 	Sources/Engine/Common/GameWorld/tick_timer.o \
-	Sources/Engine/Common/GameWorld/tick_timer.o \
 	Sources/Engine/Common/GameWorld/Components/ascii_visual.o \
 	Sources/Engine/Common/GameWorld/Components/transform.o
 
