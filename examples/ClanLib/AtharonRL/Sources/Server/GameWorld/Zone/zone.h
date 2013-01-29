@@ -5,9 +5,9 @@
 
 #include "zone_vicinity_objects.h"
 #include "zone_vicinity_map.h"
-#include "server_gameobject_container.h"
-#include "server_player_container.h"
-#include "server_component_factory.h"
+#include "zone_player_manager.h"
+#include "GameWorld/server_gameobject_container.h"
+#include "GameWorld/server_component_factory.h"
 #include "Engine/Common/GameWorld/tick_timer.h"
 
 class ServerPlayer;
@@ -57,7 +57,7 @@ private:
 
 	void save();
 
-	ServerPlayerContainer players;
+	ZonePlayerManager players;
 	ServerGameObjectContainer gameobjects;
 	ZoneMapPtr map;
 

@@ -3,7 +3,7 @@
 #include <libtcod.hpp>
 #include "Engine/Server/GameWorld/server_map_tile.h"
 
-class ZoneMapTileGroup; typedef std::shared_ptr<ZoneMapTileGroup> ZoneMapTileGroupPtr;
+class ZoneMapSection; typedef std::shared_ptr<ZoneMapSection> ZoneMapSectionPtr;
 
 class ZoneMap
 {
@@ -18,6 +18,9 @@ public:
 
 	const std::vector<ServerMapTilePtr> &get_all_tiles() const { return tiles; }
 
+	void add_section(const ZoneMapSectionPtr &section);
+	void remove_section(const ZoneMapSectionPtr &section);
+
 private:
 	bool valid(const clan::Vec2i &position) const;
 	unsigned int to_index(const clan::Vec2i &position) const;
@@ -29,7 +32,7 @@ private:
 	std::vector<ServerMapTilePtr> tiles;
 	std::vector<ServerMapTilePtr> dirty_tiles;
 
-	std::vector<ZoneMapTileGroup> groups;
+	std::vector<ZoneMapSectionPtr> groups;
 
 	clan::SqliteConnection &db;
 };

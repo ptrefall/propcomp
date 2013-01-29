@@ -12,11 +12,11 @@ class ServerGameObject;
 class ServerGameObjectContainer;
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
-class ServerPlayerContainer
+class ZonePlayerManager
 {
 public:
-	ServerPlayerContainer();
-	~ServerPlayerContainer();
+	ZonePlayerManager();
+	~ZonePlayerManager();
 
 	ServerPlayer *find_player_with_gameobject(ServerGameObject *gameobject) const;
 

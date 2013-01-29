@@ -5,11 +5,11 @@
 
 class ServerMapTile; typedef std::shared_ptr<ServerMapTile> ServerMapTilePtr;
 
-class ZoneMapTileGroup
+class ZoneMapSection
 {
 public:
-	ZoneMapTileGroup(const clan::Vec2i &position, const clan::Vec2i &size);
-	~ZoneMapTileGroup();
+	ZoneMapSection(const clan::Vec2i &position, const clan::Vec2i &size);
+	~ZoneMapSection();
 
 	void add(const ServerMapTilePtr &tile);
 	void add(const std::vector<ServerMapTilePtr> &tiles);
