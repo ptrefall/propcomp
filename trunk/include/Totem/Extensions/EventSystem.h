@@ -475,7 +475,7 @@ inline sigslot::signal2<T, U> &EventSystem<EventFactory>::registerToEvent2(Hashe
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal2<T,U>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal2<T,U>>(it->second);
 #endif
 		return signal->signal;
 	}
@@ -499,7 +499,7 @@ inline sigslot::signal3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(Ha
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal3<T,U,V>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal3<T,U,V>>(it->second);
 #endif
 		return signal->signal;
 	}
@@ -523,7 +523,7 @@ inline sigslot::signal4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
 #endif
 		return signal->signal;
 	}
@@ -547,7 +547,7 @@ inline sigslot::signal5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEve
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
 #endif
 		return signal->signal;
 	}
@@ -571,7 +571,7 @@ inline sigslot::signal6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerTo
 		if(signal == nullptr)
 			throw std::runtime_error(("Tried toreturn the event signal " + type.getStr() + ", but one or both of the argument types didn't match the registered types!").c_str());
 #else
-		signal = std::static_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
+		auto signal = std::static_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
 #endif
 		return signal->signal;
 	}
