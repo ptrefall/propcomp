@@ -50,7 +50,7 @@ void ZoneVicinityMap::sync_dirty_tiles()
 		return;
 
 	NetGameEvent create_event(STC_MAP_UPDATE);
-	int visible_tiles_count = visible_tiles.size();
+	unsigned int visible_tiles_count = visible_tiles.size();
 	create_event.add_argument(visible_tiles_count);
 
 	//Iterate over all visible tiles
