@@ -34,8 +34,10 @@ void NetEventsCharacter::on_net_event_character_get_list(const NetGameEvent &e, 
 	auto characters = DatabaseCharacters::get_available_characters(db, player->get_user_id());
 
 	NetGameEvent event(STC_CHARACTER_LIST);
-	event.add_argument(characters.size());
-	for(size_t i = 0; i < characters.size(); ++i)
+
+	int character_count = characters.size();
+	event.add_argument(character_count);
+	for(size_t i = 0; i < character_count; ++i)
 	{
 		event.add_argument(characters[i].id);
 		event.add_argument(characters[i].name);
