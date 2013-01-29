@@ -1,5 +1,5 @@
 CXXFLAGS = -std=c++0x -g -I . -I Include -I Sources/Server -I Sources -I Include/LibTCOD `pkg-config --cflags clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-3.0 clanNetwork-3.0`
-libs = `pkg-config --libs clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-2.4 clanNetwork-3.0` -lpthread -ldl
+libs = `pkg-config --libs clanDisplay-3.0 clanCore-3.0 clanApp-3.0 clanSqlite-3.0 clanNetwork-3.0` -lpthread -ldl
 
 Server = \
 	Sources/Server/main.o \
