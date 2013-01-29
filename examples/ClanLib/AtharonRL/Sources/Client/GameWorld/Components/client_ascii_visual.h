@@ -1,18 +1,18 @@
 
 #pragma once
 
-#include "Engine/Common/GameWorld/Components/visual.h"
+#include "Engine/Common/GameWorld/Components/ascii_visual.h"
 
 class LayerManager; typedef std::shared_ptr<LayerManager> LayerManagerPtr;
 class Layer; typedef std::shared_ptr<Layer> LayerPtr;
 class ClientZone;
 class ClientCamera; typedef std::shared_ptr<ClientCamera> ClientCameraPtr;
 
-class ClientVisual : public Visual
+class ClientAsciiVisual : public AsciiVisual
 {
 public:
-	ClientVisual(GameObject *owner, const std::string &name, ClientZone *zone, const LayerManagerPtr &layer_manager);
-	virtual ~ClientVisual();
+	ClientAsciiVisual(GameObject *owner, const std::string &name, ClientZone *zone, const LayerManagerPtr &layer_manager);
+	virtual ~ClientAsciiVisual();
 
 	void update(const float &delta_time) override;
 

@@ -1,6 +1,6 @@
 
 #include "precomp.h"
-#include "client_visual.h"
+#include "client_ascii_visual.h"
 #include "../client_zone.h"
 #include "../client_camera.h"
 #include "Engine/Client/Scene/layer_manager.h"
@@ -9,26 +9,26 @@
 using namespace Totem;
 using namespace clan;
 
-ClientVisual::ClientVisual(GameObject *owner, const std::string &name, ClientZone *zone, const LayerManagerPtr &layer_manager)
-: Visual(owner, name), layer_manager(layer_manager)
+ClientAsciiVisual::ClientAsciiVisual(GameObject *owner, const std::string &name, ClientZone *zone, const LayerManagerPtr &layer_manager)
+: AsciiVisual(owner, name), layer_manager(layer_manager)
 {
 	position_property = owner->add<Vec2i>("Position", Vec2i());
 
 	character_layer = layer_manager->get("Character");
 	dungeon_layer = layer_manager->get("Dungeon");
 
-	slots.connect(zone->sig_draw, this, &ClientVisual::on_draw);
+	slots.connect(zone->sig_draw, this, &ClientAsciiVisual::on_draw);
 }
 
-ClientVisual::~ClientVisual()
+ClientAsciiVisual::~ClientAsciiVisual()
 {
 }
 
-void ClientVisual::update(const float &delta_time)
+void ClientAsciiVisual::update(const float &delta_time)
 {
 }
 
-void ClientVisual::on_draw(const ClientCameraPtr &camera)
+void ClientAsciiVisual::on_draw(const ClientCameraPtr &camera)
 {
 	int character = '@';
 	switch(visual_property.get())

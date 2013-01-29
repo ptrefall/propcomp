@@ -1,12 +1,12 @@
 
 #include "precomp.h"
-#include "visual.h"
+#include "ascii_visual.h"
 
 using namespace Totem;
 using namespace clan;
 
-Visual::Visual(GameObject *owner, const std::string &name)
-: Component<Visual>(name)
+AsciiVisual::AsciiVisual(GameObject *owner, const std::string &name)
+: Component<AsciiVisual>(name)
 {
 	visual_property = owner->add<int>("Visual", GOV_CHARACTER);
 	color_foreground_property = owner->add<clan::Colorf>("ColorForeground", Colorf::white);

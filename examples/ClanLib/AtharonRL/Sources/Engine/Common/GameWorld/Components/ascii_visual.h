@@ -14,13 +14,13 @@ enum GameObjectVisual
 	GOV_CORPSE
 };
 
-class Visual : public Totem::Component<Visual>
+class AsciiVisual : public Totem::Component<AsciiVisual>
 {
 public:
-	Visual(GameObject *owner, const std::string &name = std::string());
-	virtual ~Visual() {}
+	AsciiVisual(GameObject *owner, const std::string &name = std::string());
+	virtual ~AsciiVisual() {}
 
-	static std::string getType() { return "Visual"; }
+	static std::string getType() { return "AsciiVisual"; }
 
 protected:
 	Totem::Property<int> visual_property;

@@ -24,7 +24,7 @@ Server = \
 	Sources/Server/GameWorld/server_gameobject.o \
 	Sources/Server/GameWorld/Components/network_receiver.o \
 	Sources/Server/GameWorld/Components/server_transform.o \
-	Sources/Server/GameWorld/Components/server_visual.o \
+	Sources/Server/GameWorld/Components/server_ascii_visual.o \
 	Sources/Server/GameWorld/Netevents/netevents_character.o \
 	Sources/Server/GameWorld/Netevents/netevents_player.o \
 	Sources/Server/GameWorld/Zone/zone.o \
