@@ -50,10 +50,11 @@ void ZoneVicinityMap::sync_dirty_tiles()
 		return;
 
 	NetGameEvent create_event(STC_MAP_UPDATE);
-	create_event.add_argument(visible_tiles.size());
+	int visible_tiles_count = visible_tiles.size();
+	create_event.add_argument(visible_tiles_count);
 
 	//Iterate over all visible tiles
-	for (unsigned int i = 0; i < visible_tiles.size(); i++)
+	for (unsigned int i = 0; i < visible_tiles_count; i++)
 	{
 		auto tile = visible_tiles[i];
 		create_event.add_argument(tile->get_position().x);
@@ -74,12 +75,12 @@ void ZoneVicinityMap::compute_vicinity()
 
 	//Make sure we have a character
 	auto character = player->get_character();
-	if( character == nullptr )
+	if( character == 0 )
 		return;
 
 	//Make sure we have a game object
 	auto go = character->get_owner_gameobject();
-	if( go == nullptr )
+	if( go == 0 )
 		return;
 
 	//Look for the player's position
