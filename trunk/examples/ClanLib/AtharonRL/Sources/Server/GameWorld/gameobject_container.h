@@ -1,15 +1,15 @@
 #pragma once
 
-#include "server_component_factory.h"
+#include "component_factory.h"
 
 class ServerGameObject;
 
-class ServerGameObjectContainer
+class GameObjectContainer
 {
 // Construction:
 public:
-	ServerGameObjectContainer(clan::SqliteConnection &db, int container_id);
-	~ServerGameObjectContainer();
+	GameObjectContainer(clan::SqliteConnection &db, int container_id);
+	~GameObjectContainer();
 
 // Attributes:
 public: 
@@ -24,8 +24,8 @@ public:
 
 // Operations:
 public:
-	void load_from_database(std::shared_ptr<ServerComponentFactory> component_factory);
-	ServerGameObject *load_gameobject_from_database(int gameobject_id, std::shared_ptr<ServerComponentFactory> component_factory);
+	void load_from_database(std::shared_ptr<ComponentFactory> component_factory);
+	ServerGameObject *load_gameobject_from_database(int gameobject_id, std::shared_ptr<ComponentFactory> component_factory);
 
 	void update(float time_elapsed);
 

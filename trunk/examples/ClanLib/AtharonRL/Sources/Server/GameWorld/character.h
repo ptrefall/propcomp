@@ -1,15 +1,15 @@
 #pragma once
 
 class Zone;
+class Player;
 class ServerGameObject;
-class ServerPlayer;
 
-class ServerCharacter
+class Character
 {
 // Construction:
 public:
-	ServerCharacter(clan::SqliteConnection &db, int character_id, const std::string &character_name, ServerPlayer *player, ServerGameObject *gameobject);
-	~ServerCharacter();
+	Character(clan::SqliteConnection &db, int character_id, const std::string &character_name, Player *player, ServerGameObject *gameobject);
+	~Character();
 
 // Attributes:
 public:
@@ -23,26 +23,12 @@ public:
 	void move_to_zone(Zone *new_zone, bool set_start_position);
 	void remove_from_zone();
 
-	ServerCharacter &operator=(const ServerCharacter &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		player = rhs.player;
-		character_id = rhs.character_id;
-		zone = rhs.zone;
-		character_name = rhs.character_name;
-		owner_gameobject = rhs.owner_gameobject;
-		db = rhs.db;
-		return *this;
-	}
-
 // Implementation:
 private:
 	void set_owner_gameobject(ServerGameObject *gameobject);
 
 	Zone *zone;
-	ServerPlayer *player;
+	Player *player;
 
 	int character_id;
 	std::string character_name;

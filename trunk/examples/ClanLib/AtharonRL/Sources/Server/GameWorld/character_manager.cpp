@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "character_manager.h"
-#include "server_player.h"
-#include "server_character.h"
+#include "character.h"
+#include "player.h"
 #include "Zone/zone.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Database/database_characters.h"
@@ -20,7 +20,7 @@ CharacterManager::CharacterManager(SqliteConnection &db, ZoneManager &zone_manag
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
 
-void CharacterManager::login_character(int requested_character_id, ServerPlayer *player)
+void CharacterManager::login_character(int requested_character_id, Player *player)
 {
 	std::vector<DatabaseCharacters::AvailableCharacterInfo> characters = DatabaseCharacters::get_available_characters(db, player->get_user_id());
 	for(size_t i = 0; i < characters.size(); ++i)
@@ -45,7 +45,7 @@ int CharacterManager::create_character(int user_id, const std::string &character
 /////////////////////////////////////////////////////////////////////////////
 // Implementation:
 
-void CharacterManager::initialize_character(int character_id, ServerPlayer *player)
+void CharacterManager::initialize_character(int character_id, Player *player)
 {
 	try
 	{
@@ -64,7 +64,7 @@ void CharacterManager::initialize_character(int character_id, ServerPlayer *play
 
 		player->send_event(NetGameEvent(STC_CHARACTER_LOGIN_SUCCESS));
 
-		ServerCharacter *character = player->create_character(character_info.id, character_info.name, gameobject);
+		Character *character = player->create_character(character_info.id, character_info.name, gameobject);
 
 		character->move_to_zone(zone, false);
 	}

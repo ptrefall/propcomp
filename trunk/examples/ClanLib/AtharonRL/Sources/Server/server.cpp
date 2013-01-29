@@ -1,7 +1,7 @@
 #include "precomp.h"
 #include "server.h"
 #include "server_user.h"
-#include "GameWorld/server_player.h"
+#include "GameWorld/player.h"
 #include "Engine/Common/Network/netevents.h"
 #include "Database/database_users.h"
 
@@ -123,7 +123,7 @@ void Server::on_net_event_received(NetGameConnection *connection, const NetGameE
 
 		if (user->is_logged_in())
 		{
-			ServerPlayer *player = player_manager.find_player(connection);
+			Player *player = player_manager.find_player(connection);
 			if(player)
 			{	
 				cl_log_event("Network", "Player: %1", player->get_user_id());

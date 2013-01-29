@@ -1,5 +1,5 @@
 #include "precomp.h"
-#include "server_gameobject_container.h"
+#include "gameobject_container.h"
 #include "server_gameobject.h"
 #include "Database/database_gameobject_containers.h"
 #include "Database/database_gameobjects.h"
@@ -11,14 +11,14 @@ using namespace clan;
 /////////////////////////////////////////////////////////////////////////////
 // Construction:
 
-ServerGameObjectContainer::ServerGameObjectContainer(SqliteConnection &db, int container_id)
+GameObjectContainer::GameObjectContainer(SqliteConnection &db, int container_id)
 : container_id(container_id), db(db)
 {
 }
 
-ServerGameObjectContainer::~ServerGameObjectContainer()
+GameObjectContainer::~GameObjectContainer()
 {
-	for (std::vector<ServerGameObject *>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it)
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it)
 		delete *it;
 	gameobjects.clear();
 }
@@ -26,10 +26,9 @@ ServerGameObjectContainer::~ServerGameObjectContainer()
 /////////////////////////////////////////////////////////////////////////////
 // Attributes:
 
-ServerGameObject *ServerGameObjectContainer::find(const std::string &name) const
+ServerGameObject *GameObjectContainer::find(const std::string &name) const
 {
-	std::vector<ServerGameObject *>::const_iterator it;
-	for (it = gameobjects.begin(); it != gameobjects.end(); ++it)
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it)
 	{
 		ServerGameObject *object = *it;
 		if(object->get_name() == name)
@@ -38,10 +37,9 @@ ServerGameObject *ServerGameObjectContainer::find(const std::string &name) const
 	return 0;
 }
 
-ServerGameObject *ServerGameObjectContainer::find(int id) const
+ServerGameObject *GameObjectContainer::find(int id) const
 {
-	std::vector<ServerGameObject *>::const_iterator it;
-	for (it = gameobjects.begin(); it != gameobjects.end(); ++it)
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it)
 	{
 		ServerGameObject *object = *it;
 		if(object->get_id() == id)
@@ -54,7 +52,7 @@ ServerGameObject *ServerGameObjectContainer::find(int id) const
 /////////////////////////////////////////////////////////////////////////////
 // Operations:
 
-void ServerGameObjectContainer::load_from_database(std::shared_ptr<ServerComponentFactory> component_factory)
+void GameObjectContainer::load_from_database(std::shared_ptr<ComponentFactory> component_factory)
 {
 	cl_log_event("Zones", "Loading gameobjects in container %1", container_id);
 
@@ -68,7 +66,7 @@ void ServerGameObjectContainer::load_from_database(std::shared_ptr<ServerCompone
 	cl_log_event("Zones", "Loaded %1 gameobjects", gameobjects.size());
 }
 
-ServerGameObject *ServerGameObjectContainer::load_gameobject_from_database(int gameobject_id, std::shared_ptr<ServerComponentFactory> component_factory)
+ServerGameObject *GameObjectContainer::load_gameobject_from_database(int gameobject_id, std::shared_ptr<ComponentFactory> component_factory)
 {
 	DatabaseGameObjects::GameObjectInfo info = DatabaseGameObjects::get_info(db, gameobject_id);
 	//if(info.load_by_default == false)
@@ -96,29 +94,29 @@ ServerGameObject *ServerGameObjectContainer::load_gameobject_from_database(int g
 	return gameobject;
 }
 
-void ServerGameObjectContainer::update(float time_elapsed)
+void GameObjectContainer::update(float time_elapsed)
 {
-	for (std::vector<ServerGameObject *>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it)
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it)
 	{
 		ServerGameObject *gameobject = (*it);	
 		gameobject->update(time_elapsed);
 	}
 }
 
-void ServerGameObjectContainer::save_dirty_properties()
+void GameObjectContainer::save_dirty_properties()
 {
-	for (std::vector<ServerGameObject *>::iterator it = gameobjects.begin(); it != gameobjects.end(); ++it)
+	for (auto it = gameobjects.begin(); it != gameobjects.end(); ++it)
 	{
 		ServerGameObject *gameobject = (*it);	
 		gameobject->save_dirty_properties();
 	}
 }
 
-bool ServerGameObjectContainer::add(ServerGameObject *gameobject)
+bool GameObjectContainer::add(ServerGameObject *gameobject)
 {
 	if(gameobject)
 	{
-		std::vector<ServerGameObject *>::iterator it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
+		auto it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
 		if (it == gameobjects.end())
 		{
 			gameobjects.push_back(gameobject);
@@ -132,9 +130,9 @@ bool ServerGameObjectContainer::add(ServerGameObject *gameobject)
 	return false;
 }
 
-bool ServerGameObjectContainer::remove(ServerGameObject *gameobject)
+bool GameObjectContainer::remove(ServerGameObject *gameobject)
 {
-	std::vector<ServerGameObject *>::iterator it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
+	auto it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
 	if (it != gameobjects.end())
 	{
 		gameobjects.erase(it);
@@ -144,9 +142,9 @@ bool ServerGameObjectContainer::remove(ServerGameObject *gameobject)
 	return false;
 }
 
-bool ServerGameObjectContainer::set_inactive(ServerGameObject *gameobject)
+bool GameObjectContainer::set_inactive(ServerGameObject *gameobject)
 {
-	std::vector<ServerGameObject *>::iterator it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
+	auto it = std::find(gameobjects.begin(), gameobjects.end(), gameobject);
 	if (it != gameobjects.end())
 	{
 		gameobjects.erase(it);

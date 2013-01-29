@@ -6,11 +6,11 @@
 #include "zone_vicinity_objects.h"
 #include "zone_vicinity_map.h"
 #include "zone_player_manager.h"
-#include "GameWorld/server_gameobject_container.h"
-#include "GameWorld/server_component_factory.h"
+#include "GameWorld/gameobject_container.h"
+#include "GameWorld/component_factory.h"
 #include "Engine/Common/GameWorld/tick_timer.h"
 
-class ServerPlayer;
+class Player;
 class ServerGameObject;
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
@@ -26,7 +26,7 @@ public:
 	int get_generation_seed() const;
 
 	ServerGameObject *find_gameobject(int gameobject_id) const;
-	ServerPlayer *find_player_with_gameobject(ServerGameObject *gameobject) const;
+	Player *find_player_with_gameobject(ServerGameObject *gameobject) const;
 
 
 
@@ -34,8 +34,8 @@ public:
 public:
 	void set_map(const ZoneMapPtr &map);
 
-	void add_player(ServerPlayer *player);
-	void remove_player(ServerPlayer *player);
+	void add_player(Player *player);
+	void remove_player(Player *player);
 
 	void add_gameobject(ServerGameObject *gameobject);
 	void remove_gameobject(ServerGameObject *gameobject);
@@ -46,7 +46,7 @@ public:
 	void send_event(const clan::NetGameEvent &event);
 
 	ServerGameObject *load_gameobject(int gameobject_id);
-	const ServerGameObjectContainer *get_gameobjects() const { return &gameobjects; }
+	const GameObjectContainer *get_gameobjects() const { return &gameobjects; }
 
 private:
 	void tick(float time_elapsed);
@@ -58,10 +58,10 @@ private:
 	void save();
 
 	ZonePlayerManager players;
-	ServerGameObjectContainer gameobjects;
+	GameObjectContainer gameobjects;
 	ZoneMapPtr map;
 
-	std::shared_ptr<ServerComponentFactory> component_factory;
+	ComponentFactoryPtr component_factory;
 
 	int zone_id;
 	int generation_seed;

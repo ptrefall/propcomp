@@ -2,7 +2,7 @@
 
 #include "Engine/Server/GameWorld/server_map_tile.h"
 
-class ServerPlayer;
+class Player;
 class Zone;
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
@@ -10,7 +10,7 @@ class ZoneVicinityMap
 {
 // Construction:
 public:
-	ZoneVicinityMap(const ZoneMapPtr &map, ServerPlayer *player, clan::NetGameConnection *connection);
+	ZoneVicinityMap(const ZoneMapPtr &map, Player *player, clan::NetGameConnection *connection);
 	~ZoneVicinityMap();
 
 // Attributes:
@@ -41,7 +41,7 @@ private:
 	bool valid(const clan::Vec2i &position) const;
 
 	ZoneMapPtr map;
-	ServerPlayer *player;
+	Player *player;
 	clan::NetGameConnection *connection;
 
 	std::vector<ServerMapTilePtr> tile_memory; //Remember all tiles you've ever visited in this zone

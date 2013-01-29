@@ -1,9 +1,9 @@
 #include "precomp.h"
 #include "zone.h"
 #include "zone_map.h"
-#include "GameWorld/server_player.h"
+#include "GameWorld/player.h"
+#include "GameWorld/character.h"
 #include "GameWorld/server_gameobject.h"
-#include "GameWorld/server_character.h"
 #include "Engine/Common/Network/netevents.h"
 
 using namespace clan;
@@ -13,7 +13,7 @@ Zone::Zone(SqliteConnection &db, int zone_id, int gameobjects_container_id, int 
   zone_id(zone_id), 
   generation_seed(generation_seed)
 {
-	component_factory = std::make_shared<ServerComponentFactory>();
+	component_factory = std::make_shared<ComponentFactory>();
 
 	gameobjects.load_from_database(component_factory);
 }
@@ -36,7 +36,7 @@ ServerGameObject *Zone::find_gameobject(int gameobject_id) const
 	return gameobjects.find(gameobject_id);
 }
 
-ServerPlayer *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
+Player *Zone::find_player_with_gameobject(ServerGameObject *gameobject) const
 {
 	return players.find_player_with_gameobject(gameobject);
 }
@@ -49,12 +49,12 @@ void Zone::set_map(const ZoneMapPtr &map)
 	this->map = map;
 }
 
-void Zone::add_player(ServerPlayer *player)
+void Zone::add_player(Player *player)
 {
 	players.add_player(player, gameobjects, map);
 }
 
-void Zone::remove_player(ServerPlayer *player)
+void Zone::remove_player(Player *player)
 {
 	players.remove_player(player);
 }
