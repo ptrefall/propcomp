@@ -13,7 +13,7 @@ using namespace Totem;
 using namespace clan;
 
 ZoneVicinityMap::ZoneVicinityMap(const ZoneMapPtr &map, Player *player, NetGameConnection *connection)
-: map(map), player(player), connection(connection) 
+: map(map), player(player), connection(connection), first(true)
 {
 }
 
@@ -49,7 +49,6 @@ void ZoneVicinityMap::sync_dirty_tiles()
 	if(visible_tiles.empty())
 		return;
 		
-	static bool first = true;
 	if( !first )
 		return;
 	else
