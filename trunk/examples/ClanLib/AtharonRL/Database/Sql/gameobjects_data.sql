@@ -32,6 +32,14 @@ INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 2,
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 101, 	"Position", "12 12");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 102, 	"ColorForeground", "0 1 0 1");
 
+-- PLAYER Billeh
+INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (3, 1, 0, 'Billeh');
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (3, "AsciiVisual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (3, "Transform");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (3, 2, 	"Visual", "0");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (3, 101, 	"Position", "12 12");
+INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (3, 102, 	"ColorForeground", "0 0 1 1");
+
 -- TYPE_UNSIGNED_INT = 1,
 -- TYPE_INT = 2,
 -- TYPE_FLOAT = 3,
