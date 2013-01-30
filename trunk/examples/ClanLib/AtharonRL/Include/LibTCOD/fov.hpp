@@ -40,7 +40,7 @@ class TCODPath;
 A cell is potentially visible if the line of sight from the player to the cell in unobstructed.
  */
 
-class TCODLIB_API TCODMap {
+class  TCODMap {
 	public :
 		/**
 		@PageName fov_init
@@ -248,8 +248,8 @@ class TCODLIB_API TCODMap {
 		virtual ~TCODMap();
 		void setInFov(int x,int y, bool fov);
 		int getNbCells() const;
-		friend class TCODLIB_API TCODPath;
-		friend class TCODLIB_API TCODDijkstra;
+		friend class  TCODPath;
+		friend class  TCODDijkstra;
 //	protected :
 		TCOD_map_t data;
 };
