@@ -137,7 +137,7 @@ public:
 	 *
 	 * @param type The hashed type string id of the event.
 	 */
-	void sendEvent0(HashedString1 type);
+	void sendEvent0(HashedString type);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
@@ -146,7 +146,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 */
 	template<class T> 
-	void sendEvent1(HashedString1 type, T arg0);
+	void sendEvent1(HashedString type, T arg0);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -156,7 +156,7 @@ public:
 	 * @param arg1 Second argument of type U.
 	 */
 	template<class T, class U> 
-	void sendEvent2(HashedString1 type, T arg0, U arg1);
+	void sendEvent2(HashedString type, T arg0, U arg1);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding three arguments.
@@ -167,7 +167,7 @@ public:
 	 * @param arg2 Third argument of type V.
 	 */
 	template<class T, class U, class V> 
-	void sendEvent3(HashedString1 type, T arg0, U arg1, V arg2);
+	void sendEvent3(HashedString type, T arg0, U arg1, V arg2);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding four arguments.
@@ -179,7 +179,7 @@ public:
 	 * @param arg3 Fourth argument of type W.
 	 */
 	template<class T, class U, class V, class W> 
-	void sendEvent4(HashedString1 type, T arg0, U arg1, V arg2, W arg3);
+	void sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding five arguments.
@@ -192,7 +192,7 @@ public:
 	 * @param arg4 Fifth argument of type X.
 	 */
 	template<class T, class U, class V, class W, class X> 
-	void sendEvent5(HashedString1 type, T arg0, U arg1, V arg2, W arg3, X arg4);
+	void sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding six arguments.
@@ -206,7 +206,7 @@ public:
 	 * @param arg5 Sixth argument of type Y.
 	 */
 	template<class T, class U, class V, class W, class X, class Y> 
-	void sendEvent6(HashedString1 type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
+	void sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
 
 	//--------------------------------------------------------------
 
@@ -216,7 +216,7 @@ public:
 	 * @param type The hashed type string id of the event.
 	 * @return A signal that requires no arguments in the slot.
 	 */
-	clan::Signal_v0 &registerToEvent0(HashedString1 type);
+	clan::Signal_v0 &registerToEvent0(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding one argument.
@@ -225,7 +225,7 @@ public:
 	 * @return A signal that requires one arguments in the slot.
 	 */
 	template<class T>
-	clan::Signal_v1<T> &registerToEvent1(HashedString1 type);
+	clan::Signal_v1<T> &registerToEvent1(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding two arguments.
@@ -234,7 +234,7 @@ public:
 	 * @return A signal that requires two arguments in the slot.
 	 */
 	template<class T, class U>
-	clan::Signal_v2<T, U> &registerToEvent2(HashedString1 type);
+	clan::Signal_v2<T, U> &registerToEvent2(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding three arguments.
@@ -243,7 +243,7 @@ public:
 	 * @return A signal that requires three arguments in the slot.
 	 */
 	template<class T, class U, class V>
-	clan::Signal_v3<T, U, V> &registerToEvent3(HashedString1 type);
+	clan::Signal_v3<T, U, V> &registerToEvent3(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding four arguments.
@@ -252,7 +252,7 @@ public:
 	 * @return A signal that requires four arguments in the slot.
 	 */
 	template<class T, class U, class V, class W>
-	clan::Signal_v4<T, U, V, W> &registerToEvent4(HashedString1 type);
+	clan::Signal_v4<T, U, V, W> &registerToEvent4(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding five arguments.
@@ -261,7 +261,7 @@ public:
 	 * @return A signal that requires five arguments in the slot.
 	 */
 	template<class T, class U, class V, class W, class X>
-	clan::Signal_v5<T, U, V, W, X> &registerToEvent5(HashedString1 type);
+	clan::Signal_v5<T, U, V, W, X> &registerToEvent5(HashedString type);
 
 	/**
 	 * Register a slot to the event signal of type holding six arguments.
@@ -270,11 +270,11 @@ public:
 	 * @return A signal that requires six arguments in the slot.
 	 */
 	template<class T, class U, class V, class W, class X, class Y>
-	clan::Signal_v6<T, U, V, W, X, Y> &registerToEvent6(HashedString1 type);
+	clan::Signal_v6<T, U, V, W, X, Y> &registerToEvent6(HashedString type);
 
 	//--------------------------------------------------------------
 
-	bool hasEvent(const HashedString1 &id, int num_params = -1);
+	bool hasEvent(const HashedString &id, int num_params = -1);
 
 protected:
 	/// Map of argument-less event signals held by TemplateEventHandler.
@@ -296,7 +296,7 @@ protected:
 //------------------------------------------------------
 
 template<class EventFactory>
-inline void EventSystem<EventFactory>::sendEvent0(HashedString1 type)
+inline void EventSystem<EventFactory>::sendEvent0(HashedString type)
 {
 	auto it = events0.find(type.getId());
 	if(it == events0.end())
@@ -307,7 +307,7 @@ inline void EventSystem<EventFactory>::sendEvent0(HashedString1 type)
 
 template<class EventFactory>
 template<class T>
-inline void EventSystem<EventFactory>::sendEvent1(HashedString1 type, T arg0)
+inline void EventSystem<EventFactory>::sendEvent1(HashedString type, T arg0)
 {
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
@@ -325,7 +325,7 @@ inline void EventSystem<EventFactory>::sendEvent1(HashedString1 type, T arg0)
 
 template<class EventFactory>
 template<class T, class U>
-inline void EventSystem<EventFactory>::sendEvent2(HashedString1 type, T arg0, U arg1)
+inline void EventSystem<EventFactory>::sendEvent2(HashedString type, T arg0, U arg1)
 {
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
@@ -343,7 +343,7 @@ inline void EventSystem<EventFactory>::sendEvent2(HashedString1 type, T arg0, U 
 
 template<class EventFactory>
 template<class T, class U, class V>
-inline void EventSystem<EventFactory>::sendEvent3(HashedString1 type, T arg0, U arg1, V arg2)
+inline void EventSystem<EventFactory>::sendEvent3(HashedString type, T arg0, U arg1, V arg2)
 {
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
@@ -361,7 +361,7 @@ inline void EventSystem<EventFactory>::sendEvent3(HashedString1 type, T arg0, U 
 
 template<class EventFactory>
 template<class T, class U, class V, class W>
-inline void EventSystem<EventFactory>::sendEvent4(HashedString1 type, T arg0, U arg1, V arg2, W arg3)
+inline void EventSystem<EventFactory>::sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3)
 {
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
@@ -379,7 +379,7 @@ inline void EventSystem<EventFactory>::sendEvent4(HashedString1 type, T arg0, U 
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X>
-inline void EventSystem<EventFactory>::sendEvent5(HashedString1 type, T arg0, U arg1, V arg2, W arg3, X arg4)
+inline void EventSystem<EventFactory>::sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4)
 {
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
@@ -397,7 +397,7 @@ inline void EventSystem<EventFactory>::sendEvent5(HashedString1 type, T arg0, U 
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X, class Y>
-inline void EventSystem<EventFactory>::sendEvent6(HashedString1 type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+inline void EventSystem<EventFactory>::sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
 {
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
@@ -416,7 +416,7 @@ inline void EventSystem<EventFactory>::sendEvent6(HashedString1 type, T arg0, U 
 //------------------------------------------------------------------
 
 template<class EventFactory>
-inline clan::Signal_v0 &EventSystem<EventFactory>::registerToEvent0(HashedString1 type)
+inline clan::Signal_v0 &EventSystem<EventFactory>::registerToEvent0(HashedString type)
 {
 	unsigned int hash_id = type.getId();
 	auto it = events0.find(hash_id);
@@ -435,7 +435,7 @@ inline clan::Signal_v0 &EventSystem<EventFactory>::registerToEvent0(HashedString
 
 template<class EventFactory>
 template<class T>
-inline clan::Signal_v1<T> &EventSystem<EventFactory>::registerToEvent1(HashedString1 type)
+inline clan::Signal_v1<T> &EventSystem<EventFactory>::registerToEvent1(HashedString type)
 {
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
@@ -459,7 +459,7 @@ inline clan::Signal_v1<T> &EventSystem<EventFactory>::registerToEvent1(HashedStr
 
 template<class EventFactory>
 template<class T, class U>
-inline clan::Signal_v2<T, U> &EventSystem<EventFactory>::registerToEvent2(HashedString1 type)
+inline clan::Signal_v2<T, U> &EventSystem<EventFactory>::registerToEvent2(HashedString type)
 {
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
@@ -483,7 +483,7 @@ inline clan::Signal_v2<T, U> &EventSystem<EventFactory>::registerToEvent2(Hashed
 
 template<class EventFactory>
 template<class T, class U, class V>
-inline clan::Signal_v3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(HashedString1 type)
+inline clan::Signal_v3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(HashedString type)
 {
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
@@ -507,7 +507,7 @@ inline clan::Signal_v3<T, U, V> &EventSystem<EventFactory>::registerToEvent3(Has
 
 template<class EventFactory>
 template<class T, class U, class V, class W>
-inline clan::Signal_v4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4(HashedString1 type)
+inline clan::Signal_v4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4(HashedString type)
 {
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
@@ -531,7 +531,7 @@ inline clan::Signal_v4<T, U, V, W> &EventSystem<EventFactory>::registerToEvent4(
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X>
-inline clan::Signal_v5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEvent5(HashedString1 type)
+inline clan::Signal_v5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEvent5(HashedString type)
 {
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
@@ -555,7 +555,7 @@ inline clan::Signal_v5<T, U, V, W, X> &EventSystem<EventFactory>::registerToEven
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X, class Y>
-inline clan::Signal_v6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerToEvent6(HashedString1 type)
+inline clan::Signal_v6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerToEvent6(HashedString type)
 {
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
@@ -580,7 +580,7 @@ inline clan::Signal_v6<T, U, V, W, X, Y> &EventSystem<EventFactory>::registerToE
 //---------------------------------------------------------------------------------------
 
 template<class EventFactory>
-bool EventSystem<EventFactory>::hasEvent(const HashedString1 &id, int num_params)
+bool EventSystem<EventFactory>::hasEvent(const HashedString &id, int num_params)
 {
 	if(num_params == 0)
 	{
