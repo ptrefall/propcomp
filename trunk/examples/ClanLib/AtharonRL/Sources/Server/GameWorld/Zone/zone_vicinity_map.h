@@ -47,4 +47,7 @@ private:
 	std::vector<ServerMapTilePtr> tile_memory; //Remember all tiles you've ever visited in this zone
 	std::vector<ServerMapTilePtr> visible_tiles;	//List of all tiles currently in your vicinity
 	std::vector<ServerMapTilePtr> new_visible_tiles; //List of all new tiles that you've never seen before
+	
+	//Hacks
+	bool first;
 };
