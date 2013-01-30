@@ -3,17 +3,17 @@
 #include "GameWorld/gameobject_container.h"
 #include "Engine/Server/GameWorld/server_map_tile.h"
 
-#include "Engine/Server/GameWorld/LibTCOD/bsp.hpp"
+//#include "Engine/Server/GameWorld/LibTCOD/bsp.hpp"
 
 #include <memory>
 
-class TCODRandom;
+//class TCODRandom;
 
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
 
 class ZoneArchitect;
 
-class BspTraversalListener : public ITCODBspCallback
+/*class BspTraversalListener : public ITCODBspCallback
 {
 public:
 	BspTraversalListener(ZoneArchitect *architect) : architect(architect), room_num(0) {}
@@ -25,7 +25,7 @@ private:
 	ZoneArchitect *architect; // a map to dig
 	int room_num; // room number
     int last_x,last_y; // center of the last room
-};
+};*/
 
 
 class ZoneArchitect
@@ -50,12 +50,12 @@ protected:
 	int get_room_min_size() const { return room_min_size; }
 	int get_room_max_size() const { return room_max_size; }
 	
-	TCODRandom *get_rng() const { return rng; }
+	//TCODRandom *get_rng() const { return rng; }
 
 private:
 	int room_min_size;
 	int room_max_size;
 	ZoneMapPtr map;
-	TCODRandom *rng;
+	//TCODRandom *rng;
 	GameObjectContainer *gameobjects;
 };

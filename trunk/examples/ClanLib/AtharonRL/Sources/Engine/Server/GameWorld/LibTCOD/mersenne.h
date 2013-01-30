@@ -31,25 +31,25 @@
 
 typedef void *TCOD_random_t;
 
-TCOD_random_t TCOD_random_get_instance(void);
-inline TCOD_random_t TCOD_random_new(TCOD_random_algo_t algo);
-TCOD_random_t TCOD_random_save(TCOD_random_t mersenne);
-void TCOD_random_restore(TCOD_random_t mersenne, TCOD_random_t backup);
-TCOD_random_t TCOD_random_new_from_seed(TCOD_random_algo_t algo, unsigned int seed);
-void TCOD_random_delete(TCOD_random_t mersenne);
+extern TCOD_random_t TCOD_random_get_instance(void);
+extern TCOD_random_t TCOD_random_new(TCOD_random_algo_t algo);
+extern TCOD_random_t TCOD_random_save(TCOD_random_t mersenne);
+extern void TCOD_random_restore(TCOD_random_t mersenne, TCOD_random_t backup);
+extern TCOD_random_t TCOD_random_new_from_seed(TCOD_random_algo_t algo, unsigned int seed);
+extern void TCOD_random_delete(TCOD_random_t mersenne);
 
-void TCOD_random_set_distribution (TCOD_random_t mersenne, TCOD_distribution_t distribution);
+extern void TCOD_random_set_distribution (TCOD_random_t mersenne, TCOD_distribution_t distribution);
 
-inline int TCOD_random_get_int (TCOD_random_t mersenne, int min, int max);
-float TCOD_random_get_float (TCOD_random_t mersenne, float min, float max);
-double TCOD_random_get_double (TCOD_random_t mersenne, double min, double max);
+extern int TCOD_random_get_int (TCOD_random_t mersenne, int min, int max);
+extern float TCOD_random_get_float (TCOD_random_t mersenne, float min, float max);
+extern double TCOD_random_get_double (TCOD_random_t mersenne, double min, double max);
 
-inline int TCOD_random_get_int_mean (TCOD_random_t mersenne, int min, int max, int mean);
-float TCOD_random_get_float_mean (TCOD_random_t mersenne, float min, float max, float mean);
-double TCOD_random_get_double_mean (TCOD_random_t mersenne, double min, double max, double mean);
+extern int TCOD_random_get_int_mean (TCOD_random_t mersenne, int min, int max, int mean);
+extern float TCOD_random_get_float_mean (TCOD_random_t mersenne, float min, float max, float mean);
+extern double TCOD_random_get_double_mean (TCOD_random_t mersenne, double min, double max, double mean);
 
-TCOD_dice_t TCOD_random_dice_new (const char * s);
-int TCOD_random_dice_roll (TCOD_random_t mersenne, TCOD_dice_t dice);
-int TCOD_random_dice_roll_s (TCOD_random_t mersenne, const char * s);
+extern TCOD_dice_t TCOD_random_dice_new (const char * s);
+extern int TCOD_random_dice_roll (TCOD_random_t mersenne, TCOD_dice_t dice);
+extern int TCOD_random_dice_roll_s (TCOD_random_t mersenne, const char * s);
 
 #include "mersenne_c.inl"
