@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_RANDOM_H
-#define _TCOD_RANDOM_H
+#pragma once
 
 #include "mersenne_types.h"
 
@@ -54,5 +53,3 @@ int TCOD_random_dice_roll (TCOD_random_t mersenne, TCOD_dice_t dice);
 int TCOD_random_dice_roll_s (TCOD_random_t mersenne, const char * s);
 
 #include "mersenne_c.inl"
-
-#endif

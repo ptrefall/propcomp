@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_TREE_HPP
-#define _TCOD_TREE_HPP
+#pragma once
 
 #include "tree.h"
 
@@ -50,4 +49,3 @@ public :
 
 };
 
-#endif

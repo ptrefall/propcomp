@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_BSP_HPP
-#define _TCOD_BSP_HPP
+#pragma once
 
 #include "tree.hpp"
 #include "mersenne.hpp"
@@ -406,5 +405,3 @@ protected :
 	TCODBsp(TCODBsp *father, bool left);
 
 };
-
-#endif

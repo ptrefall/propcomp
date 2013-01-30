@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_TREE_H
-#define _TCOD_TREE_H
+#pragma once
 
 typedef struct _TCOD_tree_t {
 	struct _TCOD_tree_t *next;
@@ -39,4 +38,3 @@ void TCOD_tree_add_son(TCOD_tree_t *node, TCOD_tree_t *son);
 
 #include "tree_c.inl"
 
-#endif

@@ -3,6 +3,8 @@
 #include "zone_map.h"
 #include "zone_map_section.h"
 
+#include "Engine/Server/GameWorld/LibTCOD/mersenne.hpp"
+
 using namespace clan;
 
 bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)

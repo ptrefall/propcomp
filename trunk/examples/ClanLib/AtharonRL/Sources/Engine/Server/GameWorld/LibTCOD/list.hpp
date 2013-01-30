@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_LIST_HPP
-#define _TCOD_LIST_HPP
+#pragma once
 
 #include <string.h> // memcpy
 #include <stdlib.h> // NULL
@@ -614,4 +613,3 @@ protected :
 	}
 };
 
-#endif

@@ -24,9 +24,7 @@
 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
-#ifndef _TCOD_RANDOM_TYPES_H
-#define _TCOD_RANDOM_TYPES_H
+#pragma once
 
 /* dice roll */
 typedef struct {
@@ -64,4 +62,3 @@ typedef struct {
     int cur;
 } mersenne_data_t;
 
-#endif /* _TCOD_RANDOM_TYPES_H */

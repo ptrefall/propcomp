@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_RANDOM_HPP
-#define _TCOD_RANDOM_HPP
+#pragma once
 
 #include "mersenne_types.h"
 #include "mersenne.h"
@@ -394,4 +393,3 @@ In these cases, the selected mean will appear with the lowest frequency.
 		TCOD_random_t data;
 };
 
-#endif
