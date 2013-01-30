@@ -27,9 +27,6 @@
 
 #pragma once
 
-extern "C"
-{
-
 typedef struct _TCOD_tree_t {
 	struct _TCOD_tree_t *next;
 	struct _TCOD_tree_t *father;
@@ -40,5 +37,3 @@ TCOD_tree_t *TCOD_tree_new();
 void TCOD_tree_add_son(TCOD_tree_t *node, TCOD_tree_t *son);
 
 #include "tree_c.inl"
-
-}

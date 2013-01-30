@@ -27,7 +27,10 @@
 
 #pragma once
 
-#include "tree.h"
+extern "C"
+{
+	#include "tree.h"
+}
 
 class  TCODTree {
 public :
