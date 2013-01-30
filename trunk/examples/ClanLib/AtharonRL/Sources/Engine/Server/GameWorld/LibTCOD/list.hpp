@@ -29,7 +29,11 @@
 
 #include <string.h> // memcpy
 #include <stdlib.h> // NULL
-#include "list.h"
+
+extern "C"
+{
+	#include "list.h"
+}
 
 /**
  @PageName list

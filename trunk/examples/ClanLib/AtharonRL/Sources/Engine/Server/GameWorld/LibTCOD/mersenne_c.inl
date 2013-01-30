@@ -25,7 +25,6 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "precomp.h"
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>

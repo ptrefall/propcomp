@@ -30,9 +30,6 @@
 #include "tree.h"
 #include "mersenne.h"
 
-extern "C"
-{
-
 typedef struct {
 	TCOD_tree_t tree; /* pseudo oop : bsp inherit tree */
 	int x,y,w,h; /* node position & size */
@@ -66,5 +63,3 @@ typedef bool (*TCOD_bsp_callback_t)(TCOD_bsp_t *node, void *userData);
  void TCOD_bsp_remove_sons(TCOD_bsp_t *node);
 
 #include "bsp_c.inl"
-
-}

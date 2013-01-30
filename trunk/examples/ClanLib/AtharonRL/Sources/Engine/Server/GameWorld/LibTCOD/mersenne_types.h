@@ -26,9 +26,6 @@
 */
 #pragma once
 
-extern "C"
-{
-
 /* dice roll */
 typedef struct {
 	int nb_rolls;
@@ -64,5 +61,3 @@ typedef struct {
 	unsigned int Q[4096], c;
     int cur;
 } mersenne_data_t;
-
-}

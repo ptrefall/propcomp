@@ -29,7 +29,10 @@
 
 #include "tree.hpp"
 #include "mersenne.hpp"
-#include "bsp.h"
+extern "C"
+{
+	#include "bsp.h"
+}
 
 class TCODBsp;
 

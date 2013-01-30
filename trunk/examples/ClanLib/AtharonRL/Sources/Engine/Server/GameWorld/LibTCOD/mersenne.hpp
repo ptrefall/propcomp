@@ -27,8 +27,11 @@
 
 #pragma once
 
-#include "mersenne_types.h"
-#include "mersenne.h"
+extern "C"
+{
+	#include "mersenne_types.h"
+	#include "mersenne.h"
+}
 
 /**
  @PageName random
