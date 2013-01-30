@@ -9,14 +9,9 @@ using namespace clan;
 UIScreen::UIScreen(UIScreenManager *manager)
 : manager(manager)
 {
-	std::string base_dir = clan::System::get_exe_path();
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir += "/";
 	wm = GUIWindowManager(new WindowManagerProvider(manager->get_window()));
-	gui = GUIManager(wm, base_dir+"Resources/Engine");
-	gui.add_resources(base_dir+"Resources/Engine/GUIThemeAero/resources.xml");
+	gui = GUIManager(wm, "Resources/Engine");
+	gui.add_resources("Resources/Engine/GUIThemeAero/resources.xml");
 	slots.connect(get_wm_provider()->sig_mouse_input(), this, &UIScreen::on_mouse_input_helper);
 	manager->add_screen(this);
 }

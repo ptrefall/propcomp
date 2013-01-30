@@ -75,8 +75,11 @@ void Zone::set_gameobject_inactive(ServerGameObject *gameobject)
 void Zone::update()
 {
 	int ticks = tick_timer.update();
-	for (int i = 0; i < ticks; i++)
-		tick(tick_timer.get_tick_length());
+
+	tick(ticks * tick_timer.get_tick_length());
+
+//	for (int i = 0; i < ticks; i++)
+//		tick(tick_timer.get_tick_length());
 
 //	static float total_time = 0;
 //	total_time += time_elapsed;

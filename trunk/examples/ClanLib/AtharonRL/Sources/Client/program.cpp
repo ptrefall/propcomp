@@ -24,17 +24,18 @@ int Program::main(const std::vector<std::string> &args)
 
 		ConsoleLogger logger;
 
-		std::string base_dir = args[0];
-		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-		base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-		base_dir += "/";
+		std::string username = "sphair";
+		std::string password = "p";
+		int character = 1;
 
-		bool use_sphair = true;
 		if(args.size() > 1)
-			use_sphair = false;
+			username = args[1];
+		if(args.size() > 2)
+			password = args[2];
+		if(args.size() > 3)
+			character = StringHelp::text_to_int(args[3]);
 
-		Game game(base_dir, use_sphair);
+		Game game(username, password, character);
 		game.run();
 
 		return 0;

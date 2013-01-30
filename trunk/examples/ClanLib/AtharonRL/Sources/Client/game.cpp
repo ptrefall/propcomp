@@ -9,15 +9,10 @@
 
 using namespace clan;
 
-Game::Game(const std::string &arg, bool sphair)
+Game::Game(const std::string &username, const std::string &password, int character)
 : screen_login(nullptr), screen_character_selection(nullptr), screen_loading(nullptr), screen_ingame(nullptr)
 {
-	std::string base_dir = clan::System::get_exe_path();
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-
-	clan::VirtualFileSystem vfs(base_dir);
+	clan::VirtualFileSystem vfs(".");
 	clan::VirtualDirectory vd(vfs, "Resources");
 
 	resources = new clan::ResourceManager(vd.open_file("resources.xml"), vd);
@@ -35,12 +30,12 @@ Game::Game(const std::string &arg, bool sphair)
 	desc.set_size(Size(400,400), true);
 	desc.set_allow_resize(true);
 
-	screen_manager.reset(new UIScreenManager(desc, arg+"Resources/Icons/gameide-48.png", arg+"Resources/Icons/gameide-16.png"));
+	screen_manager.reset(new UIScreenManager(desc, "Resources/Icons/gameide-48.png", "Resources/Icons/gameide-16.png"));
 //	screen_manager->hide_cursor();
 //	screen_manager->maximize();
 
 	sound_output = SoundOutput(44100);
-	screen_login = new LoginScreen(screen_manager.get(), this, network, *resources, sphair);
+	screen_login = new LoginScreen(screen_manager.get(), this, network, *resources, username, password, character);
 	screen_character_selection = new CharacterSelectionScreen(screen_manager.get(), this, network, *resources);
 	screen_loading = new LoadingScreen(screen_manager.get(), this, network, *resources);
 
