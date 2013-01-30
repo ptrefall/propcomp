@@ -48,6 +48,12 @@ void ZoneVicinityMap::sync_dirty_tiles()
 {
 	if(visible_tiles.empty())
 		return;
+		
+	static bool first = true;
+	if( !first )
+		return;
+	else
+		first = false;
 
 	NetGameEvent create_event(STC_MAP_UPDATE);
 	unsigned int visible_tiles_count = visible_tiles.size();
