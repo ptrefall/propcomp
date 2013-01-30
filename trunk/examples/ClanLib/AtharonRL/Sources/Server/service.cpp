@@ -27,15 +27,9 @@ void GameService::service_reload()
 
 void GameService::worker_main(std::string arg)
 {
-	std::string base_dir = arg;
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-
-
 	ConsoleLogger logger;
 	// FileLogger fileLogger("server.log");
 
-	Server server(base_dir);
+	Server server;
 	server.run(stop_event);
 }

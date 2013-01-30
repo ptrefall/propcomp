@@ -3,20 +3,24 @@ FIND_PATH(CL_DIR core.h
 	  "D:/Development/C++ Packets/ClanLib3.0/Include/ClanLib/"
 	  "D:/Development/3rdParty/ClanLib/include/ClanLib/"
 	  "H:/SourceCompile/includeClanLib30/ClanLib"
+	  "F:/source_private/includeClanLib30/ClanLib"
     )
 	
 FIND_PATH(CL_INCLUDE ClanLib/core.h
 	  ${CMAKE_SOURCE_DIR}/Include/
-	  "H:/SourceCompile/includeClanLib30"
 	  "D:/Development/C++ Packets/ClanLib3.0/Include/"
 	  "D:/Development/3rdParty/ClanLib/include/"
+	  "H:/SourceCompile/includeClanLib30"
+	  "F:/source_private/includeClanLib30"
 	)
 	
 SET(LIB_PATHS 
 	"${CMAKE_SOURCE_DIR}/Lib/Win32/" 
-	"H:/SourceCompile/libClanLib30/Win32"
 	"D:/Development/C++ Packets/ClanLib3.0/Lib/Win32/"
-	"D:/Development/3rdParty/ClanLib/lib/Win32/")
+	"D:/Development/3rdParty/ClanLib/lib/Win32/"
+	"H:/SourceCompile/libClanLib30/Win32"
+	"F:/source_private/libClanLib30/Win32"
+)
 
 FIND_LIBRARY(CL_APP_LIBRARY_DEBUG
   NAMES clanApp-static-mt-debug
