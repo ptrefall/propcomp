@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_LIST_H
-#define _TCOD_LIST_H
+#pragma once
 
 typedef void *TCOD_list_t;
 
@@ -55,5 +54,3 @@ typedef void *TCOD_list_t;
  bool TCOD_list_is_empty(TCOD_list_t l);
 
  #include "list_c.inl"
-
-#endif

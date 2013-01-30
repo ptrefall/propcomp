@@ -25,8 +25,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef _TCOD_BSP_H
-#define _TCOD_BSP_H
+#pragma once
 
 #include "tree.h"
 #include "mersenne.h"
@@ -64,5 +63,3 @@ typedef bool (*TCOD_bsp_callback_t)(TCOD_bsp_t *node, void *userData);
  void TCOD_bsp_remove_sons(TCOD_bsp_t *node);
 
 #include "bsp_c.inl"
-
-#endif
