@@ -1,6 +1,5 @@
 #pragma once
 
-#include <libtcod.hpp>
 #include "Engine/Server/GameWorld/server_map_tile.h"
 
 class ZoneMapSection; typedef std::shared_ptr<ZoneMapSection> ZoneMapSectionPtr;

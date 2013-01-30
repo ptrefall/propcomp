@@ -3,7 +3,9 @@
 #include "GameWorld/gameobject_container.h"
 #include "Engine/Server/GameWorld/server_map_tile.h"
 
-#include <libtcod.hpp>
+#include "Engine/Server/GameWorld/LibTCOD/bsp.hpp"
+#include "Engine/Server/GameWorld/LibTCOD/mersenne.hpp"
+
 #include <memory>
 
 class ZoneMap; typedef std::shared_ptr<ZoneMap> ZoneMapPtr;
