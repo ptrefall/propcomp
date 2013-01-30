@@ -438,7 +438,7 @@ void TCOD_random_set_distribution (TCOD_random_t mersenne, TCOD_distribution_t d
 	r->distribution = distribution;
 }
 
-inline int TCOD_random_get_int (TCOD_random_t mersenne, int min, int max) {
+int TCOD_random_get_int (TCOD_random_t mersenne, int min, int max) {
 	if (!mersenne) mersenne=TCOD_random_get_instance();
 	switch (((mersenne_data_t *)mersenne)->distribution) {
 		case TCOD_DISTRIBUTION_LINEAR: return TCOD_random_get_i(mersenne, min, max); break;
@@ -474,7 +474,7 @@ double TCOD_random_get_double (TCOD_random_t mersenne, double min, double max) {
 	}
 }
 
-inline int TCOD_random_get_int_mean (TCOD_random_t mersenne, int min, int max, int mean) {
+int TCOD_random_get_int_mean (TCOD_random_t mersenne, int min, int max, int mean) {
 	if (!mersenne) mersenne=TCOD_random_get_instance();
 	switch (((mersenne_data_t *)mersenne)->distribution) {
 		case TCOD_DISTRIBUTION_GAUSSIAN_INVERSE:

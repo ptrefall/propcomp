@@ -3,11 +3,11 @@
 #include "zone_map.h"
 #include "zone_map_section.h"
 
-#include "Engine/Server/GameWorld/LibTCOD/mersenne.hpp"
+//#include "Engine/Server/GameWorld/LibTCOD/mersenne.hpp"
 
 using namespace clan;
 
-bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
+/*bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 {
 	if ( node->isLeaf() ) 
 	{
@@ -40,7 +40,7 @@ bool BspTraversalListener::visitNode(TCODBsp *node, void *userData)
 	}
 	return false;
 }
-
+*/
 ZoneArchitect::ZoneArchitect()
 	: room_min_size(3), room_max_size(20), gameobjects(nullptr)
 {
@@ -52,16 +52,26 @@ ZoneArchitect::~ZoneArchitect()
 
 int ZoneArchitect::generate(int seed, const ZoneMapPtr &map)
 {
-	if(seed == -1)
-		seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
+	//if(seed == -1)
+	//	seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
 
 	this->map = map;
-	rng = new TCODRandom(seed, TCOD_RNG_CMWC);
+	/*rng = new TCODRandom(seed, TCOD_RNG_CMWC);
 
 	TCODBsp bsp(0,0,map->get_width(),map->get_height());
     bsp.splitRecursive(rng, 8, room_min_size, room_max_size, 1.75f, 1.75f);
     BspTraversalListener listener(this);
-    bsp.traverseInvertedLevelOrder(&listener, nullptr);
+    bsp.traverseInvertedLevelOrder(&listener, nullptr);*/
+
+	for(int y = 0; y < map->get_height(); y++)
+	{
+		for(int x = 0; x < map->get_width(); x++)
+		{
+			//50% walls
+			if(rand()%2 == 1)
+				map->set_properties(Vec2i(x,y), true, true, true);
+		}
+	}
 
 	return seed;
 }

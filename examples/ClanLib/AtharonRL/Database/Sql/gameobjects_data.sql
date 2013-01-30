@@ -3,7 +3,7 @@ BEGIN TRANSACTION;
 
 -- ORC
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (11, 1, 1, 'Orc');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "AsciiVisual");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (11, "Transform");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 2, "Visual", "1");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 101, "Position", "10 10");
@@ -18,7 +18,7 @@ INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (11, 1
 
 -- PLAYER ECO
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (1, 1, 0, 'Eco');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "AsciiVisual");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (1, "Transform");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 2, 	"Visual", "0");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 101, 	"Position", "12 15");
@@ -26,7 +26,7 @@ INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (1, 10
 
 -- PLAYER Woody
 INSERT INTO GameObjects (GameObjectId, GameObjectContainerId, LoadByDefault, Description) VALUES (2, 1, 0, 'Woody');
-INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (2, "Visual");
+INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (2, "AsciiVisual");
 INSERT INTO GameObjectComponents (GameObjectId, Type) VALUES (2, "Transform");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 2, 	"Visual", "0");
 INSERT INTO GameObjectProperties (GameObjectId, Type, Name, Value) VALUES (2, 101, 	"Position", "12 12");
