@@ -29,12 +29,7 @@ WindowManagerProvider::WindowManagerProvider(DisplayWindow window)
 	}
 
 #ifdef WIN32
-	std::string base_dir = clan::System::get_exe_path();
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir = base_dir.substr(0, base_dir.find_last_of("\\"));
-	base_dir += "/";
-	DataBuffer ani_file = File::read_bytes(base_dir+"Resources/Engine/Cursors/NormalSelect.ani");
+	DataBuffer ani_file = File::read_bytes("Resources/Engine/Cursors/NormalSelect.ani");
 	int desired_width = 32;
 	int desired_height = 32;
 	cursor = (HCURSOR)CreateIconFromResourceEx((PBYTE) ani_file.get_data(), ani_file.get_size(), FALSE, 0x00030000, desired_width, desired_height, LR_DEFAULTCOLOR);

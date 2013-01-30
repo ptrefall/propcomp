@@ -14,7 +14,7 @@ class Game;
 class LoginScreen : public UIScreen
 {
 public:
-	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources, bool sphair);
+	LoginScreen(UIScreenManager *screen_manager, Game *game, clan::NetGameClient &network, clan::ResourceManager &resources, const std::string &username, const std::string &password, int character);
 
 	void update();
 
@@ -47,7 +47,9 @@ private:
 	UILabel *label_login_status;
 	UIHtml *html_motd;
 
-	bool sphair;
+	std::string username;
+	std::string password;
+	int character;
 
 	std::string css_text;
 

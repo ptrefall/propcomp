@@ -30,7 +30,6 @@ void Server::run(Event &stop_event)
 
 		cl_log_event("Info", "Server initialized and running");
 
-		//int lastTime = System::get_time();
 		while (!stop_event.wait(0))
 		{
 			try
@@ -38,6 +37,8 @@ void Server::run(Event &stop_event)
 				zone_manager.update();
 
 				KeepAlive::process(10);
+
+				System::sleep(10);
 			}
 			catch (Exception &e)
 			{

@@ -12,8 +12,8 @@ using namespace clan;
 
 #define HACK_LOGIN
 
-LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources, bool sphair)
-: UIScreen(screen_manager), network(network), game(game), sphair(sphair)
+LoginScreen::LoginScreen(UIScreenManager *screen_manager, Game *game, NetGameClient &network, clan::ResourceManager &resources, const std::string &username, const std::string &password, int character)
+: UIScreen(screen_manager), network(network), game(game), username(username), password(password), character(character)
 {
 	game->get_music_player()->play("Music/main_theme", resources);
 
@@ -171,7 +171,11 @@ void LoginScreen::connect()
 		"</body>"
 		"</html>";
 
+#ifdef _DEBUG
 	std::string server = "localhost";
+#else
+	std::string server = "billowe.no-ip.org";
+#endif
 	std::string port = "4556";
 
 	network.connect(server, port);
@@ -184,10 +188,7 @@ void LoginScreen::on_connect_clicked()
 
 void LoginScreen::login_hack()
 {
-	if(sphair)
-		network.send_event(NetGameEvent(CTS_LOGIN, "sphair", "p"));
-	else
-		network.send_event(NetGameEvent(CTS_LOGIN, "ptrefall", "p"));
+	network.send_event(NetGameEvent(CTS_LOGIN, username, password));
 }
 
 void LoginScreen::on_login_clicked()
@@ -248,10 +249,7 @@ void LoginScreen::on_event_login_fail(const NetGameEvent &e)
 void LoginScreen::on_event_login_success(const NetGameEvent &e)
 {
 #ifdef HACK_LOGIN
-	if(sphair)
-		network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 1));
-	else
-		network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, 2));
+	network.send_event(NetGameEvent(CTS_CHARACTER_LOGIN, character));
 	game->change_to_game_screen();
 #else
 	game->change_to_character_selection_screen();
