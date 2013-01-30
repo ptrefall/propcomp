@@ -29,6 +29,9 @@
 
 #include "mersenne_types.h"
 
+extern "C"
+{
+
 typedef void *TCOD_random_t;
 
 TCOD_random_t TCOD_random_get_instance(void);
@@ -53,3 +56,4 @@ int TCOD_random_dice_roll (TCOD_random_t mersenne, TCOD_dice_t dice);
 int TCOD_random_dice_roll_s (TCOD_random_t mersenne, const char * s);
 
 #include "mersenne_c.inl"
+}

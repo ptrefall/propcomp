@@ -27,6 +27,9 @@
 
 #pragma once
 
+extern "C"
+{
+
 typedef void *TCOD_list_t;
 
  TCOD_list_t TCOD_list_new();
@@ -54,3 +57,5 @@ typedef void *TCOD_list_t;
  bool TCOD_list_is_empty(TCOD_list_t l);
 
  #include "list_c.inl"
+
+}
