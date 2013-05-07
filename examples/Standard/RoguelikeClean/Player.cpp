@@ -68,10 +68,10 @@ int Player::moveOrInteract()
 			auto actor = _pawn->getComponent<Actor>();
 			if(actor)
 			{
-				auto walk = actor->GetSkill("Walk");
+				auto walk = actor->GetSkill("walk");
 				if(walk)
 				{
-					auto dex = actor->GetAttribute("Dexterity");
+					auto dex = actor->GetAttribute("dexterity");
 					if(dex)
 					{
 						elapsedTime = walk->ElapsedTime( dex->Value() );
