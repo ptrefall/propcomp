@@ -29,15 +29,38 @@ Parser::CfgInfo Parser::parseCfg(const std::string &file)
 	return info;
 }
 
+Parser::StatsInfo Parser::parseStats(const std::string &file)
+{
+	Parser::StatsInfo info;
+	return info;
+}
+
+Parser::EntityInfo Parser::parseEntities(const std::string &file)
+{
+	Parser::EntityInfo info;
+	return info;
+}
+
 ///////////////////////////////////////////////////
 //
 // ENTITY PARSER LISTENER
 //
 ///////////////////////////////////////////////////
 ParserListener::ParserListener(Parser::CfgInfo &info)
-	: ITCODParserListener(), cfgInfo(&info)
+	: ITCODParserListener(), cfgInfo(&info), statsInfo(nullptr), entityInfo(nullptr)
 {
 }
+
+ParserListener::ParserListener(Parser::StatsInfo &info)
+	: ITCODParserListener(), cfgInfo(nullptr), statsInfo(&info), entityInfo(nullptr)
+{
+}
+
+ParserListener::ParserListener(Parser::EntityInfo &info)
+	: ITCODParserListener(), cfgInfo(nullptr), statsInfo(nullptr), entityInfo(&info)
+{
+}
+
 
 ParserListener::~ParserListener()
 {
