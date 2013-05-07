@@ -1,0 +1,49 @@
+#pragma once
+
+#include <Totem/Component.h>
+#include <Totem/Property.h>
+#include "../Entity.h"
+#include "../Math/vec2.h"
+
+#include "../Stats/Attribute.h"
+#include "../Stats/Vital.h"
+#include "../Stats/Skill.h"
+
+class Actor : public Totem::Component<Actor>
+{
+public:
+	Actor(Entity *owner);
+	virtual ~Actor();
+
+	static std::string GetType() { return "Actor"; }
+	Entity *Owner() const { return _owner; }
+
+public:
+	int Level() const { return _level; }
+	int ExperienceToSpend() const { return _experienceToSpend; }
+
+	std::shared_ptr<Attribute> GetAttribute(const std::string &name) const;
+	std::shared_ptr<Vital> GetVital(const std::string &name) const;
+	std::shared_ptr<Skill> GetSkill(const std::string &name) const;
+
+
+	void setLevel(int value) { _level = value; }
+	void setExperienceToSpend(int value) { _experienceToSpend = value; }
+
+public:
+	void AddExperience(int experience);
+
+private:
+	void _CalculateLevel();
+	void _UpdateStats();
+
+private:
+	Entity *_owner;
+
+	Totem::Property<int> _level;
+	Totem::Property<int> _experienceToSpend;
+
+	std::vector<std::shared_ptr<Attribute>> _attributes;
+	std::vector<std::shared_ptr<Vital>> _vitals;
+	std::vector<std::shared_ptr<Skill>> _skills;
+};
