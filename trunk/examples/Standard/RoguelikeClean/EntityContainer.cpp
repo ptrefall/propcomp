@@ -70,6 +70,6 @@ bool EntityContainer::remove(const std::shared_ptr<Entity> &entity, bool immedia
 
 void EntityContainer::moveOrInteract(int elapsedTime)
 {
-	for(auto entity : _entities)
-		entity->sendEvent1<int>(EVENT_MoveOrInteract, elapsedTime);
+	//for(auto entity : _entities)
+	//	entity->sendEvent1<int>(EVENT_MoveOrInteract, elapsedTime);
 }

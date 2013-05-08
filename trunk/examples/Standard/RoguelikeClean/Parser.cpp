@@ -25,48 +25,95 @@ Parser::CfgInfo Parser::parseCfg(const std::string &file)
 
 	Parser::CfgInfo info;
 	auto tmp = resourceDir;
-	parser->run(tmp.append(file).c_str(), new ParserListener(info));
+	parser->run(tmp.append(file).c_str(), new CfgParserListener(info));
 	return info;
 }
 
 Parser::StatsInfo Parser::parseStats(const std::string &file)
 {
+	auto attribStruct = parser->newStructure("attribute");
+	attribStruct
+		->addProperty("description", TCOD_TYPE_STRING, true)
+		->addProperty("experienceToLevelUp", TCOD_TYPE_INT, false)
+		->addProperty("levelModifier", TCOD_TYPE_FLOAT, false)
+		->addProperty("baseValue", TCOD_TYPE_INT, false);
+
+	auto vitalStruct = parser->newStructure("vital");
+	vitalStruct
+		->addProperty("description", TCOD_TYPE_STRING, true)
+		->addProperty("experienceToLevelUp", TCOD_TYPE_INT, false)
+		->addProperty("levelModifier", TCOD_TYPE_FLOAT, false)
+		->addProperty("baseValue", TCOD_TYPE_INT, false)
+		->addListProperty("modifierNames", TCOD_TYPE_STRING, false)
+		->addListProperty("modifierValues", TCOD_TYPE_FLOAT, false);
+
+	auto skillStruct = parser->newStructure("skill");
+	skillStruct
+		->addProperty("description", TCOD_TYPE_STRING, true)
+		->addProperty("experienceToLevelUp", TCOD_TYPE_INT, false)
+		->addProperty("levelModifier", TCOD_TYPE_FLOAT, false)
+		->addProperty("baseValue", TCOD_TYPE_INT, false)
+		->addProperty("experienceAwardedForUse", TCOD_TYPE_INT, false)
+		->addProperty("cost", TCOD_TYPE_INT, false)
+		->addProperty("cooldown", TCOD_TYPE_INT, false)
+		->addProperty("activated", TCOD_TYPE_BOOL, false)
+		->addListProperty("modifierNames", TCOD_TYPE_STRING, false)
+		->addListProperty("modifierValues", TCOD_TYPE_FLOAT, false);
+
 	Parser::StatsInfo info;
+	auto tmp = resourceDir;
+	parser->run(tmp.append(file).c_str(), new StatsParserListener(info));
 	return info;
 }
 
-Parser::EntityInfo Parser::parseEntities(const std::string &file)
+Parser::EntitiesInfo Parser::parseEntities(const std::string &file)
 {
-	Parser::EntityInfo info;
+	auto tagStruct = parser->newStructure("tags");
+	tagStruct
+		->addFlag("Abstract")
+		->addFlag("Playable")
+		->addFlag("Item");
+
+	auto compStruct = parser->newStructure("components");
+	compStruct
+		->addFlag("Actor")
+		->addFlag("Visual");
+
+	auto entityStruct = parser->newStructure("entity");
+	entityStruct
+		->addProperty("Level", TCOD_TYPE_INT, false)
+		->addProperty("ExperienceToSpend", TCOD_TYPE_INT, false)
+		->addProperty("CanvasLayer", TCOD_TYPE_INT, false)
+		->addProperty("Symbol", TCOD_TYPE_CHAR, false)
+		->addProperty("ForegroundColor", TCOD_TYPE_COLOR, false)
+		->addListProperty("attributes", TCOD_TYPE_INT, false)
+		->addListProperty("vitals", TCOD_TYPE_INT, false)
+		->addListProperty("skills", TCOD_TYPE_INT, false)
+		->addListProperty("Position", TCOD_TYPE_INT, false)
+		->addStructure(tagStruct)
+		->addStructure(compStruct);
+
+	Parser::EntitiesInfo info;
+	auto tmp = resourceDir;
+	parser->run(tmp.append(file).c_str(), new EntitiesParserListener(info));
 	return info;
 }
 
 ///////////////////////////////////////////////////
 //
-// ENTITY PARSER LISTENER
+// CONFIG PARSER LISTENER
 //
 ///////////////////////////////////////////////////
-ParserListener::ParserListener(Parser::CfgInfo &info)
-	: ITCODParserListener(), cfgInfo(&info), statsInfo(nullptr), entityInfo(nullptr)
+CfgParserListener::CfgParserListener(Parser::CfgInfo &info)
+	: ITCODParserListener(), info(&info)
 {
 }
 
-ParserListener::ParserListener(Parser::StatsInfo &info)
-	: ITCODParserListener(), cfgInfo(nullptr), statsInfo(&info), entityInfo(nullptr)
+CfgParserListener::~CfgParserListener()
 {
 }
 
-ParserListener::ParserListener(Parser::EntityInfo &info)
-	: ITCODParserListener(), cfgInfo(nullptr), statsInfo(nullptr), entityInfo(&info)
-{
-}
-
-
-ParserListener::~ParserListener()
-{
-}
-
-bool ParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
+bool CfgParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
 {
 	std::string struct_name = str->getName();
 	if(struct_name.compare("config") == 0)
@@ -75,37 +122,37 @@ bool ParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *
 	}
     return true;
 }
-bool ParserListener::parserFlag(TCODParser *parser,const char *name)
+bool CfgParserListener::parserFlag(TCODParser *parser,const char *name)
 {
 	return true;
 }
-bool ParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
+bool CfgParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
 {
 	std::string propName = name;
 
 	if(propName.compare("width") == 0 && type == TCOD_TYPE_INT)
 	{
-		if(cfgInfo != nullptr) cfgInfo->Width = value.i;
+		if(info != nullptr) info->Width = value.i;
 	}
 	else if(propName.compare("height") == 0 && type == TCOD_TYPE_INT)
 	{
-		if(cfgInfo != nullptr) cfgInfo->Height = value.i;
+		if(info != nullptr) info->Height = value.i;
 	}
 	else if(propName.compare("fullscreen") == 0 && type == TCOD_TYPE_BOOL)
 	{
-		if(cfgInfo != nullptr) cfgInfo->Fullscreen = value.b;
+		if(info != nullptr) info->Fullscreen = value.b;
 	}
 	else if(propName.compare("font") == 0 && type == TCOD_TYPE_STRING)
 	{
-		if(cfgInfo != nullptr) cfgInfo->Font = value.s;
+		if(info != nullptr) info->Font = value.s;
 	}
 	else if(propName.compare("title") == 0 && type == TCOD_TYPE_STRING)
 	{
-		if(cfgInfo != nullptr) cfgInfo->Title = value.s;
+		if(info != nullptr) info->Title = value.s;
 	}
 	else if(propName.compare("introMessage") == 0 && type == TCOD_TYPE_STRING)
 	{
-		if(cfgInfo != nullptr) cfgInfo->IntroMessage = value.s;
+		if(info != nullptr) info->IntroMessage = value.s;
 	}
 	else 
 	{
@@ -114,11 +161,357 @@ bool ParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_va
 
 	return true;
 }
-bool ParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
+bool CfgParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
 {
 	return true;
 }
-void ParserListener::error(const char *msg)
+void CfgParserListener::error(const char *msg)
+{
+	fprintf(stderr,msg);
+}
+
+///////////////////////////////////////////////////
+//
+// STATS PARSER LISTENER
+//
+///////////////////////////////////////////////////
+StatsParserListener::StatsParserListener(Parser::StatsInfo &info)
+	: ITCODParserListener(), info(&info), currentStructIsAttrib(false), currentStructIsVital(false), currentStructIsSkill(false)
+{
+}
+
+StatsParserListener::~StatsParserListener()
+{
+}
+
+bool StatsParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
+{
+	std::string struct_name = str->getName();
+	if(struct_name.compare("attribute") == 0)
+	{
+		currentStructIsAttrib = true;
+		currentStructIsVital = false;
+		currentStructIsSkill = false;
+		auto attribInfo = std::make_shared<Parser::StatsInfo::AttributeInfo>();
+		attribInfo->Name = name;
+		info->Attributes.push_back(attribInfo);
+	}
+	else if(struct_name.compare("vital") == 0)
+	{
+		currentStructIsAttrib = false;
+		currentStructIsVital = true;
+		currentStructIsSkill = false;
+		auto vitalInfo = std::make_shared<Parser::StatsInfo::VitalInfo>();
+		vitalInfo->Name = name;
+		info->Vitals.push_back(vitalInfo);
+	}
+	else if(struct_name.compare("skill") == 0)
+	{
+		currentStructIsAttrib = false;
+		currentStructIsVital = false;
+		currentStructIsSkill = true;
+		auto skillInfo = std::make_shared<Parser::StatsInfo::SkillInfo>();
+		skillInfo->Name = name;
+		info->Skills.push_back(skillInfo);
+	}
+	else
+		return false;
+
+    return true;
+}
+bool StatsParserListener::parserFlag(TCODParser *parser,const char *name)
+{
+	return true;
+}
+bool StatsParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
+{
+	std::string propName = name;
+	if(currentStructIsAttrib)
+	{
+		auto attribInfo = info->Attributes.back();
+		if(propName.compare("description") == 0 && type == TCOD_TYPE_STRING)
+		{
+			attribInfo->Description = value.s;
+		}
+		else if(propName.compare("experienceToLevelUp") == 0 && type == TCOD_TYPE_INT)
+		{
+			attribInfo->ExperienceToLevelUp = value.i;
+		}
+		else if(propName.compare("levelModifier") == 0 && type == TCOD_TYPE_FLOAT)
+		{
+			attribInfo->LevelModifier = value.f;
+		}
+		else if(propName.compare("baseValue") == 0 && type == TCOD_TYPE_INT)
+		{
+			attribInfo->BaseValue = value.i;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	else if(currentStructIsVital)
+	{
+		auto vitalInfo = info->Vitals.back();
+		if(propName.compare("description") == 0 && type == TCOD_TYPE_STRING)
+		{
+			vitalInfo->Description = value.s;
+		}
+		else if(propName.compare("experienceToLevelUp") == 0 && type == TCOD_TYPE_INT)
+		{
+			vitalInfo->ExperienceToLevelUp = value.i;
+		}
+		else if(propName.compare("levelModifier") == 0 && type == TCOD_TYPE_FLOAT)
+		{
+			vitalInfo->LevelModifier = value.f;
+		}
+		else if(propName.compare("baseValue") == 0 && type == TCOD_TYPE_INT)
+		{
+			vitalInfo->BaseValue = value.i;
+		}
+		else if(propName.compare("modifierNames") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_STRING)
+		{
+			auto list = TCODList<char*>(value.list);
+			for(auto it = list.begin(); it != list.end(); ++it)
+			{
+				vitalInfo->ModifierNames.push_back(*it);
+			}
+		}
+		else if(propName.compare("modifierValues") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_FLOAT)
+		{
+			auto list = TCODList<float>(value.list);
+			for(auto it = list.begin(); it != list.end(); ++it)
+			{
+				vitalInfo->ModifierValues.push_back(*it);
+			}
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	else if(currentStructIsSkill)
+	{
+		auto skillInfo = info->Skills.back();
+		if(propName.compare("description") == 0 && type == TCOD_TYPE_STRING)
+		{
+			skillInfo->Description = value.s;
+		}
+		else if(propName.compare("experienceToLevelUp") == 0 && type == TCOD_TYPE_INT)
+		{
+			skillInfo->ExperienceToLevelUp = value.i;
+		}
+		else if(propName.compare("levelModifier") == 0 && type == TCOD_TYPE_FLOAT)
+		{
+			skillInfo->LevelModifier = value.f;
+		}
+		else if(propName.compare("baseValue") == 0 && type == TCOD_TYPE_INT)
+		{
+			skillInfo->BaseValue = value.i;
+		}
+		else if(propName.compare("experienceAwardedForUse") == 0 && type == TCOD_TYPE_INT)
+		{
+			skillInfo->ExperienceAwardedForUse = value.i;
+		}
+		else if(propName.compare("cost") == 0 && type == TCOD_TYPE_INT)
+		{
+			skillInfo->Cost = value.i;
+		}
+		else if(propName.compare("cooldown") == 0 && type == TCOD_TYPE_INT)
+		{
+			skillInfo->Cooldown = value.i;
+		}
+		else if(propName.compare("activated") == 0 && type == TCOD_TYPE_BOOL)
+		{
+			skillInfo->Activated = value.b;
+		}
+		else if(propName.compare("modifierNames") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_STRING)
+		{
+			auto list = TCODList<char*>(value.list);
+			for(auto it = list.begin(); it != list.end(); ++it)
+			{
+				skillInfo->ModifierNames.push_back(*it);
+			}
+		}
+		else if(propName.compare("modifierValues") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_FLOAT)
+		{
+			auto list = TCODList<float>(value.list);
+			for(auto it = list.begin(); it != list.end(); ++it)
+			{
+				skillInfo->ModifierValues.push_back(*it);
+			}
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+	return true;
+}
+bool StatsParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
+{
+	return true;
+}
+void StatsParserListener::error(const char *msg)
+{
+	fprintf(stderr,msg);
+}
+
+///////////////////////////////////////////////////
+//
+// ENTITIES PARSER LISTENER
+//
+///////////////////////////////////////////////////
+EntitiesParserListener::EntitiesParserListener(Parser::EntitiesInfo &info)
+	: ITCODParserListener(), info(&info)
+{
+}
+
+EntitiesParserListener::~EntitiesParserListener()
+{
+}
+
+bool EntitiesParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
+{
+	std::string struct_name = str->getName();
+	if(struct_name.compare("entity") == 0)
+	{
+		currentStructIsBase = true;
+		currentStructIsTags = false;
+		currentStructIsComps = false;
+
+		auto entityInfo = std::make_shared<Parser::EntitiesInfo::EntityInfo>();
+		entityInfo->Name = name;
+		info->Entities.push_back(entityInfo);
+	}
+	else if(struct_name.compare("tags") == 0)
+	{
+		currentStructIsBase = false;
+		currentStructIsTags = true;
+		currentStructIsComps = false;
+	}
+	else if(struct_name.compare("components") == 0)
+	{
+		currentStructIsBase = false;
+		currentStructIsTags = false;
+		currentStructIsComps = true;
+	}
+    return true;
+}
+bool EntitiesParserListener::parserFlag(TCODParser *parser,const char *name)
+{
+	auto entityInfo = info->Entities.back();
+	if(currentStructIsTags)
+		entityInfo->Tags.push_back(name);
+	else if(currentStructIsComps)
+		entityInfo->Components.push_back(name);
+	else
+		return false;
+
+	return true;
+}
+bool EntitiesParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
+{
+	if(currentStructIsBase == false)
+		return false;
+
+	std::string propName = name;
+	auto entityInfo = info->Entities.back();
+
+	if(propName.compare("attributes") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_INT)
+	{
+		auto list = TCODList<int>(value.list);
+		for(auto it = list.begin(); it != list.end(); ++it)
+		{
+			entityInfo->AttributeValues.push_back(*it);
+		}
+	}
+	else if(propName.compare("vitals") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_INT)
+	{
+		auto list = TCODList<int>(value.list);
+		for(auto it = list.begin(); it != list.end(); ++it)
+		{
+			entityInfo->VitalValues.push_back(*it);
+		}
+	}
+	else if(propName.compare("skills") == 0 && type == TCOD_TYPE_LIST | TCOD_TYPE_INT)
+	{
+		auto list = TCODList<int>(value.list);
+		for(auto it = list.begin(); it != list.end(); ++it)
+		{
+			entityInfo->SkillValues.push_back(*it);
+		}
+	}
+	else 
+	{
+		if(type == TCOD_TYPE_INT)
+		{
+			auto prop = std::make_shared<Totem::Property<int>>(propName);
+			prop->set(value.i, false);
+			entityInfo->IntProperties.push_back(prop);
+		}
+		else if(type == TCOD_TYPE_CHAR)
+		{
+			auto prop = std::make_shared<Totem::Property<int>>(propName);
+			prop->set((int)value.c, false);
+			entityInfo->IntProperties.push_back(prop);
+		}
+		else if(type == TCOD_TYPE_FLOAT)
+		{
+			auto prop = std::make_shared<Totem::Property<float>>(propName);
+			prop->set(value.f, false);
+			entityInfo->FloatProperties.push_back(prop);
+		}
+		else if(type == TCOD_TYPE_STRING)
+		{
+			auto prop = std::make_shared<Totem::Property<std::string>>(propName);
+			prop->set(value.s, false);
+			entityInfo->StringProperties.push_back(prop);
+		}
+		else if(type == TCOD_TYPE_COLOR)
+		{
+			auto prop = std::make_shared<Totem::Property<TCODColor>>(propName);
+			prop->set(value.col, false);
+			entityInfo->ColorProperties.push_back(prop);
+		}
+		else if(type == TCOD_TYPE_LIST | TCOD_TYPE_INT)
+		{
+			auto list = TCODList<int>(value.list);
+			if(list.size() == 2)
+			{
+				clan::Vec2i v(list.get(0), list.get(1));
+				auto prop = std::make_shared<Totem::Property<clan::Vec2i>>(propName);
+				prop->set(v, false);
+				entityInfo->Vec2iProperties.push_back(prop);
+			}
+		}
+		else
+			return false;
+	}
+
+	return true;
+}
+bool EntitiesParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
+{
+	std::string struct_name = str->getName();
+	if(struct_name.compare("tags") == 0)
+	{
+		currentStructIsTags = false;
+		currentStructIsBase = true;
+	}
+	else if(struct_name.compare("components") == 0)
+	{
+		currentStructIsComps = false;
+		currentStructIsBase = true;
+	}
+	return true;
+}
+void EntitiesParserListener::error(const char *msg)
 {
 	fprintf(stderr,msg);
 }

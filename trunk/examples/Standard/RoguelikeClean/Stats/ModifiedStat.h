@@ -31,7 +31,7 @@ public:
 
 	void Add(std::shared_ptr<AttributeModifier> modifier) { _modifiers.push_back(modifier); }
 
-	int Value() const override { return IStat::Value() + _modifierValue; }
+	int Value() const override { return BaseValue() + BuffValue() + _modifierValue; }
 
 	void Update()
 	{

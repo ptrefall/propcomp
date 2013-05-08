@@ -14,6 +14,89 @@ Actor::~Actor()
 {
 }
 
+bool Actor::initialize(const Parser::StatsInfo &statsInfo, const Parser::EntitiesInfo::EntityInfo &entityInfo)
+{
+	for(auto info : statsInfo.Attributes)
+	{
+		auto attribute = std::make_shared<Attribute>(info->Name, info->Description, info->ExperienceToLevelUp, info->LevelModifier);
+		attribute->setBaseValue(info->BaseValue);
+		_attributes.push_back(attribute);
+	}
+
+	for(auto info : statsInfo.Vitals)
+	{
+		auto vital = std::make_shared<Vital>(info->Name, info->Description, info->ExperienceToLevelUp, info->LevelModifier);
+		vital->setBaseValue(info->BaseValue);
+		vital->setCurrentValue(vital->Value());
+		
+		for(unsigned int i = 0; i < info->ModifierNames.size(); i++)
+		{
+			auto attribute = GetAttribute(info->ModifierNames[i]);
+			if(attribute && i < info->ModifierValues.size())
+				vital->Add(std::make_shared<AttributeModifier>(attribute, info->ModifierValues[i]));
+		}
+
+		_vitals.push_back(vital);
+	}
+
+	for(auto info : statsInfo.Skills)
+	{
+		auto skill = std::shared_ptr<Skill>(new Skill(info->Name, info->Description, info->ExperienceToLevelUp, info->LevelModifier, info->Cost, info->Cooldown));
+		skill->setBaseValue(info->BaseValue);
+		skill->setActive(info->Activated);
+
+		for(unsigned int i = 0; i < info->ModifierNames.size(); i++)
+		{
+			auto attribute = GetAttribute(info->ModifierNames[i]);
+			if(attribute && i < info->ModifierValues.size())
+				skill->Add(std::make_shared<AttributeModifier>(attribute, info->ModifierValues[i]));
+		}
+
+		_skills.push_back(skill);
+	}
+
+	for(unsigned int i = 0; i < entityInfo.AttributeValues.size(); i++)
+	{
+		if(i < _attributes.size())
+		{
+			auto attribute = _attributes[i];
+			attribute->setBuffValue(attribute->BuffValue() + entityInfo.AttributeValues[i]);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	for(unsigned int i = 0; i < entityInfo.VitalValues.size(); i++)
+	{
+		if(i < _vitals.size())
+		{
+			auto vital = _vitals[i];
+			vital->setBuffValue(vital->BuffValue() + entityInfo.VitalValues[i]);
+			vital->setCurrentValue(vital->Value());
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	for(unsigned int i = 0; i < entityInfo.SkillValues.size(); i++)
+	{
+		if(i < _skills.size())
+		{
+			auto skill = _skills[i];
+			skill->setBuffValue(skill->BuffValue() + entityInfo.SkillValues[i]);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 std::shared_ptr<Attribute> Actor::GetAttribute(const std::string &name) const
 {
 	for(auto value : _attributes)
@@ -56,6 +139,11 @@ void Actor::AddExperience(int experience)
 //Take average of all of the actor's skills and assign that as the actor level
 void Actor::_CalculateLevel()
 {
+}
+
+void Actor::update(const float &/*dt*/)
+{
+	_UpdateStats();
 }
 
 void Actor::_UpdateStats()

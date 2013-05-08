@@ -18,6 +18,8 @@ public:
 	void schedule(int time, const std::shared_ptr<Entity> &entity, const std::shared_ptr<Skill> &skill);
 
 private:
+	unsigned long _turnCount;
+
 	struct ScheduleInfo
 	{
 		int TotalTime;
