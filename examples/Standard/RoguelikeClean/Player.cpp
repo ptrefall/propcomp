@@ -25,27 +25,29 @@ void Player::handleInput()
 	TCOD_mouse_t mouse;
 	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS|TCOD_EVENT_MOUSE,&key,&mouse);
 
+	Vec2i dir;
 	switch(key.vk) 
 	{
 		case TCODK_UP : 
-		case TCODK_KP8 :	_dir.y=-1; break;
-		case TCODK_KP7 :	_dir.y=-1; _dir.x=-1; break;
-		case TCODK_KP9 :	_dir.y=-1; _dir.x=1; break;
+		case TCODK_KP8 :	dir.y=-1; break;
+		case TCODK_KP7 :	dir.y=-1; dir.x=-1; break;
+		case TCODK_KP9 :	dir.y=-1; dir.x=1; break;
 		case TCODK_DOWN :	
-		case TCODK_KP2 :	_dir.y=1; break;
-		case TCODK_KP1 :	_dir.y=1; _dir.x=-1; break;
-		case TCODK_KP3 :	_dir.y=1; _dir.x=1; break;
+		case TCODK_KP2 :	dir.y=1; break;
+		case TCODK_KP1 :	dir.y=1; dir.x=-1; break;
+		case TCODK_KP3 :	dir.y=1; dir.x=1; break;
 		case TCODK_LEFT :	
-		case TCODK_KP4 :	_dir.x=-1; break;
+		case TCODK_KP4 :	dir.x=-1; break;
 		case TCODK_RIGHT :	
-		case TCODK_KP6 :	_dir.x=1; break;
+		case TCODK_KP6 :	dir.x=1; break;
 		case TCODK_CHAR : _handleActionKeyInput(key.c); break;
 		default:break;
 	}
 
-	if( _dir.x != 0 || _dir.y != 0)
+	if( dir.x != 0 || dir.y != 0)
 	{
 		GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
+		_dir = dir;
 		_dir.x = clan::clamp<int, int, int>(_dir.x, -1, 1);
 		_dir.y = clan::clamp<int, int, int>(_dir.y, -1, 1);
 		_intent[MOVE] = true;
@@ -74,7 +76,8 @@ int Player::moveOrInteract()
 					auto dex = actor->GetAttribute("dexterity");
 					if(dex)
 					{
-						elapsedTime = walk->ElapsedTime( dex->Value() );
+						auto walkCost = (int)floor((walk->ActionCost() * walk->Value()) * 0.1f + 0.5f);
+						elapsedTime = (int)floor((walkCost * dex->Value()) * 0.1f + 0.5f);
 		
 						GameManager::Get()->getTurn()->schedule(elapsedTime, _pawn, walk);
 					}

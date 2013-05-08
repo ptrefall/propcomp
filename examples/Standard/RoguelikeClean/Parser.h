@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Math/vec2.h"
+
+#include <Totem/Property.h>
 #include <libtcod.hpp>
+#include <memory>
 #include <vector>
 
 class Parser
@@ -24,6 +28,7 @@ public:
 	{
 		struct AttributeInfo
 		{
+			std::string Name;
 			std::string Description;
 			int ExperienceToLevelUp;
 			float LevelModifier;
@@ -32,6 +37,7 @@ public:
 
 		struct VitalInfo
 		{
+			std::string Name;
 			std::string Description;
 			int ExperienceToLevelUp;
 			float LevelModifier;
@@ -42,6 +48,7 @@ public:
 
 		struct SkillInfo
 		{
+			std::string Name;
 			std::string Description;
 			int ExperienceToLevelUp;
 			float LevelModifier;
@@ -54,42 +61,88 @@ public:
 			bool Activated;
 		};
 
-		std::vector<AttributeInfo*> Attributes;
-		std::vector<VitalInfo*> Vitals;
-		std::vector<SkillInfo*> Skills;
+		std::vector<std::shared_ptr<AttributeInfo>> Attributes;
+		std::vector<std::shared_ptr<VitalInfo>> Vitals;
+		std::vector<std::shared_ptr<SkillInfo>> Skills;
 	};
 	StatsInfo parseStats(const std::string &file);
 
-	struct EntityInfo
+	struct EntitiesInfo
 	{
-		std::string Name;
-		std::vector<std::string> Components;
-		std::vector<int> AttributeValues;
-		std::vector<int> VitalValues;
-		std::vector<int> SkillValues;
+		struct EntityInfo
+		{
+			std::string Name;
+			std::vector<std::string> Tags;
+			std::vector<std::string> Components;
+			std::vector<int> AttributeValues;
+			std::vector<int> VitalValues;
+			std::vector<int> SkillValues;
+
+			std::vector<std::shared_ptr<Totem::Property<int>>> IntProperties;
+			std::vector<std::shared_ptr<Totem::Property<float>>> FloatProperties;
+			std::vector<std::shared_ptr<Totem::Property<std::string>>> StringProperties;
+			std::vector<std::shared_ptr<Totem::Property<TCODColor>>> ColorProperties;
+			std::vector<std::shared_ptr<Totem::Property<clan::Vec2i>>> Vec2iProperties;
+		};
+		std::vector<std::shared_ptr<EntityInfo>> Entities;
 	};
-	EntityInfo parseEntities(const std::string &file);
+	EntitiesInfo parseEntities(const std::string &file);
 
 private:
 	TCODParser *parser;
 	std::string resourceDir;
 };
 
-class ParserListener : public ITCODParserListener
+class CfgParserListener : public ITCODParserListener
 {
 public:
-	ParserListener(Parser::CfgInfo &info);
-	ParserListener(Parser::StatsInfo &info);
-	ParserListener(Parser::EntityInfo &info);
-	~ParserListener();
+	CfgParserListener(Parser::CfgInfo &info);
+	~CfgParserListener();
 
+private:
 	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
 	bool parserFlag(TCODParser *parser,const char *name) override;
 	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) override;
 	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name) override;
 	void error(const char *msg) override;
 
-	Parser::CfgInfo *cfgInfo;
-	Parser::StatsInfo *statsInfo;
-	Parser::EntityInfo *entityInfo;
+	Parser::CfgInfo *info;
+};
+
+class StatsParserListener : public ITCODParserListener
+{
+public:
+	StatsParserListener(Parser::StatsInfo &info);
+	~StatsParserListener();
+
+private:
+	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
+	bool parserFlag(TCODParser *parser,const char *name) override;
+	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) override;
+	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name) override;
+	void error(const char *msg) override;
+
+	Parser::StatsInfo *info;
+	bool currentStructIsAttrib;
+	bool currentStructIsVital;
+	bool currentStructIsSkill;
+};
+
+class EntitiesParserListener : public ITCODParserListener
+{
+public:
+	EntitiesParserListener(Parser::EntitiesInfo &info);
+	~EntitiesParserListener();
+
+private:
+	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
+	bool parserFlag(TCODParser *parser,const char *name) override;
+	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) override;
+	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name) override;
+	void error(const char *msg) override;
+
+	Parser::EntitiesInfo *info;
+	bool currentStructIsBase;
+	bool currentStructIsTags;
+	bool currentStructIsComps;
 };

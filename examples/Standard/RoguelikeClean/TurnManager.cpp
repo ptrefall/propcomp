@@ -2,11 +2,13 @@
 #include "GameManager.h"
 #include "Player.h"
 #include "EntityContainer.h"
+#include "Entity.h"
 
 #include <algorithm>
 #include <iostream>
 
 TurnManager::TurnManager()
+	: _turnCount(0)
 {
 }
 
@@ -22,10 +24,16 @@ void TurnManager::invoke()
 	GameManager::Get()->getEntities()->moveOrInteract(elapsedTime);
 
 	sort( _schedule.begin(), _schedule.end(), TurnManager::ScheduleSorter );
+
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << "Schedule for turn " << _turnCount << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
 	for(auto info : _schedule)
 	{
-		std::cout << info->CurrentTime << std::endl;
+		std::cout << info->CurrentTime << " - " << info->entity->getName() << std::endl;
 	}
+	std::cout << "-----------------------------------" << std::endl;
+	_turnCount++;
 }
 
 void TurnManager::schedule(int time, const std::shared_ptr<Entity> &entity, const std::shared_ptr<Skill> &skill)
@@ -34,6 +42,7 @@ void TurnManager::schedule(int time, const std::shared_ptr<Entity> &entity, cons
 	if(info == nullptr)
 	{
 		info = new ScheduleInfo(time, entity, skill);
+		_schedule.push_back(info);
 	}
 }
 

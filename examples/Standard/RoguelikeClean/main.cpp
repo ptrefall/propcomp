@@ -46,9 +46,17 @@ int main(int argc, char** argv)
 	resourceDir = resourceDir.substr(0, resourceDir.find_last_of("\\"));
 	resourceDir += "\\resources\\Standard\\Roguelike\\";
 
-	if(GameManager::Get()->initialize(resourceDir))
-		GameManager::Get()->run();
+	try
+	{
+		if(GameManager::Get()->initialize(resourceDir))
+			GameManager::Get()->run();
 
-	GameManager::Shutdown();
+		GameManager::Shutdown();
+	}
+	catch(std::runtime_error &e)
+	{
+		printf(e.what());
+		system("pause");
+	}
 	return 0;
 }
