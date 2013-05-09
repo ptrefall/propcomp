@@ -20,6 +20,7 @@ void RenderManager::render()
 			visual->render(layer->console);
 		}
 		TCODConsole::blit(layer->console.get(), 0,0, layer->console->getWidth(), layer->console->getHeight(), TCODConsole::root, 0,0);
+		layer->console->clear();
 	}
 }
 

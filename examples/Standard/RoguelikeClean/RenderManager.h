@@ -17,6 +17,15 @@ public:
 	void add(Visual *visual, int layer);
 	bool remove(Visual *visual, int layer);
 
+	enum CanvasLayer
+	{
+		LAYER_MAP,
+		LAYER_CLUTTER,
+		LAYER_ITEM,
+		LAYER_CORPSE,
+		LAYER_ACTOR
+	};
+
 private:
 	class Canvas
 	{

@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "GameStateManager.h"
 #include "TurnManager.h"
+#include "ActionManager.h"
 #include "Entity.h"
 #include "Components/Actor.h"
 #include "Math/vec2.h"
@@ -10,21 +11,35 @@
 using namespace clan;
 
 Player::Player()
-	: _dir(Vec2i(0,0))
+	: Controller()
 {
-	_intent.resize(INTENT_COUNT, false);
 }
 
 Player::~Player()
 {
 }
 
-void Player::handleInput()
+void Player::_internalThink()
+{
+	_handleInput();
+}
+
+void Player::_handleInput()
 {
 	TCOD_key_t key;
 	TCOD_mouse_t mouse;
 	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS|TCOD_EVENT_MOUSE,&key,&mouse);
 
+	if(key.vk == TCODK_ESCAPE)
+	{
+		GameManager::Get()->close();
+		return;
+	}
+
+	if(_pawn == nullptr)
+		return;
+
+	bool waitTurn = false;
 	Vec2i dir;
 	switch(key.vk) 
 	{
@@ -40,51 +55,38 @@ void Player::handleInput()
 		case TCODK_KP4 :	dir.x=-1; break;
 		case TCODK_RIGHT :	
 		case TCODK_KP6 :	dir.x=1; break;
+		case TCODK_KP5 :	waitTurn = true;
 		case TCODK_CHAR : _handleActionKeyInput(key.c); break;
 		default:break;
 	}
 
 	if( dir.x != 0 || dir.y != 0)
 	{
-		GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 		_dir = dir;
 		_dir.x = clan::clamp<int, int, int>(_dir.x, -1, 1);
 		_dir.y = clan::clamp<int, int, int>(_dir.y, -1, 1);
-		_intent[MOVE] = true;
+
+		auto result = GameManager::Get()->getAction()->testMove(_pawn, _dir);
+		switch(result)
+		{
+		case ActionManager::RESULT_MOVE:
+		case ActionManager::RESULT_MOVE_TO_ATTACK:
+			_actionIntent[result] = true;
+			GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
+			break;
+
+		case ActionManager::RESULT_MOVE_BLOCKED:
+		default:
+			break;
+		};
+	}
+	else if(waitTurn)
+	{
+		_actionIntent[ActionManager::WAIT] = true;
+		GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 	}
 }
 
 void Player::_handleActionKeyInput(int ascii)
 {
-}
-
-int Player::moveOrInteract()
-{
-	int elapsedTime = 0;
-
-	if(_intent[MOVE])
-	{
-		//TODO: THIS IS NOT FINISHED! :P
-		if(_pawn)
-		{
-			auto actor = _pawn->getComponent<Actor>();
-			if(actor)
-			{
-				auto walk = actor->GetSkill("walk");
-				if(walk)
-				{
-					auto dex = actor->GetAttribute("dexterity");
-					if(dex)
-					{
-						auto walkCost = (int)floor((walk->ActionCost() * walk->Value()) * 0.1f + 0.5f);
-						elapsedTime = (int)floor((walkCost * dex->Value()) * 0.1f + 0.5f);
-		
-						GameManager::Get()->getTurn()->schedule(elapsedTime, _pawn, walk);
-					}
-				}
-			}
-		}
-		return elapsedTime;
-	}
-	return elapsedTime;
 }

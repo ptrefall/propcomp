@@ -3,6 +3,7 @@
 #include "GameStateManager.h"
 #include "TurnManager.h"
 #include "RenderManager.h"
+#include "ActionManager.h"
 #include "EntityContainer.h"
 #include "EntityFactory.h"
 #include "Player.h"
@@ -21,7 +22,10 @@ std::shared_ptr<GameManager> GameManager::Get()
 void GameManager::Shutdown()
 {
 	if(_instance != nullptr)
+	{
+		_instance->terminate();
 		_instance.reset();
+	}
 }
 
 GameManager::GameManager()
@@ -30,9 +34,6 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	_player.reset();
-	_entities.reset();
-	_renderer.reset();
 }
 
 bool GameManager::initialize(const std::string &resourceDir)
@@ -41,6 +42,7 @@ bool GameManager::initialize(const std::string &resourceDir)
 	_state = std::make_shared<GameStateManager>();
 	_turn = std::make_shared<TurnManager>();
 	_renderer = std::make_shared<RenderManager>();
+	_action = std::make_shared<ActionManager>();
 	_player = std::make_shared<Player>();
 	_entities = std::make_shared<EntityContainer>();
 	_factory = std::make_shared<EntityFactory>();
@@ -63,7 +65,8 @@ void GameManager::run()
 {
 	_load();
 
-	while( TCODConsole::isWindowClosed() == false )
+	running = true;
+	while( TCODConsole::isWindowClosed() == false && running == true )
 	{
 		_update();
 		_render();
@@ -79,7 +82,13 @@ void GameManager::restart()
 
 void GameManager::terminate()
 {
+	_player->Set(nullptr);
 	_entities->clear();
+}
+
+void GameManager::close()
+{
+	running = false;
 }
 
 void GameManager::_load()
@@ -95,13 +104,12 @@ void GameManager::_update()
 	_state->update();
 	_state->Set(GameStateManager::IDLE);
 
-	_player->handleInput();
+	_player->think();
 }
 
 void GameManager::_render()
 {
 	TCODConsole::root->clear();
-	//TCODConsole::root->putChar(40,25,'@');
 	_renderer->render();
 	TCODConsole::flush();
 }

@@ -13,6 +13,7 @@ public:
 		_active = false;
 		_actionCost = actionCost;
 		_cooldownCost = cooldownCost;
+		_currentCooldownTime = 0;
 	}
 	virtual ~Skill() {}
 
@@ -20,15 +21,26 @@ public:
 	int ActionCost() const { return _actionCost; }
 	int CooldownCost() const { return _cooldownCost; }
 	
-	int Cost() const { return ActionCost() * (10/Value()); }
-	int ElapsedTime(int dexterity) const { return Cost() * (10/dexterity); }
-	int CooldownTime(int stamina) const { return CooldownCost() * (10/stamina); }
+	int Cost() const { return (int)floor((ActionCost() * Value()) * 0.1f + 0.5f); }
 
 	void setActive(bool value) { _active = value; }
 	void setActionCost(int value) { _actionCost = value; }
 	void setCooldownCost(int value) { _cooldownCost = value; }
+
+	void startCooldown(int time) { _currentCooldownTime = time; }
+	bool isOnCooldown() const { return _currentCooldownTime > 0; }
+
+	void Update(int elapsedTime) override
+	{
+		ModifiedStat::Update(elapsedTime);
+
+		if(_currentCooldownTime > 0)
+			_currentCooldownTime -= elapsedTime;
+	}
+
 private:
 	bool _active;
 	int _actionCost;
 	int _cooldownCost;
+	int _currentCooldownTime;
 };

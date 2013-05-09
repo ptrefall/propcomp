@@ -1,6 +1,7 @@
 #include "Visual.h"
 #include "../GameManager.h"
 #include "../RenderManager.h"
+#include "../PropertyDefinitions.h"
 
 using namespace clan;
 using namespace Totem;
@@ -8,10 +9,10 @@ using namespace Totem;
 Visual::Visual(Entity *owner)
 	: Component<Visual>(GetType()), _owner(owner)
 {
-	_layer = owner->add<int>("CanvasLayer", 0);
-	_symbol = owner->add<int>("Symbol", '@');
-	_color = owner->add<TCODColor>("ForegroundColor", TCODColor::white);
-	_position = owner->add<Vec2i>("Position", Vec2i());
+	_layer = owner->add<int>(PROPERTY_CANVAS_LAYER, RenderManager::LAYER_ACTOR);
+	_symbol = owner->add<int>(PROPERTY_SYMBOL, '@');
+	_color = owner->add<TCODColor>(PROPERTY_FOREGROUND_COLOR, TCODColor::white);
+	_position = owner->add<Vec2i>(PROPERTY_POSITION, Vec2i());
 
 	_layer.valueChanged().connect(this, &Visual::OnCanvasLayerChanged);
 
