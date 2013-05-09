@@ -26,7 +26,7 @@ void TurnManager::invoke()
 	sort( _schedule.begin(), _schedule.end(), TurnManager::ScheduleSorter );
 
 	std::cout << "-----------------------------------" << std::endl;
-	std::cout << "Schedule for turn " << _turnCount << std::endl;
+	std::cout << "Schedule for turn " << _turnCount << " - lasts for " << elapsedTime << (elapsedTime == 1 ? " tick!" : " ticks!") << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
 	for(unsigned int i = 0; i < _schedule.size(); i++)
 	{
@@ -35,7 +35,7 @@ void TurnManager::invoke()
 		//Make sure the controller still has a pawn
 		if(info->controller->Get())
 		{
-			std::cout << info->CurrentTime << " - " << info->controller->Get()->getName() << std::endl;
+			std::cout << info->CurrentTime << (elapsedTime == 1 ? " tick - " : " ticks - ") << info->controller->Get()->getName() << std::endl;
 			if(info->Activated == false)
 			{
 				info->controller->takeAction();
