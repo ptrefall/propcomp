@@ -1,4 +1,8 @@
 #include "Actor.h"
+#include "../GameManager.h"
+#include "../ActionManager.h"
+#include "../PropertyDefinitions.h"
+#include "../EventDefinitions.h"
 
 using namespace clan;
 using namespace Totem;
@@ -6,12 +10,17 @@ using namespace Totem;
 Actor::Actor(Entity *owner)
 	: Component<Actor>(GetType()), _owner(owner)
 {
-	_level = owner->add<int>("Level", 0);
-	_experienceToSpend = owner->add<int>("ExperienceToSpend", 0);
+	_level = owner->add<int>(PROPERTY_LEVEL, 0);
+	_experienceToSpend = owner->add<int>(PROPERTY_EXPERIENCE_TO_SPEND, 0);
+
+	owner->registerToEvent1<int>(EVENT_NewTurn).connect(this, &Actor::OnNewTurn);
+
+	GameManager::Get()->getAction()->add(this);
 }
 
 Actor::~Actor() 
 {
+	GameManager::Get()->getAction()->remove(this);
 }
 
 bool Actor::initialize(const Parser::StatsInfo &statsInfo, const Parser::EntitiesInfo::EntityInfo &entityInfo)
@@ -94,6 +103,8 @@ bool Actor::initialize(const Parser::StatsInfo &statsInfo, const Parser::Entitie
 			return false;
 		}
 	}
+
+	_UpdateStats(0);
 	return true;
 }
 
@@ -141,15 +152,15 @@ void Actor::_CalculateLevel()
 {
 }
 
-void Actor::update(const float &/*dt*/)
-{
-	_UpdateStats();
-}
-
-void Actor::_UpdateStats()
+void Actor::_UpdateStats(int elapsedTime)
 {
 	for(auto vital : _vitals)
-		vital->Update();
+		vital->Update(elapsedTime);
 	for(auto skill : _skills)
-		skill->Update();
+		skill->Update(elapsedTime);
+}
+
+void Actor::OnNewTurn(int elapsedTime)
+{
+	_UpdateStats(elapsedTime);
 }

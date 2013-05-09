@@ -68,7 +68,7 @@ bool EntityContainer::remove(const std::shared_ptr<Entity> &entity, bool immedia
 	return false;
 }
 
-void EntityContainer::moveOrInteract(int elapsedTime)
+void EntityContainer::think(int elapsedTime)
 {
 	//for(auto entity : _entities)
 	//	entity->sendEvent1<int>(EVENT_MoveOrInteract, elapsedTime);

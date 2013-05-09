@@ -19,7 +19,7 @@ public:
 	bool isEmpty() const { return _entities.empty(); }
 	void clear() { _entities.clear(); }
 
-	void moveOrInteract(int elapsedTime);
+	void think(int elapsedTime);
 
 public:
 	void update();

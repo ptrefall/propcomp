@@ -23,8 +23,6 @@ public:
 public:
 	bool initialize(const Parser::StatsInfo &statsInfo, const Parser::EntitiesInfo::EntityInfo &entityInfo);
 
-	void update(const float &/*dt*/) override;
-
 	int Level() const { return _level; }
 	int ExperienceToSpend() const { return _experienceToSpend; }
 
@@ -40,7 +38,7 @@ public:
 
 private:
 	void _CalculateLevel();
-	void _UpdateStats();
+	void _UpdateStats(int elapsedTime);
 
 private:
 	Entity *_owner;
@@ -51,4 +49,6 @@ private:
 	std::vector<std::shared_ptr<Attribute>> _attributes;
 	std::vector<std::shared_ptr<Vital>> _vitals;
 	std::vector<std::shared_ptr<Skill>> _skills;
+
+	void OnNewTurn(int elapsedTime);
 };
