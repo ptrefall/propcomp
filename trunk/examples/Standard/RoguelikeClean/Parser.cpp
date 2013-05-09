@@ -86,6 +86,7 @@ Parser::EntitiesInfo Parser::parseEntities(const std::string &file)
 		->addProperty(PROPERTY_LEVEL, TCOD_TYPE_INT, false)
 		->addProperty(PROPERTY_EXPERIENCE_TO_SPEND, TCOD_TYPE_INT, false)
 		->addProperty(PROPERTY_CANVAS_LAYER, TCOD_TYPE_INT, false)
+		->addProperty(PROPERTY_SIGHT_RADIUS, TCOD_TYPE_INT, false)
 		->addProperty(PROPERTY_SYMBOL, TCOD_TYPE_CHAR, false)
 		->addProperty(PROPERTY_FOREGROUND_COLOR, TCOD_TYPE_COLOR, false)
 		->addListProperty(PROPERTY_POSITION, TCOD_TYPE_INT, false)
@@ -98,6 +99,25 @@ Parser::EntitiesInfo Parser::parseEntities(const std::string &file)
 	Parser::EntitiesInfo info;
 	auto tmp = resourceDir;
 	parser->run(tmp.append(file).c_str(), new EntitiesParserListener(info));
+	return info;
+}
+
+Parser::MapsInfo Parser::parseMaps(const std::string &file)
+{
+	auto dataStruct = parser->newStructure("map");
+
+	dataStruct
+		->addProperty("layer", TCOD_TYPE_INT, true)
+		->addProperty("width", TCOD_TYPE_INT, true)
+		->addProperty("height", TCOD_TYPE_INT, true)
+		->addProperty("wallInViewColor", TCOD_TYPE_COLOR, true)
+		->addProperty("groundInViewColor", TCOD_TYPE_COLOR, true)
+		->addProperty("wallInMemoryColor", TCOD_TYPE_COLOR, true)
+		->addProperty("groundInMemoryColor", TCOD_TYPE_COLOR, true);
+
+	Parser::MapsInfo info;
+	auto tmp = resourceDir;
+	parser->run(tmp.append(file).c_str(), new MapsParserListener(info));
 	return info;
 }
 
@@ -514,6 +534,84 @@ bool EntitiesParserListener::parserEndStruct(TCODParser *parser,const TCODParser
 	return true;
 }
 void EntitiesParserListener::error(const char *msg)
+{
+	fprintf(stderr,msg);
+}
+
+///////////////////////////////////////////////////
+//
+// MAPS PARSER LISTENER
+//
+///////////////////////////////////////////////////
+MapsParserListener::MapsParserListener(Parser::MapsInfo &info)
+	: ITCODParserListener(), info(&info)
+{
+}
+
+MapsParserListener::~MapsParserListener()
+{
+}
+
+bool MapsParserListener::parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name)
+{
+	std::string struct_name = str->getName();
+	if(struct_name.compare("map") == 0)
+	{
+		auto mapInfo = std::make_shared<Parser::MapsInfo::MapInfo>();
+		mapInfo->Name = name;
+		info->Maps.push_back(mapInfo);
+	}
+    return true;
+}
+bool MapsParserListener::parserFlag(TCODParser *parser,const char *name)
+{
+	return true;
+}
+bool MapsParserListener::parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value)
+{
+	std::string propName = name;
+	auto mapInfo = info->Maps.back();
+
+	if(propName.compare("layer") == 0 && type == TCOD_TYPE_INT)
+	{
+		mapInfo->Layer = value.i;
+	}
+	else if(propName.compare("width") == 0 && type == TCOD_TYPE_INT)
+	{
+		mapInfo->Width = value.i;
+	}
+	else if(propName.compare("height") == 0 && type == TCOD_TYPE_INT)
+	{
+		mapInfo->Height = value.i;
+	}
+	else if(propName.compare("wallInViewColor") == 0 && type == TCOD_TYPE_COLOR)
+	{
+		mapInfo->WallInViewColor = value.col;
+	}
+	else if(propName.compare("groundInViewColor") == 0 && type == TCOD_TYPE_COLOR)
+	{
+		mapInfo->GroundInViewColor = value.col;
+	}
+	else if(propName.compare("wallInMemoryColor") == 0 && type == TCOD_TYPE_COLOR)
+	{
+		mapInfo->WallInMemoryColor = value.col;
+	}
+	else if(propName.compare("groundInMemoryColor") == 0 && type == TCOD_TYPE_COLOR)
+	{
+		mapInfo->GroundInMemoryColor = value.col;
+	}
+	else 
+	{
+		return false;
+	}
+
+	return true;
+}
+bool MapsParserListener::parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name)
+{
+	return true;
+}
+void MapsParserListener::error(const char *msg)
 {
 	fprintf(stderr,msg);
 }

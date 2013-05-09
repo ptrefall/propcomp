@@ -47,6 +47,7 @@ private:
 
 	Totem::Property<int> _level;
 	Totem::Property<int> _experienceToSpend;
+	Totem::Property<int> _sightRadius;
 
 	std::vector<std::shared_ptr<Attribute>> _attributes;
 	std::vector<std::shared_ptr<Vital>> _vitals;

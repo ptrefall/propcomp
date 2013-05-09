@@ -1,5 +1,7 @@
 #include "RenderManager.h"
 #include "Components/Visual.h"
+#include "GameManager.h"
+#include "MapManager.h"
 
 #include <algorithm>
 
@@ -11,10 +13,27 @@ RenderManager::~RenderManager()
 {
 }
 
+void RenderManager::initialize()
+{
+	_canvasLayers.resize(CANVAS_LAYER_COUNT, nullptr);
+	_create(LAYER_GROUND);
+	_create(LAYER_AIR);
+}
+
 void RenderManager::render()
 {
 	for(auto layer : _canvasLayers)
 	{
+		if(layer == nullptr)
+			continue;
+
+		if(layer->layer == LAYER_GROUND)
+			GameManager::Get()->getMap()->render(layer->console, MapManager::LAYER_GROUND);
+		//else if(layer->layer == LAYER_AIR)
+		//	GameManager::Get()->getMap()->render(layer->console, MapManager::LAYER_AIR);
+		else
+			continue;
+
 		for(auto visual : layer->visuals)
 		{
 			visual->render(layer->console);
@@ -24,24 +43,21 @@ void RenderManager::render()
 	}
 }
 
-void RenderManager::add(Visual *visual, int layer)
+void RenderManager::add(Visual *visual, CanvasLayer layer)
 {
-	auto canvasLayer = find(layer);
+	auto canvasLayer = _find(layer);
 	if(canvasLayer == nullptr)
 	{
-		canvasLayer = std::make_shared<Canvas>(layer);
-		canvasLayer->console = std::make_shared<TCODConsole>(TCODConsole::root->getWidth(), TCODConsole::root->getHeight());
-		
-		_canvasLayers.push_back(canvasLayer);
+		canvasLayer = _create(layer);
 		sort( _canvasLayers.begin(), _canvasLayers.end(), RenderManager::SortCanvas );
 	}
 	
 	canvasLayer->visuals.push_back(visual);
 }
 
-bool RenderManager::remove(Visual *visual, int layer)
+bool RenderManager::remove(Visual *visual, CanvasLayer layer)
 {
-	auto canvasLayer = find(layer);
+	auto canvasLayer = _find(layer);
 	if(canvasLayer)
 	{
 		for(auto it = canvasLayer->visuals.begin(); it != canvasLayer->visuals.end(); ++it)
@@ -49,7 +65,7 @@ bool RenderManager::remove(Visual *visual, int layer)
 			if((*it) == visual)
 			{
 				canvasLayer->visuals.erase(it);
-				if(canvasLayer->visuals.empty())
+				if(canvasLayer->visuals.empty() && (canvasLayer->layer != LAYER_GROUND || canvasLayer->layer != LAYER_AIR))
 				{
 					for(auto it2 = _canvasLayers.begin(); it2 != _canvasLayers.end(); ++it2)
 					{
@@ -69,11 +85,20 @@ bool RenderManager::remove(Visual *visual, int layer)
 	return false;
 }
 
-std::shared_ptr<RenderManager::Canvas> RenderManager::find(int layer)
+std::shared_ptr<RenderManager::Canvas> RenderManager::_create(CanvasLayer layer)
+{
+	auto canvasLayer = std::make_shared<Canvas>(layer);
+	canvasLayer->console = std::make_shared<TCODConsole>(TCODConsole::root->getWidth(), TCODConsole::root->getHeight());
+
+	_canvasLayers[layer] = canvasLayer;
+	return canvasLayer;
+}
+
+std::shared_ptr<RenderManager::Canvas> RenderManager::_find(CanvasLayer layer)
 {
 	for(auto canvasLayer : _canvasLayers)
 	{
-		if(canvasLayer->layer == layer)
+		if(canvasLayer && canvasLayer->layer == layer)
 			return canvasLayer;
 	}
 

@@ -88,6 +88,23 @@ public:
 	};
 	EntitiesInfo parseEntities(const std::string &file);
 
+	struct MapsInfo
+	{
+		struct MapInfo
+		{
+			std::string Name;
+			int Layer;
+			int Width;
+			int Height;
+			TCODColor WallInViewColor;
+			TCODColor GroundInViewColor;
+			TCODColor WallInMemoryColor;
+			TCODColor GroundInMemoryColor;
+		};
+		std::vector<std::shared_ptr<MapInfo>> Maps;
+	};
+	MapsInfo parseMaps(const std::string &file);
+
 private:
 	TCODParser *parser;
 	std::string resourceDir;
@@ -145,4 +162,20 @@ private:
 	bool currentStructIsBase;
 	bool currentStructIsTags;
 	bool currentStructIsComps;
+};
+
+class MapsParserListener : public ITCODParserListener
+{
+public:
+	MapsParserListener(Parser::MapsInfo &info);
+	~MapsParserListener();
+
+private:
+	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override;
+	bool parserFlag(TCODParser *parser,const char *name) override;
+	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) override;
+	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name) override;
+	void error(const char *msg) override;
+
+	Parser::MapsInfo *info;
 };

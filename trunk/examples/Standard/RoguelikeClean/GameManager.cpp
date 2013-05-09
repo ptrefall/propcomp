@@ -4,6 +4,7 @@
 #include "TurnManager.h"
 #include "RenderManager.h"
 #include "ActionManager.h"
+#include "MapManager.h"
 #include "EntityContainer.h"
 #include "EntityFactory.h"
 #include "Player.h"
@@ -42,6 +43,7 @@ bool GameManager::initialize(const std::string &resourceDir)
 	_state = std::make_shared<GameStateManager>();
 	_turn = std::make_shared<TurnManager>();
 	_renderer = std::make_shared<RenderManager>();
+	_map = std::make_shared<MapManager>();
 	_action = std::make_shared<ActionManager>();
 	_player = std::make_shared<Player>();
 	_entities = std::make_shared<EntityContainer>();
@@ -52,6 +54,9 @@ bool GameManager::initialize(const std::string &resourceDir)
 	TCODConsole::initRoot(cfg.Width, cfg.Height, cfg.Title.c_str(), cfg.Fullscreen);
 
 	//TODO: Might want to add a loading screen here?
+
+	_renderer->initialize();
+	_map->initialize(_parser->parseMaps("Maps.cfg"));
 
 	if( !_factory->initialize(_entities, _parser->parseStats("Stats.cfg"), _parser->parseEntities("Entities.cfg")) )
 		return false;

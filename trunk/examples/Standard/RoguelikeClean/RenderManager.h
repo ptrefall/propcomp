@@ -12,37 +12,53 @@ public:
 	RenderManager();
 	~RenderManager();
 
-	void render();
-
-	void add(Visual *visual, int layer);
-	bool remove(Visual *visual, int layer);
-
 	enum CanvasLayer
 	{
-		LAYER_MAP,
+		LAYER_GROUND,
 		LAYER_CLUTTER,
 		LAYER_ITEM,
 		LAYER_CORPSE,
-		LAYER_ACTOR
+		LAYER_ACTOR,
+		LAYER_AIR,
+		CANVAS_LAYER_COUNT
 	};
+
+	void initialize();
+	void render();
+
+	static CanvasLayer toLayer(int layer) 
+	{ 
+		if(layer < 0 || layer >= CANVAS_LAYER_COUNT) 
+			return CANVAS_LAYER_COUNT; 
+		else 
+			return (CanvasLayer)layer; 
+	}
+
+	void add(Visual *visual, CanvasLayer layer);
+	bool remove(Visual *visual, CanvasLayer layer);
 
 private:
 	class Canvas
 	{
 	public:
-		Canvas(int layer) : layer(layer) {}
+		Canvas(CanvasLayer layer) : layer(layer) {}
 		~Canvas() {}
 
-		const int layer;
+		const CanvasLayer layer;
 		std::shared_ptr<TCODConsole> console;
 		std::vector<Visual*> visuals;
 	};
 	std::vector<std::shared_ptr<Canvas>> _canvasLayers;
 
-	std::shared_ptr<Canvas> find(int layer);
+	std::shared_ptr<Canvas> _create(CanvasLayer layer);
+	std::shared_ptr<Canvas> _find(CanvasLayer layer);
 
 	static bool SortCanvas(const std::shared_ptr<Canvas> &a, const std::shared_ptr<Canvas> &b)
 	{
+		if(a == nullptr)
+			return false;
+		if(b == nullptr)
+			return true;
 		return a->layer < b->layer;
 	}
 };

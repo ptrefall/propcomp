@@ -2,6 +2,8 @@
 
 #define PROPERTY_POSITION "Position"
 
+#define PROPERTY_SIGHT_RADIUS "SightRadius"
+
 #define PROPERTY_LEVEL "Level"
 #define PROPERTY_EXPERIENCE_TO_SPEND "ExperienceToSpend"
 
