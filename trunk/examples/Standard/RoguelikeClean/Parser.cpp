@@ -1,4 +1,6 @@
 #include "Parser.h"
+#include "PropertyDefinitions.h"
+#include "Components/ComponentDefinitions.h"
 
 Parser::Parser(const std::string &resourceDir)
 	: resourceDir(resourceDir)
@@ -76,20 +78,20 @@ Parser::EntitiesInfo Parser::parseEntities(const std::string &file)
 
 	auto compStruct = parser->newStructure("components");
 	compStruct
-		->addFlag("Actor")
-		->addFlag("Visual");
+		->addFlag(COMPONENT_ACTOR)
+		->addFlag(COMPONENT_VISUAL);
 
 	auto entityStruct = parser->newStructure("entity");
 	entityStruct
-		->addProperty("Level", TCOD_TYPE_INT, false)
-		->addProperty("ExperienceToSpend", TCOD_TYPE_INT, false)
-		->addProperty("CanvasLayer", TCOD_TYPE_INT, false)
-		->addProperty("Symbol", TCOD_TYPE_CHAR, false)
-		->addProperty("ForegroundColor", TCOD_TYPE_COLOR, false)
+		->addProperty(PROPERTY_LEVEL, TCOD_TYPE_INT, false)
+		->addProperty(PROPERTY_EXPERIENCE_TO_SPEND, TCOD_TYPE_INT, false)
+		->addProperty(PROPERTY_CANVAS_LAYER, TCOD_TYPE_INT, false)
+		->addProperty(PROPERTY_SYMBOL, TCOD_TYPE_CHAR, false)
+		->addProperty(PROPERTY_FOREGROUND_COLOR, TCOD_TYPE_COLOR, false)
+		->addListProperty(PROPERTY_POSITION, TCOD_TYPE_INT, false)
 		->addListProperty("attributes", TCOD_TYPE_INT, false)
 		->addListProperty("vitals", TCOD_TYPE_INT, false)
 		->addListProperty("skills", TCOD_TYPE_INT, false)
-		->addListProperty("Position", TCOD_TYPE_INT, false)
 		->addStructure(tagStruct)
 		->addStructure(compStruct);
 

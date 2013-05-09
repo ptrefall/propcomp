@@ -95,7 +95,7 @@ int ActionManager::estimateAction(ActionManager::ActionType action, const std::s
 	return elapsedTime;
 }
 
-int ActionManager::_handleMoveActionEstimate(const std::shared_ptr<Actor> &actor, const clan::Vec2i &direction)
+int ActionManager::_handleMoveActionEstimate(const std::shared_ptr<Actor> &actor, const clan::Vec2i &/*direction*/)
 {
 	int elapsedTime = 0;
 	if(actor->Owner()->hasProperty(PROPERTY_POSITION) == false)
