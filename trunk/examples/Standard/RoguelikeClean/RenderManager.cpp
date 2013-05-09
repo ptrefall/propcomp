@@ -29,10 +29,8 @@ void RenderManager::render()
 
 		if(layer->layer == LAYER_GROUND)
 			GameManager::Get()->getMap()->render(layer->console, MapManager::LAYER_GROUND);
-		//else if(layer->layer == LAYER_AIR)
-		//	GameManager::Get()->getMap()->render(layer->console, MapManager::LAYER_AIR);
-		else
-			continue;
+		else if(layer->layer == LAYER_AIR)
+			GameManager::Get()->getMap()->render(layer->console, MapManager::LAYER_AIR);
 
 		for(auto visual : layer->visuals)
 		{
@@ -89,6 +87,7 @@ std::shared_ptr<RenderManager::Canvas> RenderManager::_create(CanvasLayer layer)
 {
 	auto canvasLayer = std::make_shared<Canvas>(layer);
 	canvasLayer->console = std::make_shared<TCODConsole>(TCODConsole::root->getWidth(), TCODConsole::root->getHeight());
+	canvasLayer->console->setKeyColor(TCODColor::black);
 
 	_canvasLayers[layer] = canvasLayer;
 	return canvasLayer;
