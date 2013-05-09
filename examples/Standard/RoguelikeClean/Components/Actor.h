@@ -11,13 +11,15 @@
 
 #include "../Parser.h"
 
+#include "ComponentDefinitions.h"
+
 class Actor : public Totem::Component<Actor>
 {
 public:
 	Actor(Entity *owner);
 	virtual ~Actor();
 
-	static std::string GetType() { return "Actor"; }
+	static std::string GetType() { return COMPONENT_ACTOR; }
 	Entity *Owner() const { return _owner; }
 
 public:

@@ -33,7 +33,7 @@ public:
 
 	int Value() const override { return BaseValue() + BuffValue() + _modifierValue; }
 
-	virtual void Update(int elapsedTime)
+	virtual void Update(int /*elapsedTime*/)
 	{
 		_CalculateModifierValue();
 	}

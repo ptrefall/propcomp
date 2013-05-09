@@ -5,6 +5,8 @@
 #include "../Entity.h"
 #include "../Math/vec2.h"
 
+#include "ComponentDefinitions.h"
+
 #include <libtcod.hpp>
 
 class Visual : public Totem::Component<Visual>
@@ -13,7 +15,7 @@ public:
 	Visual(Entity *owner);
 	virtual ~Visual();
 
-	static std::string GetType() { return "Visual"; }
+	static std::string GetType() { return COMPONENT_VISUAL; }
 	Entity *Owner() const { return _owner; }
 
 public:
