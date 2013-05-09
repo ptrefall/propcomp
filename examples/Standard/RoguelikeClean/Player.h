@@ -8,6 +8,8 @@ public:
 	Player();
 	virtual ~Player();
 
+	void Set(const std::shared_ptr<Entity> &pawn) override;
+
 protected:
 	void _internalThink() override;
 

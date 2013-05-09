@@ -12,6 +12,7 @@ Actor::Actor(Entity *owner)
 {
 	_level = owner->add<int>(PROPERTY_LEVEL, 0);
 	_experienceToSpend = owner->add<int>(PROPERTY_EXPERIENCE_TO_SPEND, 0);
+	_sightRadius = owner->add<int>(PROPERTY_SIGHT_RADIUS, 10);
 
 	owner->registerToEvent1<int>(EVENT_NewTurn).connect(this, &Actor::OnNewTurn);
 

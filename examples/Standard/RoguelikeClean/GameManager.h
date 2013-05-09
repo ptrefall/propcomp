@@ -8,6 +8,7 @@ class GameStateManager;
 class TurnManager;
 class RenderManager;
 class ActionManager;
+class MapManager;
 class Player;
 class EntityContainer;
 class EntityFactory;
@@ -40,6 +41,7 @@ public:
 	const std::shared_ptr<TurnManager> &getTurn() { return _turn; }
 	const std::shared_ptr<RenderManager> &getRender() { return _renderer; }
 	const std::shared_ptr<ActionManager> &getAction() { return _action; }
+	const std::shared_ptr<MapManager> &getMap() { return _map; }
 	const std::shared_ptr<Player> &getPlayer() { return _player; }
 	const std::shared_ptr<EntityContainer> &getEntities() { return _entities; }
 	const std::shared_ptr<EntityFactory> &getFactory() { return _factory; }
@@ -58,6 +60,7 @@ private:
 	std::shared_ptr<TurnManager> _turn;
 	std::shared_ptr<RenderManager> _renderer;
 	std::shared_ptr<ActionManager> _action;
+	std::shared_ptr<MapManager> _map;
 	std::shared_ptr<Player> _player;
 	std::shared_ptr<EntityContainer> _entities;
 	std::shared_ptr<EntityFactory> _factory;

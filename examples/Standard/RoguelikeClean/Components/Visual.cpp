@@ -16,12 +16,12 @@ Visual::Visual(Entity *owner)
 
 	_layer.valueChanged().connect(this, &Visual::OnCanvasLayerChanged);
 
-	GameManager::Get()->getRender()->add(this, _layer);
+	GameManager::Get()->getRender()->add(this, RenderManager::toLayer(_layer));
 }
 
 Visual::~Visual() 
 {
-	GameManager::Get()->getRender()->remove(this, _layer);
+	GameManager::Get()->getRender()->remove(this, RenderManager::toLayer(_layer));
 }
 
 void Visual::render(const std::shared_ptr<TCODConsole> &canvas)
@@ -32,6 +32,6 @@ void Visual::render(const std::shared_ptr<TCODConsole> &canvas)
 
 void Visual::OnCanvasLayerChanged(const int &oldValue, const int &newValue)
 {
-	GameManager::Get()->getRender()->remove(this, oldValue);
-	GameManager::Get()->getRender()->add(this, newValue);
+	GameManager::Get()->getRender()->remove(this, RenderManager::toLayer(oldValue));
+	GameManager::Get()->getRender()->add(this, RenderManager::toLayer(newValue));
 }

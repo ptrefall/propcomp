@@ -14,7 +14,7 @@ public:
 
 	void think();
 
-	void Set(const std::shared_ptr<Entity> &pawn) { _pawn = pawn; }
+	virtual void Set(const std::shared_ptr<Entity> &pawn) { _pawn = pawn; }
 	const std::shared_ptr<Entity> &Get() { return _pawn; }
 
 	int estimateAction();
