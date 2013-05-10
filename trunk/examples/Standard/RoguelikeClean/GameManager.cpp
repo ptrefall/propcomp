@@ -56,12 +56,15 @@ bool GameManager::initialize(const std::string &resourceDir)
 	//TODO: Might want to add a loading screen here?
 
 	_renderer->initialize();
-	_map->initialize(_parser->parseMaps("Maps.cfg"));
 
 	if( !_factory->initialize(_entities, _parser->parseStats("Stats.cfg"), _parser->parseEntities("Entities.cfg")) )
 		return false;
 
 	_player->Set(_factory->instantiate("human"));
+
+	_map->initialize(_parser->parseMaps("Maps.cfg"));
+	_map->generate(MapManager::LAYER_GROUND);
+	_player->FOV();
 
 	return true;
 }

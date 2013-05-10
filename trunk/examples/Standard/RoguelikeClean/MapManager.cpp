@@ -23,30 +23,33 @@ void MapManager::initialize(const Parser::MapsInfo &mapsInfo)
 		if(info->Layer < 0 || info->Layer >= MAP_LAYER_COUNT)
 			continue;
 
-		auto layer = std::make_shared<Map>(info->Layer, Vec2i(info->Width, info->Height));
+		auto layer = std::make_shared<Map>((MapLayer)info->Layer, Vec2i(info->Width, info->Height));
 		layer->generationType = (info->GenerationType >= 0 && info->GenerationType < GENERATION_TYPE_COUNT) ? (GenerationType)info->GenerationType : GENERATION_NONE;
 		layer->groundInViewColor = info->GroundInViewColor;
 		layer->wallInViewColor = info->WallInViewColor;
 		layer->groundInMemoryColor = info->GroundInMemoryColor;
 		layer->wallInMemoryColor = info->WallInMemoryColor;
-
-		switch(layer->generationType)
-		{
-		case GENERATION_BSP:
-			{
-				TCODBsp bsp(0,0, layer->size.x, layer->size.y);
-				bsp.splitRecursive(nullptr, 8, 12, 6, 1.5f, 1.5f);
-				MapBspListener listener(layer.get());
-				//bsp.traverseInvertedLevelOrder(&listener, nullptr);
-			}
-			break;
-		case GENERATION_NONE:
-		default:
-			break;
-		};
-
 		_mapLayers[info->Layer] = layer;
 	}
+}
+
+void MapManager::generate(MapLayer layer)
+{
+	auto map = _mapLayers[layer];
+	switch(map->generationType)
+	{
+	case GENERATION_BSP:
+		{
+			TCODBsp bsp(0,0, map->size.x, map->size.y);
+			bsp.splitRecursive(nullptr, 8, 12, 6, 1.5f, 1.5f);
+			MapBspListener listener(map->layer);
+			bsp.traverseInvertedLevelOrder(&listener, nullptr);
+		}
+		break;
+	case GENERATION_NONE:
+	default:
+		break;
+	};
 }
 
 void MapManager::render(const std::shared_ptr<TCODConsole> &canvas, MapLayer layer)
@@ -135,10 +138,45 @@ void MapManager::createRoom(MapLayer layer, bool first, const clan::Vec2i &bl, c
 	
 	if(first)
 	{
-
+		auto pawn = GameManager::Get()->getPlayer()->Get();
+		if(pawn && pawn->hasProperty(PROPERTY_POSITION))
+			pawn->get<Vec2i>(PROPERTY_POSITION) = (bl+tr)/2;
+			
 	}
 	else
 	{
 
 	}
+}
+
+bool MapManager::MapBspListener::visitNode(TCODBsp *node, void *userData)
+{
+	if(node->isLeaf())
+	{
+		Vec2i pos;
+		Vec2i size;
+
+		auto rng = TCODRandom::getInstance();
+
+		size = Vec2i(
+			rng->getInt(6, node->w-2), 
+			rng->getInt(6, node->h-2));
+
+		pos  = Vec2i(
+			rng->getInt(node->x+1, node->x + node->w - size.x - 1), 
+			rng->getInt(node->y+1, node->y + node->h - size.y - 1));
+
+		auto map = GameManager::Get()->getMap();
+		map->createRoom(_layer, _roomNum==0, pos, pos+size-1);
+
+		if(_roomNum != 0)
+		{
+			map->dig(_layer, _last, Vec2i(pos.x+size.x/2, _last.y));
+			map->dig(_layer, Vec2i(pos.x+size.x/2, _last.y), Vec2i(pos.x+size.x/2, pos.y+size.y/2));
+		}
+
+		_last = pos+size/2;
+		_roomNum++;
+	}
+	return true;
 }

@@ -28,6 +28,7 @@ public:
 	};
 
 	void initialize(const Parser::MapsInfo &mapsInfo);
+	void generate(MapLayer layer);
 	void render(const std::shared_ptr<TCODConsole> &canvas, MapLayer layer);
 
 	bool isInFov(MapLayer layer, const clan::Vec2i &pos) const;
@@ -43,15 +44,12 @@ private:
 	class MapBspListener : public ITCODBspCallback
 	{
 	public:
-		MapBspListener(Map *map) : _map(map), _roomNum(0) {}
+		MapBspListener(MapLayer layer) : _layer(layer), _roomNum(0) {}
 
-		bool visitNode(TCODBsp *node, void *userData) override
-		{
-			return false;
-		}
+		bool visitNode(TCODBsp *node, void *userData) override;
 
 	private:
-		Map *_map;
+		MapLayer _layer;
 		int _roomNum;
 		clan::Vec2i _last;
 	};
@@ -59,7 +57,7 @@ private:
 	class Map
 	{
 	public:
-		Map(int layer, const clan::Vec2i &size) 
+		Map(MapLayer layer, const clan::Vec2i &size) 
 			: layer(layer), size(size) 
 		{ 
 			data = std::make_shared<TCODMap>(size.x, size.y); 
@@ -76,7 +74,7 @@ private:
 			Tile() : explored(false) {}
 		};
 
-		const int layer;
+		const MapLayer layer;
 		clan::Vec2i size;
 		GenerationType generationType;
 		std::shared_ptr<TCODMap> data;
