@@ -41,16 +41,17 @@ private:
 	class Canvas
 	{
 	public:
-		Canvas(CanvasLayer layer) : layer(layer) {}
+		Canvas(CanvasLayer layer) : layer(layer), backgroundAlpha(0.0f) {}
 		~Canvas() {}
 
 		const CanvasLayer layer;
 		std::shared_ptr<TCODConsole> console;
 		std::vector<Visual*> visuals;
+		float backgroundAlpha;
 	};
 	std::vector<std::shared_ptr<Canvas>> _canvasLayers;
 
-	std::shared_ptr<Canvas> _create(CanvasLayer layer);
+	std::shared_ptr<Canvas> _create(CanvasLayer layer, float backgroundAlpha = 0.0f);
 	std::shared_ptr<Canvas> _find(CanvasLayer layer);
 
 	static bool SortCanvas(const std::shared_ptr<Canvas> &a, const std::shared_ptr<Canvas> &b)
