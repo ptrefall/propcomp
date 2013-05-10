@@ -1,11 +1,14 @@
 #include "TurnManager.h"
 #include "GameManager.h"
 #include "ActionManager.h"
+#include "MapManager.h"
 #include "Player.h"
 #include "EntityContainer.h"
 #include "Entity.h"
 #include "EventDefinitions.h"
+#include "PropertyDefinitions.h"
 
+#include "Math/vec2.h"
 #include <algorithm>
 #include <iostream>
 
@@ -54,6 +57,16 @@ void TurnManager::invoke()
 		}
 	}
 	std::cout << "-----------------------------------" << std::endl;
+
+	auto pawn = GameManager::Get()->getPlayer()->Get();
+	if(pawn->hasProperty(PROPERTY_POSITION) && pawn->hasProperty(PROPERTY_SIGHT_RADIUS))
+	{
+		GameManager::Get()->getMap()->computeFov(
+			MapManager::LAYER_GROUND, 
+			pawn->get<clan::Vec2i>(PROPERTY_POSITION), 
+			pawn->get<int>(PROPERTY_SIGHT_RADIUS));
+	}
+
 	_turnCount++;
 }
 

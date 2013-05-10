@@ -1,6 +1,6 @@
 #include "ActionManager.h"
 #include "GameManager.h"
-//#include "Map.h"
+#include "MapManager.h"
 #include "Entity.h"
 #include "EntityContainer.h"
 #include "Components/Actor.h"
@@ -44,8 +44,8 @@ ActionManager::MoveTestResult ActionManager::testMove(const std::shared_ptr<Enti
 	auto position = pawn->get<Vec2i>(PROPERTY_POSITION).get();
 	auto destination = position + direction;
 
-	//if(GameManager::Get()->getMap()->isWall(destination))
-	//	return RESULT_MOVE_BLOCKED;
+	if(GameManager::Get()->getMap()->isWall(MapManager::LAYER_GROUND, destination))
+		return RESULT_MOVE_BLOCKED;
 
 	for(auto actor : _actors)
 	{
