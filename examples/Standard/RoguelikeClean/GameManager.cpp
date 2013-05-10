@@ -65,7 +65,6 @@ bool GameManager::initialize(const std::string &resourceDir)
 
 	_map->initialize(_parser->parseMaps("Maps.cfg"));
 	_map->generate();
-	_player->FOV();
 	_map->generateEnemies();
 
 	return true;
