@@ -10,6 +10,8 @@ public:
 
 	void Set(const std::shared_ptr<Entity> &pawn) override;
 
+	void FOV();
+
 protected:
 	void _internalThink() override;
 

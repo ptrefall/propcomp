@@ -24,13 +24,17 @@ Player::~Player()
 void Player::Set(const std::shared_ptr<Entity> &pawn)
 {
 	Controller::Set(pawn);
-	if(pawn && pawn->hasProperty(PROPERTY_POSITION) && pawn->hasProperty(PROPERTY_SIGHT_RADIUS))
-		{
-			GameManager::Get()->getMap()->computeFov(
-				MapManager::LAYER_GROUND, 
-				pawn->get<Vec2i>(PROPERTY_POSITION), 
-				pawn->get<int>(PROPERTY_SIGHT_RADIUS));
-		}
+}
+
+void Player::FOV()
+{
+	if(_pawn && _pawn->hasProperty(PROPERTY_POSITION) && _pawn->hasProperty(PROPERTY_SIGHT_RADIUS))
+	{
+		GameManager::Get()->getMap()->computeFov(
+			MapManager::LAYER_GROUND, 
+			_pawn->get<Vec2i>(PROPERTY_POSITION), 
+			_pawn->get<int>(PROPERTY_SIGHT_RADIUS));
+	}
 }
 
 void Player::_internalThink()
