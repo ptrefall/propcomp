@@ -110,6 +110,7 @@ Parser::MapsInfo Parser::parseMaps(const std::string &file)
 		->addProperty("layer", TCOD_TYPE_INT, true)
 		->addProperty("width", TCOD_TYPE_INT, true)
 		->addProperty("height", TCOD_TYPE_INT, true)
+		->addProperty("generationType", TCOD_TYPE_INT, true)
 		->addProperty("wallInViewColor", TCOD_TYPE_COLOR, true)
 		->addProperty("groundInViewColor", TCOD_TYPE_COLOR, true)
 		->addProperty("wallInMemoryColor", TCOD_TYPE_COLOR, true)
@@ -583,6 +584,10 @@ bool MapsParserListener::parserProperty(TCODParser *parser,const char *name, TCO
 	else if(propName.compare("height") == 0 && type == TCOD_TYPE_INT)
 	{
 		mapInfo->Height = value.i;
+	}
+	else if(propName.compare("generationType") == 0 && type == TCOD_TYPE_INT)
+	{
+		mapInfo->GenerationType = value.i;
 	}
 	else if(propName.compare("wallInViewColor") == 0 && type == TCOD_TYPE_COLOR)
 	{

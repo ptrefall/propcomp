@@ -24,10 +24,27 @@ void MapManager::initialize(const Parser::MapsInfo &mapsInfo)
 			continue;
 
 		auto layer = std::make_shared<Map>(info->Layer, Vec2i(info->Width, info->Height));
+		layer->generationType = (info->GenerationType >= 0 && info->GenerationType < GENERATION_TYPE_COUNT) ? (GenerationType)info->GenerationType : GENERATION_NONE;
 		layer->groundInViewColor = info->GroundInViewColor;
 		layer->wallInViewColor = info->WallInViewColor;
 		layer->groundInMemoryColor = info->GroundInMemoryColor;
 		layer->wallInMemoryColor = info->WallInMemoryColor;
+
+		switch(layer->generationType)
+		{
+		case GENERATION_BSP:
+			{
+				TCODBsp bsp(0,0, layer->size.x, layer->size.y);
+				bsp.splitRecursive(nullptr, 8, 12, 6, 1.5f, 1.5f);
+				MapBspListener listener(layer.get());
+				//bsp.traverseInvertedLevelOrder(&listener, nullptr);
+			}
+			break;
+		case GENERATION_NONE:
+		default:
+			break;
+		};
+
 		_mapLayers[info->Layer] = layer;
 	}
 }
@@ -87,3 +104,41 @@ void MapManager::computeFov(MapLayer layer, const clan::Vec2i &pos, int radius)
 	_mapLayers[layer]->data->computeFov(pos.x, pos.y, radius, true, FOV_SHADOW);
 }
 
+void MapManager::dig(MapLayer layer, clan::Vec2i bl, clan::Vec2i tr)
+{
+	if(tr.x < bl.x)
+	{
+		int tmp = tr.x;
+		tr.x = bl.x;
+		bl.x = tmp;
+	}
+
+	if(tr.y < bl.y)
+	{
+		int tmp = tr.y;
+		tr.y = bl.y;
+		bl.y = tmp;
+	}
+
+	for(int x = bl.x; x <= tr.x; x++)
+	{
+		for(int y = bl.y; y <= tr.y; y++)
+		{
+			_mapLayers[layer]->data->setProperties(x,y, true,true);
+		}
+	}
+}
+
+void MapManager::createRoom(MapLayer layer, bool first, const clan::Vec2i &bl, const clan::Vec2i &tr)
+{
+	dig(layer, bl,tr);
+	
+	if(first)
+	{
+
+	}
+	else
+	{
+
+	}
+}

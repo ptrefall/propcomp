@@ -96,6 +96,7 @@ public:
 			int Layer;
 			int Width;
 			int Height;
+			int GenerationType;
 			TCODColor WallInViewColor;
 			TCODColor GroundInViewColor;
 			TCODColor WallInMemoryColor;
