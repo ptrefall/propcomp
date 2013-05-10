@@ -2,13 +2,11 @@
 
 #include "Controller.h"
 
-class Player : public Controller
+class Agent : public Controller
 {
 public:
-	Player();
-	virtual ~Player();
-
-	void FOV();
+	Agent();
+	virtual ~Agent();
 
 	int estimateAction(unsigned int index = 0) override;
 	void takeAction(unsigned int index = 0) override;

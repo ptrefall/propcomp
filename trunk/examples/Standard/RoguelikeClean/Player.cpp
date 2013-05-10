@@ -21,23 +21,18 @@ Player::~Player()
 {
 }
 
-void Player::Set(const std::shared_ptr<Entity> &pawn)
-{
-	Controller::Set(pawn);
-}
-
 void Player::FOV()
 {
-	if(_pawn && _pawn->hasProperty(PROPERTY_POSITION) && _pawn->hasProperty(PROPERTY_SIGHT_RADIUS))
+	if(Get() && Get()->hasProperty(PROPERTY_POSITION) && Get()->hasProperty(PROPERTY_SIGHT_RADIUS))
 	{
 		GameManager::Get()->getMap()->computeFov(
 			MapManager::LAYER_GROUND, 
-			_pawn->get<Vec2i>(PROPERTY_POSITION), 
-			_pawn->get<int>(PROPERTY_SIGHT_RADIUS));
+			Get()->get<Vec2i>(PROPERTY_POSITION), 
+			Get()->get<int>(PROPERTY_SIGHT_RADIUS));
 	}
 }
 
-void Player::_internalThink()
+void Player::_internalThink(int elapsedTime)
 {
 	_handleInput();
 }
@@ -54,7 +49,7 @@ void Player::_handleInput()
 		return;
 	}
 
-	if(_pawn == nullptr)
+	if(Get() == nullptr)
 		return;
 
 	bool waitTurn = false;
@@ -78,18 +73,23 @@ void Player::_handleInput()
 		default:break;
 	}
 
+	auto minion = _minions[0];
+	if(minion == nullptr)
+		return;
+
 	if( dir.x != 0 || dir.y != 0)
 	{
-		_dir = dir;
-		_dir.x = clan::clamp<int, int, int>(_dir.x, -1, 1);
-		_dir.y = clan::clamp<int, int, int>(_dir.y, -1, 1);
+		
+		minion->dir = dir;
+		minion->dir.x = clan::clamp<int, int, int>(minion->dir.x, -1, 1);
+		minion->dir.y = clan::clamp<int, int, int>(minion->dir.y, -1, 1);
 
-		auto result = GameManager::Get()->getAction()->testMove(_pawn, _dir);
+		auto result = GameManager::Get()->getAction()->testMove(Get(), minion->dir);
 		switch(result)
 		{
 		case ActionManager::RESULT_MOVE:
 		case ActionManager::RESULT_MOVE_TO_ATTACK:
-			_actionIntent[result] = true;
+			minion->actionIntent[result] = true;
 			GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 			break;
 
@@ -100,11 +100,23 @@ void Player::_handleInput()
 	}
 	else if(waitTurn)
 	{
-		_actionIntent[ActionManager::WAIT] = true;
+		minion->actionIntent[ActionManager::WAIT] = true;
 		GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 	}
 }
 
 void Player::_handleActionKeyInput(int ascii)
 {
+}
+
+int Player::estimateAction(unsigned int index)
+{
+	int elapsedTime = Controller::estimateAction(index);
+	GameManager::Get()->getTurn()->schedule(elapsedTime, shared_from_this());
+	return elapsedTime;
+}
+
+void Player::takeAction(unsigned int index)
+{
+	Controller::takeAction(index);
 }

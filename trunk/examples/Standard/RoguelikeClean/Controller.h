@@ -12,20 +12,29 @@ public:
 	Controller();
 	virtual ~Controller();
 
-	void think();
+	void think(int elapsedTime = 0);
 
-	virtual void Set(const std::shared_ptr<Entity> &pawn) { _pawn = pawn; }
-	const std::shared_ptr<Entity> &Get() { return _pawn; }
+	void Set(const std::shared_ptr<Entity> &pawn);
+	const std::shared_ptr<Entity> &Get() const { if(_minions[0]) return _minions[0]->entity; else return nullptr; }
 
-	int estimateAction();
-	void takeAction();
+	void Add(const std::shared_ptr<Entity> &pawn);
+	const std::vector<std::shared_ptr<Entity>> &GetAll() const { return _allEntities; }
+
+	virtual int estimateAction(unsigned int index = 0);
+	virtual void takeAction(unsigned int index = 0);
 
 protected:
-	virtual void _internalThink() = 0;
+	virtual void _internalThink(int elapsedTime) = 0;
 	void _resetActionIntent();
 
 protected:
-	std::shared_ptr<Entity> _pawn;
-	clan::Vec2i _dir;
-	std::vector<bool> _actionIntent;
+	class Minion
+	{
+	public:
+		std::shared_ptr<Entity> entity;
+		clan::Vec2i dir;
+		std::vector<bool> actionIntent;
+	};
+	std::vector<std::shared_ptr<Minion>> _minions;
+	std::vector<std::shared_ptr<Entity>> _allEntities;
 };
