@@ -1,6 +1,8 @@
 #include "Visual.h"
 #include "../GameManager.h"
+#include "../MapManager.h"
 #include "../RenderManager.h"
+#include "../Player.h"
 #include "../PropertyDefinitions.h"
 
 using namespace clan;
@@ -26,10 +28,48 @@ Visual::~Visual()
 
 void Visual::render(const std::shared_ptr<TCODConsole> &canvas)
 {
-	canvas->setChar(_position.get().x, _position.get().y, _symbol.get());
-	canvas->setCharForeground(_position.get().x, _position.get().y, _color.get());
-	//canvas->setCharBackground(_position.get().x, _position.get().y, TCODColor(255, 240, 0));
-	//canvas->putChar(_position.get().x, _position.get().y, _symbol.get(), TCOD_BKGND_NONE);
+	bool render = false;
+	bool isPlayer = false;
+	if(_owner == GameManager::Get()->getPlayer()->Get().get())
+	{
+		isPlayer = true;
+		render = true;
+	}
+	else
+	{
+		if(_layer.get() != RenderManager::LAYER_AIR)
+		{
+			if(GameManager::Get()->getMap()->isInFov(MapManager::LAYER_GROUND, _position.get()))
+				render = true;
+		}
+		else
+		{
+			if(GameManager::Get()->getMap()->isInFov(MapManager::LAYER_AIR, _position.get()))
+				render = true;
+		}
+	}
+
+	if(render)
+	{
+		if(isPlayer)
+		{
+			canvas->setChar(_position.get().x, _position.get().y, _symbol.get());
+			canvas->setCharForeground(_position.get().x, _position.get().y, _color.get());
+		}
+		else
+		{
+			auto player = GameManager::Get()->getPlayer()->Get();
+			auto position = player->get<Vec2i>(PROPERTY_POSITION).get();
+			auto radius = player->get<int>(PROPERTY_SIGHT_RADIUS).get();
+
+			auto distance = position.distance(_position.get());
+			auto fadeMod = min(1.0f - (distance / (float)radius) + 0.5f - ((rand()%2+1)*0.025f), 1.0f);
+			fadeMod *= fadeMod;
+
+			canvas->setChar(_position.get().x, _position.get().y, _symbol.get());
+			canvas->setCharForeground(_position.get().x, _position.get().y, _color.get() * fadeMod);
+		}
+	}
 }
 
 void Visual::OnCanvasLayerChanged(const int &oldValue, const int &newValue)
