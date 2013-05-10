@@ -7,6 +7,7 @@
 #include "MapManager.h"
 #include "EntityContainer.h"
 #include "EntityFactory.h"
+#include "EntityDefinitions.h"
 #include "Player.h"
 #include <libtcod.hpp>
 
@@ -60,11 +61,12 @@ bool GameManager::initialize(const std::string &resourceDir)
 	if( !_factory->initialize(_entities, _parser->parseStats("Stats.cfg"), _parser->parseEntities("Entities.cfg")) )
 		return false;
 
-	_player->Set(_factory->instantiate("human"));
+	_player->Set(_factory->instantiate(ENTITY_HUMAN));
 
 	_map->initialize(_parser->parseMaps("Maps.cfg"));
-	_map->generate(MapManager::LAYER_GROUND);
+	_map->generate();
 	_player->FOV();
+	_map->generateEnemies();
 
 	return true;
 }

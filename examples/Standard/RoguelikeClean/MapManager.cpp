@@ -2,6 +2,8 @@
 #include "GameManager.h"
 #include "Player.h"
 #include "Entity.h"
+#include "EntityFactory.h"
+#include "EntityDefinitions.h"
 #include "PropertyDefinitions.h"
 
 using namespace clan;
@@ -33,7 +35,13 @@ void MapManager::initialize(const Parser::MapsInfo &mapsInfo)
 	}
 }
 
-void MapManager::generate(MapLayer layer)
+void MapManager::generate()
+{
+	_generate(LAYER_GROUND);
+	_generate(LAYER_AIR);
+}
+
+void MapManager::_generate(MapLayer layer)
 {
 	auto map = _mapLayers[layer];
 	switch(map->generationType)
@@ -50,6 +58,30 @@ void MapManager::generate(MapLayer layer)
 	default:
 		break;
 	};
+}
+
+void MapManager::generateEnemies()
+{
+	_generateEnemies(LAYER_GROUND);
+	_generateEnemies(LAYER_AIR);
+}
+
+void MapManager::_generateEnemies(MapLayer layer)
+{
+	auto rng = TCODRandom::getInstance();
+	auto map = _mapLayers[layer];
+	for(auto position : map->enemyPositions)
+	{
+		std::shared_ptr<Entity> enemy;
+		auto value = rng->getInt(0,100);
+		if(value < 80)
+			enemy = GameManager::Get()->getFactory()->instantiate(ENTITY_GOBLIN);
+		else
+			enemy = GameManager::Get()->getFactory()->instantiate(ENTITY_TROLL);
+
+		if(enemy && enemy->hasProperty(PROPERTY_POSITION))
+			enemy->get<Vec2i>(PROPERTY_POSITION) = position;
+	}
 }
 
 void MapManager::render(const std::shared_ptr<TCODConsole> &canvas, MapLayer layer)
@@ -81,6 +113,9 @@ void MapManager::render(const std::shared_ptr<TCODConsole> &canvas, MapLayer lay
 
 bool MapManager::isInFov(MapLayer layer, const clan::Vec2i &pos) const
 {
+	if(_mapLayers.empty())
+		return false;
+
 	auto map = _mapLayers[layer];
 	if(map->data->isInFov(pos.x, pos.y))
 	{
@@ -145,7 +180,9 @@ void MapManager::createRoom(MapLayer layer, bool first, const clan::Vec2i &bl, c
 	}
 	else
 	{
-
+		auto rng = TCODRandom::getInstance();
+		if(rng->getInt(0,3) == 0)
+			_mapLayers[layer]->enemyPositions.push_back((bl+tr)/2);
 	}
 }
 

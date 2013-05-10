@@ -28,7 +28,8 @@ public:
 	};
 
 	void initialize(const Parser::MapsInfo &mapsInfo);
-	void generate(MapLayer layer);
+	void generate();
+	void generateEnemies();
 	void render(const std::shared_ptr<TCODConsole> &canvas, MapLayer layer);
 
 	bool isInFov(MapLayer layer, const clan::Vec2i &pos) const;
@@ -79,6 +80,7 @@ private:
 		GenerationType generationType;
 		std::shared_ptr<TCODMap> data;
 		std::vector<std::shared_ptr<Tile>> tiles;
+		std::vector<clan::Vec2i> enemyPositions;
 
 		TCODColor wallInViewColor;
 		TCODColor groundInViewColor;
@@ -90,5 +92,7 @@ private:
 	};
 	std::vector<std::shared_ptr<Map>> _mapLayers;
 
+	void _generate(MapLayer layer);
+	void _generateEnemies(MapLayer layer);
 	int _toIndex(const clan::Vec2i &pos, int width) const { return pos.x + pos.y * width; }
 };
