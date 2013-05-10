@@ -1,4 +1,8 @@
 #include "MapManager.h"
+#include "GameManager.h"
+#include "Player.h"
+#include "Entity.h"
+#include "PropertyDefinitions.h"
 
 using namespace clan;
 
@@ -19,24 +23,37 @@ void MapManager::initialize(const Parser::MapsInfo &mapsInfo)
 		if(info->Layer < 0 || info->Layer >= MAP_LAYER_COUNT)
 			continue;
 
-		_mapLayers[info->Layer] = std::make_shared<Map>(info->Layer, Vec2i(info->Width, info->Height));
+		auto layer = std::make_shared<Map>(info->Layer, Vec2i(info->Width, info->Height));
+		layer->groundInViewColor = info->GroundInViewColor;
+		layer->wallInViewColor = info->WallInViewColor;
+		layer->groundInMemoryColor = info->GroundInMemoryColor;
+		layer->wallInMemoryColor = info->WallInMemoryColor;
+		_mapLayers[info->Layer] = layer;
 	}
 }
 
 void MapManager::render(const std::shared_ptr<TCODConsole> &canvas, MapLayer layer)
 {
+	auto player = GameManager::Get()->getPlayer()->Get();
+	auto position = player->get<Vec2i>(PROPERTY_POSITION).get();
+	auto radius = player->get<int>(PROPERTY_SIGHT_RADIUS).get();
+
 	auto map = _mapLayers[layer];
 	for(int x = 0; x < map->size.x; x++)
 	{
 		for(int y = 0; y < map->size.y; y++)
 		{
-			if(isInFov(layer, Vec2i(x,y)))
+			auto cell = Vec2i(x,y);
+			if(isInFov(layer, cell))
 			{
-				canvas->setCharBackground(x,y, isWall(layer, Vec2i(x,y)) ? map->wallInViewColor : map->groundInViewColor);
+				auto distance = position.distance(cell);
+				auto fadeMod = min(1.0f - (distance / (float)radius) + 0.75f - ((rand()%2+1)*0.025f), 1.0f);
+				fadeMod *= fadeMod;
+				canvas->setCharBackground(x,y, (isWall(layer, cell) ? map->wallInViewColor : map->groundInViewColor) * fadeMod);
 			}
-			else if(isExplored(layer, Vec2i(x,y)))
+			else if(isExplored(layer, cell))
 			{
-				canvas->setCharBackground(x,y, isWall(layer, Vec2i(x,y)) ? map->wallInMemoryColor : map->groundInMemoryColor);
+				canvas->setCharBackground(x,y, isWall(layer, cell) ? map->wallInMemoryColor : map->groundInMemoryColor);
 			}
 		}
 	}
@@ -67,6 +84,6 @@ bool MapManager::isExplored(MapLayer layer, const clan::Vec2i &pos) const
 
 void MapManager::computeFov(MapLayer layer, const clan::Vec2i &pos, int radius)
 {
-	_mapLayers[layer]->data->computeFov(pos.x, pos.y, radius);
+	_mapLayers[layer]->data->computeFov(pos.x, pos.y, radius, true, FOV_SHADOW);
 }
 
