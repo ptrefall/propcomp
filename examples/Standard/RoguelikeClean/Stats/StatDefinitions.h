@@ -7,3 +7,4 @@
 #define VITAL_HEALTH "health"
 
 #define SKILL_WALK "walk"
+#define SKILL_HIT "hit"

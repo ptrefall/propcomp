@@ -41,6 +41,8 @@ int Controller::estimateAction()
 
 	if(_actionIntent[ActionManager::MOVE])
 		elapsedTime = GameManager::Get()->getAction()->estimateAction(ActionManager::MOVE, _pawn, _dir);
+	else if(_actionIntent[ActionManager::ATTACK])
+		elapsedTime = GameManager::Get()->getAction()->estimateAction(ActionManager::ATTACK, _pawn, _dir);
 	else if(_actionIntent[ActionManager::WAIT])
 		elapsedTime = GameManager::Get()->getAction()->estimateAction(ActionManager::WAIT, _pawn, _dir);
 	else
@@ -56,7 +58,8 @@ void Controller::takeAction()
 		return;
 
 	if(_actionIntent[ActionManager::MOVE])
-	{
 		GameManager::Get()->getAction()->takeAction(ActionManager::MOVE, _pawn, _dir);
-	}
+	else if(_actionIntent[ActionManager::ATTACK])
+		GameManager::Get()->getAction()->takeAction(ActionManager::ATTACK, _pawn, _dir);
+	
 }

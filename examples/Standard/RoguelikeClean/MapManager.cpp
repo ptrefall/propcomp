@@ -74,7 +74,7 @@ void MapManager::_generateEnemies(MapLayer layer)
 	{
 		std::shared_ptr<Entity> enemy;
 		auto value = rng->getInt(0,100);
-		if(value < 80)
+		if(value < 90)
 			enemy = GameManager::Get()->getFactory()->instantiate(ENTITY_GOBLIN);
 		else
 			enemy = GameManager::Get()->getFactory()->instantiate(ENTITY_TROLL);
@@ -182,7 +182,18 @@ void MapManager::createRoom(MapLayer layer, bool first, const clan::Vec2i &bl, c
 	{
 		auto rng = TCODRandom::getInstance();
 		if(rng->getInt(0,3) == 0)
-			_mapLayers[layer]->enemyPositions.push_back((bl+tr)/2);
+		{
+			auto monsterCount = rng->getInt(0,3);
+			while(monsterCount > 0)
+			{
+				auto position = Vec2i(rng->getInt(bl.x,tr.x), rng->getInt(bl.y,tr.y));
+			
+				if(isWall(layer, position) == false)
+					_mapLayers[layer]->enemyPositions.push_back(position);
+
+				monsterCount--;
+			}
+		}
 	}
 }
 
