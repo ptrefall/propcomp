@@ -39,11 +39,14 @@ public:
 
 private:
 	int _handleMoveActionEstimate(const std::shared_ptr<Actor> &actor, const clan::Vec2i &direction);
+	int _handleAttackActionEstimate(const std::shared_ptr<Actor> &actor, const clan::Vec2i &direction);
 
 	void _handleMoveAction(const std::shared_ptr<Actor> &actor, const clan::Vec2i &direction);
+	void _handleAttackAction(const std::shared_ptr<Actor> &actor, const clan::Vec2i &direction);
 
 	int _calculateElapsedTime(const std::shared_ptr<Skill> &skill, const std::shared_ptr<Attribute> &dexterity);
 	int _calculateCooldownTime(const std::shared_ptr<Skill> &skill, const std::shared_ptr<Attribute> &constitution);
+	int _calculateAttackDamage(const std::shared_ptr<Skill> &skill, const std::shared_ptr<Attribute> &strength);
 
 	std::shared_ptr<Actor> _find(const std::shared_ptr<Entity> &owner);
 	std::vector<Actor*> _actors;
