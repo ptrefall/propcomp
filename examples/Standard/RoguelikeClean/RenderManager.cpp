@@ -16,8 +16,8 @@ RenderManager::~RenderManager()
 void RenderManager::initialize()
 {
 	_canvasLayers.resize(CANVAS_LAYER_COUNT, nullptr);
-	_create(LAYER_GROUND);
-	_create(LAYER_AIR);
+	_create(LAYER_GROUND, 1.0f);
+	_create(LAYER_AIR, 0.25f);
 }
 
 void RenderManager::render()
@@ -47,7 +47,7 @@ void RenderManager::render()
 		}
 		if(blitLayer)
 		{
-			TCODConsole::blit(layer->console.get(), 0,0, layer->console->getWidth(), layer->console->getHeight(), TCODConsole::root, 0,0);
+			TCODConsole::blit(layer->console.get(), 0,0, layer->console->getWidth(), layer->console->getHeight(), TCODConsole::root, 0,0, 1.0f, layer->backgroundAlpha);
 			layer->console->clear();
 		}
 	}
@@ -75,7 +75,7 @@ bool RenderManager::remove(Visual *visual, CanvasLayer layer)
 			if((*it) == visual)
 			{
 				canvasLayer->visuals.erase(it);
-				if(canvasLayer->visuals.empty() && (canvasLayer->layer != LAYER_GROUND || canvasLayer->layer != LAYER_AIR))
+				/*if(canvasLayer->visuals.empty() && (canvasLayer->layer != LAYER_GROUND || canvasLayer->layer != LAYER_AIR))
 				{
 					for(auto it2 = _canvasLayers.begin(); it2 != _canvasLayers.end(); ++it2)
 					{
@@ -86,7 +86,7 @@ bool RenderManager::remove(Visual *visual, CanvasLayer layer)
 							return true;
 						}
 					}
-				}
+				}*/
 				return true;
 			}
 		}
@@ -95,12 +95,13 @@ bool RenderManager::remove(Visual *visual, CanvasLayer layer)
 	return false;
 }
 
-std::shared_ptr<RenderManager::Canvas> RenderManager::_create(CanvasLayer layer)
+std::shared_ptr<RenderManager::Canvas> RenderManager::_create(CanvasLayer layer, float backgroundAlpha)
 {
 	auto canvasLayer = std::make_shared<Canvas>(layer);
 	canvasLayer->console = std::make_shared<TCODConsole>(TCODConsole::root->getWidth(), TCODConsole::root->getHeight());
-	if(layer != LAYER_GROUND)
-		canvasLayer->console->setKeyColor(TCODColor::black);
+	canvasLayer->backgroundAlpha = backgroundAlpha;
+	//if(layer != LAYER_GROUND)
+	//	canvasLayer->console->setKeyColor(TCODColor::black);
 
 	_canvasLayers[layer] = canvasLayer;
 	return canvasLayer;
