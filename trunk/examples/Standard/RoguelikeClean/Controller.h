@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Entity.h"
+
 #include "Math/vec2.h"
 #include <memory>
 #include <vector>
-
-class Entity;
 
 class Controller : public std::enable_shared_from_this<Controller>
 {
@@ -15,7 +15,7 @@ public:
 	void think(int elapsedTime = 0);
 
 	void Set(const std::shared_ptr<Entity> &pawn);
-	const std::shared_ptr<Entity> &Get() const { if(_minions[0]) return _minions[0]->entity; else return nullptr; }
+	std::shared_ptr<Entity> Get() const { if(_minions[0]) return _minions[0]->entity; else return nullptr; }
 
 	void Add(const std::shared_ptr<Entity> &pawn);
 	const std::vector<std::shared_ptr<Entity>> &GetAll() const { return _allEntities; }

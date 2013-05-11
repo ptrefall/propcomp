@@ -28,7 +28,7 @@ void Agent::_internalThink(int elapsedTime)
 		return;
 
 	auto minion = _minions[0];
-	if(minion == nullptr || Get()->hasProperty(PROPERTY_POSITION))
+	if(minion == nullptr || Get()->hasProperty(PROPERTY_POSITION) == false)
 		return;
 
 	auto player = GameManager::Get()->getPlayer()->Get();
@@ -78,6 +78,11 @@ void Agent::_internalThink(int elapsedTime)
 		else
 		{
 			GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
+			
+			//Check if we have time to perform the action again within this turn
+			auto restOfElapsedTime = elapsedTime - elapsedTimeOfAction;
+			if(restOfElapsedTime > 0)
+				GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
 		}
 	}
 	else

@@ -5,6 +5,7 @@
 #include "RenderManager.h"
 #include "ActionManager.h"
 #include "MapManager.h"
+#include "AgentManager.h"
 #include "EntityContainer.h"
 #include "EntityFactory.h"
 #include "EntityDefinitions.h"
@@ -46,6 +47,7 @@ bool GameManager::initialize(const std::string &resourceDir)
 	_renderer = std::make_shared<RenderManager>();
 	_map = std::make_shared<MapManager>();
 	_action = std::make_shared<ActionManager>();
+	_agent = std::make_shared<AgentManager>();
 	_player = std::make_shared<Player>();
 	_entities = std::make_shared<EntityContainer>();
 	_factory = std::make_shared<EntityFactory>();

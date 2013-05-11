@@ -29,11 +29,11 @@ private:
 		ScheduleInfo(int time, const std::shared_ptr<Controller> &controller) : Activated(false), TotalTime(time), CurrentTime(time), controller(controller) {}
 	};
 
-	std::vector<ScheduleInfo*> _schedule;
+	std::vector<std::shared_ptr<ScheduleInfo>> _schedule;
 
-	ScheduleInfo *_find(const std::shared_ptr<Controller> &controller);
+	std::shared_ptr<ScheduleInfo> _find(const std::shared_ptr<Controller> &controller);
 
-	static bool ScheduleSorter(ScheduleInfo *a, ScheduleInfo *b)
+	static bool ScheduleSorter(const std::shared_ptr<ScheduleInfo> &a, const std::shared_ptr<ScheduleInfo> &b)
 	{
 		return a->CurrentTime < b->CurrentTime;
 	}
