@@ -79,7 +79,8 @@ Parser::EntitiesInfo Parser::parseEntities(const std::string &file)
 	auto compStruct = parser->newStructure("components");
 	compStruct
 		->addFlag(COMPONENT_ACTOR)
-		->addFlag(COMPONENT_VISUAL);
+		->addFlag(COMPONENT_VISUAL)
+		->addFlag(COMPONENT_AI);
 
 	auto entityStruct = parser->newStructure("entity");
 	entityStruct

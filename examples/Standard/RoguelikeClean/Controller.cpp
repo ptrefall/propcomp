@@ -22,12 +22,20 @@ Controller::~Controller()
 
 void Controller::Set(const std::shared_ptr<Entity> &pawn)
 {
-	auto minion = std::make_shared<Minion>();
-	minion->entity = pawn;
-	minion->dir = Vec2i(0);
-	minion->actionIntent.resize(ActionManager::ACTION_TYPE_COUNT, false);
-	_minions[0] = minion;
-	_allEntities[0] = pawn;
+	if(_minions[0] == nullptr)
+	{
+		auto minion = std::make_shared<Minion>();
+		minion->entity = pawn;
+		minion->dir = Vec2i(0);
+		minion->actionIntent.resize(ActionManager::ACTION_TYPE_COUNT, false);
+		_minions[0] = minion;
+		_allEntities[0] = pawn;
+	}
+	else
+	{
+		_minions[0]->entity = pawn;
+		_allEntities[0] = pawn;
+	}
 }
 
 void Controller::Add(const std::shared_ptr<Entity> &pawn)
@@ -59,6 +67,9 @@ void Controller::_resetActionIntent()
 {
 	for(auto minion : _minions)
 	{
+		if(minion == nullptr)
+			continue;
+
 		for(unsigned int i = 0; i < minion->actionIntent.size(); i++)
 			minion->actionIntent[i] = false;
 	}

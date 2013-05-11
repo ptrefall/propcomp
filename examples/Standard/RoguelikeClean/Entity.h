@@ -42,13 +42,16 @@ class Entity
 	:	public Totem::ComponentContainer<>, 
 		public Totem::PropertyContainer<>, 
 		public Totem::PropertyListContainer<>, 
-		public Totem::EventSystem<>
+		public Totem::EventSystem<>,
+		public std::enable_shared_from_this<Entity>
 {
 public:	
 	Entity(const std::string &name);
 	virtual ~Entity();
 
 	const std::string &getName() const { return name; }
+
+	std::shared_ptr<Entity> SafePtr() { return shared_from_this(); }
 
 private:
 	std::string name;
