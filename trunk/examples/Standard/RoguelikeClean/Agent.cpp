@@ -46,7 +46,8 @@ void Agent::_internalThink(int elapsedTime)
 			return;
 	}
 
-	//TODO: Need to estimate the action here to see whether it is a valid one to perform, else fall back to waiting...
+	//TODO: As we get more actions to perform, this shouldn't only try to move/attack towards the player,
+	//but be a bit more intelligent :-P
 	int elapsedTimeOfAction = 0;
 	auto dir = playerPosition - position;
 	if( dir.x != 0 || dir.y != 0)
@@ -60,6 +61,7 @@ void Agent::_internalThink(int elapsedTime)
 		{
 		case ActionManager::RESULT_MOVE:
 		case ActionManager::RESULT_MOVE_TO_ATTACK:
+			minion->currentIntent = (ActionManager::ActionType)result;
 			minion->actionIntent[result] = true;
 			break;
 
@@ -69,27 +71,28 @@ void Agent::_internalThink(int elapsedTime)
 		};
 
 		elapsedTimeOfAction = estimateAction();
-		if(elapsedTimeOfAction > elapsedTime)
+		/*if(elapsedTimeOfAction > elapsedTime)
 		{
 			minion->actionIntent[ActionManager::WAIT] = true;
 			elapsedTimeOfAction = estimateAction();
-			GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
+			GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, ActionManager::WAIT, minion->dir, shared_from_this());
 		}
 		else
-		{
-			GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
+		{*/
+			GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, result, minion->dir, shared_from_this());
 			
 			//Check if we have time to perform the action again within this turn
-			auto restOfElapsedTime = elapsedTime - elapsedTimeOfAction;
+			/*auto restOfElapsedTime = elapsedTime - elapsedTimeOfAction;
 			if(restOfElapsedTime > 0)
-				GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
-		}
+				GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());*/
+		//}
 	}
 	else
 	{
+		minion->currentIntent = ActionManager::WAIT;
 		minion->actionIntent[ActionManager::WAIT] = true;
 		elapsedTimeOfAction = estimateAction();
-		GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, shared_from_this());
+		GameManager::Get()->getTurn()->schedule(elapsedTimeOfAction, ActionManager::WAIT, minion->dir, shared_from_this());
 	}
 }
 

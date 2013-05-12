@@ -89,6 +89,7 @@ void Player::_handleInput()
 		{
 		case ActionManager::RESULT_MOVE:
 		case ActionManager::RESULT_MOVE_TO_ATTACK:
+			minion->currentIntent = (ActionManager::ActionType)result;
 			minion->actionIntent[result] = true;
 			GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 			break;
@@ -100,6 +101,7 @@ void Player::_handleInput()
 	}
 	else if(waitTurn)
 	{
+		minion->currentIntent = ActionManager::WAIT;
 		minion->actionIntent[ActionManager::WAIT] = true;
 		GameManager::Get()->getState()->Set(GameStateManager::NEW_TURN);
 	}
@@ -112,7 +114,9 @@ void Player::_handleActionKeyInput(int ascii)
 int Player::estimateAction(unsigned int index)
 {
 	int elapsedTime = Controller::estimateAction(index);
-	GameManager::Get()->getTurn()->schedule(elapsedTime, shared_from_this());
+	auto minion = _minions[0];
+	if(minion)
+		GameManager::Get()->getTurn()->schedule(elapsedTime, minion->currentIntent, minion->dir, shared_from_this());
 	return elapsedTime;
 }
 

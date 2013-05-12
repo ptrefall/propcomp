@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Entity.h"
+
+#include "Math/vec2.h"
 #include <memory>
 #include <vector>
 
@@ -35,9 +37,9 @@ private:
 
 	struct ScheduleInfo
 	{
-		std::vector<ActionInfo> actions;
+		std::vector<std::shared_ptr<ActionInfo>> actions;
 		std::shared_ptr<Controller> controller;
-		void add(const ActionInfo &action) 
+		void add(const std::shared_ptr<ActionInfo> &action) 
 		{ 
 			actions.push_back(action); 
 		}
@@ -49,9 +51,17 @@ private:
 	void _runSchedule(int elapsedTime);
 	int _takeAction(const std::shared_ptr<ScheduleInfo> &info, int actionTime, int elapsedTime);
 	std::shared_ptr<ScheduleInfo> _find(const std::shared_ptr<Controller> &controller);
+	void _checkForNullInfo();
 
-	static bool ScheduleSorter(const std::shared_ptr<ScheduleInfo> &a, const std::shared_ptr<ScheduleInfo> &b)
+	static bool ScheduleSorter(std::shared_ptr<ScheduleInfo> a, std::shared_ptr<ScheduleInfo> b)
 	{
+		if(a == nullptr && b == nullptr)
+			return true;
+		else if(a == nullptr)
+			return false;
+		else if(b == nullptr)
+			return true;
+
 		if(a->actions.empty() && b->actions.empty())
 			return true;
 		else if(a->actions.empty())
@@ -59,6 +69,6 @@ private:
 		else if(b->actions.empty())
 			return true;
 		else
-			return a->actions[0].CurrentTime < b->actions[0].CurrentTime;
+			return a->actions[0]->CurrentTime < b->actions[0]->CurrentTime;
 	}
 };
