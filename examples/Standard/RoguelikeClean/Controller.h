@@ -34,6 +34,7 @@ protected:
 		std::shared_ptr<Entity> entity;
 		clan::Vec2i dir;
 		std::vector<bool> actionIntent;
+		int currentIntent;
 	};
 	std::vector<std::shared_ptr<Minion>> _minions;
 	std::vector<std::shared_ptr<Entity>> _allEntities;
