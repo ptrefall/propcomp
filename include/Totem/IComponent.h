@@ -15,7 +15,7 @@ public:
 	IComponent() {}
 	virtual ~IComponent() {}
 	virtual const std::string &getName() const = 0;
-	virtual void update(const float &/*deltaTime*/) {}
+	virtual void update(float /*elapsedTime*/) {}
 
 	template<typename ComponentType>
 	static bool isType(const std::shared_ptr<IComponent> &component)

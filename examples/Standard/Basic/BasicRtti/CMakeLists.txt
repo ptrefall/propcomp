@@ -25,46 +25,38 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 
-project(TestNewApproach)
+set(NAME BasicRtti)
+project(${NAME})
 
 set(TOTEM_HDRS
-  ../../../include/Totem/IComponent.h
-  ../../../include/Totem/Component.h
-  ../../../include/Totem/ComponentContainer.h
-  ../../../include/Totem/IProperty.h
-  ../../../include/Totem/Property.h
-  ../../../include/Totem/PropertyContainer.h
-  ../../../include/Totem/IPropertyList.h
-  ../../../include/Totem/PropertyList.h
-  ../../../include/Totem/PropertyListContainer.h
-  ../../../include/Totem/HashedString.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/IComponent.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/Component.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/ComponentContainer.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/IProperty.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/Property.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/PropertyContainer.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/IPropertyList.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/PropertyList.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/PropertyListContainer.h
+  ${CMAKE_SOURCE_DIR}/include/Totem/HashedString.h
 )
-SOURCE_GROUP("Header Files\\Totem" FILES ${TOTEM_HDRS})
+SOURCE_GROUP("Source Files\\Totem" FILES ${TOTEM_HDRS})
 
-set(TOTEM_ADDONS_HDRS
-  ../../../include/Totem/Addons/EventSystem.h
-  ../../../include/Totem/Addons/DelegateSystem.h
+set(TOTEM_EXT_HDRS
+  ${CMAKE_SOURCE_DIR}/include/Totem/Extensions/EventSystem.h
 )
-SOURCE_GROUP("Header Files\\Totem\\Addons" FILES ${TOTEM_ADDONS_HDRS})
+SOURCE_GROUP("Source Files\\Totem\\Extensions" FILES ${TOTEM_EXT_HDRS})
 
-set(HDRS
-  ${TOTEM_HDRS}
-  ${TOTEM_ADDONS_HDRS}
-  ../Common/Entity.h
-  ./TestSystem.h
-  ./TestComponent.h
-)
+file(GLOB ROOT_HEADER *.h)
+file(GLOB ROOT_SOURCE *.cpp)
+SOURCE_GROUP("Source Files" FILES ${ROOT_HEADER} ${ROOT_SOURCE})
 
 set(SRCS
-  ./main.cpp
-  ./TestComponent.cpp
+  ${TOTEM_HDRS} ${TOTEM_EXT_HDRS}
+  ${ROOT_HEADER} ${ROOT_SOURCE}
 )
  
-add_executable(TestNewApproach ${HDRS} ${SRCS})
+add_executable(${NAME} ${SRCS})
 
-set_target_properties(TestNewApproach PROPERTIES DEBUG_POSTFIX _d)
-set_target_properties(TestNewApproach PROPERTIES FOLDER "Tests")
-
-include_directories(
-  "../../../depends/Standard/"
-)
+set_target_properties(${NAME} PROPERTIES DEBUG_POSTFIX -debug)
+set_target_properties(${NAME} PROPERTIES FOLDER "Examples")
