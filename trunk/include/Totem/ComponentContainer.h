@@ -86,10 +86,10 @@ public:
 
 	std::vector<std::shared_ptr<IComponent<UserData>>> &getComponents() { return components; }
 
-	void updateComponents(const float &deltaTime)
+	void updateComponents(float elapsedTime)
 	{
 		for(unsigned int i = 0; i < components.size(); i++)
-			components[i]->update(deltaTime);
+			components[i]->update(elapsedTime);
 	}
 
 	template<class ComponentType>

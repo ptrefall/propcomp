@@ -23,6 +23,5 @@
 #
 ###
 
-add_subdirectory(NewApproach)
 add_subdirectory(CoreFunctionality)
 add_subdirectory(Common)

@@ -25,7 +25,7 @@
 
 cmake_minimum_required(VERSION 2.8.3)
 
-set(NAME TestCoreFunctionality)
+set(NAME BasicPropertyAndComponent)
 project(${NAME})
 
 set(TOTEM_HDRS
@@ -40,28 +40,23 @@ set(TOTEM_HDRS
   ${CMAKE_SOURCE_DIR}/include/Totem/PropertyListContainer.h
   ${CMAKE_SOURCE_DIR}/include/Totem/HashedString.h
 )
-SOURCE_GROUP("Header Files\\Totem" FILES ${TOTEM_HDRS})
+SOURCE_GROUP("Source Files\\Totem" FILES ${TOTEM_HDRS})
 
 set(TOTEM_EXT_HDRS
   ${CMAKE_SOURCE_DIR}/include/Totem/Extensions/EventSystem.h
-  ${CMAKE_SOURCE_DIR}/include/Totem/Extensions/DelegateSystem.h
 )
-SOURCE_GROUP("Header Files\\Totem\\Extensions" FILES ${TOTEM_EXT_HDRS})
+SOURCE_GROUP("Source Files\\Totem\\Extensions" FILES ${TOTEM_EXT_HDRS})
 
-set(HDRS
-  ${TOTEM_HDRS}
-  ${TOTEM_EXT_HDRS}
-)
+file(GLOB ROOT_HEADER *.h)
+file(GLOB ROOT_SOURCE *.cpp)
+SOURCE_GROUP("Source Files" FILES ${ROOT_HEADER} ${ROOT_SOURCE})
 
 set(SRCS
-  main.cpp
+  ${TOTEM_HDRS} ${TOTEM_EXT_HDRS}
+  ${ROOT_HEADER} ${ROOT_SOURCE}
 )
  
-add_executable(${NAME} ${HDRS} ${SRCS})
+add_executable(${NAME} ${SRCS})
 
-set_target_properties(${NAME} PROPERTIES DEBUG_POSTFIX _d)
-set_target_properties(${NAME} PROPERTIES FOLDER "Tests")
-
-include_directories(
-  "${CMAKE_SOURCE_DIR}/depends/Standard/"
-)
+set_target_properties(${NAME} PROPERTIES DEBUG_POSTFIX -debug)
+set_target_properties(${NAME} PROPERTIES FOLDER "Examples")

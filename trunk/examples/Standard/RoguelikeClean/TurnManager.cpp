@@ -185,5 +185,17 @@ void TurnManager::_checkForNullInfo()
 			_checkForNullInfo();
 			return;
 		}
+		else if((_schedule.begin() + i) == _schedule.end())
+		{
+			_schedule.erase(_schedule.begin()+i);
+			_checkForNullInfo();
+			return;
+		}
+		else if(_schedule[i]._Expired())
+		{
+			_schedule.erase(_schedule.begin()+i);
+			_checkForNullInfo();
+			return;
+		}
 	}
 }

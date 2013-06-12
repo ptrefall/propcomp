@@ -48,7 +48,7 @@ class Entity
 		public sigslot::has_slots<>
 {
 public:
-	Entity(Totem::HashedString1 name) : name(name) {
+	Entity(Totem::HashedString name) : name(name) {
 		componentAdded().connect(this, &Entity::onComponentAdded);
 		componentRemoved().connect(this, &Entity::onComponentRemoved);
 		std::cout << "Entity " << getName() << ", has been instantiated." << std::endl;
@@ -67,7 +67,7 @@ public:
 	}
 
 private:
-	Totem::HashedString1 name;
+	Totem::HashedString name;
 };
 typedef std::shared_ptr<Entity> EntityPtr;
 
@@ -109,7 +109,7 @@ typedef std::shared_ptr<EntityWithUserData> EntityWithUserDataPtr;
 class MyComponent : public Totem::Component<MyComponent>
 {
 public:
-	MyComponent(Entity *owner, Totem::HashedString1 name)
+	MyComponent(Entity *owner, Totem::HashedString name)
 		: Component<MyComponent>(name.getStr()), id(name.getId()), owner(owner)
 	{
 		my_shared_string_property = owner->add<std::string>("MySharedString", "Testing shared string");
