@@ -75,7 +75,6 @@ public:
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
-			sign_PropertyAdded.invoke(it->second);
 			return *property.get();
 		}
 
@@ -115,7 +114,6 @@ public:
 	#else
 			property = std::static_pointer_cast< Property<T> >(it->second);
 	#endif
-			sign_PropertyWithUserDataAdded.invoke(it->second, userData);
 			return *property.get();
 		}
 
