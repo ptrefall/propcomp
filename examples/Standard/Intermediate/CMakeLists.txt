@@ -23,12 +23,4 @@
 #
 ###
 
-set(BUILD_ROGUELIKE_EXAMPLE FALSE CACHE BOOL "TRUE to include a Roguelike example project (advanced). NOTE: This depends on LibTCOD!")
-
-if(BUILD_ROGUELIKE_EXAMPLE)
-	#add_subdirectory(Roguelike)
-	add_subdirectory(RoguelikeClean)
-endif()
-
-add_subdirectory(Basic)
-add_subdirectory(Intermediate)
+add_subdirectory(Interaction)

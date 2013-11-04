@@ -137,7 +137,7 @@ public:
 	 *
 	 * @param type The hashed type string id of the event.
 	 */
-	void sendEvent0(HashedString type);
+	void sendEvent0(HashedString type, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding one argument.
@@ -146,7 +146,7 @@ public:
 	 * @param arg0 First argument of type T.
 	 */
 	template<class T> 
-	void sendEvent1(HashedString type, T arg0);
+	void sendEvent1(HashedString type, T arg0, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding two arguments.
@@ -156,7 +156,7 @@ public:
 	 * @param arg1 Second argument of type U.
 	 */
 	template<class T, class U> 
-	void sendEvent2(HashedString type, T arg0, U arg1);
+	void sendEvent2(HashedString type, T arg0, U arg1, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding three arguments.
@@ -167,7 +167,7 @@ public:
 	 * @param arg2 Third argument of type V.
 	 */
 	template<class T, class U, class V> 
-	void sendEvent3(HashedString type, T arg0, U arg1, V arg2);
+	void sendEvent3(HashedString type, T arg0, U arg1, V arg2, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding four arguments.
@@ -179,7 +179,7 @@ public:
 	 * @param arg3 Fourth argument of type W.
 	 */
 	template<class T, class U, class V, class W> 
-	void sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3);
+	void sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding five arguments.
@@ -192,7 +192,7 @@ public:
 	 * @param arg4 Fifth argument of type X.
 	 */
 	template<class T, class U, class V, class W, class X> 
-	void sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4);
+	void sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, bool requireReceiver = true);
 
 	/**
 	 * Calls all slots registered to the event signal of type holding six arguments.
@@ -206,7 +206,7 @@ public:
 	 * @param arg5 Sixth argument of type Y.
 	 */
 	template<class T, class U, class V, class W, class X, class Y> 
-	void sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
+	void sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, bool requireReceiver = true);
 
 	//--------------------------------------------------------------
 
@@ -296,22 +296,32 @@ protected:
 //------------------------------------------------------
 
 template<class EventFactory>
-inline void EventSystem<EventFactory>::sendEvent0(HashedString type)
+inline void EventSystem<EventFactory>::sendEvent0(HashedString type, bool requireReceiver)
 {
 	auto it = events0.find(type.getId());
 	if(it == events0.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events0 registry!").c_str());
+		else
+			return;
+	}
 
 	std::static_pointer_cast<EventSignal0<>>(it->second)->signal.invoke();
 }
 
 template<class EventFactory>
 template<class T>
-inline void EventSystem<EventFactory>::sendEvent1(HashedString type, T arg0)
+inline void EventSystem<EventFactory>::sendEvent1(HashedString type, T arg0, bool requireReceiver)
 {
 	auto it = events1.find(type.getId());
 	if(it == events1.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events1 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal1<T>>(it->second);
@@ -325,11 +335,16 @@ inline void EventSystem<EventFactory>::sendEvent1(HashedString type, T arg0)
 
 template<class EventFactory>
 template<class T, class U>
-inline void EventSystem<EventFactory>::sendEvent2(HashedString type, T arg0, U arg1)
+inline void EventSystem<EventFactory>::sendEvent2(HashedString type, T arg0, U arg1, bool requireReceiver)
 {
 	auto it = events2.find(type.getId());
 	if(it == events2.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events2 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal2<T,U>>(it->second);
@@ -343,11 +358,16 @@ inline void EventSystem<EventFactory>::sendEvent2(HashedString type, T arg0, U a
 
 template<class EventFactory>
 template<class T, class U, class V>
-inline void EventSystem<EventFactory>::sendEvent3(HashedString type, T arg0, U arg1, V arg2)
+inline void EventSystem<EventFactory>::sendEvent3(HashedString type, T arg0, U arg1, V arg2, bool requireReceiver)
 {
 	auto it = events3.find(type.getId());
 	if(it == events3.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events3 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal3<T,U,V>>(it->second);
@@ -361,11 +381,16 @@ inline void EventSystem<EventFactory>::sendEvent3(HashedString type, T arg0, U a
 
 template<class EventFactory>
 template<class T, class U, class V, class W>
-inline void EventSystem<EventFactory>::sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3)
+inline void EventSystem<EventFactory>::sendEvent4(HashedString type, T arg0, U arg1, V arg2, W arg3, bool requireReceiver)
 {
 	auto it = events4.find(type.getId());
 	if(it == events4.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events4 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal4<T,U,V,W>>(it->second);
@@ -379,11 +404,16 @@ inline void EventSystem<EventFactory>::sendEvent4(HashedString type, T arg0, U a
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X>
-inline void EventSystem<EventFactory>::sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4)
+inline void EventSystem<EventFactory>::sendEvent5(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, bool requireReceiver)
 {
 	auto it = events5.find(type.getId());
 	if(it == events5.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events5 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal5<T,U,V,W,X>>(it->second);
@@ -397,11 +427,16 @@ inline void EventSystem<EventFactory>::sendEvent5(HashedString type, T arg0, U a
 
 template<class EventFactory>
 template<class T, class U, class V, class W, class X, class Y>
-inline void EventSystem<EventFactory>::sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+inline void EventSystem<EventFactory>::sendEvent6(HashedString type, T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, bool requireReceiver)
 {
 	auto it = events6.find(type.getId());
 	if(it == events6.end())
-		throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
+	{
+		if(requireReceiver)
+			throw std::runtime_error(("Couldn't find event type " + type.getStr() + " in events6 registry!").c_str());
+		else
+			return;
+	}
 
 #ifdef _DEBUG
 	auto signal = std::dynamic_pointer_cast<EventSignal6<T,U,V,W,X,Y>>(it->second);
