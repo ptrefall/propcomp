@@ -22,7 +22,7 @@ Note: Some of the libraries Totem EDK may link to may have additional
 requirements or restrictions.
 */
 
-#include <Totem/totem.h>
+#include <Totem/Totem.h>
 #include <iostream>
 
 //---------------------------------------------------------------
