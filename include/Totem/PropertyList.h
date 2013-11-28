@@ -29,92 +29,23 @@ template<class PropertyType>
 class PropertyListIndexValue
 {
 public:
-	PropertyListIndexValue(std::shared_ptr<PropertyListData<PropertyType>> data, unsigned int index)
-		: data(data), index(index)
-	{
-	}
+	PropertyListIndexValue(std::shared_ptr<PropertyListData<PropertyType>> data, unsigned int index);
 
-	const PropertyType &get() const { return data->value[index]; }
-	PropertyType &get() { return data->value[index]; }
+	const PropertyType &get() const;
+	PropertyType &get();
+	void set(const PropertyType &rhs, bool invokeValueChanged = true);
 
-	void set(const PropertyType &rhs, bool invokeValueChanged = true)
-	{
-		PropertyType oldValue = data->value[index];
-		data->value[index] = rhs;
-		data->dirty = true; 
-		if(invokeValueChanged)
-			data->valueChanged.invoke(index, oldValue, rhs);
-	}
-
-	void operator= (const PropertyType &rhs) { set(rhs); }
-
-	PropertyListIndexValue<PropertyType> &operator= (const PropertyListIndexValue<PropertyType> &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-		throw std::runtime_error("Operation not supported!");
-	}
+	void operator= (const PropertyType &rhs);
+	PropertyListIndexValue<PropertyType> &operator= (const PropertyListIndexValue<PropertyType> &rhs);
 	operator const PropertyType &() const { return get(); }
-
-	PropertyListIndexValue<PropertyType> &operator+= (const PropertyListIndexValue<PropertyType>& rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		set(get() + rhs.get());
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator+= (const PropertyType& rhs)
-	{
-		set(get() + rhs);
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator-= (const PropertyListIndexValue<PropertyType>& rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		set(get() - rhs.get());
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator-= (const PropertyType& rhs)
-	{
-		set(get() - rhs);
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator*= (const PropertyListIndexValue<PropertyType>& rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		set(get() * rhs.get());
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator*= (const PropertyType& rhs)
-	{
-		set(get() * rhs);
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator/= (const PropertyListIndexValue<PropertyType>& rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		set(get() / rhs.get());
-		return *this;
-	}
-
-	PropertyListIndexValue<PropertyType> &operator/= (const PropertyType& rhs)
-	{
-		set(get() / rhs);
-		return *this;
-	}
+	PropertyListIndexValue<PropertyType> &operator+= (const PropertyListIndexValue<PropertyType>& rhs);
+	PropertyListIndexValue<PropertyType> &operator+= (const PropertyType& rhs);
+	PropertyListIndexValue<PropertyType> &operator-= (const PropertyListIndexValue<PropertyType>& rhs);
+	PropertyListIndexValue<PropertyType> &operator-= (const PropertyType& rhs);
+	PropertyListIndexValue<PropertyType> &operator*= (const PropertyListIndexValue<PropertyType>& rhs);
+	PropertyListIndexValue<PropertyType> &operator*= (const PropertyType& rhs);
+	PropertyListIndexValue<PropertyType> &operator/= (const PropertyListIndexValue<PropertyType>& rhs);
+	PropertyListIndexValue<PropertyType> &operator/= (const PropertyType& rhs);
 
 private:
 	std::shared_ptr<PropertyListData<PropertyType>> data;
@@ -125,100 +56,43 @@ template<class PropertyType>
 class PropertyList : public IPropertyList
 {
 public:
-	PropertyList() {}
-	PropertyList(const PropertyList &copy)
-		: data(copy.data)
-	{
-	}
-	PropertyList(const std::string &name)
-		: data(std::make_shared<PropertyListData<PropertyType>>())
-	{
-		data->name = name;
-		data->dirty = false; 
-	}
+	PropertyList();
+	PropertyList(const PropertyList &copy);
+	PropertyList(const std::string &name);
 
-	void push_back(const PropertyType& value, bool invokeValueAdded = true) 
-	{ 
-		data->value.push_back(value); 
+	void push_back(const PropertyType& value, bool invokeValueAdded = true);
+	void erase(unsigned int index, bool invokeValueErased = true);
+	void clear(bool invokeValuesCleared = true);
+	unsigned int size() const;
+	bool empty() const;
+	void resize(unsigned int size, bool invokeListResized = true);
+	void resize(unsigned int size, const PropertyType &value, bool invokeListResized = true);
+	PropertyListIndexValue<PropertyType> at(unsigned int index);
 
-		if(invokeValueAdded)
-			data->valueAdded.invoke(data->value.size()-1, value);
-	}
+	unsigned int getRuntimeTypeId() const override;
 
-	void erase(unsigned int index, bool invokeValueErased = true)
-	{
-		PropertyType value = data->value[index];
-		data->value.erase(data->value.begin()+index);
-		if(invokeValueErased)
-			data->valueErased.invoke(index, value);
-	}
+	const std::vector<PropertyType> &get() const;
+	std::vector<PropertyType> &get();
+	const std::string &getName() const override;
+	bool isNull() const override;
+	bool isDirty() const override;
+	void clearDirty() override;
 
-	void clear(bool invokeValuesCleared = true)
-	{
-		data->value.clear();
-		if(invokeValuesCleared)
-			data->valuesCleared.invoke();
-	}
+	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> &valueChanged();
+	sigslot::signal2<unsigned int, const PropertyType &> &valueAdded();
+	sigslot::signal2<unsigned int, const PropertyType &> &valueErased();
+	sigslot::signal0<> &valuesCleared();
+	sigslot::signal2<unsigned int, unsigned int> &listResized();
 
-	unsigned int size() const { return data->value.size(); }
-	bool empty() const { return data->value.empty(); }
-
-	void resize(unsigned int size, bool invokeListResized = true)
-	{
-		unsigned int oldSize = data->value.size();
-		data->value.resize(size);
-		if(invokeListResized)
-			data->listResized(oldSize, size);
-	}
-
-	void resize(unsigned int size, const PropertyType &value, bool invokeListResized = true)
-	{
-		unsigned int oldSize = data->value.size();
-		data->value.resize(size, value);
-		if(invokeListResized)
-			data->listResized(oldSize, size);
-	}
-
-	PropertyListIndexValue<PropertyType> at(unsigned int index)
-	{
-		if(index >= data->value.size())
-			throw std::runtime_error("Index was out of bounds for shared property list");
-
-		return PropertyListIndexValue<PropertyType>(data, index);
-	}
-
-	unsigned int getRuntimeTypeId() const override { return IPropertyList::getRuntimeTypeId<PropertyType>(); }
-
-	const std::vector<PropertyType> &get() const { return data->value; }
-	std::vector<PropertyType> &get() { return data->value; }
-	const std::string &getName() const override { return data->name; }
-	bool isNull() const override { return data == nullptr; }
-	bool isDirty() const override { return data->dirty; }
-	void clearDirty() override { data->dirty = false; }
-
-	sigslot::signal3<unsigned int, const PropertyType &, const PropertyType &> &valueChanged() { return data->valueChanged; }
-	sigslot::signal2<unsigned int, const PropertyType &> &valueAdded() {return data->valueAdded; }
-	sigslot::signal2<unsigned int, const PropertyType &> &valueErased() { return data->valueErased; }
-	sigslot::signal0<> &valuesCleared() { return data->valuesCleared; }
-	sigslot::signal2<unsigned int, unsigned int> &listResized() { return data->listResized; }
-
-	/// Set's property's data to rhs' shared pointer data.
-	PropertyList<PropertyType> operator= (const PropertyList<PropertyType>& rhs)
-	{
-		data = rhs.data;
-		return *this;
-	}
-	/// Get the value of list at given index.
-	PropertyListIndexValue<PropertyType> operator[] (const unsigned int& index)
-	{
-		return at(index);
-	}
-	/// Instead of propertyList.get() this operator exist for convenience.
+	PropertyList<PropertyType> operator= (const PropertyList<PropertyType>& rhs);
+	PropertyListIndexValue<PropertyType> operator[] (const unsigned int& index);
 	operator const std::vector<PropertyType> &() const { return data->value; }
 
 private:
 	std::shared_ptr<PropertyListData<PropertyType>> data;
 };
+
+#include "PropertyList.inl"
 
 } //namespace Totem
 
