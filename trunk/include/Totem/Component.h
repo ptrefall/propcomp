@@ -17,28 +17,19 @@ template<class ComponentType, class UserData = void*>
 class Component : public IComponent<UserData>, public sigslot::has_slots<>
 {
 public:
-	Component(const std::string &name) 
-		: name(name)
-	{
-	}
-	virtual ~Component()
-	{
-	}
+	Component(const std::string &name);
+	virtual ~Component();
 
-	unsigned int getRuntimeTypeId() const override { return IComponent<UserData>::template getRuntimeTypeId<ComponentType>(); }
-	const std::string &getName() const override { return name; }
+	unsigned int getRuntimeTypeId() const override;
+	const std::string &getName() const override;
 
-	Component &operator= (const Component &rhs)
-	{
-		if(this == &rhs)
-			return *this;
-
-		throw std::runtime_error("Assignment operation between ComponentTypes are not supported!");
-	}
+	Component &operator= (const Component &rhs);
 	
 protected:
 	std::string name;
 };
+
+#include "Component.inl"
 
 } // namespace Totem
 

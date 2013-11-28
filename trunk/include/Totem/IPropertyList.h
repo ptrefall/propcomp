@@ -14,26 +14,13 @@ public:
 	virtual bool isDirty() const = 0;
 	virtual void clearDirty() = 0;
 
-	template<typename PropertyType>
-	static bool isType(const std::shared_ptr<IPropertyList> &property)
-	{
-		return (property->getRuntimeTypeId() == getRuntimeTypeId<PropertyType>());
-	}
-	template<typename PropertyType>
-	static bool isType(const IPropertyList &property)
-	{
-		return (property.getRuntimeTypeId() == getRuntimeTypeId<PropertyType>());
-	}
-
+	template<typename PropertyType>	static bool isType(const std::shared_ptr<IPropertyList> &property);
+	template<typename PropertyType>	static bool isType(const IPropertyList &property);
 	virtual unsigned int getRuntimeTypeId() const = 0;
-
-	template<typename PropertyType>
-	static unsigned int getRuntimeTypeId()
-	{
-		static unsigned int typeId(typeid(PropertyType).hash_code());
-		return typeId;
-	}
+	template<typename PropertyType>	static unsigned int getRuntimeTypeId();
 };
+
+#include "IPropertyList.inl"
 
 } //namespace Totem
 

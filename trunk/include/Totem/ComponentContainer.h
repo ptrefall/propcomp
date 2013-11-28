@@ -17,155 +17,30 @@ template<class UserData = void*>
 class ComponentContainer
 {
 public:
-	virtual ~ComponentContainer()
-	{
-		for(unsigned int i = 0; i < components.size(); i++)
-			sign_ComponentRemoved.invoke(components[i]);
-	}
+	virtual ~ComponentContainer();
 
-	std::shared_ptr<IComponent<UserData>> addComponent(std::shared_ptr<IComponent<UserData>> component)
-	{
-		checkDuplicationAndAdd(component->getRuntimeTypeId(), component->getName());
-		components.push_back(component);
-		sign_ComponentAdded.invoke(component);
-		return component;
-	}
+	std::shared_ptr<IComponent<UserData>> addComponent(std::shared_ptr<IComponent<UserData>> component);
+	template<class ComponentType> std::shared_ptr<ComponentType> addComponent(std::shared_ptr<ComponentType> component);
+	template<class ComponentType> bool hasComponent(const std::string &name = std::string());
+	template<class ComponentType> std::shared_ptr<ComponentType> getComponent(const std::string &name = std::string());
+	std::vector<std::shared_ptr<IComponent<UserData>>> &getComponents();
+	void updateComponents(float elapsedTime);
+	template<class ComponentType> void removeComponent(const std::string &name = std::string(), bool upholdOrderInList = false);
 
-	template<class ComponentType>
-	std::shared_ptr<ComponentType> addComponent(std::shared_ptr<ComponentType> component)
-	{
-		checkDuplicationAndAdd(component->getRuntimeTypeId(), component->getName());
-		components.push_back(component);
-		sign_ComponentAdded.invoke(component);
-		return component;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////
-
-	template<class ComponentType>
-	bool hasComponent(const std::string &name = std::string())
-	{
-		for(unsigned int i = 0; i < components.size(); i++)
-		{
-			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
-			{
-				if(!name.empty())
-				{
-					if(components[i]->getName() == name)
-						return true;
-				}
-				else
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	template<class ComponentType>
-	std::shared_ptr<ComponentType> getComponent(const std::string &name = std::string())
-	{
-		for(unsigned int i = 0; i < components.size(); i++)
-		{
-			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
-			{
-				if(!name.empty())
-				{
-					if(components[i]->getName() == name)
-						return std::static_pointer_cast<ComponentType>(components[i]);
-				}
-				else
-				{
-					return std::static_pointer_cast<ComponentType>(components[i]);
-				}
-			}
-		}
-		throw std::runtime_error(("Couldn't find component with name " + name).c_str());
-	}
-
-	std::vector<std::shared_ptr<IComponent<UserData>>> &getComponents() { return components; }
-
-	void updateComponents(float elapsedTime)
-	{
-		for(unsigned int i = 0; i < components.size(); i++)
-			components[i]->update(elapsedTime);
-	}
-
-	template<class ComponentType>
-	void removeComponent(const std::string &name = std::string(), bool upholdOrderInList = false)
-	{
-		for(unsigned int i = 0; i < components.size(); i++)
-		{
-			if(IComponent<UserData>::template isType<ComponentType>(components[i]))
-			{
-				if(!name.empty())
-				{
-					if(components[i]->getName() == name)
-					{
-						sign_ComponentRemoved.invoke(components[i]);
-						if(upholdOrderInList)
-						{
-							components.erase(components.begin()+i);
-						}
-						else
-						{
-							components[i] = components.back();
-							components.pop_back();
-						}
-						return;
-					}
-				}
-				else
-				{
-					sign_ComponentRemoved.invoke(components[i]);
-					if(upholdOrderInList)
-					{
-						components.erase(components.begin()+i);
-					}
-					else
-					{
-						components[i] = components.back();
-						components.pop_back();
-					}
-					return;
-				}
-			}
-		}
-		throw std::runtime_error(("Couldn't find component with name " + name).c_str());
-	}
-
-	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> &componentAdded() { return sign_ComponentAdded; }
-	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> &componentRemoved() { return sign_ComponentRemoved; }
+	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> &componentAdded();
+	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> &componentRemoved();
 
 protected:
-	void checkDuplicationAndAdd(unsigned int typeId, const std::string &name)
-	{
-		auto it = namesForComponentTypes.find(typeId);
-		if(it != namesForComponentTypes.end())
-		{
-			const std::vector<std::string> &names = it->second;
-			for(unsigned int i = 0; i < names.size(); i++)
-				if(names[i] == name)
-					throw std::runtime_error("Found duplicate component name: " + name);
-			it->second.push_back(name);
-		}
-		else
-		{
-			std::vector<std::string> new_list;
-			new_list.push_back(name);
-			namesForComponentTypes[typeId] = new_list;
-		}
-	}
+	void checkDuplicationAndAdd(unsigned int typeId, const std::string &name);
 
 	std::unordered_map<unsigned int, std::vector<std::string>> namesForComponentTypes;
 	std::vector<std::shared_ptr<IComponent<UserData>>> components;
 
-	/// Signal that's emitted when a component was added to the component container.
 	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> sign_ComponentAdded;
-	/// Signal that's emitted when a component was removed from the component container.
 	sigslot::signal1<std::shared_ptr<IComponent<UserData>>> sign_ComponentRemoved;
 };
+
+#include "ComponentContainer.inl"
 
 } //namespace Totem
 
