@@ -1,6 +1,6 @@
 
 template<class PropertyType>
-static std::shared_ptr<Totem::Property<PropertyType>> PropertyFactory::createProperty(const std::string &name)
+std::shared_ptr<Totem::Property<PropertyType>> PropertyFactory::createProperty(const std::string &name)
 {
 	return std::make_shared<Totem::Property<PropertyType>>(name);
 }

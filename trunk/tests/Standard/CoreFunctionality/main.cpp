@@ -177,7 +177,7 @@ private:
 };
 typedef std::shared_ptr<MySecondComponent> MySecondComponentPtr;
 
-void main()
+int main()
 {
 	EntityPtr my_first_entity = std::make_shared<Entity>("MyFirstEntity");
 	{
@@ -189,4 +189,5 @@ void main()
 	}
 	EntityPtr my_second_entity = std::make_shared<Entity>("MySecondEntity");
 	system("pause");
+	return 0;
 }

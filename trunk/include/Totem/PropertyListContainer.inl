@@ -1,6 +1,6 @@
 
 template<class PropertyType>
-static std::shared_ptr<Totem::PropertyList<PropertyType>> PropertyListFactory::createPropertyList(const std::string &name)
+std::shared_ptr<Totem::PropertyList<PropertyType>> PropertyListFactory::createPropertyList(const std::string &name)
 {
 	return std::make_shared<Totem::PropertyList<PropertyType>>(name);
 }

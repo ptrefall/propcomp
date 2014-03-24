@@ -7,7 +7,7 @@
 #include <memory>
 
 namespace Totem {
-template<class ComponentType, class UserData = void*> class Component;
+template<class ComponentType, class UserData> class Component;
 
 class IEventSignal { public: IEventSignal() {} virtual ~IEventSignal() {} };
 template<class DefaultParam = void*> class EventSignal0 : public IEventSignal { public: sigslot::signal0<> signal; };
