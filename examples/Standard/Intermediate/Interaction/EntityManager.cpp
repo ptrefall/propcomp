@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "Entity.h"
 #include <iostream>
+#include <algorithm>
 
 void EntityManager::update()
 {
