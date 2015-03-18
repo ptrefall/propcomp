@@ -1,0 +1,14 @@
+#Component base object in Totem EDK.
+
+# Introduction #
+
+Explain what a component is in  the Totem EDK.
+
+
+# Details #
+
+Detail out the exact features of a component.
+
+# Examples #
+
+Give some simple examples of usage.

@@ -1,0 +1,14 @@
+#PropertyList object in Totem EDK.
+
+# Introduction #
+
+Explain what a property list is in the Totem EDK.
+
+
+# Details #
+
+Detail out the exact features of a property list.
+
+# Examples #
+
+Give some simple examples of usage.

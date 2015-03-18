@@ -1,0 +1,14 @@
+#Configuring the Totem EDK.
+
+# Introduction #
+
+Explain how to configure Totem EDK to the user's needs.
+
+
+# Details #
+
+Detail out the exact features of he integrated configuration system.
+
+# Examples #
+
+Give some simple examples of usage.

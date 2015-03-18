@@ -1,0 +1,128 @@
+# Tasks #
+  * 2) PropertyList needs to be updated to work with latest C++11 methods of iterating over std vector.
+  * 2) Rewrite DelegateSystem to use std::function.
+  * 3) Revisit Totem's exception handling. Make sure it's used correctly in all situations.
+  * 3) Write XML component/property state saving and loading example.
+  * 4) Write script language integration example.
+  * 5) Write unit tests for all features of Totem EDK.
+  * 6) Build doxygen and make sure everything builds fine.
+  * 7) Write Documentation
+    * Frontpage
+      * Updated description and feature list
+      * Easier examples
+    * Docs/Wiki
+      * Make note that for complex objects stored in a Property, when changed via a function call to the reference of the stored object that changes the object's state, a custom call to valueChanged().invoke() has to be performed in order to broadcast the changed state of the property. There's no way for totem's property to track such changes automatically.
+      * UserData template option for PropertyContainer is explained as follows: The propertyWithUserDataAdded() allows external logic to access this functionality, like for instance an Editor. UserData can be specified if, for instance an editor, needs some special data collected for properties, like the name of the component it was added to, or an instance to it even. As UserData is a template set on the PropertyContainer, it's up to the end-user's implementation of the Entity class to determine the type of the UserData template used for this which needs to get access to the properties added by a component.
+      * Document that in Property's set function, the optional invokeValueChanged parameter is there so that users can prevent callback-loops when one has to change the value of a property in that property's valueChanged slot. Mostly, this is to handle some rare corner-cases.
+  * 8) Write stress tests for all features of Totem EDK.
+  * 9) Write simple game example.
+  * 10) Write Entity Editor tool.
+  * 11) Evaluate options for pooling/more cache-friendly memory handling.
+
+# Fixed TODOs #
+  * 2) Evaluate whether PropertyContainer should use unique\_ptr on it's instanced properties internally.
+    * -> This doesn't work well, because casting is not supported on a unique\_ptr, naturally. Thus storing an IProperty internally, while exposing a Property of Type externally doesn't work very well. Also, this would force any signals (like propertyAdded) to expose raw pointers, when they should really expose shared pointers for complete safety. Thus PropertyContainer will continue to use shared\_ptr storage internally.
+  * 1) Remove getType from Property and make it similar to Component
+  * 2) Write test with UserData to ComponentContainer to make sure it works
+  * 1) PropertyContainer::clearDirtyProperties does not compile - needed to replace it with a simpler for loop
+  * 1) Dirty tracking on PropertyList?
+  * 2) Took out factory from ComponentContainer, and the 12 versions of addComponent that would construct components internally. Instead this is now handled by user, and the option of two addComponent functions is given, either by IComponent or by ComponentType via template definition. The reason was that construction for general, flexible situations were just getting too complex. Changing the Standard approach should be handled via cmake preprocessor.
+  * 2) As an experiment, took out all template factories, and instead just use those defined for properties. Should use cmake preprocessor to change this from Standard approach.
+  * 1) getType/getTypeId implementations were not competent between compilers/platforms using typeid, thus we couldn't use it for storing a safe type. Thus, dropped the getType string, and renamed getTypeId to getRuntimeTypeId. One will have to specify ones own type identifier system from now on, which is the only practically sound thing to do in C++ anyway. ComponentContainer now uses the getRuntimeTypeId unsigned int as lookup of component types as well, which should speed up thing a little bit compared to the string lookup that was in there earlier, so we did achieve something with this change at least!
+  * 2) getType and getTypeId on instances of Property, PropertyList and Component no longer store a copy of the type locally, but instead just pass the call on to the static functions in their respective interfaces, thus only storing the type information once per type.
+  * 1) Add non-const ref versions of get() function on Property, PropertyList and PropertyListIndexValue. When these are called, one has to handle the valueChanged, and other value state changing actions via invoking the appropriate signal manually.
+  * 2) Add componentRemoved signal to component container
+  * 1) Fix RTTI in properties and components to be consistent between runtimes.
+  * 2) Rewrite component/component container to use same structure as property/property container with IComponent, rtti type identification, etc
+  * 1) ComponentContainer needs signals for when components are added.
+  * 1) PropertyComponent needs signal for when properties are removed.
+  * 2) Component name handling (see bottom of page)
+  * 1) Change static Type() function on components to getType(), to be more in line with the virtual getType() you can do on instantiated components.
+  * 2) Remove TOTEM\_WITHOUT\_PREPROCESSING in cmake
+  * 3) Fix pragma warnings for override to encapsulate entire file where used.
+  * 2) Update HashedString to the gamasutra article about Compile-time hashing: http://www.gamasutra.com/view/news/38198/InDepth_Quasi_CompileTime_String_Hashing.php
+    * -> Implemented for EventSystem and DelegateSystem.
+  * 2) We shouldn't link to ClanLib via CMake, since it's supposed to be added as a global include already.
+  * 2) addComponent0...6, couldn't the numbers be removed here?
+    * -> Not sure why, but my compiler crash when I try to remove these numbers... perhaps a bug in VS2010?
+    * -> Reordering some parameters fixed the crash.
+  * 2) optionalParam in ComponentContainer should be removed.
+  * 2) Properties that's owned by components should also have ValueChanged signals.
+  * 2) Components should also have PropertyLists.
+  * 2) Remove cpp files from totem core, and use a test to check compilation instead
+    * -> Should we wait with this one until we have unit testing in, or?
+> > > Just create a test that includes the current cpp files maybe?
+  * 1) Remove mainpage.h from editions
+  * 1) Check if it is possible to use templates without empty <>
+    * -> It's possible to hide with a typedef, but can't be of same name as class :/
+  * 2) Add a pragma to remove warning C4481: nonstandard extension used: override specifier 'override'
+  * 1) getThisAsEntity should be renamed more properly..
+    * -> changed to getComponentOwner(). Perhaps any use of the word Entity within Totem core should be changed to ComponentOwner, for a more general naming convention?
+  * 2) Remove config.h og any.h from clanlib preprocessor
+  * 1) Component(const CL\_String &name, GameObject &owner) should exchange position so it becomes Component(GameObject &owner, const CL\_String &name)
+  * 1) PropertyContainer code is shared between component and entity.
+
+> > - getSharedProperty() becomes owner.get();
+> > - addSharedProperty() becomes owner.add();
+> > - getProperty() becomes get();
+> > - addProperty() becomes add();
+  * Added some new operators to PropertyListIndexValue.
+  * 1) Fix Clanlib preprocessor and remove the Standard preprocessor. (In Progress)
+    * -> A couple problems has surfaced working on this:
+      * Replacing includes to dependencies, perhaps we should use config.h to hold dependencies? (fixed)
+        * -> unused includes replaced by whitespace, and clanlib header inserted right after #pragma once.
+      * ClanLib's CL\_Callback replacing FastDelegate, since this no longer uses typedefs in trunk, it will require a more complex regex in clanlib's preprocessor to change the order of template input.
+        * -> Branched out into a lower-priority task, since the delegate system isn't critical for current projects using Totem.
+  * 2) Allow usage of shared\_ptr of Entity with ComponentContainer.
+  * 1) Merge syntax experiments project with trunk src/ and include/ folders, replacing the old way with the new!
+    * Totem is now a pure headers library. cpp files are only included so that we can build a library project file, but templates are used so heavily that the cpp files doesn't do anything but include a header.
+  * 2) Create a branch of the current src/ and include/ folders, for history purposes.
+    * Branch created: [r251](https://code.google.com/p/propcomp/source/detail?r=251)/
+  * 1) Make sure all code in syntax experiment project reflects the features currently in trunk.
+  * 1) Rewrite syntax experiment to use the typedefs of trunk, so that preprocessors can be used on src/ the same way as before when mergen in.
+    * -> We're going away from using config.h and let trunk/ contain a C++11 specific implementation. Preprocessors will be added for ClanLib first, and maybe C++03 and boost later, along with any other preprocessors that could help users to adapt Totem.
+  * 2) Consider writing ComponentFactory as an interface, who's overloaded implementation might support pooling.
+    * -> Completely redefined how factories are used in Totem to a much simpler and more flexible approach. Only in the syntax\_experiments project for now, will merge with trunk when entire experiment codebase is ready.
+  * 2) Consider refactoring property system into supporting both SharedProperties, that's owned by the Entity, and Properties that's local to each component. This would open up the possibility to add multiple instances of the same type of component to an entity as well, which would lead to more flexibility and a more intuitive approach to the programming of Totem, perhaps.
+    * -> This is now part of the syntax\_experiments implementation, which will be mergen into trunk when the entire experiment codebase is ready.
+  * 1) addComponent shouldn't force user into passing references for custom params!
+    * Turns out that the current Any implementation using templates won't work, which again points back to the fact that macros are a bad idea for intuitive syntax, which kind of is key to a 3rd party library like Totem...
+    * Look at refactoring/rewriting the ComponentHandler, ComponentFactory and base Component classes using C++11 features to achieve a more streamlined and intuitive implementation.
+    * -> This has been completely rewritten in the syntax\_experiments project, and should be merged into trunk when the entire experiment codebase is ready.
+  * 3) Revisit Totem's factory handling. Could components and properties leverage pooling for more cache friendly memory handling?
+    * This is premature to look at now. After going through a brainstorm session on this, we'll come back to it later.
+  * 3) Write preprocessor into more manageable code.
+  * 3) Fix includes to not use global includes within own files
+  * 3) Remove unused stuff
+    * Get rid of types\_config.h
+    * Remove preprocessor console app
+    * Remove .sh based preprocessor
+  * 3) Add preprocessor for 3rd party libraries.
+    * ClanLib
+    * Boost (We won't support Boost just yet...)
+    * Standard (Minimal Dependencies)
+  * 3) Add post-build step that copies compiled .lib into lib/ folder.
+  * 3) Add option in CMake for building project with Unicode Character Set.
+  * 2) Rename the "forced" parameter in set function of Property to override\_readonly, and add another parameter named invoke\_value\_changed. Last parameter should default to true and dictate whether the valueChanged signal is called or not.
+  * 1) Move event and delegate handling out from core-Totem (and Entity)
+    * Move it into TotemEvent library ? split src into src\_totem, src\_totem\_event ? What about any versus template, scheduling ?
+    * Create new Entity type (GameObject, TotemExamples::Entity?) for examples that uses totem core and events
+  * 1) Fix hashing for linux (add bundled min-depend on MurmurHash3).
+  * 1) Remove v7 and v8 editions of template classes
+  * 1) Remove special bool handling
+  * 1) Remove template and any event handler defines and checks in example code + types\_config.h
+  * 2) Revisit serializer interface and the handling internal in properties.
+  * 1) Add option in cmake to set the project's runtime library to static, not the default DLL (at least in visual studio).
+  * 1) Add group description to properties
+
+from discussion from PiratePad http://piratepad.net/KbYbzY0TFR
+```
+addComponent<MyComponent>()   // OK! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent>("Dup")   // OK! Type = MyComponent, Name = Dup
+addComponent<MyComponent>("Dup")   // error! Type = MyComponent, Name = Dup
+addComponent<MyComponent>()   // error! Type = MyComponent, Name = MyComponent
+addComponent<MyComponent2>("Dup")   // ok! Type = MyComponent2, Name = Dup
+addComponent<MyComponent2>()   // ok! Type = MyComponent2, Name = MyComponent2
+addComponent<MyComponent>("MyComponent2")   // OK! Type = MyComponent, Name = MyComponent2
+```
+What about InterpolatorComponent?
